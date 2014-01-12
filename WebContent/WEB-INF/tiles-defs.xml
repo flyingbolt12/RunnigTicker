@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 1.3//EN" "http://jakarta.apache.org/struts/dtds/tiles-config_1_3.dtd">
+<tiles-definitions>
+	<definition name="templateDefinition" path="/layout.jsp">
+		<put name="title" value="title.jsp" />
+		<put name="news" value="news.jsp" />
+		<put name="header" value="header.jsp" />
+		<put name="body" value="body.jsp" />
+		<put name="websiteInfo" value="websiteInfo.jsp" />
+		<put name="footer" value="footer.jsp" />
+	</definition>
+	<definition name="uploadSuccessDef" extends="templateDefinition">
+		<put name="body" value="/WEB-INF/members/uploadSuccess.jsp" />
+	</definition>
+	<definition name="approvalStatus" extends="templateDefinition">
+		<put name="body" value="/WEB-INF/admin/pendingApprovals/employeeEmailApproval.jsp" />
+	</definition>
+	<definition name="first15DaysOfMonthDef" extends="templateDefinition">
+		<put name="body" value="/WEB-INF/members/firstHalfOfMonthSubmission.jsp" />
+	</definition>
+	<definition name="second15DaysOfMonthDef" extends="templateDefinition">
+		<put name="body" value="/WEB-INF/members/secondHalfOfMonthSubmission.jsp" />
+	</definition>
+	<definition name="completeMonthDef" extends="templateDefinition">
+		<put name="body" value="/WEB-INF/members/monthlyHrsSubmissionNew.jsp" />
+	</definition>
+	<definition name="biWeeklyDef" extends="templateDefinition">
+		<put name="body" value="/WEB-INF/members/biWeeklySubmission.jsp" />
+	</definition>
+	<definition name="weeklyDef" extends="templateDefinition">
+		<put name="body" value="/WEB-INF/members/weeklyHrsSubmission.jsp" />
+	</definition>
+	<definition name="adminFunctionsDef" extends="templateDefinition">
+		<put name="body" value="/WEB-INF/admin/adminFunctions.jsp" />
+	</definition>
+		<definition name="superAdminFunctionsDef" extends="templateDefinition">
+		<put name="body" value="/WEB-INF/superAdmin/superAdmin.jsp" />
+	</definition>
+	<definition name="memberFunctionsDef" extends="templateDefinition">
+		<put name="body" value="/WEB-INF/members/memberFunctions.jsp" />
+	</definition>
+	<definition name="listProfilesDef" extends="templateDefinition">
+		<put name="body" value="/WEB-INF/members/listProfiles.jsp" />
+	</definition>
+	<definition name="listEmployeeTimesheetsDef" extends="templateDefinition">
+		<put name="body" value="/WEB-INF/members/listEmployeeTimesheets.jsp" />
+	</definition>
+	<definition name="showTimeSheetApprovalReminderDef" extends="templateDefinition">
+		<put name="body" value="/WEB-INF/members/showTimeSheetApprovalReminderPage.jsp" />
+	</definition>
+	<definition name="searchUsersDef" extends="templateDefinition">
+		<put name="body" value="/WEB-INF/admin/searchOptions.jsp" />
+	</definition>
+	<definition name="createAnotherAdminDef" extends="templateDefinition">
+		<put name="body" value="/WEB-INF/admin/registration/createAnotherAdmin.jsp" />
+	</definition>
+	<definition name="listAllEmployeesDef" extends="templateDefinition">
+		<put name="body" value="/WEB-INF/admin/listAllMyEmployees/listAllEmployees.jsp" />
+	</definition>
+	<definition name="calculateThisMonthRevenueDef" extends="templateDefinition">
+		<put name="body" value="/WEB-INF/admin/calculateThisMonthRevenue.jsp" />
+	</definition>
+	<definition name="reportsDef" extends="templateDefinition">
+		<put name="body" value="/WEB-INF/admin/reports/adminReports.jsp" />
+	</definition>
+	<definition name="showTimerCreationPageDef" extends="templateDefinition">
+		<put name="body" value="/WEB-INF/admin/timers/showTimerCreationPage.jsp" />
+	</definition>
+	<definition name="showLogoUpdatePageDef" extends="templateDefinition">
+		<put name="body" value="/WEB-INF/admin/showLogoUpdatePage.jsp" />
+	</definition>
+	<definition name="makeGenericEmailDef" extends="templateDefinition">
+		<put name="body" value="/WEB-INF/admin/emailProcess/sendGenericEmail.jsp" />
+	</definition>
+	<definition name="showDisableBusinessPageDef" extends="templateDefinition">
+		<put name="body" value="/WEB-INF/superAdmin/showDisableBusinessPage.jsp" />
+	</definition>
+	<definition name="showOutagePageDef" extends="templateDefinition">
+		<put name="body" value="/WEB-INF/superAdmin/showOutagePage.jsp" />
+	</definition>
+	<definition name="adminHelpDef" extends="templateDefinition">
+		<put name="body" value="/WEB-INF/admin/adminHelp.jsp" />
+	</definition>
+	<definition name="addSupportingDocsDef" extends="templateDefinition">
+		<put name="body" value="/WEB-INF/members/addSupportingDocs.jsp" />
+	</definition>
+	<definition name="generalForwardDef" extends="templateDefinition">
+		<put name="body" value="body.jsp" />
+	</definition>
+	<definition name="updateEmployeePersonalDetailsDef" extends="templateDefinition">
+		<put name="body"
+			value="/WEB-INF/admin/updateEmployeeDetails/updateEmployeePersonalDetails.jsp" />
+	</definition>
+	<definition name="employeeUpdationSuccessfulDef" extends="templateDefinition">
+  <put name="body" value="/WEB-INF/admin/updateEmployeeDetails/employeePessonalDetailsUpdationSuccessful.jsp" />
+	</definition>
+	<definition name="updateEmployeeDetailsDef" extends="templateDefinition">
+		<put name="body" value="/WEB-INF/admin/updateEmployeeDetails.jsp" />
+	</definition>
+	<definition name="userRateDetailsDef" extends="templateDefinition">
+		<put name="body" value="/WEB-INF/admin/userRateDetails.jsp" />
+	</definition>
+	<definition name="investedAmountOnEmployeeDef" extends="templateDefinition">
+		<put name="body" value="/WEB-INF/admin/investedAmountOnEmployee.jsp" />
+	</definition>
+	<definition name="showManageTimersDef" extends="templateDefinition">
+		<put name="body"
+			value="/WEB-INF/admin/timers/showManageTimersPage.jsp" />
+	</definition>
+	<definition name="showManageEmailContentsDef" extends="templateDefinition">
+		<put name="body"
+			value="/WEB-INF/admin/timers/showManageEmailConetentsPage.jsp" />
+	</definition>
+	
+	<definition name="updateTimerDef" extends="templateDefinition">
+		<put name="body"
+			value="/WEB-INF/admin/timers/updateTimer.jsp" />
+	</definition>
+	<definition name="resetPasswordOfAnAccountDef" extends="templateDefinition">
+		<put name="body"
+			value="/WEB-INF/admin/resetPassword.jsp" />
+	</definition>
+
+	<definition name="showTimeSheetConfigurationPageDef" extends="templateDefinition">
+		<put name="body"
+			value="/WEB-INF/admin/showTimeSheetConfigurationPage.jsp" />
+	</definition>
+	
+	<definition name="adminAccountSettingsDef" extends="templateDefinition">
+		<put name="body"
+			value="/WEB-INF/admin/adminAccountSettings.jsp" />
+	</definition>
+	<definition name="sendAnInstantEmailDef" extends="templateDefinition">
+		<put name="body"
+			value="/WEB-INF/admin/emailProcess/sendAnInstantEmail.jsp" />
+	</definition>
+<!-- ADMIN REGISTRATION - BEGIN -->
+	<definition name="registrtationProcess1Def" extends="templateDefinition">
+		<put name="body"
+			value="/WEB-INF/admin/registration/adminRegistration_process_1.jsp" />
+	</definition>
+	<definition name="businessRegistrationValidationPendingDef"
+		extends="templateDefinition">
+		<put name="body"
+			value="/WEB-INF/admin/registration/businessRegistrationValidationPending.jsp" />
+	</definition>
+	<definition name="confirmBusinessDef" extends="templateDefinition">
+		<put name="body" value="/WEB-INF/admin/registration/processBusiness.jsp" />
+	</definition>
+	<definition name="startRegistrtationProcessDef" extends="templateDefinition">
+		<put name="body" value="/WEB-INF/admin/registration/adminRegistration.jsp" />
+	</definition>
+	<definition name="seeEmployeeHistoryDef" extends="templateDefinition">
+		<put name="body"
+			value="/WEB-INF/admin/listAllMyEmployees/seeEmployeeHistory.jsp" />
+	</definition>
+<!-- ADMIN REGISTRATION - END -->
+
+
+<!-- EMPLOYEE REGISTRATION - BEGIN -->
+	<definition name="startEmpRegistrtationProcessDef" extends="templateDefinition">
+		<put name="body" value="/WEB-INF/members/registration/employeeRegistration.jsp" />
+	</definition>
+	<definition name="registrtationProcess2Def" extends="templateDefinition">
+		<put name="body"
+			value="/WEB-INF/members/registration/employeeRegistration_Process_1.jsp" />
+	</definition>
+	<definition name="employeeRegistrationValidationPendingDef"
+		extends="templateDefinition">
+		<put name="body"
+			value="/WEB-INF/members/registration/employeeRegistrationValidationPending.jsp" />
+	</definition>
+	<definition name="confirmEmployeeBusinessDef" extends="templateDefinition">
+		<put name="body" value="/WEB-INF/members/registration/processMember.jsp" />
+	</definition>
+<!-- EMPLOYEE REGISTRATION - END -->
+
+<!-- ADMIN Timer Definitions - Begin -->
+	<definition name="showCreateTimeContentDef" extends="templateDefinition">
+		<put name="body" value="/WEB-INF/admin/timers/showTimerContentCreationPage.jsp" />
+	</definition>
+	<definition name="cancelTimerDef" extends="templateDefinition">
+		<put name="body" value="/WEB-INF/admin/adminFunctions.jsp" />
+	</definition>
+<!-- ADMIN Timer Definitions - End -->
+
+<!-- Business Email Validation - BEGIN -->
+	<definition name="businessEmailValidationStatusDef" extends="templateDefinition">
+		<put name="body"
+			value="/WEB-INF/admin/registration/busEmailRegistrationStatus.jsp" />
+	</definition>
+<!-- Business Email Validation - END -->
+
+<!-- User Email Validation - BEGIN -->
+	<definition name="userEmailValidationStatusDef" extends="templateDefinition">
+		<put name="body"
+			value="/WEB-INF/members/registration/userEmailRegistrationStatus.jsp" />
+	</definition>
+<!-- User Email Validation - END -->
+
+<!-- Pending Approvals - Begin -->
+	<definition name="employeeRegistrationPendingApprovalsDef"
+		extends="templateDefinition">
+		<put name="body"
+			value="/WEB-INF/admin/pendingApprovals/employeeRegistrationPendingApprovals.jsp" />
+	</definition>
+	<definition name="employeeTimesheetPendingApprovalsDef"
+		extends="templateDefinition">
+		<put name="body"
+			value="/WEB-INF/admin/pendingApprovals/employeeTimesheetPendingApprovals.jsp" />
+	</definition>
+	<definition name="listTimeSheetsForAdminDef"
+		extends="templateDefinition">
+		<put name="body"
+			value="/WEB-INF/admin/listTimeSheetsForAdmin.jsp" />
+	</definition>
+	<definition name="statusDef"
+		extends="templateDefinition">
+		<put name="body"
+			value="/WEB-INF/generic/status.jsp" />
+	</definition>
+		
+<!-- Pending Approvals - End -->
+	<definition name="afterAccountUpdateDef" extends="templateDefinition">
+		<put name="body" value="/WEB-INF/admin/afterAccountUpdate.jsp" />
+	</definition>
+	<definition name="contactUsDef" extends="templateDefinition">
+		<put name="body" value="/WEB-INF/generic/contactUs.jsp" />
+	</definition>
+	<definition name="memberFunctionsDef" extends="templateDefinition">
+		<put name="body" value="/WEB-INF/members/memberFunctions.jsp" />
+	</definition>
+	<definition name="collectYearAndMonthDef" extends="templateDefinition">
+		<put name="body" value="/WEB-INF/members/collectYearAndMonths.jsp" />
+	</definition>
+	<definition name="generalJSP4AJAXMsgDef" extends="templateDefinition">
+		<put name="body" value="/WEB-INF/generic/generalJSP4AJAXMsg.jsp" />
+	</definition>
+
+<!-- ADMIN REPORTS DOWNLOAD - Begin -->
+	<definition name="showAdminDownloadAllEmployeesSortOpetionPageDef"
+		extends="templateDefinition">
+		<put name="body"
+			value="/WEB-INF/admin/reports/showAdminDownloadAllEmployeesSortOpetionPage.jsp" />
+	</definition>
+	<definition name="downloadedEmployeeStartingAndEndingWithOptionsDef"
+		extends="templateDefinition">
+		<put name="body"
+			value="/WEB-INF/admin/reports/downloadedEmployeeStartingAndEndingWithOptions.jsp" />
+	</definition>
+<!-- ADMIN REPORTS DOWNLOAD - END -->
+	<definition name="viewMyUniqueNumberOptionsDef" extends="templateDefinition">
+		<put name="body" value="/WEB-INF/admin/viewMyUniqueNumberOptions.jsp" />
+	</definition>
+	<definition name="generalJspDef" extends="templateDefinition">
+		<put name="body" value="/WEB-INF/generic/generalJSP4AJAXMsg.jsp" />
+	</definition>
+	<definition name="inviteOtherBusinessOptionsDef" extends="templateDefinition">
+		<put name="body"
+			value="/WEB-INF/admin/emailProcess/inviteOtherBusinessOptions.jsp" />
+	</definition>
+	<definition name="showNotifyEmailsPageDef" extends="templateDefinition">
+		<put name="body"
+			value="/WEB-INF/admin/emailProcess/showNotifyEmailsPage.jsp" />
+	</definition>
+	<definition name="inviteOtherBusinessResultDef" extends="templateDefinition">
+		<put name="body" value="/WEB-INF/admin/inviteOtherBusinessResult.jsp" />
+	</definition>
+<!-- FOOTER INFORMATION - Begin -->
+	<definition name="legalInformationDLDef" extends="templateDefinition">
+		<put name="body" value="/WEB-INF/footerPages/legal.jsp" />
+		<put name="footer" value="empty.jsp" />
+		<put name="header" value="empty.jsp" />
+	</definition>
+	<definition name="contactInformationDLDef" extends="templateDefinition">
+		<put name="body" value="/WEB-INF/generic/contactUs.jsp" />
+	</definition>
+<!-- FOOTER INFORMATION - End-->
+	<definition name="generalJSP4AJAXMsgDef" extends="templateDefinition">
+		<put name="body" value="/WEB-INF/generic/generalJSP4AJAXMsg.jsp" />
+	</definition>
+<!-- MEMBER FUNCTIONS - BEGIN -->
+	<definition name="showManageDocsDef" extends="templateDefinition">
+		<put name="body"
+			value="/WEB-INF/members/showManageDocs.jsp" />
+	</definition>
+	<definition name="updateMyClientDef" extends="templateDefinition">
+		<put name="body" value="/WEB-INF/members/updateMyClient.jsp" />
+	</definition>
+	<definition name="insertNewClientDef" extends="templateDefinition">
+		<put name="body" value="/WEB-INF/members/insertNewClient.jsp" />
+	</definition>
+	<definition name="updateMyClientDetailsFailureDef" extends="templateDefinition">
+		<put name="body" value="/WEB-INF/members/editMyClientUpdationFailure.jsp" />
+	</definition>
+	<definition name="updateResumeUploadScreenDef" extends="templateDefinition">
+		 <put name="body" value="/WEB-INF/members/updateMyResume.jsp" />
+	</definition>
+	<definition name="addAnEmployeeOptionsDef" extends="templateDefinition">
+		 <put name="body" value="/WEB-INF/admin/addAnEmployeeOptions.jsp" />
+	</definition>
+	<definition name="contactUsResponseDef" extends="templateDefinition">
+		 <put name="body" value="/WEB-INF/admin/contactUsResponse.jsp" />
+	</definition>
+	<definition name="forgotPasswordOptionsPageDef" extends="templateDefinition">
+		 <put name="body" value="/WEB-INF/generic/forgotPasswordOptionsPage.jsp" />
+	</definition>
+	<definition name="manageMyAdminsDef" extends="templateDefinition">
+		 <put name="body" value="/WEB-INF/admin/manageMyAdmins.jsp" />
+	</definition>
+	
+	<definition name="editMemberProfileForUpdateDef" extends="templateDefinition">
+		 <put name="body" value="/WEB-INF/members/editMyProfile.jsp" />
+	</definition>
+	<definition name="globalExceptionDef" extends="templateDefinition">
+		 <put name="body" value="error.jsp" />
+	</definition>
+	
+	<definition name="insertNewClientValidateDef" extends="templateDefinition">
+		<put name="body" value="/WEB-INF/members/insertNewClient.jsp" />
+	</definition>
+	
+	<!-- MEMBER FUNCTIONS - END -->
+</tiles-definitions>

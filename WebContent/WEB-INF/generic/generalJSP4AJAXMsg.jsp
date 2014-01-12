@@ -1,0 +1,1 @@
+<%= request.getAttribute("generalAJAXMsg")%> <%= (request.getAttribute("disableSubmitRequired")!=null)?request.getAttribute("disableSubmitRequired"):""%>

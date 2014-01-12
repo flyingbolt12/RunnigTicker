@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="All Time Sheets" pageWidth="695" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="655" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" whenResourceMissingType="Empty" uuid="72e6735a-1ba9-4045-8a6d-df5349533f9b">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<import value="java.util.*"/>
+	<import value="java.sql.*"/>
+	<style name="Title" fontName="Arial" fontSize="26" isBold="true" pdfFontName="Helvetica-Bold"/>
+	<style name="SubTitle" forecolor="#666666" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<field name="status" class="java.lang.String"/>
+	<field name="clientName" class="java.lang.String"/>
+	<field name="totalOvertimeHrs" class="java.lang.Double"/>
+	<field name="totalRegularHrs" class="java.lang.Double"/>
+	<field name="totalHolidayHrs" class="java.lang.Double"/>
+	<field name="startWeekDate" class="java.lang.String"/>
+	<field name="endWeekDate" class="java.lang.String"/>
+	<field name="submittedDate" class="java.sql.Timestamp"/>
+	<field name="actionDate" class="java.sql.Timestamp"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="49" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="45081363-6e83-44f7-a97e-de2ea7aaf322" style="Title" x="287" y="0" width="108" height="22" forecolor="#006666"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="15" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Time Sheets]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="45081363-6e83-44f7-a97e-de2ea7aaf322" style="Title" x="258" y="22" width="173" height="21" forecolor="#FF0033"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="8"/>
+				</textElement>
+				<text><![CDATA[Confidential Information]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="35" splitType="Stretch">
+			<line>
+				<reportElement uuid="c2979c36-bf87-4b99-a39d-aae3aa2a7cd8" positionType="FixRelativeToBottom" x="1" y="27" width="654" height="2" forecolor="#003333"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement uuid="66531228-3ccd-4f0f-82fc-67b10fa9baa2" mode="Transparent" x="13" y="8" width="78" height="20" forecolor="#003333" backcolor="#CCFFFF"/>
+				<textElement>
+					<font fontName="DejaVu Sans" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Client]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="86f1593b-729f-4aff-b8f5-55b801861d49" mode="Transparent" x="132" y="8" width="43" height="20" forecolor="#003333" backcolor="#CCFFFF"/>
+				<textElement>
+					<font fontName="DejaVu Sans" isBold="true"/>
+				</textElement>
+				<text><![CDATA[OT]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="869bb36e-4953-4647-87b3-89ea62c8f04f" mode="Transparent" x="91" y="8" width="41" height="20" forecolor="#003333" backcolor="#CCFFFF"/>
+				<textElement>
+					<font fontName="DejaVu Sans" isBold="true"/>
+				</textElement>
+				<text><![CDATA[RH]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="689d2ae6-7124-4991-a482-ee6c80cad133" mode="Transparent" x="175" y="8" width="44" height="20" forecolor="#003333" backcolor="#CCFFFF"/>
+				<textElement>
+					<font fontName="DejaVu Sans" isBold="true"/>
+				</textElement>
+				<text><![CDATA[HRS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="bb7e8780-f661-49a9-b2c6-ec7dc87fe7a5" mode="Transparent" x="219" y="8" width="81" height="20" forecolor="#003333" backcolor="#CCFFFF"/>
+				<textElement>
+					<font fontName="DejaVu Sans" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Start Week Date]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="9d9f8d26-b560-406c-a34e-50ca2250bc1e" mode="Transparent" x="300" y="8" width="66" height="20" forecolor="#003333" backcolor="#CCFFFF"/>
+				<textElement>
+					<font fontName="DejaVu Sans" isBold="true"/>
+				</textElement>
+				<text><![CDATA[End Week Date]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="af58d063-8080-4e37-8d66-cbdae06b26b9" mode="Transparent" x="366" y="8" width="123" height="20" forecolor="#003333" backcolor="#CCFFFF"/>
+				<textElement>
+					<font fontName="DejaVu Sans" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Submitted Date]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="6ded2ba4-5d26-40d3-8fa7-9074d53a4fbf" mode="Transparent" x="489" y="8" width="96" height="20" forecolor="#003333" backcolor="#CCFFFF"/>
+				<textElement>
+					<font fontName="DejaVu Sans" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Action Date]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="dcbc985e-2b28-49c5-aa6b-618835508024" mode="Transparent" x="585" y="8" width="59" height="20" forecolor="#003333" backcolor="#CCFFFF"/>
+				<textElement>
+					<font fontName="DejaVu Sans" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Status]]></text>
+			</staticText>
+			<line>
+				<reportElement uuid="318a6972-7aaa-4ed1-b796-99680228503f" positionType="FixRelativeToBottom" x="0" y="3" width="654" height="2" forecolor="#003333"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="27" splitType="Stretch">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement uuid="93faded1-9728-4f4b-b76f-685e49468d54" x="13" y="5" width="78" height="20" forecolor="#006666"/>
+				<textElement>
+					<font fontName="DejaVu Sans"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{clientName}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement uuid="4769fbb9-cd59-44cb-9082-901d32ac28bd" x="91" y="5" width="41" height="20" forecolor="#006666"/>
+				<textElement textAlignment="Justified">
+					<font fontName="DejaVu Sans"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{totalRegularHrs}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement uuid="11350841-1af4-4cea-80aa-9531e724bbb5" x="175" y="5" width="44" height="20" forecolor="#006666"/>
+				<textElement textAlignment="Justified">
+					<font fontName="DejaVu Sans"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{totalHolidayHrs}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement uuid="b06b7abd-72b3-4506-92a3-5974527dbaa7" x="219" y="5" width="81" height="20" forecolor="#006666"/>
+				<textElement textAlignment="Justified">
+					<font fontName="DejaVu Sans"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{startWeekDate}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement uuid="7171678c-e82b-495d-8f5e-1fd5c12e7c47" x="300" y="5" width="66" height="20" forecolor="#006666"/>
+				<textElement textAlignment="Justified">
+					<font fontName="DejaVu Sans"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{endWeekDate}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement uuid="e87d5967-b6a1-4fdb-b75c-068b5f813dfd" x="366" y="5" width="123" height="20" forecolor="#006666"/>
+				<textElement textAlignment="Justified">
+					<font fontName="DejaVu Sans"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{submittedDate}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement uuid="8fe03923-415e-4fe0-81b9-8f9198e4b765" x="489" y="5" width="96" height="20" forecolor="#006666"/>
+				<textElement textAlignment="Justified">
+					<font fontName="DejaVu Sans"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{actionDate}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement uuid="3780b4ba-280f-4a2e-a6e8-4b9a7f03158c" x="585" y="5" width="59" height="20" forecolor="#006666"/>
+				<textElement textAlignment="Justified">
+					<font fontName="DejaVu Sans"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{status}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement uuid="b8caa060-3ba8-4c2a-bb50-92a8f888844e" x="132" y="5" width="43" height="20" forecolor="#006666"/>
+				<textElement textAlignment="Justified">
+					<font fontName="DejaVu Sans"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{totalOvertimeHrs}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="26" splitType="Stretch">
+			<line>
+				<reportElement uuid="32d1c5d1-1974-4758-933d-5c9229eb26fe" positionType="FixRelativeToBottom" x="0" y="2" width="655" height="1"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<textField>
+				<reportElement uuid="75111bf7-bfe8-4457-8d93-2a599c80c2f7" style="Column header" x="518" y="5" width="86" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="DejaVu Sans" size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement uuid="d8398021-bdb8-4147-a629-665f1f2a8047" style="Column header" x="604" y="5" width="40" height="20"/>
+				<textElement>
+					<font fontName="DejaVu Sans" size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement uuid="2c64f901-535c-4749-a777-bffddef8c72d" style="Column header" x="13" y="6" width="197" height="20"/>
+				<textElement>
+					<font fontName="DejaVu Sans" size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="11" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

@@ -1,0 +1,1534 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE form-validation PUBLIC
+          "-//Apache Software Foundation//DTD Commons Validator Rules Configuration 1.0//EN"
+          "http://jakarta.apache.org/commons/dtds/validator_1_0.dtd">
+<form-validation>
+	<formset>
+	    
+	    <form name="notifyEmployeesBean">
+			
+			<field property="subject" depends="required, maxlength">
+				<arg0 key="error.subject" />
+				<arg1 key="${var:maxlength}" resource="false" />
+				<var>
+					<var-name>maxlength</var-name>
+					<var-value>650</var-value>
+				</var>
+			</field>
+
+			<field property="emailContent" depends="required">
+				<arg0 key="error.emailContent" />
+			</field>
+			
+		</form>
+		
+	<form name="insertNewClientBean">
+			
+			<field property="otherClientName" depends="required, maxlength">
+				<arg0 key="error.clientWorkingFor" />
+				<arg1 key="${var:maxlength}" resource="false" />
+				<var>
+					<var-name>maxlength</var-name>
+					<var-value>650</var-value>
+				</var>
+			</field>
+
+			<field property="listAddress[2].address1" depends="required, maxlength">
+				<arg0 key="error.client.listAddress[2].address1" />
+				<arg1 key="${var:maxlength}" resource="false" />
+				<var>
+					<var-name>maxlength</var-name>
+					<var-value>165</var-value>
+				</var>
+			</field>
+			<field property="listAddress[2].address2" depends=" maxlength">
+				<arg0 key="error.client.listAddress[2].address2" />
+				<arg1 key="${var:maxlength}" resource="false" />
+				<var>
+					<var-name>maxlength</var-name>
+					<var-value>165</var-value>
+				</var>
+			</field>
+			<field property="listAddress[2].city" depends="required, maxlength">
+				<arg0 key="error.client.listAddress[2].city" />
+				<arg1 key="${var:maxlength}" resource="false" />
+				<var>
+					<var-name>maxlength</var-name>
+					<var-value>100</var-value>
+				</var>
+			</field>
+			<field property="listAddress[2].city" depends="mask">
+				<msg name="mask" key="error.mask.client.listAddress[2].city" />
+				<arg0 key="error.client.listAddress[2].city" />
+				<var>
+					<var-name>mask</var-name>
+					<var-value>^[a-z A-Z]*$</var-value>
+				</var>
+			</field>
+			<field property="listAddress[2].state" depends="required, maxlength">
+				<arg0 key="error.client.listAddress[2].state" />
+				<arg1 key="${var:maxlength}" resource="false" />
+				<var>
+					<var-name>maxlength</var-name>
+					<var-value>2</var-value>
+				</var>
+			</field>
+			<field property="listAddress[2].state" depends="mask">
+				<msg name="mask" key="error.mask.client.listAddress[2].state" />
+				<arg0 key="error.client.listAddress[2].state" />
+				<var>
+					<var-name>mask</var-name>
+					<var-value>^[A-Z]{2}$</var-value>
+				</var>
+			</field>
+			<field property="listAddress[2].country" depends="required, maxlength">
+				<arg0 key="error.client.listAddress[2].country" />
+				<arg1 key="${var:maxlength}" resource="false" />
+				<var>
+					<var-name>maxlength</var-name>
+					<var-value>44</var-value>
+				</var>
+			</field>
+			<field property="listAddress[2].country" depends="mask">
+				<msg name="mask" key="error.mask.client.listAddress[2].country" />
+				<arg0 key="error.client.listAddress[2].country" />
+				<var>
+					<var-name>mask</var-name>
+					<var-value>^[a-z A-Z]*$</var-value>
+				</var>
+			</field>
+			<field property="listAddress[2].zip" depends="required,long,minlength">
+				<arg0 key="error.client.listAddress[2].zip" />
+				<arg1 key="${var:minlength}" resource="false" />
+				<var>
+					<var-name>minlength</var-name>
+					<var-value>5</var-value>
+				</var>
+			</field>
+			<field property="startDate" depends="required,date">
+				<arg0 key="error.workStratDate" />
+
+
+			</field>
+			
+			
+		</form>
+	
+		<form name="adminRegistrationBean">
+			<field property="businessName" depends="required, maxlength">
+				<arg0 key="error.businessName" />
+				<arg1 key="${var:maxlength}" resource="false" />
+				<var>
+					<var-name>maxlength</var-name>
+					<var-value>65</var-value>
+				</var>
+			</field>
+			<field property="contactEmail" depends="required, email">
+				<arg0 key="error.contactEmail" />
+			</field>
+			<field property="phoneNumber" depends="required, long">
+				<arg0 key="error.phoneNumber" />
+			</field>
+<!-- 			<field property="countryCitizenship" depends="required,maxlength,mask"> -->
+<!-- 				<arg0 key="error.countryCitizenship" /> -->
+<!-- 				<msg name="mask" key="error.mask.alphabets" /> -->
+<!-- 				<arg1 key="${var:maxlength}" resource="false" /> -->
+<!-- 				<var> -->
+<!-- 					<var-name>maxlength</var-name> -->
+<!-- 					<var-value>44</var-value> -->
+<!-- 				</var> -->
+<!-- 				<var> -->
+<!-- 					<var-name>mask</var-name> -->
+<!-- 					<var-value>^[a-z A-Z]*$</var-value> -->
+<!-- 				</var> -->
+<!-- 			</field> -->
+			<field property="listAddress[0].address1" depends="required, maxlength">
+				<arg0 key="error.listAddress[0].address1" />
+				<arg1 key="${var:maxlength}" resource="false" />
+				<var>
+					<var-name>maxlength</var-name>
+					<var-value>165</var-value>
+				</var>
+			</field>
+
+			<field property="listAddress[0].address2" depends=" maxlength">
+				<arg0 key="error.listAddress[0].address2" />
+				<arg1 key="${var:maxlength}" resource="false" />
+				<var>
+					<var-name>maxlength</var-name>
+					<var-value>165</var-value>
+				</var>
+			</field>
+			<field property="listAddress[0].city" depends="required, maxlength,mask">
+				<msg name="mask" key="error.mask.alphabets" />
+				<arg0 key="error.listAddress[0].city" />
+				<arg1 key="${var:maxlength}" resource="false" />
+				<var>
+					<var-name>maxlength</var-name>
+					<var-value>100</var-value>
+				</var>
+				<var>
+					<var-name>mask</var-name>
+					<var-value>^[a-z A-Z]*$</var-value>
+				</var>
+			</field>
+			<field property="listAddress[0].state" depends="required, maxlength,mask">
+				<msg name="mask" key="error.mask.current.listAddress[0].state" />
+				<arg0 key="error.listAddress[0].state" />
+				<arg1 key="${var:maxlength}" resource="false" />
+				<var>
+					<var-name>maxlength</var-name>
+					<var-value>2</var-value>
+				</var>
+				<var>
+					<var-name>mask</var-name>
+					<var-value>^[A-Z]{2}$</var-value>
+				</var>
+			</field>
+			<field property="listAddress[0].country" depends="required, maxlength,mask">
+				<msg name="mask" key="error.mask.alphabets" />
+				<arg0 key="error.listAddress[0].country" />
+				<arg1 key="${var:maxlength}" resource="false" />
+				<var>
+					<var-name>maxlength</var-name>
+					<var-value>44</var-value>
+				</var>
+				<var>
+					<var-name>mask</var-name>
+					<var-value>^[a-z A-Z]*$</var-value>
+				</var>
+			</field>
+			<field property="listAddress[0].zip" depends="required,long,minlength">
+				<arg0 key="error.listAddress[0].zip" />
+				<arg1 key="${var:minlength}" resource="false" />
+				<var>
+					<var-name>minlength</var-name>
+					<var-value>5</var-value>
+				</var>
+			</field>
+			<field property="listAddress[0].landMark" depends="maxlength">
+				<arg0 key="error.listAddress[0].landMark" />
+				<arg1 key="${var:maxlength}" resource="false" />
+				<var>
+					<var-name>maxlength</var-name>
+					<var-value>100</var-value>
+				</var>
+			</field>
+			<field property="firstName" depends="required,mask">
+				<msg name="mask" key="error.mask.firstName" />
+				<arg0 key="error.firstName" />
+				<arg1 key="${var:maxlength}" resource="false" />
+				<var>
+					<var-name>maxlength</var-name>
+					<var-value>65</var-value>
+				</var>
+				<var>
+					<var-name>mask</var-name>
+					<var-value>^[a-z A-Z]*$</var-value>
+				</var>
+			</field>
+			<field property="middleName" depends="mask">
+				<msg name="mask" key="error.mask.middleName" />
+				<arg0 key="error.middleName" />
+				<arg1 key="${var:maxlength}" resource="false" />
+				<var>
+					<var-name>maxlength</var-name>
+					<var-value>65</var-value>
+				</var>
+				<var>
+					<var-name>mask</var-name>
+					<var-value>^[a-z A-Z]*$</var-value>
+				</var>
+			</field>
+			<field property="lastName" depends="required,mask">
+				<msg name="mask" key="error.mask.lastName" />
+				<arg0 key="error.lastName" />
+				<arg1 key="${var:maxlength}" resource="false" />
+				<var>
+					<var-name>maxlength</var-name>
+					<var-value>65</var-value>
+				</var>
+				<var>
+					<var-name>mask</var-name>
+					<var-value>^[a-z A-Z]*$</var-value>
+				</var>
+			</field>
+			<field property="listAddress[1].address1" depends="required, maxlength">
+				<arg0 key="error.listAddress[1].address1" />
+				<arg1 key="${var:maxlength}" resource="false" />
+				<var>
+					<var-name>maxlength</var-name>
+					<var-value>165</var-value>
+				</var>
+			</field>
+			<field property="listAddress[1].address2" depends="maxlength">
+				<arg0 key="error.listAddress[1].address2" />
+				<arg1 key="${var:maxlength}" resource="false" />
+				<var>
+					<var-name>maxlength</var-name>
+					<var-value>165</var-value>
+				</var>
+			</field>
+			<field property="listAddress[1].city" depends="required, maxlength,mask">
+				<msg name="mask" key="error.mask.alphabets" />
+				<arg0 key="error.listAddress[1].city" />
+				<arg1 key="${var:maxlength}" resource="false" />
+				<var>
+					<var-name>maxlength</var-name>
+					<var-value>100</var-value>
+				</var>
+				<var>
+					<var-name>mask</var-name>
+					<var-value>^[a-z A-Z]*$</var-value>
+				</var>
+			</field>
+			<field property="listAddress[1].state" depends="required, maxlength,mask">
+				<msg name="mask" key="error.mask.listAddress[1].state" />
+				<arg0 key="error.listAddress[1].state" />
+				<arg1 key="${var:maxlength}" resource="false" />
+				<var>
+					<var-name>maxlength</var-name>
+					<var-value>2</var-value>
+				</var>
+				<var>
+					<var-name>mask</var-name>
+					<var-value>^[A-Z]{2}$</var-value>
+				</var>
+			</field>
+			<field property="listAddress[1].country" depends="required, maxlength,mask">
+				<msg name="mask" key="error.mask.alphabets" />
+				<arg0 key="error.listAddress[1].country" />
+				<arg1 key="${var:maxlength}" resource="false" />
+				<var>
+					<var-name>maxlength</var-name>
+					<var-value>44</var-value>
+				</var>
+				<var>
+					<var-name>mask</var-name>
+					<var-value>^[a-z A-Z]*$</var-value>
+				</var>
+			</field>
+			<field property="listAddress[1].zip" depends="required,long,minlength">
+				<arg0 key="error.listAddress[1].zip" />
+				<arg1 key="${var:minlength}" resource="false" />
+				<var>
+					<var-name>minlength</var-name>
+					<var-value>5</var-value>
+				</var>
+			</field>
+			<field property="listAddress[1].landMark" depends="maxlength">
+				<arg0 key="error.listAddress[1].landMark" />
+				<arg1 key="${var:maxlength}" resource="false" />
+				<var>
+					<var-name>maxlength</var-name>
+					<var-value>100</var-value>
+				</var>
+			</field>
+			<field property="login" depends="required">
+				<arg0 key="error.login" />
+			</field>
+			<field property="password" depends="required, minlength">
+				<arg0 key="error.password" />
+				<arg1 name="minlength" key="${var:minlength}" resource="false" />
+				<var>
+					<var-name>minlength</var-name>
+					<var-value>6</var-value>
+				</var>
+			</field>
+			<field property="confirmPassword" depends="required, minlength">
+				<arg0 key="error.confirmPassword" />
+				<arg1 name="minlength" key="${var:minlength}" resource="false" />
+				<var>
+					<var-name>minlength</var-name>
+					<var-value>6</var-value>
+				</var>
+			</field>
+		</form>
+		<form name="contactBean">
+			<field property="firstName" depends="required, maxlength">
+				<arg0 key="error.firstName" />
+				<arg1 key="${var:maxlength}" resource="false" />
+				<var>
+					<var-name>maxlength</var-name>
+					<var-value>65</var-value>
+				</var>
+			</field>
+			<field property="lastName" depends="required, maxlength">
+				<arg0 key="error.lastName" />
+				<arg1 key="${var:maxlength}" resource="false" />
+				<var>
+					<var-name>maxlength</var-name>
+					<var-value>65</var-value>
+				</var>
+			</field>
+			<field property="firstName" depends="required,mask">
+				<msg name="mask" key="error.mask.firstName" />
+				<arg0 key="error.firstName" />
+				<var>
+					<var-name>mask</var-name>
+					<var-value>^[a-z A-Z]*$</var-value>
+				</var>
+			</field>
+			<field property="lastName" depends="required,mask">
+				<msg name="mask" key="error.mask.lastName" />
+				<arg0 key="error.lastName" />
+				<var>
+					<var-name>mask</var-name>
+					<var-value>^[a-z A-Z]*$</var-value>
+				</var>
+			</field>
+<!-- 			<field property="phone" depends="required,long"> -->
+<!-- 				<arg0 key="error.phone" /> -->
+<!-- 			</field> -->
+			<field property="email" depends="required,email">
+				<arg0 key="error.email" />
+			</field>
+<!-- 			<field property="company" depends="required"> -->
+<!-- 				<arg0 key="error.company" /> -->
+<!-- 			</field> -->
+<!-- 			<field property="address" depends="required, maxlength"> -->
+<!-- 				<arg0 key="error.address" /> -->
+<!-- 				<arg1 key="${var:maxlength}" resource="false" /> -->
+<!-- 				<var> -->
+<!-- 					<var-name>maxlength</var-name> -->
+<!-- 					<var-value>100</var-value> -->
+<!-- 				</var> -->
+<!-- 			</field> -->
+<!-- 			<field property="city" depends="required, maxlength"> -->
+<!-- 				<arg0 key="error.city" /> -->
+<!-- 				<arg1 key="${var:maxlength}" resource="false" /> -->
+<!-- 				<var> -->
+<!-- 					<var-name>maxlength</var-name> -->
+<!-- 					<var-value>100</var-value> -->
+<!-- 				</var> -->
+<!-- 			</field> -->
+<!-- 			<field property="city" depends="mask"> -->
+<!-- 				<msg name="mask" key="error.mask.city" /> -->
+<!-- 				<arg0 key="error.city" /> -->
+<!-- 				<var> -->
+<!-- 					<var-name>mask</var-name> -->
+<!-- 					<var-value>^[a-z A-Z]*$</var-value> -->
+<!-- 				</var> -->
+<!-- 			</field> -->
+<!-- 			<field property="state" depends="required, maxlength"> -->
+<!-- 				<arg0 key="error.state" /> -->
+<!-- 				<arg1 key="${var:maxlength}" resource="false" /> -->
+<!-- 				<var> -->
+<!-- 					<var-name>maxlength</var-name> -->
+<!-- 					<var-value>2</var-value> -->
+<!-- 				</var> -->
+<!-- 			</field> -->
+<!-- 			<field property="state" depends="mask"> -->
+<!-- 				<msg name="mask" key="error.mask.state" /> -->
+<!-- 				<arg0 key="error.state" /> -->
+<!-- 				<var> -->
+<!-- 					<var-name>mask</var-name> -->
+<!-- 					<var-value>^[A-Z]{2}$</var-value> -->
+<!-- 				</var> -->
+<!-- 			</field> -->
+<!-- 			<field property="zip" depends="required,long,minlength"> -->
+<!-- 				<arg0 key="error.zip" /> -->
+<!-- 				<arg1 key="${var:minlength}" resource="false" /> -->
+<!-- 				<var> -->
+<!-- 					<var-name>minlength</var-name> -->
+<!-- 					<var-value>5</var-value> -->
+<!-- 				</var> -->
+<!-- 			</field> -->
+			<field property="subject" depends="required">
+				<arg0 key="error.subject" />
+
+			</field>
+			<field property="comment" depends="required,minlength">
+				<arg0 key="error.comment" />
+				<arg1 key="${var:minlength}" resource="false" />
+				<var>
+					<var-name>minlength</var-name>
+					<var-value>65</var-value>
+				</var>
+			</field>
+		</form>
+		<form name="createAnotherAdminRegistrationBean">
+			<field property="contactEmail" depends="required, email">
+				<arg0 key="error.personalEmailId" />
+			</field>
+
+<!-- 			<field property="countryCitizenship" depends="required"> -->
+<!-- 				<arg0 key="error.countryCitizenship" /> -->
+<!-- 			</field> -->
+<!-- 			<field property="countryCitizenship" depends="mask"> -->
+<!-- 				<msg name="mask" key="error.mask.countryCitizenship" /> -->
+<!-- 				<arg0 key="error.countryCitizenship" /> -->
+<!-- 				<var> -->
+<!-- 					<var-name>mask</var-name> -->
+<!-- 					<var-value>^[a-z A-Z]*$</var-value> -->
+<!-- 				</var> -->
+<!-- 			</field> -->
+			<field property="listAddress[1].address1" depends="required, maxlength">
+				<arg0 key="error.listAddress[1].address1" />
+				<arg1 key="${var:maxlength}" resource="false" />
+				<var>
+					<var-name>maxlength</var-name>
+					<var-value>165</var-value>
+				</var>
+			</field>
+
+
+			<field property="listAddress[1].address2" depends=" maxlength">
+				<arg0 key="error.listAddress[1].address2" />
+				<arg1 key="${var:maxlength}" resource="false" />
+				<var>
+					<var-name>maxlength</var-name>
+					<var-value>165</var-value>
+				</var>
+			</field>
+			<field property="listAddress[1].city" depends="required, maxlength">
+				<arg0 key="error.listAddress[1].city" />
+				<arg1 key="${var:maxlength}" resource="false" />
+				<var>
+					<var-name>maxlength</var-name>
+					<var-value>100</var-value>
+				</var>
+			</field>
+			<field property="listAddress[1].city" depends="mask">
+				<msg name="mask" key="error.mask.listAddress[1].city" />
+				<arg0 key="error.listAddress[1].city" />
+				<var>
+					<var-name>mask</var-name>
+					<var-value>^[a-z A-Z]*$</var-value>
+				</var>
+			</field>
+			<field property="listAddress[1].state" depends="required, maxlength">
+				<arg0 key="error.listAddress[1].state" />
+				<arg1 key="${var:maxlength}" resource="false" />
+				<var>
+					<var-name>maxlength</var-name>
+					<var-value>2</var-value>
+				</var>
+			</field>
+			<field property="listAddress[1].state" depends="mask">
+				<msg name="mask" key="error.mask.listAddress[1].state" />
+				<arg0 key="error.listAddress[1].state" />
+				<var>
+					<var-name>mask</var-name>
+					<var-value>^[A-Z]{2}$</var-value>
+				</var>
+			</field>
+			<field property="listAddress[1].country" depends="required, maxlength">
+				<arg0 key="error.listAddress[1].country" />
+				<arg1 key="${var:maxlength}" resource="false" />
+				<var>
+					<var-name>maxlength</var-name>
+					<var-value>44</var-value>
+				</var>
+			</field>
+
+			<field property="listAddress[1].country" depends="mask">
+				<msg name="mask" key="error.mask.listAddress[1].country" />
+				<arg0 key="error.listAddress[1].country" />
+				<var>
+					<var-name>mask</var-name>
+					<var-value>^[a-z A-Z]*$</var-value>
+				</var>
+			</field>
+			<field property="listAddress[1].zip" depends="required,long,minlength">
+				<arg0 key="error.listAddress[1].zip" />
+				<arg1 key="${var:minlength}" resource="false" />
+				<var>
+					<var-name>minlength</var-name>
+					<var-value>5</var-value>
+				</var>
+			</field>
+
+			<field property="listAddress[1].landMark" depends="mask">
+				<msg name="mask" key="error.mask.listAddress[1].landMark" />
+				<arg0 key="error.listAddress[1].landMark" />
+				<var>
+					<var-name>mask</var-name>
+					<var-value>^[a-z A-Z]*$</var-value>
+				</var>
+			</field>
+			<field property="firstName" depends="required,mask">
+				<msg name="mask" key="error.mask.firstName" />
+				<arg0 key="error.firstName" />
+				<var>
+					<var-name>mask</var-name>
+					<var-value>^[a-z A-Z]*$</var-value>
+				</var>
+			</field>
+			<field property="middleName" depends="mask">
+				<msg name="mask" key="error.mask.middleName" />
+				<arg0 key="error.middleName" />
+				<var>
+					<var-name>mask</var-name>
+					<var-value>^[a-z A-Z]*$</var-value>
+				</var>
+			</field>
+			<field property="lastName" depends="required,mask">
+				<msg name="mask" key="error.mask.lastName" />
+				<arg0 key="error.lastName" />
+				<var>
+					<var-name>mask</var-name>
+					<var-value>^[a-z A-Z]*$</var-value>
+				</var>
+			</field>
+			<field property="login" depends="required">
+				<arg0 key="error.login" />
+			</field>
+			<field property="password" depends="required, minlength">
+				<arg0 key="error.password" />
+				<arg1 name="minlength" key="${var:minlength}" resource="false" />
+				<var>
+					<var-name>minlength</var-name>
+					<var-value>6</var-value>
+				</var>
+			</field>
+			<field property="confirmPassword" depends="required, minlength">
+				<arg0 key="error.confirmPassword" />
+				<arg1 name="minlength" key="${var:minlength}" resource="false" />
+				<var>
+					<var-name>minlength</var-name>
+					<var-value>6</var-value>
+				</var>
+			</field>
+			<field property="phoneNumber" depends="required,long">
+				<arg0 key="error.phoneNumber" />
+			</field>
+		</form>
+
+		<form name="updateMemberFormBean">
+
+			<field property="firstName" depends="required,mask">
+				<msg name="mask" key="error.mask.firstName" />
+				<arg0 key="error.firstName" />
+				<var>
+					<var-name>mask</var-name>
+					<var-value>^[a-z A-Z]*$</var-value>
+				</var>
+			</field>
+			<field property="middleName" depends="mask">
+				<msg name="mask" key="error.mask.middleName" />
+				<arg0 key="error.middleName" />
+				<var>
+					<var-name>mask</var-name>
+					<var-value>^[a-z A-Z]*$</var-value>
+				</var>
+			</field>
+			<field property="lastName" depends="required,mask">
+				<msg name="mask" key="error.mask.lastName" />
+				<arg0 key="error.lastName" />
+				<var>
+					<var-name>mask</var-name>
+					<var-value>^[a-z A-Z]*$</var-value>
+				</var>
+			</field>
+			<field property="contactEmail" depends="required, email">
+				<arg0 key="error.emailId" />
+			</field>
+			<field property="phoneNumber" depends="required,long">
+				<arg0 key="error.phoneNumber" />
+			</field>
+			<field property="fatherName" depends=" maxlength">
+				<arg0 key="error.fatherName" />
+				<arg1 key="${var:maxlength}" resource="false" />
+				<var>
+					<var-name>maxlength</var-name>
+					<var-value>65</var-value>
+				</var>
+			</field>
+
+<!-- 			<field property="countryCitizenship" depends=" maxlength,mask"> -->
+<!-- 				<msg name="mask" key="error.mask.countryCitizenship" /> -->
+<!-- 				<arg0 key="error.countryCitizenship" /> -->
+<!-- 				<arg1 key="${var:maxlength}" resource="false" /> -->
+<!-- 				<var> -->
+<!-- 					<var-name>maxlength</var-name> -->
+<!-- 					<var-value>65</var-value> -->
+<!-- 				</var> -->
+<!-- 				<var> -->
+<!-- 					<var-name>mask</var-name> -->
+<!-- 					<var-value>^[a-z A-Z]*$</var-value> -->
+<!-- 				</var> -->
+<!-- 			</field> -->
+			<field property="listAddress[0].address1" depends="required, maxlength">
+				<arg0 key="error.current.listAddress[0].address1" />
+				<arg1 key="${var:maxlength}" resource="false" />
+				<var>
+					<var-name>maxlength</var-name>
+					<var-value>165</var-value>
+				</var>
+			</field>
+			<field property="listAddress[0].address2" depends=" maxlength">
+				<arg0 key="error.current.listAddress[0].address2" />
+				<arg1 key="${var:maxlength}" resource="false" />
+				<var>
+					<var-name>maxlength</var-name>
+					<var-value>165</var-value>
+				</var>
+			</field>
+			<field property="listAddress[0].city" depends="required, maxlength">
+				<arg0 key="error.current.listAddress[0].city" />
+				<arg1 key="${var:maxlength}" resource="false" />
+				<var>
+					<var-name>maxlength</var-name>
+					<var-value>100</var-value>
+				</var>
+			</field>
+			<field property="listAddress[0].city" depends="mask">
+				<msg name="mask" key="error.mask.current.listAddress[0].city" />
+				<arg0 key="error.current.listAddress[0].city" />
+				<var>
+					<var-name>mask</var-name>
+					<var-value>^[a-z A-Z]*$</var-value>
+				</var>
+			</field>
+			<field property="listAddress[0].state" depends="required, maxlength">
+				<arg0 key="error.current.listAddress[0].state" />
+				<arg1 key="${var:maxlength}" resource="false" />
+				<var>
+					<var-name>maxlength</var-name>
+					<var-value>2</var-value>
+				</var>
+			</field>
+			<field property="listAddress[0].state" depends="mask">
+				<msg name="mask" key="error.mask.current.listAddress[0].city" />
+				<arg0 key="error.current.listAddress[0].state" />
+				<var>
+					<var-name>mask</var-name>
+					<var-value>^[A-Z]{2}$</var-value>
+				</var>
+			</field>
+			<field property="listAddress[0].country" depends="required, maxlength">
+				<arg0 key="error.current.listAddress[0].country" />
+				<arg1 key="${var:maxlength}" resource="false" />
+				<var>
+					<var-name>maxlength</var-name>
+					<var-value>44</var-value>
+				</var>
+			</field>
+			<field property="listAddress[0].country" depends="mask">
+				<msg name="mask" key="error.mask.current.listAddress[0].country" />
+				<arg0 key="error.current.listAddress[0].country" />
+				<var>
+					<var-name>mask</var-name>
+					<var-value>^[a-z A-Z]*$</var-value>
+				</var>
+			</field>
+			<field property="listAddress[0].zip" depends="required,long,minlength">
+				<arg0 key="error.current.listAddress[0].zip" />
+				<arg1 key="${var:minlength}" resource="false" />
+				<var>
+					<var-name>minlength</var-name>
+					<var-value>5</var-value>
+				</var>
+			</field>
+			<field property="listAddress[1].address1" depends="required, maxlength">
+				<arg0 key="error.homeCountry.listAddress[1].address1" />
+				<arg1 key="${var:maxlength}" resource="false" />
+				<var>
+					<var-name>maxlength</var-name>
+					<var-value>165</var-value>
+				</var>
+			</field>
+			<field property="listAddress[1].address2" depends=" maxlength">
+				<arg0 key="error.homeCountry.listAddress[1].address2" />
+				<arg1 key="${var:maxlength}" resource="false" />
+				<var>
+					<var-name>maxlength</var-name>
+					<var-value>165</var-value>
+				</var>
+			</field>
+			<field property="listAddress[1].city" depends="required, maxlength">
+				<arg0 key="error.homeCountry.listAddress[1].city" />
+				<arg1 key="${var:maxlength}" resource="false" />
+				<var>
+					<var-name>maxlength</var-name>
+					<var-value>100</var-value>
+				</var>
+			</field>
+			<field property="listAddress[1].city" depends="mask">
+				<msg name="mask" key="error.mask.homeCountry.listAddress[1].city" />
+				<arg0 key="error.homeCountry.listAddress[1].city" />
+				<var>
+					<var-name>mask</var-name>
+					<var-value>^[a-z A-Z]*$</var-value>
+				</var>
+			</field>
+			<field property="listAddress[1].state" depends="required, maxlength">
+				<arg0 key="error.homeCountry.listAddress[1].state" />
+				<arg1 key="${var:maxlength}" resource="false" />
+				<var>
+					<var-name>maxlength</var-name>
+					<var-value>2</var-value>
+				</var>
+			</field>
+			<field property="listAddress[1].state" depends="mask">
+				<msg name="mask" key="error.mask.homeCountry.listAddress[1].state" />
+				<arg0 key="error.homeCountry.listAddress[1].state" />
+				<var>
+					<var-name>mask</var-name>
+					<var-value>^[A-Z]{2}$</var-value>
+				</var>
+			</field>
+			<field property="listAddress[1].country" depends="required, maxlength">
+				<arg0 key="error.homeCountry.listAddress[1].country" />
+				<arg1 key="${var:maxlength}" resource="false" />
+				<var>
+					<var-name>maxlength</var-name>
+					<var-value>44</var-value>
+				</var>
+			</field>
+			<field property="listAddress[1].country" depends="mask">
+				<msg name="mask" key="error.mask.homeCountry.listAddress[1].country" />
+				<arg0 key="error.homeCountry.listAddress[1].country" />
+				<var>
+					<var-name>mask</var-name>
+					<var-value>^[a-z A-Z]*$</var-value>
+				</var>
+			</field>
+
+			<field property="listAddress[1].zip" depends="required,long,minlength">
+				<arg0 key="error.homeCountry.listAddress[1].zip" />
+				<arg1 key="${var:minlength}" resource="false" />
+				<var>
+					<var-name>minlength</var-name>
+					<var-value>5</var-value>
+				</var>
+			</field>
+		</form>
+
+
+		<form name="addAnEmployeeBean">
+			<field property="firstName" depends="required, maxlength">
+				<arg0 key="error.firstName" />
+				<arg1 key="${var:maxlength}" resource="false" />
+				<var>
+					<var-name>maxlength</var-name>
+					<var-value>65</var-value>
+				</var>
+			</field>
+			<field property="middleName" depends=" maxlength">
+				<arg0 key="error.middleName" />
+				<arg1 key="${var:maxlength}" resource="false" />
+				<var>
+					<var-name>maxlength</var-name>
+					<var-value>65</var-value>
+				</var>
+			</field>
+			<field property="lastName" depends="required, maxlength">
+				<arg0 key="error.lastName" />
+				<arg1 key="${var:maxlength}" resource="false" />
+				<var>
+					<var-name>maxlength</var-name>
+					<var-value>65</var-value>
+				</var>
+			</field>
+			<field property="contactEmail" depends="required, email">
+				<arg0 key="error.emailId" />
+			</field>
+
+			<field property="fatherName" depends=" maxlength,mask">
+				<arg0 key="error.fatherName" />
+				<arg1 key="${var:maxlength}" resource="false" />
+				<var>
+					<var-name>maxlength</var-name>
+					<var-value>65</var-value>
+				</var>
+				<var>
+					<var-name>mask</var-name>
+					<var-value>^[a-z A-Z 0-9]*$</var-value>
+				</var>				
+			</field>
+
+<!-- 			<field property="countryCitizenship" depends=" maxlength,mask"> -->
+<!-- 				<msg name="mask" key="error.mask.countryCitizenship" /> -->
+<!-- 				<arg0 key="error.countryCitizenship" /> -->
+<!-- 				<arg1 key="${var:maxlength}" resource="false" /> -->
+<!-- 				<var> -->
+<!-- 					<var-name>maxlength</var-name> -->
+<!-- 					<var-value>65</var-value> -->
+<!-- 				</var> -->
+<!-- 				<var> -->
+<!-- 					<var-name>mask</var-name> -->
+<!-- 					<var-value>^[a-z A-Z 0-9]*$</var-value> -->
+<!-- 				</var> -->
+<!-- 			</field> -->
+
+			<field property="firstName" depends="mask">
+				<msg name="mask" key="error.mask.firstName" />
+				<arg0 key="error.firstName" />
+				<var>
+					<var-name>mask</var-name>
+					<var-value>^[a-z A-Z]*$</var-value>
+				</var>
+			</field>
+			<field property="middleName" depends="mask">
+				<msg name="mask" key="error.mask.middleName" />
+				<arg0 key="error.middleName" />
+				<var>
+					<var-name>mask</var-name>
+					<var-value>^[a-z A-Z]*$</var-value>
+				</var>
+			</field>
+			<field property="lastName" depends="mask">
+				<msg name="mask" key="error.mask.lastName" />
+				<arg0 key="error.lastName" />
+				<var>
+					<var-name>mask</var-name>
+					<var-value>^[a-z A-Z]*$</var-value>
+				</var>
+			</field>
+
+
+			<field property="listAddress[0].address1" depends="required, maxlength">
+				<arg0 key="error.current.listAddress[0].address1" />
+				<arg1 key="${var:maxlength}" resource="false" />
+				<var>
+					<var-name>maxlength</var-name>
+					<var-value>165</var-value>
+				</var>
+			</field>
+			<field property="listAddress[0].address2" depends=" maxlength">
+				<arg0 key="error.current.listAddress[0].address2" />
+				<arg1 key="${var:maxlength}" resource="false" />
+				<var>
+					<var-name>maxlength</var-name>
+					<var-value>165</var-value>
+				</var>
+			</field>
+			<field property="listAddress[0].city" depends="required, maxlength">
+				<arg0 key="error.current.listAddress[0].city" />
+				<arg1 key="${var:maxlength}" resource="false" />
+				<var>
+					<var-name>maxlength</var-name>
+					<var-value>100</var-value>
+				</var>
+			</field>
+			<field property="listAddress[0].city" depends="mask">
+				<msg name="mask" key="error.mask.current.listAddress[0].city" />
+				<arg0 key="error.current.listAddress[0].city" />
+				<var>
+					<var-name>mask</var-name>
+					<var-value>^[a-z A-Z]*$</var-value>
+				</var>
+			</field>
+			<field property="listAddress[0].state" depends="required, maxlength">
+				<arg0 key="error.current.listAddress[0].state" />
+				<arg1 key="${var:maxlength}" resource="false" />
+				<var>
+					<var-name>maxlength</var-name>
+					<var-value>2</var-value>
+				</var>
+			</field>
+			<field property="listAddress[0].state" depends="mask">
+				<msg name="mask" key="error.mask.current.listAddress[0].state" />
+				<arg0 key="error.current.listAddress[0].state" />
+				<var>
+					<var-name>mask</var-name>
+					<var-value>^[A-Z]{2}$</var-value>
+				</var>
+			</field>
+			<field property="listAddress[0].country" depends="required, maxlength">
+				<arg0 key="error.current.listAddress[0].country" />
+				<arg1 key="${var:maxlength}" resource="false" />
+				<var>
+					<var-name>maxlength</var-name>
+					<var-value>44</var-value>
+				</var>
+			</field>
+			<field property="listAddress[0].country" depends="mask">
+				<msg name="mask" key="error.mask.current.listAddress[0].country" />
+				<arg0 key="error.current.listAddress[0].country" />
+				<var>
+					<var-name>mask</var-name>
+					<var-value>^[a-z A-Z]*$</var-value>
+				</var>
+			</field>
+			<field property="listAddress[0].zip" depends="required,long,minlength">
+				<arg0 key="error.current.listAddress[0].zip" />
+				<arg1 key="${var:minlength}" resource="false" />
+				<var>
+					<var-name>minlength</var-name>
+					<var-value>5</var-value>
+				</var>
+			</field>
+			<field property="listAddress[1].address1" depends="required, maxlength">
+				<arg0 key="error.homeCountry.listAddress[1].address1" />
+				<arg1 key="${var:maxlength}" resource="false" />
+				<var>
+					<var-name>maxlength</var-name>
+					<var-value>165</var-value>
+				</var>
+			</field>
+			<field property="listAddress[1].address2" depends=" maxlength">
+				<arg0 key="error.homeCountry.listAddress[1].address2" />
+				<arg1 key="${var:maxlength}" resource="false" />
+				<var>
+					<var-name>maxlength</var-name>
+					<var-value>165</var-value>
+				</var>
+			</field>
+			<field property="listAddress[1].city" depends="required, maxlength">
+				<arg0 key="error.homeCountry.listAddress[1].city" />
+				<arg1 key="${var:maxlength}" resource="false" />
+				<var>
+					<var-name>maxlength</var-name>
+					<var-value>100</var-value>
+				</var>
+			</field>
+
+			<field property="listAddress[1].city" depends="mask">
+				<msg name="mask" key="error.mask.homeCountry.listAddress[1].city" />
+				<arg0 key="error.homeCountry.listAddress[1].city" />
+				<var>
+					<var-name>mask</var-name>
+					<var-value>^[a-z A-Z]*$</var-value>
+				</var>
+			</field>
+			<field property="listAddress[1].state" depends="required, maxlength">
+				<arg0 key="error.homeCountry.listAddress[1].state" />
+				<arg1 key="${var:maxlength}" resource="false" />
+				<var>
+					<var-name>maxlength</var-name>
+					<var-value>2</var-value>
+				</var>
+			</field>
+
+			<field property="listAddress[1].state" depends="mask">
+				<msg name="mask" key="error.mask.homeCountry.listAddress[1].state" />
+				<arg0 key="error.homeCountry.listAddress[1].state" />
+				<var>
+					<var-name>mask</var-name>
+					<var-value>^[A-Z]{2}$</var-value>
+				</var>
+			</field>
+			<field property="listAddress[1].country" depends="required, maxlength">
+				<arg0 key="error.homeCountry.listAddress[1].country" />
+				<arg1 key="${var:maxlength}" resource="false" />
+				<var>
+					<var-name>maxlength</var-name>
+					<var-value>44</var-value>
+				</var>
+			</field>
+			<field property="listAddress[1].country" depends="mask">
+				<msg name="mask" key="error.mask.homeCountry.listAddress[1].country" />
+				<arg0 key="error.homeCountry.listAddress[1].country" />
+				<var>
+					<var-name>mask</var-name>
+					<var-value>^[a-z A-Z]*$</var-value>
+				</var>
+			</field>
+			<field property="listAddress[1].zip" depends="required,long,minlength">
+				<arg0 key="error.homeCountry.listAddress[1].zip" />
+				<arg1 key="${var:minlength}" resource="false" />
+				<var>
+					<var-name>minlength</var-name>
+					<var-value>5</var-value>
+				</var>
+			</field>
+
+			<field property="clientName" depends="required, maxlength">
+				<arg0 key="error.clientWorkingFor" />
+				<arg1 key="${var:maxlength}" resource="false" />
+				<var>
+					<var-name>maxlength</var-name>
+					<var-value>65</var-value>
+				</var>
+			</field>
+
+			<field property="listAddress[2].address1" depends="required, maxlength">
+				<arg0 key="error.client.listAddress[2].address1" />
+				<arg1 key="${var:maxlength}" resource="false" />
+				<var>
+					<var-name>maxlength</var-name>
+					<var-value>165</var-value>
+				</var>
+			</field>
+			<field property="listAddress[2].address2" depends=" maxlength">
+				<arg0 key="error.client.listAddress[2].address2" />
+				<arg1 key="${var:maxlength}" resource="false" />
+				<var>
+					<var-name>maxlength</var-name>
+					<var-value>165</var-value>
+				</var>
+			</field>
+			<field property="listAddress[2].city" depends="required, maxlength">
+				<arg0 key="error.client.listAddress[2].city" />
+				<arg1 key="${var:maxlength}" resource="false" />
+				<var>
+					<var-name>maxlength</var-name>
+					<var-value>100</var-value>
+				</var>
+			</field>
+			<field property="listAddress[2].city" depends="mask">
+				<msg name="mask" key="error.mask.client.listAddress[2].city" />
+				<arg0 key="error.client..listAddress[2].city" />
+				<var>
+					<var-name>mask</var-name>
+					<var-value>^[a-z A-Z]*$</var-value>
+				</var>
+			</field>
+			<field property="listAddress[2].state" depends="required, maxlength">
+				<arg0 key="error.client.listAddress[2].state" />
+				<arg1 key="${var:maxlength}" resource="false" />
+				<var>
+					<var-name>maxlength</var-name>
+					<var-value>2</var-value>
+				</var>
+			</field>
+			<field property="listAddress[2].state" depends="mask">
+				<msg name="mask" key="error.mask.client.listAddress[2].state" />
+				<arg0 key="error.client..listAddress[2].state" />
+				<var>
+					<var-name>mask</var-name>
+					<var-value>^[A-Z]{2}$</var-value>
+				</var>
+			</field>
+			<field property="listAddress[2].country" depends="required, maxlength">
+				<arg0 key="error.client.listAddress[2].country" />
+				<arg1 key="${var:maxlength}" resource="false" />
+				<var>
+					<var-name>maxlength</var-name>
+					<var-value>44</var-value>
+				</var>
+			</field>
+			<field property="listAddress[2].country" depends="mask">
+				<msg name="mask" key="error.mask.client.listAddress[2].country" />
+				<arg0 key="error.client..listAddress[2].country" />
+				<var>
+					<var-name>mask</var-name>
+					<var-value>^[a-z A-Z]*$</var-value>
+				</var>
+			</field>
+			<field property="listAddress[2].zip" depends="required,long,minlength">
+				<arg0 key="error.client.listAddress[2].zip" />
+				<arg1 key="${var:minlength}" resource="false" />
+				<var>
+					<var-name>minlength</var-name>
+					<var-value>5</var-value>
+				</var>
+			</field>
+			<field property="startDate" depends="required,date">
+				<arg0 key="error.workStratDate" />
+				<var>
+					<var-name>datePattern</var-name>
+					<var-value>MM/dd/yyyy</var-value>
+				</var>
+			</field>
+			<field property="clientName" depends="mask">
+				<msg name="mask" key="error.mask.clientWorkingFor" />
+				<arg0 key="error.clientWorkingFor" />
+				<var>
+					<var-name>mask</var-name>
+					<var-value>^[a-z A-Z]*$</var-value>
+				</var>
+			</field>
+			<field property="login" depends="required">
+				<arg0 key="error.login" />
+			</field>
+
+			<field property="password" depends="required, minlength">
+				<arg0 key="error.password" />
+				<arg1 name="minlength" key="${var:minlength}" resource="false" />
+				<var>
+					<var-name>minlength</var-name>
+					<var-value>6</var-value>
+				</var>
+			</field>
+			<field property="confirmPassword" depends="required, minlength">
+				<arg0 key="error.confirmPassword" />
+				<arg1 name="minlength" key="${var:minlength}" resource="false" />
+				<var>
+					<var-name>minlength</var-name>
+					<var-value>6</var-value>
+				</var>
+			</field>
+		</form>
+
+		<form name="employeeRegistrationBean">
+			<field property="firstName" depends="required, maxlength">
+				<arg0 key="error.firstName" />
+				<arg1 key="${var:maxlength}" resource="false" />
+				<var>
+					<var-name>maxlength</var-name>
+					<var-value>65</var-value>
+				</var>
+			</field>
+			<field property="middleName" depends=" maxlength">
+				<arg0 key="error.middleName" />
+				<arg1 key="${var:maxlength}" resource="false" />
+				<var>
+					<var-name>maxlength</var-name>
+					<var-value>65</var-value>
+				</var>
+			</field>
+			<field property="lastName" depends="required, maxlength">
+				<arg0 key="error.lastName" />
+				<arg1 key="${var:maxlength}" resource="false" />
+				<var>
+					<var-name>maxlength</var-name>
+					<var-value>65</var-value>
+				</var>
+			</field>
+			<field property="contactEmail" depends="required, email">
+				<arg0 key="error.emailId" />
+			</field>
+			<field property="phoneNumber" depends="required,long">
+				<arg0 key="error.phoneNumber" />
+			</field>
+			<field property="dob" depends="required, date">
+				<arg0 key="error.dob" />
+			</field>
+			<field property="fatherName" depends=" maxlength">
+				<arg0 key="error.fatherName" />
+				<arg1 key="${var:maxlength}" resource="false" />
+				<var>
+					<var-name>maxlength</var-name>
+					<var-value>65</var-value>
+				</var>
+			</field>
+<!-- 			<field property="countryCitizenship" depends=" maxlength,mask"> -->
+<!-- 				<msg name="mask" key="error.mask.countryCitizenship" /> -->
+<!-- 				<arg0 key="error.countryCitizenship" /> -->
+<!-- 				<arg1 key="${var:maxlength}" resource="false" /> -->
+<!-- 				<var> -->
+<!-- 					<var-name>maxlength</var-name> -->
+<!-- 					<var-value>65</var-value> -->
+<!-- 				</var> -->
+<!-- 				<var> -->
+<!-- 					<var-name>mask</var-name> -->
+<!-- 					<var-value>^[a-z A-Z]*$</var-value> -->
+<!-- 				</var> -->
+<!-- 			</field> -->
+
+			<field property="firstName" depends="mask">
+				<msg name="mask" key="error.mask.firstName" />
+				<arg0 key="error.firstName" />
+				<var>
+					<var-name>mask</var-name>
+					<var-value>^[a-z A-Z]*$</var-value>
+				</var>
+			</field>
+
+
+			<field property="middleName" depends="mask">
+				<msg name="mask" key="error.mask.middleName" />
+				<arg0 key="error.middleName" />
+				<var>
+					<var-name>mask</var-name>
+					<var-value>^[a-z A-Z]*$</var-value>
+				</var>
+			</field>
+			<field property="lastName" depends="mask">
+				<msg name="mask" key="error.mask.lastName" />
+				<arg0 key="error.lastName" />
+				<var>
+					<var-name>mask</var-name>
+					<var-value>^[a-z A-Z]*$</var-value>
+				</var>
+			</field>
+
+
+			<field property="listAddress[0].address1" depends="required, maxlength">
+				<arg0 key="error.current.listAddress[0].address1" />
+				<arg1 key="${var:maxlength}" resource="false" />
+				<var>
+					<var-name>maxlength</var-name>
+					<var-value>165</var-value>
+				</var>
+			</field>
+			<field property="listAddress[0].address2" depends=" maxlength">
+				<arg0 key="error.current.listAddress[0].address2" />
+				<arg1 key="${var:maxlength}" resource="false" />
+				<var>
+					<var-name>maxlength</var-name>
+					<var-value>165</var-value>
+				</var>
+			</field>
+			<field property="listAddress[0].city" depends="required, maxlength">
+				<arg0 key="error.current.listAddress[0].city" />
+				<arg1 key="${var:maxlength}" resource="false" />
+				<var>
+					<var-name>maxlength</var-name>
+					<var-value>100</var-value>
+				</var>
+			</field>
+			<field property="listAddress[0].city" depends="mask">
+				<msg name="mask" key="error.mask.current.listAddress[0].city" />
+				<arg0 key="error.current.listAddress[0].city" />
+				<var>
+					<var-name>mask</var-name>
+					<var-value>^[a-z A-Z]*$</var-value>
+				</var>
+			</field>
+			<field property="listAddress[0].state" depends="required, maxlength">
+				<arg0 key="error.current.listAddress[0].state" />
+				<arg1 key="${var:maxlength}" resource="false" />
+				<var>
+					<var-name>maxlength</var-name>
+					<var-value>2</var-value>
+				</var>
+			</field>
+			<field property="listAddress[0].state" depends="mask">
+				<msg name="mask" key="error.mask.current.listAddress[0].state" />
+				<arg0 key="error.current.listAddress[0].state" />
+				<var>
+					<var-name>mask</var-name>
+					<var-value>^[A-Z]{2}$</var-value>
+				</var>
+			</field>
+			<field property="listAddress[0].country" depends="required, maxlength">
+				<arg0 key="error.current.listAddress[0].country" />
+				<arg1 key="${var:maxlength}" resource="false" />
+				<var>
+					<var-name>maxlength</var-name>
+					<var-value>44</var-value>
+				</var>
+			</field>
+			<field property="listAddress[0].country" depends="mask">
+				<msg name="mask" key="error.mask.current.listAddress[0].country" />
+				<arg0 key="error.current.listAddress[0].country" />
+				<var>
+					<var-name>mask</var-name>
+					<var-value>^[a-z A-Z]*$</var-value>
+				</var>
+			</field>
+			<field property="listAddress[0].zip" depends="required,long,minlength">
+				<arg0 key="error.current.listAddress[0].zip" />
+				<arg1 key="${var:minlength}" resource="false" />
+				<var>
+					<var-name>minlength</var-name>
+					<var-value>5</var-value>
+				</var>
+			</field>
+			<field property="listAddress[1].address1" depends="required, maxlength">
+				<arg0 key="error.homeCountry.listAddress[1].address1" />
+				<arg1 key="${var:maxlength}" resource="false" />
+				<var>
+					<var-name>maxlength</var-name>
+					<var-value>165</var-value>
+				</var>
+			</field>
+			<field property="listAddress[1].address2" depends=" maxlength">
+				<arg0 key="error.homeCountry.listAddress[1].address2" />
+				<arg1 key="${var:maxlength}" resource="false" />
+				<var>
+					<var-name>maxlength</var-name>
+					<var-value>165</var-value>
+				</var>
+			</field>
+			<field property="listAddress[1].city" depends="required, maxlength">
+				<arg0 key="error.homeCountry.listAddress[1].city" />
+				<arg1 key="${var:maxlength}" resource="false" />
+				<var>
+					<var-name>maxlength</var-name>
+					<var-value>100</var-value>
+				</var>
+			</field>
+
+			<field property="listAddress[1].city" depends="mask">
+				<msg name="mask" key="error.mask.homeCountry.listAddress[1].city" />
+				<arg0 key="error.homeCountry.listAddress[1].city" />
+				<var>
+					<var-name>mask</var-name>
+					<var-value>^[a-z A-Z]*$</var-value>
+				</var>
+			</field>
+			<field property="listAddress[1].state" depends="required, maxlength">
+				<arg0 key="error.homeCountry.listAddress[1].state" />
+				<arg1 key="${var:maxlength}" resource="false" />
+				<var>
+					<var-name>maxlength</var-name>
+					<var-value>2</var-value>
+				</var>
+			</field>
+
+			<field property="listAddress[1].state" depends="mask">
+				<msg name="mask" key="error.mask.homeCountry.listAddress[1].state" />
+				<arg0 key="error.homeCountry.listAddress[1].state" />
+				<var>
+					<var-name>mask</var-name>
+					<var-value>^[A-Z]{2}$</var-value>
+				</var>
+			</field>
+			<field property="listAddress[1].country" depends="required, maxlength">
+				<arg0 key="error.homeCountry.listAddress[1].country" />
+				<arg1 key="${var:maxlength}" resource="false" />
+				<var>
+					<var-name>maxlength</var-name>
+					<var-value>44</var-value>
+				</var>
+			</field>
+			<field property="listAddress[1].country" depends="mask">
+				<msg name="mask" key="error.mask.homeCountry.listAddress[1].country" />
+				<arg0 key="error.homeCountry.listAddress[1].country" />
+				<var>
+					<var-name>mask</var-name>
+					<var-value>^[a-z A-Z]*$</var-value>
+				</var>
+			</field>
+			<field property="listAddress[1].zip" depends="required,long,minlength">
+				<arg0 key="error.homeCountry.listAddress[1].zip" />
+				<arg1 key="${var:minlength}" resource="false" />
+				<var>
+					<var-name>minlength</var-name>
+					<var-value>5</var-value>
+				</var>
+			</field>
+
+			<field property="clientName" depends="required, maxlength">
+				<arg0 key="error.clientWorkingFor" />
+				<arg1 key="${var:maxlength}" resource="false" />
+				<var>
+					<var-name>maxlength</var-name>
+					<var-value>65</var-value>
+				</var>
+			</field>
+
+			<field property="listAddress[2].address1" depends="required, maxlength">
+				<arg0 key="error.client.listAddress[2].address1" />
+				<arg1 key="${var:maxlength}" resource="false" />
+				<var>
+					<var-name>maxlength</var-name>
+					<var-value>165</var-value>
+				</var>
+			</field>
+			<field property="listAddress[2].address2" depends=" maxlength">
+				<arg0 key="error.client.listAddress[2].address2" />
+				<arg1 key="${var:maxlength}" resource="false" />
+				<var>
+					<var-name>maxlength</var-name>
+					<var-value>165</var-value>
+				</var>
+			</field>
+			<field property="listAddress[2].city" depends="required, maxlength">
+				<arg0 key="error.client.listAddress[2].city" />
+				<arg1 key="${var:maxlength}" resource="false" />
+				<var>
+					<var-name>maxlength</var-name>
+					<var-value>100</var-value>
+				</var>
+			</field>
+			<field property="listAddress[2].city" depends="mask">
+				<msg name="mask" key="error.mask.client.listAddress[2].city" />
+				<arg0 key="error.client.listAddress[2].city" />
+				<var>
+					<var-name>mask</var-name>
+					<var-value>^[a-z A-Z]*$</var-value>
+				</var>
+			</field>
+			<field property="listAddress[2].state" depends="required, maxlength">
+				<arg0 key="error.client.listAddress[2].state" />
+				<arg1 key="${var:maxlength}" resource="false" />
+				<var>
+					<var-name>maxlength</var-name>
+					<var-value>2</var-value>
+				</var>
+			</field>
+			<field property="listAddress[2].state" depends="mask">
+				<msg name="mask" key="error.mask.client.listAddress[2].state" />
+				<arg0 key="error.client.listAddress[2].state" />
+				<var>
+					<var-name>mask</var-name>
+					<var-value>^[A-Z]{2}$</var-value>
+				</var>
+			</field>
+			<field property="listAddress[2].country" depends="required, maxlength">
+				<arg0 key="error.client.listAddress[2].country" />
+				<arg1 key="${var:maxlength}" resource="false" />
+				<var>
+					<var-name>maxlength</var-name>
+					<var-value>44</var-value>
+				</var>
+			</field>
+			<field property="listAddress[2].country" depends="mask">
+				<msg name="mask" key="error.mask.client.listAddress[2].country" />
+				<arg0 key="error.client.listAddress[2].country" />
+				<var>
+					<var-name>mask</var-name>
+					<var-value>^[a-z A-Z]*$</var-value>
+				</var>
+			</field>
+			<field property="listAddress[2].zip" depends="required,long,minlength">
+				<arg0 key="error.client.listAddress[2].zip" />
+				<arg1 key="${var:minlength}" resource="false" />
+				<var>
+					<var-name>minlength</var-name>
+					<var-value>5</var-value>
+				</var>
+			</field>
+			<field property="startDate" depends="required,date">
+				<arg0 key="error.workStratDate" />
+
+
+			</field>
+			<field property="clientName" depends="mask">
+				<msg name="mask" key="error.mask.clientWorkingFor" />
+				<arg0 key="error.clientWorkingFor" />
+				<var>
+					<var-name>mask</var-name>
+					<var-value>^[a-z A-Z]*$</var-value>
+				</var>
+			</field>
+			<field property="login" depends="required">
+				<arg0 key="error.login" />
+			</field>
+
+			<field property="password" depends="required, minlength">
+				<arg0 key="error.password" />
+				<arg1 name="minlength" key="${var:minlength}" resource="false" />
+				<var>
+					<var-name>minlength</var-name>
+					<var-value>6</var-value>
+				</var>
+			</field>
+			<field property="confirmPassword" depends="required, minlength">
+				<arg0 key="error.confirmPassword" />
+				<arg1 name="minlength" key="${var:minlength}" resource="false" />
+				<var>
+					<var-name>minlength</var-name>
+					<var-value>6</var-value>
+				</var>
+			</field>
+		</form>
+
+		<form name="resetPasswordBean">
+			<field property="password" depends="required, minlength">
+				<arg0 key="error.password" />
+				<arg1 name="minlength" key="${var:minlength}" resource="false" />
+				<var>
+					<var-name>minlength</var-name>
+					<var-value>6</var-value>
+				</var>
+			</field>
+			<field property="confirmPassword" depends="required, minlength">
+				<arg0 key="error.confirmPassword" />
+				<arg1 name="minlength" key="${var:minlength}" resource="false" />
+				<var>
+					<var-name>minlength</var-name>
+					<var-value>6</var-value>
+				</var>
+			</field>
+		</form>
+		<form name="inviteotherBusinessBean">
+			<field property="emailsList" depends="required">
+				<arg0 key="error.emailsList" />
+			</field>
+		</form>
+
+		<form name="adminTimerBean">
+			<field property="subject" depends="required">
+				<arg0 key="error.subject" />
+			</field>
+			
+			<field property="emailContent" depends="required">
+				<arg0 key="error.emailContent" />
+			</field>
+			
+			<field property="signature" depends="required">
+				<arg0 key="error.signature" />
+			</field>			
+		</form>
+		
+		
+	</formset>
+</form-validation>

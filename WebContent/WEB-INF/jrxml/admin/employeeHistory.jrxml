@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="EmployeeHistory" pageWidth="900" pageHeight="842" orientation="Landscape" columnWidth="840" leftMargin="30" rightMargin="30" topMargin="20" bottomMargin="20" whenResourceMissingType="Empty" uuid="e06e2665-d34e-4e94-83de-d0141526cc3d">
+	<property name="ireport.scriptlethandling" value="0"/>
+	<property name="ireport.encoding" value="UTF-8"/>
+	<property name="ireport.zoom" value="1.4641000000000008"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<import value="net.sf.jasperreports.engine.*"/>
+	<import value="java.util.*"/>
+	<import value="net.sf.jasperreports.engine.data.*"/>
+	<field name="clientName" class="java.lang.String"/>
+	<field name="endWeek" class="java.lang.String"/>
+	<field name="workLocation" class="java.lang.String"/>
+	<field name="totalHrsSubmitted" class="java.lang.Double"/>
+	<field name="startWeek" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="42" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="a46a382c-ab2c-4292-9dd2-6f40a9207c8a" key="staticText-9" x="309" y="11" width="226" height="17" forecolor="#400080"/>
+				<textElement textAlignment="Center">
+					<font fontName="DejaVu Sans" size="12" isBold="true" isItalic="false" pdfFontName="Helvetica-BoldOblique"/>
+				</textElement>
+				<text><![CDATA[Employee TimeSheet History]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="33" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="997ec38b-ee79-4085-b92a-4a3b56612be2" key="staticText-1" x="21" y="6" width="112" height="18"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans Mono" size="9" isBold="true" isUnderline="false" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[Client Name]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="b2c68a0b-9ce4-4b72-9735-83f99300d21b" key="staticText-2" x="161" y="6" width="107" height="18"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans Mono" size="9" isBold="true" isUnderline="false" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[Start Week]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="1a02110a-3f59-4eb7-86a4-3efe76867917" key="staticText-4" x="417" y="6" width="228" height="18"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans Mono" size="9" isBold="true" isUnderline="false" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[work location]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="12283f41-f099-411c-a093-98201fca3376" key="staticText-3" x="296" y="5" width="109" height="18"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans Mono" size="9" isBold="true" isUnderline="false" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[End Week]]></text>
+			</staticText>
+			<line>
+				<reportElement uuid="69efd0d0-9b49-4d63-af55-743e4d6244eb" key="line" x="0" y="26" width="840" height="4"/>
+				<graphicElement>
+					<pen lineWidth="1.0" lineColor="#408080"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement uuid="7b8d3d25-f783-4ab5-bf5c-06921b4e0ce3" key="line" x="0" y="5" width="840" height="1"/>
+				<graphicElement>
+					<pen lineWidth="1.0" lineColor="#408080"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement uuid="41f76ef5-802c-42d8-b247-7fe9f60fd90c" key="staticText-10" x="677" y="5" width="143" height="17"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans Mono" size="9" isBold="true" isUnderline="false" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[TotalHrsSubmitted]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="25" splitType="Stretch">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="false">
+				<reportElement uuid="644b961d-ceff-48c5-b93b-ff433084d28e" key="textField" x="21" y="1" width="112" height="18" forecolor="#400080"/>
+				<textElement textAlignment="Center">
+					<font fontName="DejaVu Sans Mono" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{clientName}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="false">
+				<reportElement uuid="0bbef1c2-7c66-4c0f-b4a8-ef84ed804559" key="textField" x="161" y="1" width="107" height="18" forecolor="#400080"/>
+				<textElement textAlignment="Center">
+					<font fontName="DejaVu Sans Mono" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{startWeek}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement uuid="aed967f4-f33a-445b-82ee-feb29f7899a2" key="textField" x="296" y="1" width="109" height="18" isRemoveLineWhenBlank="true" forecolor="#400080"/>
+				<textElement textAlignment="Center">
+					<font fontName="DejaVu Sans Mono" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{endWeek}]]></textFieldExpression>
+			</textField>
+			<textField pattern="##0.00" isBlankWhenNull="false">
+				<reportElement uuid="56273e12-bc92-4407-9a0b-f65a63dee340" key="textField" x="677" y="1" width="143" height="18"/>
+				<textElement textAlignment="Center">
+					<font fontName="DejaVu Sans Mono"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{totalHrsSubmitted}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="5e714a65-bc4a-4536-b5ea-41bb9a895a88" x="417" y="1" width="228" height="17"/>
+				<textElement>
+					<font fontName="DejaVu Sans Mono"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{workLocation}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>
