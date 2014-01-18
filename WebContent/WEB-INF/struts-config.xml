@@ -1,0 +1,795 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.1//EN" "http://jakarta.apache.org/struts/dtds/struts-config_1_1.dtd">
+<struts-config>
+
+	<!-- Data Sources -->
+
+	<data-sources>
+	</data-sources>
+
+	<form-beans>
+
+		<form-bean name="login" type="com.lch.struts.formBeans.Login">
+		</form-bean>
+
+		<form-bean name="searchOptions" type="com.lch.struts.formBeans.SearchOptions">
+		</form-bean>
+		
+		<form-bean name="notifyEmployeesBean" type="com.lch.struts.formBeans.NotifyEmployeesBean">
+		</form-bean>
+		
+		<form-bean name="adminRegistrationBean"
+			type="com.lch.struts.formBeans.admin.AdminRegistrationBean">
+		</form-bean>
+
+		<form-bean name="createAnotherAdminRegistrationBean"
+			type="com.lch.struts.formBeans.admin.CreateAnotherAdminBean">
+		</form-bean>
+
+		<form-bean name="addAnEmployeeBean"
+			type="com.lch.struts.formBeans.members.AddAnEmployeeBean">
+		</form-bean>
+
+		<form-bean name="contactBean" type="com.lch.struts.formBeans.ContactBean">
+		</form-bean>
+
+		<form-bean name="downloadedEmployeeBean"
+			type="com.lch.struts.formBeans.DownloadedEmployeeBean">
+		</form-bean>
+
+		<form-bean name="employeeRegistrationBean"
+			type="com.lch.struts.formBeans.members.EmployeeRegistrationBean">
+		</form-bean>
+
+		<form-bean name="insertNewClientBean"
+			type="com.lch.struts.formBeans.members.EmployeeRegistrationBean">
+		</form-bean>
+
+		<form-bean name="timeSheetSupportingDocBean"
+			type="com.lch.struts.formBeans.members.TimeSheetSupportingDocBean">
+		</form-bean>
+
+
+		<form-bean name="downloadedEmployeeStartingAndEndingWith"
+			type="com.lch.struts.formBeans.downloadedEmployeeStartingAndEndingWith">
+		</form-bean>
+
+		<form-bean name="inviteotherBusinessBean"
+			type="com.lch.struts.formBeans.InviteotherBusinessBean">
+		</form-bean>
+
+		<form-bean name="adminTimerBean"
+			type="com.lch.struts.formBeans.admin.AdminTimerBean">
+		</form-bean>
+
+		<form-bean name="monthlyHrsSubmissionBean"
+			type="com.lch.struts.formBeans.members.MonthlyHrsSubmissionBean">
+		</form-bean>
+
+		<form-bean name="updateMemberFormBean"
+			type="com.lch.struts.formBeans.members.UpdateMemberFormBean">
+		</form-bean>
+
+		<form-bean name="resetPasswordBean" type="com.lch.struts.formBeans.ResetPasswordBean">
+		</form-bean>
+
+		<form-bean name="superAdminBean" type="com.lch.struts.formBeans.SuperAdminBean">
+		</form-bean>
+
+
+	</form-beans>
+	<!-- Form Beans -->
+
+
+	<!-- Global Exceptions -->
+
+	<global-exceptions>
+		<exception key="error.global.mesage" type="java.lang.Exception"
+		    handler="com.lch.struts.handler.ILCHExceptionHandler"
+			path="globalExceptionDef" />
+	</global-exceptions>
+
+	<!-- Global Forwards -->
+
+	<global-forwards>
+
+		<forward name="/needAuthentication" path="index.jsp">
+		</forward>
+
+		<forward name="/exception" path="generalJSP4AJAXMsgDef">
+		</forward>
+
+		<forward name="cancel" path="index.jsp">
+		</forward>
+
+		<forward name="status" path="/WEB-INF/generic/status.jsp">
+		</forward>
+
+		<forward name="ajaxStatus" path="/WEB-INF/generic/status.jsp">
+		</forward>
+
+		<forward name="signout" path="/signoutAction.do">
+		</forward>
+		
+			
+	</global-forwards>
+
+	<action-mappings>
+
+		<action name="login" path="/login" scope="request"
+			type="com.lch.struts.actions.LoginAction">
+
+			<forward name="employeeTimesheetPendingApprovals" path="employeeTimesheetPendingApprovalsDef">
+			</forward>
+
+			<forward name="employeeRegistrationPendingApprovals" path="employeeRegistrationPendingApprovalsDef">
+			</forward>
+			<forward name="first15DaysOfMonthDef" path="first15DaysOfMonthDef">
+			</forward>
+
+			<forward name="second15DaysOfMonthDef" path="second15DaysOfMonthDef">
+			</forward>
+
+			<forward name="completeMonthDef" path="completeMonthDef">
+			</forward>
+
+			<forward name="biWeeklyDef" path="biWeeklyDef">
+			</forward>
+
+			<forward name="weeklyDef" path="weeklyDef">
+			</forward>
+
+			<forward name="adminFunctions" path="adminFunctionsDef">
+			</forward>
+
+			<forward name="superAdminFunctions" path="superAdminFunctionsDef">
+			</forward>
+			
+			<forward name="failure" path="templateDefinition">
+			</forward>
+
+			<forward name="memberFunctions" path="memberFunctionsDef">
+			</forward>
+		</action>
+
+		<action path="/createTestUsres" 
+			type="com.lch.struts.actions.test.CreateTestMembersAndAdmin">
+
+		</action>
+		
+		<action name="monthlyHrsSubmissionBean" path="/monthlyHrsSave"
+			scope="request" type="com.lch.struts.actions.members.MonthlyHrsSave">
+
+			<forward name="addSupportingDocs" path="addSupportingDocsDef">
+			</forward>
+
+			<forward name="forwardTo"
+				path="/genericForwardAction.do?forwardTo=generic/signout.jsp">
+			</forward>
+		</action>
+
+		<action name="monthlyHrsSubmissionBean" path="/biweeklyHrsSave"
+			scope="request" type="com.lch.struts.actions.members.BiWeeklyHrsSave">
+
+			<forward name="addSupportingDocs" path="addSupportingDocsDef">
+			</forward>
+
+			<forward name="forwardTo"
+				path="/genericForwardAction.do?forwardTo=generic/signout.jsp">
+			</forward>
+		</action>
+
+
+		<action path="/genericForwardAction" scope="request"
+			type="com.lch.struts.actions.GenericForwardAction">
+
+			<forward name="forwardTo" path="generalForwardDef">
+			</forward>
+		</action>
+
+		<action path="/signoutAction" scope="request"
+			type="com.lch.struts.actions.SignOutAction">
+
+			<forward name="forwardTo"
+				path="/genericForwardAction.do?forwardTo=generic/signout.jsp">
+			</forward>
+		</action>
+
+		<action path="/fileUpload" scope="request"
+			type="com.lch.struts.actions.members.FileUploadAction">
+
+			<forward name="success" path="/WEB-INF/members/uploadSuccess.jsp">
+			</forward>
+		</action>
+
+		<action forward="adminFunctionsDef" path="/adminFunctions" />
+
+		<action forward="memberLoginSuccessDef" path="/memberLoginSuccess" />
+
+		<action path="/validateBusinessEmail"
+			type="com.lch.struts.actions.admin.AdminRegistrationValidatorAction">
+
+			<forward name="businessEmailValidationStatus" path="businessEmailValidationStatusDef">
+			</forward>
+		</action>
+
+		<action path="/validateUserEmail"
+			type="com.lch.struts.actions.members.MemberRegistrationValidatorAction">
+
+			<forward name="userEmailValidationStatus" path="userEmailValidationStatusDef">
+			</forward>
+		</action>
+
+		<action path="/approveUserByAdmin" type="com.lch.struts.actions.ApproveUserByAdminAction">
+
+		</action>
+		
+		<action path="/adminEmailApproval" type="com.lch.struts.actions.admin.AdminEmailApproval">
+			<forward name="approvalMsg" path="approvalStatus">
+			</forward>
+		</action>
+		
+		<action name="superAdminBean" parameter="parameter" path="/superAdminFunctImpl" 
+			scope="session" type="com.lch.struts.actions.superAdmin.SuperAdminFunctlImpl">
+			<forward name="showOutagePage" path="showOutagePageDef">
+		    </forward>
+		    
+		    <forward name="showDisableBusinessPage" path="showDisableBusinessPageDef">
+		    </forward>
+		    <forward name="saveOutageDetails" path="showOutagePageDef">
+		    </forward>
+		    <forward name="superAdminFunctions" path="superAdminFunctionsDef">
+			</forward>
+			<forward name="generalJSP4AJAXMsg" path="/WEB-INF/generic/generalJSP4AJAXMsg.jsp">
+			</forward>
+				<forward name="generalJsp" path="generalJspDef">
+			</forward>
+		</action>
+
+		<action name="notifyEmployeesBean" parameter="parameter" path="/notifyEmployees" input="makeGenericEmailDef"
+			scope="session" type="com.lch.struts.actions.admin.AdminFunctImplAction" validate="true">
+			
+		    <forward name="adminFunctions" path="adminFunctionsDef">
+			</forward>
+			
+		    <forward name="status" path="statusDef">
+			</forward>
+		    
+		    <forward name="makeGenericEmail" path="makeGenericEmailDef">
+			</forward>
+			
+		</action>
+				    		
+		<action name="searchOptions" parameter="parameter" path="/adminFunctImpl" 
+			scope="session" type="com.lch.struts.actions.admin.AdminFunctImplAction">
+			
+		    <forward name="accSettings" path="/genericForwardAction.do?forwardTo=admin/adminAccountSettings">
+		    </forward>
+
+			<forward name="generalJsp" path="generalJspDef">
+			</forward>
+
+			<forward name="searchUsers" path="searchUsersDef">
+			</forward>
+
+			<forward name="searchResult" path="listAllEmployeesDef">
+			</forward>
+
+			<forward name="listAllEmployees" path="listAllEmployeesDef">
+			</forward>
+
+			<forward name="calculateThisMonthRevenue" path="calculateThisMonthRevenueDef">
+			</forward>
+
+			<forward name="reports" path="reportsDef">
+			</forward>
+
+			<forward name="showTimerCreationPage" path="showTimerCreationPageDef">
+			</forward>
+			
+			<forward name="showLogoUpdatePage" path="showLogoUpdatePageDef">
+			</forward>
+			
+			<forward name="adminHelp" path="adminHelpDef">
+			</forward>
+
+			<forward name="createAnotherAdmin" path="createAnotherAdminDef">
+			</forward>
+
+			<forward name="updateEmployeeDetails" path="updateEmployeeDetailsDef">
+			</forward>
+
+			<forward name="userRateDetails" path="userRateDetailsDef">
+			</forward>
+
+			<forward name="viewMyUniqueNumberOptions" path="viewMyUniqueNumberOptionsDef">
+			</forward>
+
+			<forward name="makeGenericEmail" path="makeGenericEmailDef">
+			</forward>
+
+			<forward name="showManageTimers" path="showManageTimersDef">
+			</forward>
+
+			<forward name="addAnEmployee" path="addAnEmployeeDef">
+			</forward>
+
+			<forward name="seeEmployeeHistory" path="seeEmployeeHistoryDef">
+			</forward>
+
+			<forward name="cancel" path="index.jsp">
+			</forward>
+
+			<forward name="employeeTimesheetPendingApprovals" path="employeeTimesheetPendingApprovalsDef">
+			</forward>
+			
+			<forward name="listTimeSheetsForAdmin" path="listTimeSheetsForAdminDef">
+			</forward>
+			
+			<forward name="employeeRegistrationPendingApprovals" path="employeeRegistrationPendingApprovalsDef">
+			</forward>
+
+			<forward name="status" path="statusDef">
+			</forward>
+
+			<forward name="afterAccountUpdate" path="afterAccountUpdateDef">
+			</forward>
+
+			<forward name="inviteOtherBusinessOptions" path="inviteOtherBusinessOptionsDef">
+			</forward>
+
+			<forward name="showNotifyEmailsPage" path="showNotifyEmailsPageDef">
+			</forward>
+			
+			<forward name="addAnEmployeeOptions" path="addAnEmployeeOptionsDef">
+			</forward>
+
+			<forward name="manageMyAdmins" path="manageMyAdminsDef">
+			</forward>
+
+			<forward name="generalJSP4AJAXMsg" path="/WEB-INF/generic/generalJSP4AJAXMsg.jsp">
+			</forward>
+
+			<forward name="investedAmountOnEmployee" path="investedAmountOnEmployeeDef">
+			</forward>
+
+			<forward name="adminFunctions" path="adminFunctionsDef">
+			</forward>
+
+			<forward name="updateTimer" path="updateTimerDef">
+			</forward>
+
+			<forward name="resetPasswordOfAnAccount" path="resetPasswordOfAnAccountDef">
+			</forward>
+
+			<forward name="showTimeSheetConfigurationPage" path="showTimeSheetConfigurationPageDef">
+			</forward>
+			
+			<forward name="adminAccountSettings" path="adminAccountSettingsDef">
+			</forward>
+
+			<forward name="sendAnInstantEmail" path="sendAnInstantEmailDef">
+			</forward>
+			
+		</action>
+
+		<action name="adminRegistrationBean" input="confirmBusinessDef"
+			parameter="parameter" path="/adminRegistration" scope="session"
+			type="com.lch.struts.actions.admin.BusinessRegistrationAction"
+			validate="false">
+
+			<forward name="registrtationProcess1" path="registrtationProcess1Def">
+			</forward>
+
+			<forward name="startRegistrtationProcess" path="startRegistrtationProcessDef">
+			</forward>
+
+			<forward name="businessRegistrationValidationPending" path="businessRegistrationValidationPendingDef">
+			</forward>
+			<!-- create another admin in the sense , registering a new admin -->
+
+			<forward name="createAnotherAdmin" path="createAnotherAdminDef">
+			</forward>
+
+			<forward name="cancel" path="/index.jsp">
+			</forward>
+
+			<forward name="updateAdminPersonalDetails" path="registredAdminDef">
+			</forward>
+
+			<forward name="cancelUpdation" path="adminFunctionsDef">
+			</forward>
+
+			<forward name="adminUpdationSuccessful" path="employeeUpdationSuccessfulDef">
+			</forward>
+
+			<forward name="cancelCreation" path="adminFunctionsDef">
+			</forward>
+		</action>
+
+		<action name="employeeRegistrationBean" input="confirmEmployeeBusinessDef"
+			parameter="parameter" path="/employeeRegistration" scope="session"
+			type="com.lch.struts.actions.members.EmployeeRegistrationAction"
+			validate="false">
+
+			<forward name="registrtationProcess2" path="registrtationProcess2Def">
+			</forward>
+
+			<forward name="employeeRegistrationValidationPending" path="employeeRegistrationValidationPendingDef">
+			</forward>
+
+			<forward name="processBusiness" path="processBusinessDef">
+			</forward>
+
+			<forward name="generalJSP4AJAXMsg" path="/WEB-INF/generic/generalJSP4AJAXMsg.jsp">
+			</forward>
+
+			<forward name="cancel" path="/index.jsp">
+			</forward>
+
+			<forward name="empRegCanclation" path="/index.jsp">
+			</forward>
+
+			<forward name="previous" path="startEmpRegistrtationProcessDef">
+			</forward>
+
+			<forward name="updateEmployeePersonalDetails" path="updateEmployeePersonalDetailsDef">
+			</forward>
+
+			<forward name="employeeUpdationSuccessful" path="employeeUpdationSuccessfulDef">
+			</forward>
+		</action>
+
+		<action name="adminRegistrationBean" input="businessRegistrationValidationPendingDef"
+			parameter="parameter" path="/confirmRegistration" scope="session"
+			type="com.lch.struts.actions.admin.ConfirmRegistrationAction"
+			validate="true">
+
+			<forward name="confirmBusiness" path="confirmBusinessDef">
+			</forward>
+		</action>
+		<action 
+			parameter="parameter" path="/createTestAdmin" 
+			type="com.lch.struts.actions.admin.ConfirmRegistrationAction">
+		</action>
+		
+		<action name="createAnotherAdminRegistrationBean" input="createAnotherAdminDef"
+			parameter="parameter" path="/createAnotherAdmin" scope="session"
+			type="com.lch.struts.actions.admin.ConfirmRegistrationForAdmin"
+			validate="true">
+
+			<forward name="adminFunctions" path="adminFunctionsDef">
+			</forward>
+		</action>
+		
+		<action name="employeeRegistrationBean" input="employeeRegistrationValidationPendingDef"
+			parameter="parameter" path="/confirmMemberRegistration" scope="session"
+			type="com.lch.struts.actions.members.ConfirmMemberRegistrationAction"
+			validate="true">
+
+			<forward name="confirmBusiness" path="confirmEmployeeBusinessDef">
+			</forward>
+
+			<forward name="generalJSP4AJAXMsg" path="/WEB-INF/generic/generalJSP4AJAXMsg.jsp">
+			</forward>
+		</action>
+
+		<action 
+			parameter="parameter" path="/createTestMembers" 
+			type="com.lch.struts.actions.members.ConfirmMemberRegistrationAction">
+
+		</action>
+		
+		<action name="adminTimerBean" parameter="parameter" path="/chooseContent"
+			scope="session" type="com.lch.struts.actions.admin.AdminFunctTimerImplAction" validate="false">
+
+			<forward name="showCreateTimeContent" path="showCreateTimeContentDef">
+			</forward>
+
+			<forward name="selectExistingEmailContent"
+				path="/WEB-INF/admin/timers/chooseTimerContent.jsp">
+			</forward>
+
+			<forward name="statusDef" path="statusDef">
+			</forward>
+			<forward name="generalJsp" path="generalJspDef">
+			</forward>
+			<forward name="generalJSP4AJAXMsg" path="/WEB-INF/generic/generalJSP4AJAXMsg.jsp">
+			</forward>
+
+			<forward name="showTimers" path="/adminFunctImpl.do?parameter=showManageTimersPage">
+			</forward>
+		</action>
+		
+		<action name="adminTimerBean" parameter="parameter" path="/adminTimer"
+			scope="request" type="com.lch.struts.actions.admin.AdminFunctTimerImplAction" validate="false">
+
+			<forward name="showCreateTimeContent" path="showCreateTimeContentDef">
+			</forward>
+
+			<forward name="selectExistingEmailContent"
+				path="/WEB-INF/admin/timers/chooseTimerContent.jsp">
+			</forward>
+
+			<forward name="showManageEmailContents" path="showManageEmailContentsDef">
+			</forward>
+			
+			<forward name="cancelTimer" path="cancelTimerDef">
+			</forward>
+
+			<forward name="showTimerCreationPage"
+				path="/adminFunctImpl.do?parameter=showTimerCreationPage">
+			</forward>
+			
+			<forward name="statusDef" path="statusDef">
+			</forward>
+			<forward name="generalJsp" path="generalJspDef">
+			</forward>
+			<forward name="generalJSP4AJAXMsg" path="/WEB-INF/generic/generalJSP4AJAXMsg.jsp">
+			</forward>
+
+			<forward name="showTimers" path="/adminFunctImpl.do?parameter=showManageTimersPage">
+			</forward>
+		</action>
+
+		<action name="insertNewClientBean" input="insertNewClientValidateDef"
+			parameter="parameter" path="/insertNewClientAction" scope="request"
+			type="com.lch.struts.actions.members.MemberFunctImplAction" validate="true">
+			
+			<forward name="updateMyClient" path="updateMyClientDef">
+			</forward>
+			
+			<forward name="insertNewClient" path="insertNewClientDef">
+			</forward>
+			
+			<forward name="memberFunctions" path="memberFunctionsDef">
+			</forward>
+						
+		</action>
+		
+		<action name="timeSheetSupportingDocBean" input="showManageDocsDef"
+			parameter="parameter" path="/timeSheetSupportingDoc" scope="session"
+			type="com.lch.struts.actions.members.MemberFunctImplAction">
+			<forward name="showManageDocs" path="showManageDocsDef"/>
+		</action>
+		<action name="employeeRegistrationBean" input="memberUpdationSuccessfulDef"
+			parameter="parameter" path="/memberFunctImpl" scope="session"
+			type="com.lch.struts.actions.members.MemberFunctImplAction" validate="false">
+
+			<forward name="first15DaysOfMonthDef" path="first15DaysOfMonthDef">
+			</forward>
+
+			<forward name="second15DaysOfMonthDef" path="second15DaysOfMonthDef">
+			</forward>
+
+			<forward name="completeMonthDef" path="completeMonthDef">
+			</forward>
+
+			<forward name="biWeeklyDef" path="biWeeklyDef">
+			</forward>
+
+			<forward name="weeklyDef" path="weeklyDef">
+			</forward>
+
+			<!-- <forward name="reloadMonthlyHrsSubmission" path="memberLoginSuccessDef"></forward> -->
+
+			<forward name="memberFunctions" path="memberFunctionsDef">
+			</forward>
+
+			<forward name="collectYearAndMonth" path="collectYearAndMonthDef">
+			</forward>
+
+			<forward name="insertNewClient" path="insertNewClientDef">
+			</forward>
+
+			<forward name="updateMyClient" path="updateMyClientDef">
+			</forward>
+
+			<forward name="generalJSP" path="generalJSP4AJAXMsgDef">
+			</forward>
+
+			<forward name="generalJSP4AJAXMsg" path="/WEB-INF/generic/generalJSP4AJAXMsg.jsp">
+			</forward>
+			
+			<forward name="updateMyClientDetailsFailure" path="updateMyClientDetailsFailureDef">
+			</forward>
+
+			<forward name="updateResumeUploadScreen" path="updateResumeUploadScreenDef">
+			</forward>
+
+			<forward name="updateMyClientDetails" path="updateMyClientDetailsDef">
+			</forward>
+
+			<forward name="updateResumeUploadScreen" path="updateResumeUploadScreenDef">
+			</forward>
+
+			<forward name="updateResumeUploadResult" path="generalJSP4AJAXMsgDef">
+			</forward>
+
+			<forward name="editMemberProfileForUpdate" path="editMemberProfileForUpdateDef">
+			</forward>
+
+			<forward name="cancelUpdation" path="memberFunctionsDef">
+			</forward>
+
+			<forward name="memberFunctions" path="memberFunctionsDef">
+			</forward>
+
+			<forward name="listProfiles" path="listProfilesDef">
+			</forward>
+
+			<forward name="listEmployeeTimesheets" path="listEmployeeTimesheetsDef">
+			</forward>
+			<forward name="showTimeSheetApprovalReminderPage" path="showTimeSheetApprovalReminderDef"/>
+			
+			<forward name="resetPasswordOfAnAccount" path="resetPasswordOfAnAccountDef"/>
+			<forward name="showManageDocs" path="showManageDocsDef"/>
+			
+		</action>
+
+		<action parameter="parameter" path="/downloadMemberReports"
+			scope="session" type="com.lch.struts.actions.members.MemberReportsImpl">
+
+			<forward name="status" path="/WEB-INF/generic/status.jsp">
+			</forward>
+
+		</action>
+
+		<action name="downloadedEmployeeBean" parameter="parameter"
+			path="/downloadReports" scope="session"
+			type="com.lch.struts.actions.admin.AdminReportsImpl">
+
+			<forward name="showAdminDownloadAllEmployeesSortOpetionPage" path="showAdminDownloadAllEmployeesSortOpetionPageDef">
+			</forward>
+
+			<forward name="downloadedEmployeeStartingAndEndingWithOptions"
+				path="downloadedEmployeeStartingAndEndingWithOptionsDef">
+			</forward>
+
+			<forward name="downloadedEmployeeHistoryOptions" path="listAllEmployeesDef">
+			</forward>
+
+			<forward name="downloadCancelation" path="adminFunctionsDef">
+			</forward>
+		</action>
+
+		<action path="/downloadAFile" type="com.lch.struts.actions.DownloadAFile">
+		</action>
+
+		<action parameter="parameter" path="/forgotPassword"
+			type="com.lch.struts.actions.ForgotPasswordAction">
+
+			<forward name="forgotPasswordOptionsPage" path="forgotPasswordOptionsPageDef">
+			</forward>
+
+			<forward name="forgotPasswordResponse" path="generalJSP4AJAXMsgDef">
+			</forward>
+		</action>
+
+		<action parameter="parameter" path="/footerFunct"
+			type="com.lch.struts.actions.FooterAction">
+
+			<forward name="legalInformationDL" path="/WEB-INF/footerPages/legal.jsp">
+			</forward>
+
+			<forward name="privacyInformationDL" path="/WEB-INF/footerPages/privacyPolicy.jsp">
+			</forward>
+
+			<forward name="contactInformationDL" path="contactInformationDLDef">
+			</forward>
+		</action>
+
+		<action name="contactBean" input="contactInformationDLDef"
+			parameter="parameter" path="/confirmDetails"
+			type="com.lch.struts.actions.ConfirmDetailsAction" validate="true">
+
+			<forward name="contactUsResponse" path="contactUsResponseDef">
+			</forward>
+		</action>
+
+		<action name="updateMemberFormBean" input="editMemberProfileForUpdateDef"
+			parameter="parameter" path="/confirmMemberUpdation" scope="session"
+			type="com.lch.struts.actions.members.ConfirmMemberUpdationsAction"
+			validate="true">
+
+		    <forward name="memberFunctions" path="memberFunctionsDef">
+			</forward>
+			
+		</action>
+
+		<action name="addAnEmployeeBean" parameter="parameter"
+			path="/addAnEmployeeRegistration" scope="session"
+			type="com.lch.struts.actions.members.AddAnEmployeeRegistration"
+			validate="false">
+
+			<forward name="cancelRegistration" path="adminFunctionsDef">
+			</forward>
+
+			<forward name="generalJSP4AJAXMsg" path="/WEB-INF/generic/generalJSP4AJAXMsg.jsp">
+			</forward>
+		</action>
+
+		<action name="addAnEmployeeBean" input="addAnEmployeeOptionsDef"
+			parameter="parameter" path="/confirmAddEmployeeResgistration" scope="session"
+			type="com.lch.struts.actions.members.ConfirmAddAnEmployeeRegistrationAction"
+			validate="true">
+
+			<forward name="generalJSP4AJAXMsg" path="/WEB-INF/generic/generalJSP4AJAXMsg.jsp">
+			</forward>
+			<forward name="generalJsp" path="generalJspDef"></forward>
+		</action>
+
+		<action name="resetPasswordBean" input="resetPasswordOfAnAccountDef"
+			parameter="parameter" path="/resetPassword" scope="session"
+			type="com.lch.struts.actions.ResetPasswordAction" validate="true">
+
+			<forward name="adminFunctions" path="adminFunctionsDef">
+			</forward>
+
+			<forward name="adminAccountSettings" path="adminAccountSettingsDef">
+			</forward>
+			
+			<forward name="memberFunctions" path="memberFunctionsDef">
+			</forward>
+						
+		</action>
+
+		<action name="inviteotherBusinessBean" input="inviteOtherBusinessOptionsDef"
+			parameter="parameter" path="/inviteotherBusiness" scope="session"
+			type="com.lch.struts.actions.InviteotherBusinessAction" validate="true">
+
+			<forward name="inviteOtherBusinessResult" path="inviteOtherBusinessResultDef">
+			</forward>
+		</action>
+		
+		<action  input="showCreateTimeContentDef"  name="adminTimerBean" parameter="parameter" path="/saveTimerContent"
+			scope="request" type="com.lch.struts.actions.admin.AdminFunctTimerImplAction" validate="true">
+
+			<forward name="showCreateTimeContent" path="showCreateTimeContentDef">
+			</forward>
+
+			<forward name="selectExistingEmailContent"
+				path="/WEB-INF/admin/timers/chooseTimerContent.jsp">
+			</forward>
+
+			<forward name="showManageEmailContents" path="showManageEmailContentsDef">
+			</forward>
+			
+			<forward name="cancelTimer" path="cancelTimerDef">
+			</forward>
+
+			<forward name="showTimerCreationPage"
+				path="/adminFunctImpl.do?parameter=showTimerCreationPage">
+			</forward>
+			
+			<forward name="statusDef" path="statusDef">
+			</forward>
+			<forward name="generalJsp" path="generalJspDef">
+			</forward>
+			<forward name="generalJSP4AJAXMsg" path="/WEB-INF/generic/generalJSP4AJAXMsg.jsp">
+			</forward>
+
+			<forward name="showTimers" path="/adminFunctImpl.do?parameter=showManageTimersPage">
+			</forward>
+		</action>		
+	</action-mappings>
+
+	<!-- Action Mappings -->
+
+	<message-resources parameter="com.lch.resources.ApplicationResources" />
+	<!-- Message Resources -->
+
+	<plug-in className="org.apache.struts.tiles.TilesPlugin">
+
+		<set-property property="definitions-config" value="/WEB-INF/tiles-defs.xml" />
+		<set-property property="moduleAware" value="true" />   
+	</plug-in>
+
+	<plug-in className="org.apache.struts.validator.ValidatorPlugIn">
+
+		<set-property property="pathnames"
+			value="/WEB-INF/validator-rules.xml,
+          /WEB-INF/validation.xml" />
+	</plug-in>
+
+</struts-config>
