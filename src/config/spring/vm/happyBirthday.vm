@@ -1,0 +1,44 @@
+
+<table border="0" width="100%" height="351" style="font-family: Tahoma">
+	<tr>
+		<td bgcolor="#224F90">
+		<table border="0" width="100%" cellpadding="15" cellspacing="0">
+			<tr>
+				<td width="100%" style="color: #FFFFFF" align="right"><b>
+				<font size="2">! Happy Birthday !</font></b></td>
+			</tr>
+		</table>
+		</td>
+	</tr>
+	<tr>
+		<td>
+		
+		
+	<table border="0" width="100%" cellspacing="4" cellpadding="3" style="font-family: Tahoma; font-size: 10pt">
+	
+		<tr>
+			<td height="23" width="647">
+			<p align="center">
+			<img border="0" src="www.allibilli.com/happyBday.gif" width="399" height="328"></td>
+		</tr>
+		<tr>
+			<td height="23" width="647">${notificationBean}</td>
+		</tr>
+		
+	</table>
+
+
+		</td>
+	</tr>
+	<tr>
+		<td bgcolor="#224F90">
+		<table border="0" width="100%" cellpadding="15" cellspacing="0">
+			<tr>
+				<td width="100%" style="color: #C0C0C0; font-size:8pt; font-family:Tahoma" align="center">
+				All Rights Reserved. A Product of AlliBilli.com</td>
+			</tr>
+		</table>
+		</td>
+	</tr>
+</table>
+

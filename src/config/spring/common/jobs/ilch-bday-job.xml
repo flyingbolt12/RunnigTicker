@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context-3.0.xsd
+		http://www.springframework.org/schema/util
+		http://www.springframework.org/schema/util/spring-util-3.0.xsd">
+
+	<bean name="bdayNotificationJob" class="org.springframework.scheduling.quartz.JobDetailBean">
+		<property name="jobClass" value="com.lch.jobs.bday.BDayJob" />
+		<property name="jobDataAsMap">
+			<map>
+				<entry key="message" value="TEST STRING" />
+			</map>
+		</property>
+	</bean>
+	<bean name="resetBDayReminderJob" class="org.springframework.scheduling.quartz.JobDetailBean">
+		<property name="jobClass" value="com.lch.jobs.bday.ResetBDayReminderJob" />
+		<property name="jobDataAsMap">
+			<map>
+				<entry key="message" value="TEST STRING" />
+			</map>
+		</property>
+	</bean>
+
+	<!-- for every 2 hours -->
+	<bean id="bdayCronTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="bdayNotificationJob" />
+		<property name="cronExpression" value="0 0 0/2 * * ? *" />
+	</bean>
+	<!-- on every day at 12:00 AM -->
+	<bean id="bdayMonthCronTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="bdayNotificationJob" />
+		<property name="cronExpression" value="0 0 0 * * ?" />
+	</bean>
+
+	<!-- on every year December at 11:55 PM -->
+	<bean id="resetBDayReminderCronTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="resetBDayReminderJob" />
+		<property name="cronExpression" value="0 55 11 31 12 ?" />
+	</bean>
+</beans>
