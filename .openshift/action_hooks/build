@@ -1,4 +1,4 @@
 echo "Gopi Test"
-mkdir test
 cd $OPENSHIFT_REPO_DIR
+mkdir test
 ant deploy
