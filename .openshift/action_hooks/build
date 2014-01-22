@@ -1,4 +1,4 @@
-echo "Gopi Test t"
+echo "Start Ant Build"
 cd $OPENSHIFT_REPO_DIR
 ant deploy
 mv $OPENSHIFT_REPO_DIR/builds/lib/ILCH.war  $OPENSHIFT_REPO_DIR/builds/lib/ROOT.war
@@ -7,3 +7,12 @@ cp $OPENSHIFT_REPO_DIR/builds/lib/ROOT.war $OPENSHIFT_REPO_DIR/webapps/ROOT
 cd $OPENSHIFT_REPO_DIR/webapps/ROOT
 jar -xvf ROOT.war
 rm ROOT.war
+
+cd $OPENSHIFT_REPO_DIR/webapps/ROOT/WEB-INF/classes/config/spring/openshift/properties/qtzProperties
+sed -i 's/OPENSHIFT_MYSQL_DB_HOST/${OPENSHIFT_MYSQL_DB_HOST}/g' qtz.properties
+sed -i 's/OPENSHIFT_MYSQL_DB_HOST/${OPENSHIFT_MYSQL_DB_HOST}/g' qtz.properties
+sed -i 's/OPENSHIFT_MYSQL_DB_USERNAME/${OPENSHIFT_MYSQL_DB_USERNAME}/g' qtz.properties
+sed -i 's/OPENSHIFT_MYSQL_DB_PASSWORD/${OPENSHIFT_MYSQL_DB_PASSWORD}/g' qtz.properties
+
+
+
