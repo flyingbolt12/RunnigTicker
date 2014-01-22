@@ -1,4 +1,9 @@
 echo "Gopi Test t"
 cd $OPENSHIFT_REPO_DIR
-mkdir $OPENSHIFT_REPO_DIR/gopitest
 ant deploy
+mv $OPENSHIFT_REPO_DIR/builds/lib/ILCH.war  $OPENSHIFT_REPO_DIR/builds/lib/ROOT.war
+mkdir $OPENSHIFT_REPO_DIR/webapps/ROOT
+cp $OPENSHIFT_REPO_DIR/builds/lib/ROOT.war $OPENSHIFT_REPO_DIR/webapps/ROOT
+cd $OPENSHIFT_REPO_DIR/webapps/ROOT
+jar -xvf ROOT.war
+rm ROOT.war
