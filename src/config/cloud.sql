@@ -1,7 +1,7 @@
 
 
 DROP TABLE IF EXISTS `country`;
-CREATE TABLE  `lch`.`country` (
+CREATE TABLE  `country` (
   `idcountry` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(45) NOT NULL,
   PRIMARY KEY (`idcountry`)
