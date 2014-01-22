@@ -60,7 +60,7 @@
 		<!-- Create the distribution directory -->
 		<mkdir dir="${dist}/lib" />
 
-		<war destfile="${dist}/lib/${warfilename}-${DSTAMP}.war" webxml="WebContent/WEB-INF/web.xml" update="true">
+		<war destfile="${dist}/lib/${warfilename}.war" webxml="WebContent/WEB-INF/web.xml" update="true">
 			<classes dir="build\classes" />
 			<fileset dir="WebContent">
 				<exclude name="WEB-INF/web.xml" />
