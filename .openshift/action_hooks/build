@@ -9,10 +9,9 @@ jar -xvf ROOT.war
 rm ROOT.war
 
 cd $OPENSHIFT_REPO_DIR/webapps/ROOT/WEB-INF/classes/config/spring/openshift/properties/qtzProperties
-sed -i 's/OPENSHIFT_MYSQL_DB_HOST/${OPENSHIFT_MYSQL_DB_HOST}/g' qtz.properties
-sed -i 's/OPENSHIFT_MYSQL_DB_HOST/${OPENSHIFT_MYSQL_DB_HOST}/g' qtz.properties
-sed -i 's/OPENSHIFT_MYSQL_DB_USERNAME/${OPENSHIFT_MYSQL_DB_USERNAME}/g' qtz.properties
-sed -i 's/OPENSHIFT_MYSQL_DB_PASSWORD/${OPENSHIFT_MYSQL_DB_PASSWORD}/g' qtz.properties
+sed -i "s/OPENSHIFT_MYSQL_DB_HOST/${OPENSHIFT_MYSQL_DB_HOST}/g" qtz.properties
+sed -i "s/OPENSHIFT_MYSQL_DB_USERNAME/${OPENSHIFT_MYSQL_DB_USERNAME}/g" qtz.properties
+sed -i "s/OPENSHIFT_MYSQL_DB_PASSWORD/${OPENSHIFT_MYSQL_DB_PASSWORD}/g" qtz.properties
 
 
 
