@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset
+      xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+<!-- created with Free Online Sitemap Generator www.xml-sitemaps.com -->
+
+<url>
+  <loc>http://www.runningticker.com/</loc>
+  <changefreq>monthly</changefreq>
+  <priority>1.00</priority>
+</url>
+<url>
+  <loc>http://www.runningticker.com/index.jsp</loc>
+  <changefreq>monthly</changefreq>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>http://www.runningticker.com/genericForwardAction.do?forwardTo=generic/contactUs.jsp</loc>
+  <changefreq>monthly</changefreq>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>http://www.runningticker.com/genericForwardAction.do?forwardTo=demos/demo.jsp</loc>
+  <changefreq>monthly</changefreq>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>http://www.runningticker.com/genericForwardAction.do?forwardTo=admin/registration/adminRegistration.jsp</loc>
+  <changefreq>monthly</changefreq>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>http://www.runningticker.com/forgotPassword.do?parameter=forgotPasswordOptionsPage</loc>
+  <changefreq>monthly</changefreq>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>http://www.runningticker.com/genericForwardAction.do?forwardTo=members/registration/employeeRegistration.jsp</loc>
+  <changefreq>monthly</changefreq>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>http://www.runningticker.com/footerFunct.do?parameter=contactInformation</loc>
+  <changefreq>monthly</changefreq>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>http://www.runningticker.com/genericForwardAction.do?forwardTo=demos/admin/demo.jsp</loc>
+  <changefreq>monthly</changefreq>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>http://www.runningticker.com/genericForwardAction.do?forwardTo=demos/member/demo.jsp</loc>
+  <changefreq>monthly</changefreq>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>http://www.runningticker.com/genericForwardAction.do?forwardTo=demos/admin/general/demo.jsp</loc>
+  <changefreq>monthly</changefreq>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>http://www.runningticker.com/genericForwardAction.do?forwardTo=demos/admin/operations/demo.jsp</loc>
+  <changefreq>monthly</changefreq>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>http://www.runningticker.com/genericForwardAction.do?forwardTo=demos/admin/notificationFeatures/demo.jsp</loc>
+  <changefreq>monthly</changefreq>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>http://www.runningticker.com/genericForwardAction.do?forwardTo=demos/admin/listingAndSearching/demo.jsp</loc>
+  <changefreq>monthly</changefreq>
+  <priority>0.51</priority>
+</url>
+</urlset>
