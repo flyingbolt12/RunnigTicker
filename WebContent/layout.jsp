@@ -6,10 +6,12 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Web TimeSheets & Communication System</title>
+<title>Web TimeSheets|Communication System</title>
+<meta name="description" content="Online timesheets and communication systems software. RunningTicker is the easiest and quickest way to track employee time and manage timesheets. Its your own Cloud Deployed and Looks like your product." />
+<link rel="shortcut icon" href="http://www.runningticker.com/fav.ico" />
 <link href="css/lch.css" rel="stylesheet" type="text/css" />
 <link href="js/tiptip/tipTip.css" rel="stylesheet" type="text/css" />
-
+<meta name="google-site-verification" content="T6xOf6cd8P5jcz3sJjWrqXQkuhquUFD2C0MPE3kVtSo" />
 <script language="JavaScript" type="text/javascript" src="js/lch/globals.js"></script>
 <script language="JavaScript" type="text/javascript" src="js/lch/ajax.js"></script>
 <script language="JavaScript" src="js/lch/admin.js"></script>
@@ -47,6 +49,17 @@
 	    defaultPosition : 'right'
 	    });
     });
+</script>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-46699543-1', 'allibilli.com');
+  ga('send', 'pageview');
+
 </script>
 
 <link href="js/dhtmlx/codebase/themes/message_default.css" rel="stylesheet" type="text/css">

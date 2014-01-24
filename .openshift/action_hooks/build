@@ -1,5 +1,6 @@
 echo "Start Ant Build"
 cd $OPENSHIFT_REPO_DIR
+mv $OPENSHIFT_REPO_DIR/builds/lib/ILCH.war $OPENSHIFT_REPO_DIR/builds/lib/ILCH.war.old
 ant deploy
 mv $OPENSHIFT_REPO_DIR/builds/lib/ILCH.war  $OPENSHIFT_REPO_DIR/builds/lib/ROOT.war
 mkdir $OPENSHIFT_REPO_DIR/webapps/ROOT
