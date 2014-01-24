@@ -72,5 +72,9 @@
 	<html:link action="/signoutAction.do" styleClass="headerLinks">Signout</html:link>
 	<%
 		}
-	%>&nbsp;&nbsp;
+	%>
+	
+	| <html:link href="javascript:window.open('pdf/ILCH_FEATURES.pdf')" styleClass="headerLinks">Insight Features</html:link>
+	
+	&nbsp;&nbsp;
 </div>
