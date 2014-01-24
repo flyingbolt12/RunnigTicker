@@ -33,8 +33,7 @@ public class ILCHExceptionHandler extends ExceptionHandler {
 
 	private static ArrayList<String> devopers = new ArrayList<String>();
 	static {
-		devopers.add("haigopi@gmail.com");
-		devopers.add("nithya.av@gmail.com");
+		devopers.add("contact@allibilli.com");
 		devopers.add("sridhar.thigulla@gmail.com");
 		}
 

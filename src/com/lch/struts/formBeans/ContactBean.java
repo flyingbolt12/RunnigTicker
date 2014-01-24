@@ -22,6 +22,15 @@ public class ContactBean extends ValidatorForm implements Serializable{
 	private String subject="";
 	private String comment="";
 	private long userId;
+	
+	private String employerEmail="";
+	
+	public String getEmployerEmail() {
+		return employerEmail;
+	}
+	public void setEmployerEmail(String employerEmail) {
+		this.employerEmail = employerEmail;
+	}
 	public String getFirstName() {
 		return firstName;
 	}

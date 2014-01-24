@@ -389,6 +389,7 @@ public class ConfirmRegistrationAction extends BaseAction {
 		EmailDetails emailDetails = new EmailDetails();
 		ArrayList<String> to = new ArrayList<String>();
 		StringBuffer sb = new StringBuffer();
+		
 		// Notify ADMIN to APPROVE BUSINESS USER
 		String toEmail = getProfileBean().getBusApprovalEmail();
 		if(toEmail==null || toEmail.length() <= 0)
@@ -400,7 +401,7 @@ public class ConfirmRegistrationAction extends BaseAction {
 		to = new ArrayList<String>();
 		to.add(toEmail);
 		emailDetails.setTo(to);
-		emailDetails.setSubject("Business User Registration Approval");
+		emailDetails.setSubject("New Employer Registered");
 
 		bean.setText("activate");
 		sb = getApproveBusinessUserByAdmin(request,adminRegistrationBean, bean);
@@ -430,23 +431,27 @@ public class ConfirmRegistrationAction extends BaseAction {
 			AdminRegistrationBean adminRegistrationBean, VMInputBean bean) {
 		
 		
-		int min = 11;
-		int max = 35;
+		//int min = 11;
+		//int max = 35;
 
 		String url = getApplicationURL(request);
 		
-		UUID uuid = UUID.randomUUID();
-		log.info("User Id --> {}", adminRegistrationBean.getUserId());
-		String key = String.valueOf(adminRegistrationBean.getUserId());
-		Random randomGenerator = new Random();
-		int randomInt = randomGenerator.nextInt(max - min + 1) + min;
-		StringBuffer sb = new StringBuffer(randomInt + String.valueOf(uuid)
-				+ "_" + String.valueOf((key)).length());
-		sb.insert(randomInt - 2, key);
+		//UUID uuid = UUID.randomUUID();
+		//log.info("User Id --> {}", adminRegistrationBean.getUserId());
+		//String key = String.valueOf(adminRegistrationBean.getUserId());
+		//Random randomGenerator = new Random();
+		//int randomInt = randomGenerator.nextInt(max - min + 1) + min;
+		//StringBuffer sb = new StringBuffer(randomInt + String.valueOf(uuid)
+			//	+ "_" + String.valueOf((key)).length());
+		//sb.insert(randomInt - 2, key);
 
-		url += "approveUserByAdmin.do?p=" + sb.toString();
+		//url += "approveUserByAdmin.do?p=" + sb.toString();
 		
-		bean.setUrl(url);
+		//bean.setUrl(url);
+		
+		String text = "Name : "+adminRegistrationBean.getBusinessName() + "<BR>Contact Email : "+adminRegistrationBean.getContactEmail();
+		bean.setText(text);
+		
 		String emailBody = getEmailTemplate(bean,
 				VMConstants.VM_ACTIVATE_REGISTRATION_NOTIFICATION);
 

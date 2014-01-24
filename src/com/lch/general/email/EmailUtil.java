@@ -136,7 +136,7 @@ public class EmailUtil implements Serializable {
 				logger.debug("Notified Emails {}", sb.toString());
 				
 			} else {
-				logger.debug("Email Sent -> Virtually --> " + to);
+				logger.debug("Email Sent -> Virtually --> {}", sb.toString());
 			}
 			
 			status = Boolean.TRUE;

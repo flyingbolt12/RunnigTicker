@@ -1,4 +1,19 @@
 
+
+DROP TABLE IF EXISTS `country`;
+CREATE TABLE  `country` (
+  `idcountry` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(45) NOT NULL,
+  PRIMARY KEY (`idcountry`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+
+INSERT INTO `country` (`idcountry`,`name`) VALUES 
+ (1,'USA'),
+ (2,'UK'),
+ (3,'India'),
+ (4,'Singapore'),
+ (5,'Philippines'),
+ (6,'Australia');
 --
 -- Definition of table `actionstatuses`
 --

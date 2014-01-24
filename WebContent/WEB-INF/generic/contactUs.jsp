@@ -1,3 +1,6 @@
+<%@page import="com.lch.struts.formBeans.ContactBean"%>
+<%@page import="java.util.Map"%>
+<%@page import="com.lch.general.generalBeans.UserProfile"%>
 <%@ taglib uri="http://struts.apache.org/tags-logic" prefix="logic"%>
 <%@ taglib uri="http://struts.apache.org/tags-html" prefix="html"%>
 <%@ taglib uri="http://struts.apache.org/tags-bean" prefix="bean"%>
@@ -41,7 +44,12 @@ function validateContactUsForm()
 No Phone Support Needed for this application. 
 <br>
 <br>
-<html:form onsubmit="return validateContactUsForm()"
+
+<%
+ContactBean bean = ((ContactBean)request.getAttribute("contactBean"));
+if (bean== null) {bean = new ContactBean();}		
+%>
+<html:form onsubmit="return validateContactUsForm()" 
 	action="/confirmDetails.do?parameter=contactUs">
 	<table border="0" width="767" height="323"
 		style="font-family: Tahoma; font-size: 10pt">
@@ -70,7 +78,7 @@ No Phone Support Needed for this application.
 				<%
 					errMsg = err_name;
 				%>
-			</html:messages> <html:text property="firstName" styleClass="BusinessTextBox"
+			</html:messages> <html:text property="firstName" styleClass="BusinessTextBox" value="<%= bean.getFirstName()%>"
 				maxlength="60" size="25" tabindex="1"></html:text> <%=errMsg%> <%	errMsg = ""; %>
 
 			</td>
@@ -85,7 +93,7 @@ No Phone Support Needed for this application.
 				<%
 					errMsg = err_name;
 				%>
-			</html:messages> <html:text property="lastName" styleClass="BusinessTextBox"
+			</html:messages> <html:text property="lastName" styleClass="BusinessTextBox" value="<%= bean.getLastName()%>"
 				maxlength="60" size="25" tabindex="2"></html:text> <%=errMsg%> <% 	errMsg = ""; %>
 			</td>
 		</tr>
@@ -102,7 +110,7 @@ No Phone Support Needed for this application.
 				%>
 			</html:messages>
 			<html:text
-				property="company" styleClass="BusinessTextBox" maxlength="60"
+				property="company" styleClass="BusinessTextBox" maxlength="60" value="<%= bean.getCompany()%>"
 				size="25" tabindex="3"></html:text><%=errMsg%> <% 	errMsg = ""; %></td>
 		</tr>
 		<tr>
@@ -116,7 +124,7 @@ No Phone Support Needed for this application.
 					errMsg = err_name;
 				%>
 			</html:messages><html:text
-				property="address" styleClass="BusinessTextBox" maxlength="60"
+				property="address" styleClass="BusinessTextBox" maxlength="60" value="<%= bean.getAddress()%>"
 				size="25" tabindex="4"></html:text><%=errMsg%> <% 	errMsg = ""; %></td>
 		</tr>
 		<tr>
@@ -129,7 +137,7 @@ No Phone Support Needed for this application.
 					errMsg = err_name;
 				%>
 			</html:messages><html:text
-				property="city" styleClass="BusinessTextBox" maxlength="60"
+				property="city" styleClass="BusinessTextBox" maxlength="60" value="<%= bean.getCity()%>"
 				size="25" tabindex="5"></html:text><%=errMsg%> <% 	errMsg = ""; %></td>
 		</tr>
 		<tr>
@@ -143,7 +151,7 @@ No Phone Support Needed for this application.
 					errMsg = err_name;
 				%>
 			</html:messages><html:text
-				property="state" styleClass="BusinessTextBox" maxlength="60"
+				property="state" styleClass="BusinessTextBox" maxlength="60" value="<%= bean.getState()%>"
 				size="25" tabindex="6"></html:text><%=errMsg%> <% 	errMsg = ""; %></td>
 			<td height="21" width="89" bgcolor="#F4F4F4">
 			<p align="right"><font size="2" face="Tahoma"> Zip/Postal
@@ -154,7 +162,7 @@ No Phone Support Needed for this application.
 				<%
 					errMsg = err_name;
 				%>
-			</html:messages><html:text
+			</html:messages><html:text value="<%= bean.getZip()%>"
 				property="zip" styleClass="BusinessTextBox" maxlength="60" size="25"
 				tabindex="7"></html:text><%=errMsg%> <% 	errMsg = ""; %></td>
 		</tr>
@@ -167,7 +175,7 @@ No Phone Support Needed for this application.
 				<%
 					errMsg = err_name;
 				%>
-			</html:messages><html:text
+			</html:messages><html:text value="<%= bean.getPhone()%>"
 				property="phone" styleClass="BusinessTextBox" maxlength="60"
 				size="25" tabindex="8"></html:text><%=errMsg%> <% 	errMsg = ""; %></td>
 		</tr>
@@ -181,7 +189,7 @@ No Phone Support Needed for this application.
 				<%
 					errMsg = err_name;
 				%>
-			</html:messages> <html:text property="email" styleClass="BusinessTextBox"
+			</html:messages> <html:text property="email" styleClass="BusinessTextBox" value="<%= bean.getEmail()%>"
 				maxlength="60" size="25" tabindex="9"></html:text> <%=errMsg%> <%
  	errMsg = "";
  %>
@@ -252,4 +260,5 @@ No Phone Support Needed for this application.
 		</tr>
 
 	</table>
+	<input type="hidden" value="<%= bean.getEmployerEmail() %>" name="employerEmail">
 </html:form></div>

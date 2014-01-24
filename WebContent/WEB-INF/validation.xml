@@ -1114,14 +1114,14 @@
 					<var-value>MM/dd/yyyy</var-value>
 				</var>
 			</field>
-			<field property="clientName" depends="mask">
-				<msg name="mask" key="error.mask.clientWorkingFor" />
-				<arg0 key="error.clientWorkingFor" />
-				<var>
-					<var-name>mask</var-name>
-					<var-value>^[a-z A-Z]*$</var-value>
-				</var>
-			</field>
+<!-- 			<field property="clientName" depends="mask"> -->
+<!-- 				<msg name="mask" key="error.mask.clientWorkingFor" /> -->
+<!-- 				<arg0 key="error.clientWorkingFor" /> -->
+<!-- 				<var> -->
+<!-- 					<var-name>mask</var-name> -->
+<!-- 					<var-value>^[a-z A-Z]*$</var-value> -->
+<!-- 				</var> -->
+<!-- 			</field> -->
 			<field property="login" depends="required">
 				<arg0 key="error.login" />
 			</field>
@@ -1461,14 +1461,14 @@
 
 
 			</field>
-			<field property="clientName" depends="mask">
-				<msg name="mask" key="error.mask.clientWorkingFor" />
-				<arg0 key="error.clientWorkingFor" />
-				<var>
-					<var-name>mask</var-name>
-					<var-value>^[a-z A-Z]*$</var-value>
-				</var>
-			</field>
+<!-- 			<field property="clientName" depends="mask"> -->
+<!-- 				<msg name="mask" key="error.mask.clientWorkingFor" /> -->
+<!-- 				<arg0 key="error.clientWorkingFor" /> -->
+<!-- 				<var> -->
+<!-- 					<var-name>mask</var-name> -->
+<!-- 					<var-value>^[a-z A-Z]*$</var-value> -->
+<!-- 				</var> -->
+<!-- 			</field> -->
 			<field property="login" depends="required">
 				<arg0 key="error.login" />
 			</field>

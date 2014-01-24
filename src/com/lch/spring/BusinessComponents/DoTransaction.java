@@ -264,7 +264,7 @@ public class DoTransaction {
 			USERS users = new USERS();
 
 			BeanUtils.copyProperties(users, adminRegistrationBean);
-			userId = insertUSERS(users);
+			userId = insertUSERSWithApprovalStatus(users);
 		} catch (IllegalAccessException e) {
 			e.printStackTrace();
 		} catch (InvocationTargetException e) {
@@ -498,6 +498,20 @@ public class DoTransaction {
 		list.add(3,c);
 		return list;
 	}
+
+	public List<String> listCountries() {
+		String query = SQLQueries.LIST_COUNTRIES;
+		List<String> list = getJdbcTemplate().queryForList(query,String.class);
+		return list;
+	}
+
+	public Map<String, Object> loadUserDetailsByLoginName(long id, String login) {
+		String query = SQLQueries.LOAD_USER_DETAILS_BY_LOGIN_NAME;
+		Map<String, Object> list = getJdbcTemplate().queryForMap(query,new Object[]{id, login});
+		
+		return list;
+	}
+
 	
 	public List listEmployeeTimesheetPendingApprovals(UserProfile userProfile) {
 		String query = SQLQueries.EMPLOYEE_TIMESHEET_PENDING_APPROVALS_4_ADMIN;

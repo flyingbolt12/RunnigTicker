@@ -6,7 +6,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ILC - My Labor Claiming</title>
+<title>Web TimeSheets & Communication System</title>
 <link href="css/lch.css" rel="stylesheet" type="text/css" />
 <link href="js/tiptip/tipTip.css" rel="stylesheet" type="text/css" />
 

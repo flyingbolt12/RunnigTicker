@@ -165,7 +165,7 @@ function updateAndSubmitForm(userId,month,year,action,submissionFor,weeklyHrsSum
 			
 			if(!id.equals("0")){
 			%>
-			<a href='downloadAFile.do?id=<bean:write name="listTimeSheetsForAdmin" property="weeklyHrsSummaryId"/>&action=timeSheets'>Click</a>
+			<a href=javascript:openNewWindow('downloadAFile.do?id=<bean:write name="listTimeSheetsForAdmin" property="weeklyHrsSummaryId"/>&action=timeSheets')>Click</a>
 			<%}else{ %> N/A<%} %></td>
 			<td class="tdData"><span id='btnSpn<bean:write name="listTimeSheetsForAdmin" property="weeklyHrsSummaryId"/>'>
 			<% if (status.equalsIgnoreCase(TimeSheetStatus.REJECTED.name())) {%>
@@ -192,3 +192,9 @@ function updateAndSubmitForm(userId,month,year,action,submissionFor,weeklyHrsSum
 <input name="weeklyHrsSummaryId" value="" type="hidden">
 
 </form>
+
+<script language="JavaScript">
+ function openNewWindow(url) {
+ popupWin = window.open(url, 'Downloading ...', ', , , , , scrollbars, resizable, dependent, width=740, height=500, left=200, top=200');
+ }
+ </script>

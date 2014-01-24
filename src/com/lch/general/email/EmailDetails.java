@@ -6,8 +6,14 @@ import java.util.List;
 
 import javax.mail.internet.InternetAddress;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class EmailDetails {
 
+	
+	Logger log = LoggerFactory.getLogger(EmailDetails.class);
+	
 	private List<String> to = new ArrayList<String>();
 	private List<String> cc = new ArrayList<String>();
 	private List<String> bcc = new ArrayList<String>();
@@ -43,6 +49,7 @@ public class EmailDetails {
 		InternetAddress[] add = new InternetAddress[to.size()];
 		int i = 0;
 		for (String email : to) {
+			log.info(email);
 			add[i] = new InternetAddress(email);
 			++i;
 		}

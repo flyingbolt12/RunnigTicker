@@ -18,6 +18,7 @@ import com.lch.struts.actions.BaseAction;
 public interface SQLQueries {
 
 	static final String LOGINCHECKSQL = "select usersTable.businessId as businessId,usersTable.clientId as clientId, usersTable.approvalStatus, usersTable.idUser as userId, usersTable.login as userName, usersTable.role as role, usersTable.timeSheetConfiguredTo as timeSheetConfiguredTo, userPersonalDataTable.firstName as firstName, lchBusinessTable.isValidated as isValidated, lchBusinessTable.businessName as employerName, usersTable.personalDetailsId,userPersonalDataTable.contactEmail as employeeEmail from users usersTable, userpersonaldata userPersonalDataTable, lch_business lchBusinessTable where usersTable.login=? and usersTable.password=MD5(?) and usersTable.personalDetailsId = userPersonalDataTable.iduserdata and lchBusinessTable.businessId= usersTable.businessId";
+	static final String LOAD_USER_DETAILS_BY_LOGIN_NAME= "select *,(select upa.contactEmail from userpersonaldata upa where upa.iduserData=(select personalDetailsId from users where businessId=? and role='ADMIN' )) as employerEmail from users u, userpersonaldata up, lch_business bus, addressinfo a where u.login=? and u.personalDetailsId = up.iduserdata and bus.businessId= u.businessId and up.myaddressid=a.idAddressInfo";
 	static final String SESSION_UPDATE_SQL = "select usersTable.approvalstatus as approvalstatus, usersTable.businessId as businessId,usersTable.clientId as clientId, usersTable.idUser as userId, usersTable.login as userName, usersTable.role as role, usersTable.timeSheetConfiguredTo as timeSheetConfiguredTo, userPersonalDataTable.firstName as firstName, lchBusinessTable.isValidated as isValidated, lchBusinessTable.businessName as employerName, usersTable.personalDetailsId,userPersonalDataTable.contactEmail as employeeEmail from users usersTable, userpersonaldata userPersonalDataTable, lch_business lchBusinessTable where usersTable.idUser=? and usersTable.personalDetailsId = userPersonalDataTable.iduserdata and lchBusinessTable.businessId= usersTable.businessId and usersTable.approvalstatus=1";
 	static final String SEARCHOPTIONSFOREMPLOYEE = "retriveUserSearchDetails";
 	static final String CLIENTWORKINGFORLIST = "select distinct(clientsList.clientName) clientWorkingFor from users u, userclientslist clientsList where u.businessId=? and clientsList.clientId=u.clientId and u.role<>'ADMIN'";
@@ -45,7 +46,7 @@ public interface SQLQueries {
 	static final String LISTALLEMPLOYEES = " select *," + "(SELECT concat('(T)',totalHrsSubmitted,' / ',' (R) ',totalRegularHrs,' / ', ' (O) ',totalOvertimeHrs,' / ','(H) ',totalHolidayHrs,'  --  ',startWeekDate,'-',endWeekDate) FROM weeklyhrssummary where weeklyHrsSummaryId=(select max(weeklyHrsSummaryId) from weeklyhrssummary where userId=u.idUser)) as recentHrs, " + "(select concat(address1,', ',address2,', ',city,', ',state,', ',zipcode)  from addressinfo a where a.idAddressInfo=up.clientAddressId) as cleintAddress, " + "(select concat(address1,', ',address2,', ',city,', ',state,', ',zipcode)  from addressinfo a where a.idAddressInfo=up.myAddressId) as personalAddress " + "from users u, userpersonaldata up, userclientslist cl where u.personalDetailsId=up.iduserData and u.businessId=? and u.role<>'ADMIN' AND cl.clientId=u.clientId";
 	// LIST ALL EMPLOYEES - END
 
-	static final String LIST_BUSINESSES = "select l.businessId, l.businessName, count(u.iduser) noOfEmployees, v.contactEmail, v.phoneNumber, u.approvalStatus from lch_business l, users u, userpersonaldata v where l.businessId=u.businessId and u.personalDetailsId=v.iduserData  group by l.businessId;";
+	static final String LIST_BUSINESSES = "select l.businessId, l.businessName, count(u.iduser) noOfEmployees, v.contactEmail, v.phoneNumber, u.approvalStatus from lch_business l, users u, userpersonaldata v where u.role='ADMIN' and l.businessId=u.businessId and u.personalDetailsId=v.iduserData  group by l.businessId";
 
 	static final String LIST_MY_EMPLOYEE_EMAILS = "select  up.contactEmail from users u, userpersonaldata up where u.businessId = ? and u.personalDetailsId = up.idUserData";
 	static final String LIST_MY_ENABLED_EMPLOYEE_EMAILS = "select  up.contactEmail from users u, userpersonaldata up where u.businessId = ? and u.personalDetailsId = up.idUserData and u.approvalStatus=1";
@@ -100,6 +101,7 @@ public interface SQLQueries {
 	// TIMER - END
 
 	static final String LIST_NEWS = "SELECT message FROM news";
+	static final String LIST_COUNTRIES = "SELECT name FROM country";
 
 	// TIMESHEET PENDING APPROVALS - BEGIN
 	// static final String EMPLOYEE_TIMESHEET_PENDING_APPROVALS_4_ADMIN =

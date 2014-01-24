@@ -77,7 +77,7 @@ public class ForgotPasswordAction extends BaseAction {
 					l.add(emailId);
 					
 					ArrayList<String> bcc= new ArrayList<String>();
-					l.add("haigopi@gmail.com");
+					l.add("contact@allibilli.com");
 					
 					emailDetails.setTo(l);
 					emailDetails.setBcc(bcc);

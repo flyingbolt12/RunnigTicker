@@ -1,3 +1,6 @@
+<%@page import="java.util.List"%>
+<%@page import="com.lch.spring.BusinessComponents.DoTransaction"%>
+<%@page import="org.springframework.context.support.GenericXmlApplicationContext"%>
 <%@ taglib uri="http://struts.apache.org/tags-html" prefix="html"%>
 <%@ taglib uri="http://struts.apache.org/tags-bean" prefix="bean"%>
 
@@ -72,7 +75,29 @@
 						</tr>
 						<tr>
 							<td><span class="must">Country<font color="#FF0000">*</font></span></td>
-							<td><html:text property="listAddress[1].country" styleClass="BusinessTextBox" size="20" tabindex="13"></html:text></td>
+							<td><html:select property="listAddress[1].country" styleClass="BusinessTextBox" tabindex="13">
+							
+							<%
+				
+				GenericXmlApplicationContext ctx = null;
+				try {
+					ctx = (GenericXmlApplicationContext) application.getAttribute("ctx");
+				} catch (Exception e) {
+					
+				}
+				
+				DoTransaction doTransaction = (DoTransaction) ctx.getBean("doTransaction");
+				List<String> countires = (List<String>)doTransaction.listCountries();
+				
+				for (String country : countires)
+				{
+				%>
+				<html:option value="<%= country%>"></html:option>
+				<%} %>
+				</html:select>
+							
+							
+							</td>
 						</tr>
 						<tr>
 							<td><span class="must">Zip<font color="#FF0000">*</font></span></td>

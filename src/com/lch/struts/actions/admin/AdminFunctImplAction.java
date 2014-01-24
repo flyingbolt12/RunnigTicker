@@ -367,6 +367,22 @@ public class AdminFunctImplAction extends BaseAction {
 		log.info(orderBy + " : " + order);
 		List<Map<String, Object>> listAllMyEmployees = getSpringCtxDoTransactionBean().getAllMySearchEmployeesList(
 				businessId, orderBy, order, SQL);
+		
+		int i = 0;
+		String recentHrs;
+		while (i < listAllMyEmployees.size()) {
+			Map m = listAllMyEmployees.get(i);
+			if (m.containsKey("recentHrs")) {
+				Object objHours = m.get("recentHrs");
+				recentHrs = new String(objHours.toString());
+				log.info("Recent Hours {}", recentHrs);
+				if (!recentHrs.equalsIgnoreCase("null")) {
+					m.put("recentHrs", recentHrs);
+				}
+			}
+			i++;
+		}
+		
 		if (order != null && order.equalsIgnoreCase("desc")) {
 			log.warn("Making ASC");
 			order = "asc";
