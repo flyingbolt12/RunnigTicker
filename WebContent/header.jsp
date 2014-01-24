@@ -65,16 +65,17 @@
 	|
 	<html:link action="/genericForwardAction.do?forwardTo=demos/demo.jsp"
 		styleClass="headerLinks">Screen Cast</html:link>
+		| <html:link href="javascript:window.open('pdf/ILCH_FEATURES.pdf')" styleClass="headerLinks">Insight Features</html:link>
 	<%
 		if (userProfile != null && userProfile.isLoginStatus()) {
 	%>
 	|
-	<html:link action="/signoutAction.do" styleClass="headerLinks">Signout</html:link>
+	<html:link action="/signoutAction.do" styleClass="headerLinks"><font color="#CCFF00">Signout</font></html:link>
 	<%
 		}
 	%>
 	
-	| <html:link href="javascript:window.open('pdf/ILCH_FEATURES.pdf')" styleClass="headerLinks">Insight Features</html:link>
+	
 	
 	&nbsp;&nbsp;
 </div>

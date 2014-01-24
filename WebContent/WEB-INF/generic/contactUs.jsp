@@ -255,7 +255,7 @@ if (bean== null) {bean = new ContactBean();}
 
 			<td height="21" colspan="4" align="center"><html:submit
 				property="submit" value="Submit" styleClass="ButtonStyle"
-				tabindex="12"></html:submit></td>
+				tabindex="12"></html:submit> <html:reset value="Reset" styleClass="ButtonStyle" tabindex="13"></html:reset></td>
 
 		</tr>
 
