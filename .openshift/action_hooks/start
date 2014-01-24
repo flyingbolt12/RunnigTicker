@@ -1,5 +1,0 @@
-#!/bin/bash
-
-echo "Start Building application"
-cd $OPENSHIFT_REPO_DIR
-ant deploy
