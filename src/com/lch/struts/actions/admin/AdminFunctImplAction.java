@@ -374,7 +374,7 @@ public class AdminFunctImplAction extends BaseAction {
 			Map m = listAllMyEmployees.get(i);
 			if (m.containsKey("recentHrs")) {
 				Object objHours = m.get("recentHrs");
-				recentHrs = new String(objHours.toString());
+				recentHrs = (String)objHours;
 				log.info("Recent Hours {}", recentHrs);
 				if (!recentHrs.equalsIgnoreCase("null")) {
 					m.put("recentHrs", recentHrs);
