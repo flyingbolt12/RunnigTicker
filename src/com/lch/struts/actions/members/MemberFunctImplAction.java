@@ -742,7 +742,7 @@ public class MemberFunctImplAction extends BaseAction {
 			m.put("submittedDate", submitted_date);
 			if (m.containsKey("recentHrs")) {
 				Object objHours = m.get("recentHrs");
-				recentHrs = new String(objHours.toString());
+				recentHrs = new String((byte[])objHours);
 				if (!recentHrs.equalsIgnoreCase("null")) {
 					m.put("recentHrs", recentHrs);
 				}

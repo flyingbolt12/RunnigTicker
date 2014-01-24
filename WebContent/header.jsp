@@ -65,7 +65,7 @@
 	|
 	<html:link action="/genericForwardAction.do?forwardTo=demos/demo.jsp"
 		styleClass="headerLinks">Screen Cast</html:link>
-		| <html:link href="javascript:window.open('pdf/ILCH_FEATURES.pdf')" styleClass="headerLinks">Insight Features</html:link>
+		| <html:link href="javascript: openNewWindow('pdf/ILCH_FEATURES.pdf')" styleClass="headerLinks">Insight Features</html:link>
 	<%
 		if (userProfile != null && userProfile.isLoginStatus()) {
 	%>
@@ -79,3 +79,11 @@
 	
 	&nbsp;&nbsp;
 </div>
+
+<script language="JavaScript">
+ 
+ function openNewWindow(url) {
+ popupWin = window.open(url, 'Features', ', , , , , scrollbars, resizable, dependent')
+ }
+ 
+ </script>
