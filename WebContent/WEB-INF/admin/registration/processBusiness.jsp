@@ -4,10 +4,9 @@
 		<tr>
 			<td>
 			<p align="center"><font size="2"><span style="font-family: Tahoma;  font-weight: bold;">
-			A Confirmation Email was sent to your business 
-Email with a link.&nbsp; Please click on that link to validate and finish the registration.</span></font>
+			Please verify your email and click on the link to validate. Wait, make sure to check in Spam folder if you didn't see in your inbox.</span></font>
 			<p align="center">
-			<span style="font-size: 10.0pt; font-family: Tahoma;">Thank you for registering with ILC. <BR>We believe in business builds a relation with people, it is not just money.</span></p>
+			<span style="font-size: 10.0pt; font-family: Tahoma;">Thank you for registering with RunningTicker. <BR>We believe in: Business builds a relation, not just money.</span></p>
 			</td>
 		</tr>
 	</table>

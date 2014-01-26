@@ -53,8 +53,8 @@
 		if (userProfile != null && userProfile.isLoginStatus()) {
 	%>
 	<html:link action="<%=pageURL%>" styleClass="headerLinks"
-		title="<%=title%>">
-		<%=pageDecider%>'s Dashboard</html:link>
+		title="<%=title%>"> <font color="#CCFF00">
+		<%=pageDecider%>'s Dashboard </font></html:link>
 	|
 	<%
 			}

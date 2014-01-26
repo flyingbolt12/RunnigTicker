@@ -36,10 +36,10 @@ public class ConfirmMemberRegistrationAction extends BaseAction {
 	private static HashMap<String, String> testMembers = new HashMap<String, String>();
 	
 	static{
-		testMembers.put("monthly.member","ilch.monthly.member@gmail.com");
-		testMembers.put("weekly.member","ilch.weekly.member@gmail.com");
-		testMembers.put("biweekly.member","ilch.biweekly.member@gmail.com");
-		testMembers.put("days15.member","ilch.days15.member@gmail.com");
+		testMembers.put("monthly.member","ilchmonthly@gmail.com");//gopikrishna
+		testMembers.put("weekly.member","ilchweekly@gmail.com");//gopikrishna
+		testMembers.put("biweekly.member","ilchbiweekly@gmail.com");//gopikrishna
+		testMembers.put("days15.member","ilchdays151@gmail.com");//gopikrishna
 	}
 	public ActionForward addAnEmployee(ActionMapping mapping,
 			ActionForm form, HttpServletRequest request,

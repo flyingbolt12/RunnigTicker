@@ -6,7 +6,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Web TimeSheets|Communication System</title>
+<title>Web TimeSheets & Communication System</title>
 <meta name="description" content="Online timesheets and communication systems software. RunningTicker is the easiest and quickest way to track employee time and manage timesheets. Its your own Cloud Deployed and Looks like your product. For small & medium scale businesses. Its built on Cloud - Java Platform" />
 <link rel="shortcut icon" href="http://www.runningticker.com/fav.ico" />
 <meta name="keywords" content="timesheet software time tracking web time sheet timekeeping timesheets timesheet software, online timesheets, web based timsheets, punch clock, timesheet software, small business timekeeping, employee timeclock, employee time card, time sheet attendance, employee time tracking" />

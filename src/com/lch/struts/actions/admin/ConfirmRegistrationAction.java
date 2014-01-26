@@ -168,7 +168,7 @@ public class ConfirmRegistrationAction extends BaseAction {
 			AdminRegistrationBean adminRegistrationBean = getRegistrationBean();
 			adminRegistrationBean.setRole("ADMIN");
 			adminRegistrationBean.setClientWorkingFor("NONE");
-			adminRegistrationBean.setContactEmail("demoemail@gmail.com");
+			adminRegistrationBean.setContactEmail("ilchemployer@gmail.com");//gopikrishna
 			adminRegistrationBean.setFatherName("EmployerFather");
 			adminRegistrationBean.setFirstName("Employer FirstName");
 			adminRegistrationBean.setLogin("employer");
