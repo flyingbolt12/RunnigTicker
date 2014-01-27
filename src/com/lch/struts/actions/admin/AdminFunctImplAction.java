@@ -369,12 +369,15 @@ public class AdminFunctImplAction extends BaseAction {
 				businessId, orderBy, order, SQL);
 		
 		int i = 0;
-		String recentHrs;
+		String recentHrs = "";
 		while (i < listAllMyEmployees.size()) {
 			Map m = listAllMyEmployees.get(i);
 			if (m.containsKey("recentHrs")) {
 				Object objHours = m.get("recentHrs");
-				recentHrs = new String((byte[])objHours);
+				if(objHours!=null && objHours instanceof byte[])
+					recentHrs = new String((byte[])objHours);
+				else if(objHours!=null && objHours instanceof String)
+					recentHrs = objHours.toString();
 				log.info("Recent Hours {}", recentHrs);
 				if (!recentHrs.equalsIgnoreCase("null")) {
 					m.put("recentHrs", recentHrs);
