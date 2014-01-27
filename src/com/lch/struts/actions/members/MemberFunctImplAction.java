@@ -731,7 +731,7 @@ public class MemberFunctImplAction extends BaseAction {
 		ActionForward forward = new ActionForward();
 		String submitted_date;
 		String action_date;
-		String recentHrs;
+		
 		List<Map<String, Object>> employeeTimesheets = getSpringCtxDoTransactionBean()
 				.listEmployeeTimesheets(getUserProfile(request).getUserId());
 		int i = 0;
@@ -740,9 +740,13 @@ public class MemberFunctImplAction extends BaseAction {
 			submitted_date = String.valueOf(m.get("submittedDate"));
 			submitted_date = submitted_date.substring(0, 10);
 			m.put("submittedDate", submitted_date);
+			String recentHrs="";
 			if (m.containsKey("recentHrs")) {
 				Object objHours = m.get("recentHrs");
-				recentHrs = new String((byte[])objHours);
+				if(objHours!=null && objHours instanceof byte[])
+					recentHrs = new String((byte[])objHours);
+				if(objHours!=null && objHours instanceof String)
+					recentHrs = objHours.toString();
 				if (!recentHrs.equalsIgnoreCase("null")) {
 					m.put("recentHrs", recentHrs);
 				}
