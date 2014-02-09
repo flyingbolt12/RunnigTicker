@@ -7,7 +7,7 @@ if [ ! -f  $OPENSHIFT_DATA_DIR/sql/ilch.sql ]; then
 	mysql -h $OPENSHIFT_MYSQL_DB_HOST -P ${OPENSHIFT_MYSQL_DB_PORT:-3306} -u ${OPENSHIFT_MYSQL_DB_USERNAME:-'admin'} --password="$OPENSHIFT_MYSQL_DB_PASSWORD" ilch < $OPENSHIFT_REPO_DIR/src/config/cloud.sql
 	mysql -h $OPENSHIFT_MYSQL_DB_HOST -P ${OPENSHIFT_MYSQL_DB_PORT:-3306} -u ${OPENSHIFT_MYSQL_DB_USERNAME:-'admin'} --password="$OPENSHIFT_MYSQL_DB_PASSWORD" ilch < $OPENSHIFT_REPO_DIR/src/config/quartz.sql
 	mysql -h $OPENSHIFT_MYSQL_DB_HOST -P ${OPENSHIFT_MYSQL_DB_PORT:-3306} -u ${OPENSHIFT_MYSQL_DB_USERNAME:-'admin'} --password="$OPENSHIFT_MYSQL_DB_PASSWORD" ilch < $OPENSHIFT_REPO_DIR/src/config/functions.sql
-elif [ $(du -b $OPENSHIFT_DATA_DIR/sql/ilch.sql | cut -f 1) -le 850 ] then
+elif [ $(du -b $OPENSHIFT_DATA_DIR/sql/ilch.sql | cut -f 1) -le 850 ]; then
 	echo "Invalid SQL, size is too small!  So executing the scripts to create the datebase and then tables and functions"
 	mysql -h $OPENSHIFT_MYSQL_DB_HOST -P ${OPENSHIFT_MYSQL_DB_PORT:-3306} -u ${OPENSHIFT_MYSQL_DB_USERNAME:-'admin'} --password="$OPENSHIFT_MYSQL_DB_PASSWORD" ilch < $OPENSHIFT_REPO_DIR/src/config/cloud.sql
 	mysql -h $OPENSHIFT_MYSQL_DB_HOST -P ${OPENSHIFT_MYSQL_DB_PORT:-3306} -u ${OPENSHIFT_MYSQL_DB_USERNAME:-'admin'} --password="$OPENSHIFT_MYSQL_DB_PASSWORD" ilch < $OPENSHIFT_REPO_DIR/src/config/quartz.sql
