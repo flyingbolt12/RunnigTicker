@@ -37,3 +37,31 @@ cd $OPENSHIFT_REPO_DIR/webapps/ROOT
 jar -xvf ROOT.war
 rm ROOT.war
 
+
+echo "*******************************"
+echo " updating quartz properties"
+echo "*******************************"
+
+cd $OPENSHIFT_REPO_DIR/webapps/ROOT/WEB-INF/classes/config/spring/openshift/properties/qtzProperties
+sed -i "s/OPENSHIFT_MYSQL_DB_HOST/${OPENSHIFT_MYSQL_DB_HOST}/g" qtz.properties
+sed -i "s/OPENSHIFT_MYSQL_DB_USERNAME/${OPENSHIFT_MYSQL_DB_USERNAME}/g" qtz.properties
+sed -i "s/OPENSHIFT_MYSQL_DB_PASSWORD/${OPENSHIFT_MYSQL_DB_PASSWORD}/g" qtz.properties
+
+echo "*******************************"
+echo " Enable Email Settings "
+echo "*******************************"
+
+cd $OPENSHIFT_REPO_DIR/webapps/ROOT/WEB-INF/classes/config/spring/common/
+sed -i 's/<property name="isToSendEmail" value="false" /<property name="isToSendEmail" value="true" /g' lch-email.xml
+
+
+echo "*******************************"
+echo " Disabling DB Scripts execution from App :Safety Precaution"
+echo "*******************************"
+
+cd $OPENSHIFT_REPO_DIR/webapps/ROOT/WEB-INF/classes/config/spring/common/
+sed -i 's/<jdbc:initialize-database data-source="dataSource">/"" /g' lch-jdbc.xml
+sed -i 's/<jdbc:script location="config/cloud.sql" />/"" /g' lch-jdbc.xml
+sed -i 's/<jdbc:script location="config/quartz.sql" />/"" /g' lch-jdbc.xml
+sed -i 's/<jdbc:script location="config/functions.sql" separator="$$" />/"" /g' lch-jdbc.xml
+sed -i 's/</jdbc:initialize-database>/"" /g' lch-jdbc.xml
