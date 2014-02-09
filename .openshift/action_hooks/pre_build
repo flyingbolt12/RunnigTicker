@@ -1,9 +1,6 @@
 echo "*******************************"
 echo "Backing up Database"
 echo "*******************************"
-echo "*******************************"
-echo "Backing up Database"
-echo "*******************************"
 
 if [ ! -f  $OPENSHIFT_DATA_DIR/sql/ilch.sql ]; then
     echo "No Backed up SQL File found!Creating a back up now."
@@ -55,6 +52,9 @@ echo "*******************************"
 if [ ! -f  $OPENSHIFT_REPO_DIR/builds/lib/ILCH.war ]; then
     echo "ILCH.war not found."
 else 
-    echo "Backing up the currently deploed war"
-    mv $OPENSHIFT_REPO_DIR/builds/lib/ROOT.war $OPENSHIFT_DATA_DIR/wars/ROOT.war.$DATE.old
+    echo "Looking for ROOT"
+    if [ ! -f  $OPENSHIFT_REPO_DIR/builds/lib/ROOT.war ]; then
+	echo "Backing up the currently deploed war"
+	mv $OPENSHIFT_REPO_DIR/builds/lib/ROOT.war $OPENSHIFT_DATA_DIR/wars/ROOT.war.$DATE.old
+    fi
 fi

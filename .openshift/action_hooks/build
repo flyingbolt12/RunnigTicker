@@ -1,4 +1,10 @@
 echo "*******************************"
+echo "MOVING TO REPO DIR"
+echo "*******************************"
+
+cd $OPENSHIFT_REPO_DIR
+
+echo "*******************************"
 echo "Start Ant Build"
 echo "*******************************"
 
@@ -30,10 +36,4 @@ echo "*******************************"
 cd $OPENSHIFT_REPO_DIR/webapps/ROOT
 jar -xvf ROOT.war
 rm ROOT.war
-
-
-echo "*******************************"
-echo "Unpacking ROOT"
-echo "*******************************"
-
 
