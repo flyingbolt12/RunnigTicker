@@ -1,5 +1,7 @@
 # execute a curl command here
 
 echo "waiting for app to come up....for 2 minutes"
+echo "waiting for app to come up....for 2 minutes"
 sleep 2m
 curl www.runningticker.com
+

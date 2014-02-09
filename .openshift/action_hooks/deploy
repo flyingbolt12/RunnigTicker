@@ -66,3 +66,9 @@ echo "*******************************"
 
 export GLOBAL interactive_timeout=28000
 export GLOBAL interactive_timeout=28000
+
+
+
+echo "*******************************"
+echo " ENABLE MYSQL TIME OUT SETTINGS "
+echo "*******************************"

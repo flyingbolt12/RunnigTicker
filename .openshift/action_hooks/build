@@ -32,3 +32,8 @@ jar -xvf ROOT.war
 rm ROOT.war
 
 
+echo "*******************************"
+echo "Unpacking ROOT"
+echo "*******************************"
+
+

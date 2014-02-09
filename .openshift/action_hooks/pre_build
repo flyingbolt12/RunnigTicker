@@ -1,6 +1,9 @@
 echo "*******************************"
 echo "Backing up Database"
 echo "*******************************"
+echo "*******************************"
+echo "Backing up Database"
+echo "*******************************"
 
 if [ ! -f  $OPENSHIFT_DATA_DIR/sql/ilch.sql ]; then
     echo "No Backed up SQL File found!Creating a back up now."
@@ -28,6 +31,7 @@ if [ -d "$OPENSHIFT_JBOSSEWS_DIR/webapps/logos" ]; then
 else 
     echo "No Logos found to back up"
 fi
+
 
 if [ -d "$OPENSHIFT_JBOSSEWS_DIR/webapps/supportingDocs" ]; then
   echo "Backing up supportingDocs"
