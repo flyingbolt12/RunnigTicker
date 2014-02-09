@@ -299,5 +299,7 @@
     if (!document.getElementById("cNext").disabled) {
     	document.getElementById("cNext").className = 'ButtonStyle';
     }
+
+    dhtmlx.message({type:"error", expire:10000, text:"Info : User Rate Feature will not be available for Child Amdins" });
     
 </script>

@@ -7,6 +7,7 @@
 package com.lch.struts.actions;
 
 import java.io.File;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -130,7 +131,13 @@ public class BaseAction extends DispatchAction implements SQLQueries {
 			return 0;
 		}
 	}
-
+	public Date getSQLDateAsRequestParameter(String objName, HttpServletRequest request) {
+		try {
+			return Date.valueOf(request.getParameter(objName));
+		} catch (Exception e) {
+			return null;
+		}
+	}
 	public long getLongAsRequestParameter(String objName, HttpServletRequest request) {
 		try {
 			return Long.parseLong(request.getParameter(objName));
@@ -138,6 +145,15 @@ public class BaseAction extends DispatchAction implements SQLQueries {
 			return 0;
 		} catch (NullPointerException e) {
 			return 0;
+		}
+	}
+	public double getDoubleAsRequestParameter(String objName, HttpServletRequest request) {
+		try {
+			return Double.parseDouble(request.getParameter(objName));
+		} catch (NumberFormatException e) {
+			return 0d;
+		} catch (NullPointerException e) {
+			return 0d;
 		}
 	}
 

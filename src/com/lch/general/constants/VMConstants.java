@@ -14,6 +14,7 @@ public interface VMConstants {
 	public static final String VM_BUSINESS_ID_MAIL ="sendBusinessId.vm";
 	public static final String VM_BUSINESS_ID_TOALL = "notifyBusinessIdtoAll.vm";
 	public static final String VM_REQUEST_TO_UPDATE_PROFILE = "requestAllEmployeesToUpdateTheirProfiles.vm";
+	public static final String VM_REQUEST_TO_UPDATE_IMMIGRATION_DETAILS = "requestAllEmployeesToUpdateTheirImmigrationDetails.vm";
 	public static final String VM_NOTIFY_EMPLOYEES = "notifyEmployees.vm";
 	public static final String VM_INVITE_BUSINESS = "inviteBusiness.vm";
 	public static final String VM_FORGOT_PWD_MAIL ="forgotPwd.vm";
@@ -34,5 +35,7 @@ public interface VMConstants {
 	
 	public static final String VM_BDAY_REPORT= "bdayReport.vm";
 	public static final String VM_HAPPY_BDAY= "happyBirthday.vm";
+	public static final String VM_IMMIGRATION_REPORT= "immigrationReport.vm";
+	
 	
 }

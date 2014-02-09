@@ -12,6 +12,7 @@ import org.apache.struts.action.ActionMapping;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.lch.general.Roles;
 import com.lch.general.constants.VMConstants;
 import com.lch.general.dbBeans.Address;
 import com.lch.general.email.EmailDetails;
@@ -41,7 +42,7 @@ public class ConfirmRegistrationForAdmin extends BaseAction {
 			ActionForward forward = new ActionForward();
 			log.info("Finishing Business Registration Process");
 			CreateAnotherAdminBean adminRegistrationBean = (CreateAnotherAdminBean) form;
-			
+			adminRegistrationBean.setRole(Roles.CHILDADMIN.name());
 			DoTransaction doTransaction = getSpringCtxDoTransactionBean();
 
 			Address address = adminRegistrationBean.getListAddress(0);

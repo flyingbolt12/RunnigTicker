@@ -61,20 +61,20 @@ public class LoginCheck {
 			log.info("Login Failed");
 		} else if (UserProfiles != null && UserProfiles.size() == 1) {
 
-			UserProfile tempLoginStatus = (UserProfile) UserProfiles.get(0);
-			log.info("Approval Status {}", tempLoginStatus.getApprovalStatus());
+			UserProfile userProfile = (UserProfile) UserProfiles.get(0);
+			log.info("Approval Status {}", userProfile.getApprovalStatus());
 
 			// If deleted case of admin
-			if (tempLoginStatus.isAdmin() && tempLoginStatus.getApprovalStatus() == 3) {
+			if (userProfile.isAdmin() && userProfile.getApprovalStatus() == 3) {
 				loginStatus.setLoginStatus(false);
 				loginStatus.setLoginFailReason("invalidLoginDeletedEmployer");
-			} else if (tempLoginStatus.getApprovalStatus() == 1 || tempLoginStatus.getApprovalStatus() == 2 || tempLoginStatus.getApprovalStatus() == 3) // If approved and disabled 3
+			} else if (userProfile.getApprovalStatus() == 1 || userProfile.getApprovalStatus() == 2 || userProfile.getApprovalStatus() == 3) // If approved and disabled 3
 			{
 			
-				if (tempLoginStatus.isBusinessEmailValidated()) {
+				if (userProfile.isBusinessEmailValidated()) {
 					try {
-						BeanUtils.copyProperties(loginStatus, tempLoginStatus);
-						if (loginStatus.isAdmin()) {
+						BeanUtils.copyProperties(loginStatus, userProfile);
+						if (loginStatus.isAdmin() || loginStatus.isChildAdmin()) {
 							loginStatus.setEmployerEmail(loginStatus.getEmployeeEmail());
 						} else {
 
@@ -96,7 +96,7 @@ public class LoginCheck {
 					}
 					log.info("Login Successed");
 				} else {
-					if (tempLoginStatus.isAdmin()) {
+					if (userProfile.isAdmin() || userProfile.isChildAdmin()) {
 						loginStatus.setLoginStatus(false);
 						loginStatus.setLoginFailReason("businessEmailNotYetValidatedAdmin");
 						log.warn("Login Failed : " + loginStatus.getLoginFailReason());
@@ -106,9 +106,9 @@ public class LoginCheck {
 						log.warn("Login Failed : " + loginStatus.getLoginFailReason());
 					}
 				}
-			} else if (tempLoginStatus.getApprovalStatus() == 0) {
+			} else if (userProfile.getApprovalStatus() == 0) {
 				loginStatus.setLoginStatus(false);
-				if ("ADMIN".equalsIgnoreCase(tempLoginStatus.getUserRole()))
+				if (userProfile.isAdmin() || userProfile.isChildAdmin())
 					loginStatus.setLoginFailReason("invalidLoginPendingEmployerApproval");
 				else
 					loginStatus.setLoginFailReason("invalidLoginPendingEmployeeApproval");

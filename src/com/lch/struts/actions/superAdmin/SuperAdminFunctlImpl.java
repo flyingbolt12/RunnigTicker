@@ -21,6 +21,7 @@ import com.lch.general.email.EmailDetails;
 import com.lch.general.enums.TimerStatus;
 import com.lch.spring.BusinessComponents.DoTransaction;
 import com.lch.spring.services.BDayService;
+import com.lch.spring.services.ImmigrationExpirationService;
 import com.lch.struts.actions.BaseAction;
 import com.lch.struts.actions.admin.AdminFunctImplAction;
 import com.lch.struts.actions.admin.ConfirmRegistrationAction;
@@ -129,6 +130,18 @@ public class SuperAdminFunctlImpl extends BaseAction {
 		return (forward);
 	}
 
+	public ActionForward triggerImmigrationJobs(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		log.info("-triggerImmigrationJobs-");
+
+		ActionForward forward = new ActionForward();
+		forward = mapping.findForward("generalJSP4AJAXMsg");
+		 
+		ImmigrationExpirationService service = (ImmigrationExpirationService) getSpringCTX().getBean("immigrationExpirationService");
+		service.notifyExpirations();
+		
+		putAjaxStatusObjInRequest(request, "Job execution Started!!");
+		return (forward);
+	}
 	
 	public ActionForward enbleBusinessForTestingPurpose(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		log.info("-enbleBusinessForTestingPurpose-");

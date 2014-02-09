@@ -1,5 +1,11 @@
+<%@page import="com.lch.general.Roles"%>
+<%@page import="com.lch.general.generalBeans.UserProfile"%>
 <%@ taglib uri="http://struts.apache.org/tags-html" prefix="html"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
+	<script>
+	var notAdmin = false;
+	</script>
 <c:if test="${isEmployerNotified == 'yes'}">
 	<script>
 		dhtmlx.message({type:"error", expire:6000, text:"Employer Notified." });
@@ -26,9 +32,30 @@
 	if (status != null && status.length() > 0) {
 %>
 <script>
-	dhtmlx.message({type:"error", expire:6000, text:"Admin Created." });</script>
+	dhtmlx.message({type:"error", expire:6000, text:"Admin Created." });
+</script>
+
 <%
 	}
+%>
+
+<%
+	com.lch.general.generalBeans.UserProfile up = (com.lch.general.generalBeans.UserProfile) session
+			.getAttribute("userProfile");
+	int approvalStatus = up.getApprovalStatus();
+	
+	System.out.println(up.getUserRole());
+	if(!up.getUserRole().equals(Roles.ADMIN.name()))
+	{
+		%> 
+		<script>
+			notAdmin = true;
+		</script>
+		<%
+		System.out.println("Inavlid placement for admin functions page");
+		return;
+	}
+	
 %>
 
 <style>
@@ -37,10 +64,6 @@
 	text-decoration: none;
 	font-family: Tahoma;
 	font-size: 10pt;
-	padding-left: 10px;
-	padding-right: 10px;
-	padding-top: 1px;
-	padding-bottom: 1px;
 }
 
 .HTMLHIDDENLINK {
@@ -69,8 +92,8 @@
 </style>
 
 
-<div align="center">
-	<table border="0" width="100%" id="table1" cellspacing="20"
+<div align="center" id="adminFucntionsPage">
+	<table border="0" width="90%" id="table1" cellspacing="20"
 		cellpadding="5">
 		<tr>
 			<td height="18" colspan="2" class="tdHeader"><font
@@ -167,7 +190,33 @@
 								href="#">
 		Request all employees to update their profiles</html:link></td>
 					</tr>
-				
+					<tr>
+						<td><b><font SIZE="2">»</font></b></td>
+						<td><html:link styleClass="HTMLLINK"
+								title="Notifies employee to update his/her immigration details"
+								action="/adminFunctImpl.do?parameter=searchOptions&featureRequest=IMMIGRATION_DETAILS">
+		Request employee to update immigration details</html:link></td>
+					</tr>
+					<tr>
+						<td><b><font SIZE="2">»</font></b></td>
+						<td><html:link styleClass="HTMLLINK"
+								title="Notifies all employees to update their immigration details who don't updated their details yet" onclick="confirmlinkForRequestAllEmployeesToUpdateTheirImmigrationDetails()"
+								href="#">
+		Request employees to update their immigration details</html:link></td>
+					</tr>
+				<%
+						UserProfile userProfile = (UserProfile) session.getAttribute("userProfile");
+						String action = "";
+						boolean isAdmin = userProfile.isAdmin();
+						if(isAdmin) {
+						%>
+						
+					<tr>
+						<td><b><font SIZE="2">»</font></b></td>
+						<td>
+						<html:link styleClass="HTMLLINK" title="Tells about invoice to bill clients - Not available for Child Admins" action="/adminFunctImpl.do?parameter=searchOptions&featureRequest=SET_EMPLOYEE_RATE">Set Rate - How much to bill?</html:link></td>
+					</tr>
+					<% } %>
 					<tr height="50">
 						<td><b><font SIZE="2"> </font></b></td>
 						<td><b><font SIZE="2"> Timer Management Links </font></b></td>
@@ -289,9 +338,10 @@
 			</td>
 		</tr>
 	</table>	
+	
 </div>
-
-<form action="adminFunctImpl.do?parameter=sendBusinessIdToAllMyEmployees" method="POST">
+<div id="security"></div>
+<form action="adminFunctImpl.do" method="POST">
 <input type="hidden" name="parameter">
 </form>
 <script>
@@ -320,6 +370,22 @@
 		 }});
 
 	}
+	function confirmlinkForRequestAllEmployeesToUpdateTheirImmigrationDetails() {
+
+		var msg = "Do you want to Notify your employees to update their immigration details, Who not yet updated?";
+		
+		dhtmlx.confirm({ title: "Confirmation Needed", text:msg, ok:"Yes", cancel:"No", callback:function(result){ 
+			if (result == true){
+				document.forms[0].parameter.value="requestAllEmployeesToUpdateTheirImmigrrationDetails";
+				document.forms[0].submit();
+			}
+		 }});
+
+	}
 	
+	if(notAdmin){
+		document.getElementById("adminFucntionsPage").parentNode.removeChild(document.getElementById("adminFucntionsPage"));
+		document.getElementById("security").innerHTML="DUE TO SECURITY RESTRICTIONS, WE COULDN'T SHOW THIS PAGE NOW, CONTACT US TO KNOW WHY?";
+	}
 </script>
 

@@ -101,30 +101,6 @@
 		</logic:iterate>
 	</table>
 	
-	<%
-		if (count == 1) {
-	%>
-	<font size="2" color="red"> <BR><span id="blink"><b>   --> Note :  </b></span> <span id="message"></span></font>
-	<script>
-	document.getElementById("enable").disabled = true;
-	document.getElementById("disable").disabled = true;
-	document.getElementById("delete").disabled = true;
-	document.getElementById("message").innerHTML = " Atleast one admin should be there to run this show. And so, above buttons will not function.";
-	
-	var element = document.getElementById("blink");
-	var shown = true;
-	setInterval(toggle, 500);
-
-	function toggle() {
-		element.style.visibility = element.style.visibility == "" ? "hidden" : "";
-	}
-	
-	
-	</script>
-	<%
-		}
-	%>
-
 </div>
 
 <script>

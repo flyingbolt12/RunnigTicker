@@ -63,6 +63,12 @@
 			<td height="18" width="235" align="left">&nbsp;<html:link action="/superAdminFunctImpl.do?parameter=triggerBdayJobs" styleClass="HTMLLINK" title="Remove Outage">Trigger B'day Job</html:link></td>
 		</tr>
 
+		<tr>
+			<td height="18" width="48" align="right"><font face="Times New Roman"></font></td>
+			<td height="18" align="left" nowrap>&nbsp;</td>
+			<td height="18" width="48" align="right"><font face="Times New Roman">»</font></td>
+			<td height="18" width="235" align="left">&nbsp;<html:link action="/superAdminFunctImpl.do?parameter=triggerImmigrationJobs" styleClass="HTMLLINK" title="Remove Outage">Trigger Immigration Job</html:link></td>
+		</tr>
 	</table>
 	<br>
 	<br>

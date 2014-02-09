@@ -1,3 +1,4 @@
+<%@page import="com.lch.general.generalBeans.UserProfile"%>
 <%@page import="java.util.Map"%>
 <%@page import="com.lch.general.enums.TimeSheetStatus"%>
 <%@ taglib uri="http://struts.apache.org/tags-html" prefix="html"%>
@@ -74,7 +75,6 @@ function approveOrReject(x,userId,month,year,submissionFor,weeklyHrsSummaryId, n
 {
 	if(x=='Approve')
 	{
-		
 		var box = dhtmlx.modalbox({ 
 			title:"Approve", 
 			text:name+" working for "+client+"<br><div id='form_in_box'><div><label> Comments if any : <br><textarea id='commentsForm' class='inform' rows='5' cols='30'></textarea></label><div><div><div>"
@@ -147,6 +147,7 @@ function cancel_callback(box){
 	    raiseRequest("btnSpn" + weeklyHrsSummaryId, actiontoTake, action);
     }
 </script>
+<% UserProfile userProfile = (UserProfile) session.getAttribute("userProfile"); %>
 <div align="center">
 
 	<span>Time Sheets</span>
@@ -163,6 +164,9 @@ function cancel_callback(box){
 			<td  class="approvalsTdHeader">Attached Docs</td>
 			<td  class="approvalsTdHeader"><input type="checkbox" id="selectAllCheckBox" name="selectAllCheckBox" value="selectAll" onclick="selectOrDeSelectAll(this.value)"></td>
 			<td  class="approvalsTdHeader">Action</td>
+			<% if(userProfile.isAdmin()) {%>
+			<td  class="approvalsTdHeader" width="150px">Invoice</td>
+			<%} %>
 		</tr>
 		<%
 			int count = 0;
@@ -186,8 +190,8 @@ function cancel_callback(box){
 									.get("weeklyHrsSummaryId")));
 					String firstName = (String) ((Map) employeeTimesheetPendingApprovalsId)
 							.get("firstName");
-					String clientWorkingFor = (String) ((Map) employeeTimesheetPendingApprovalsId)
-							.get("clientWorkingFor");
+					String clientWorkingFor = (String) ((Map) employeeTimesheetPendingApprovalsId).get("clientWorkingFor");
+					String clientId = (Long) ((Map) employeeTimesheetPendingApprovalsId).get("clientId") + "";
 			%>
 
 			<tr>
@@ -220,13 +224,17 @@ function cancel_callback(box){
 						name="reject"  class="ApproveRejectButtonStyle" onclick="approveOrReject(this.value,'<%=userId%>','<%=month%>','<%=year%>','<%=submissionFor%>','<%=weeklyHrsSummaryId%>','<%=firstName%>','<%=clientWorkingFor%>')">
 				</span></td>
 
+			<% if(userProfile.isAdmin()) {%>
+				<td  class="tdDataForAlts"><span id="invoice_<%= weeklyHrsSummaryId%>"><a href="javascript:loadInvoiceDetails(<%= weeklyHrsSummaryId%>, <%=clientId%>, <%=userId%>)">Load Invoice</a></span></td>
+			<%} %>
+			
 			</tr>
 			<%
 				count++;
 			%>
 		</logic:iterate>
 		<tr>
-			<td  class="approvalsTdHeader" colspan="8">
+			<td  class="approvalsTdHeader" colspan="<%= (userProfile.isAdmin()?9:8)%>">
 				<p align="right">
 					<input type="button" value="ApproveAll" id="approveAll"  class="ApproveRejectButtonStyle" onclick="approveOrRejectAll(this.value)"> <input type="button" value="RejectAll" id="rejectAll" 
 						class="ApproveRejectButtonStyle" onclick="approveOrRejectAll(this.value)">
@@ -270,5 +278,31 @@ if (document.getElementsByTagName) {
 		    rows[i].className = "odd";
 	    }
     }
+}
+
+function loadInvoiceDetails(weeklyHrsSummaryId, clientId, userId){
+	
+	 var params = {
+			 weeklyHrsSummaryId : weeklyHrsSummaryId,
+			 clientId:clientId,
+			 userId:userId
+	    };
+	    var obj = {
+	    id : "invoice_"+weeklyHrsSummaryId,
+	    url : "adminFunctImpl.do?parameter=loadInvoiceDetails",
+	    params : params,
+	    responseHandler : handleInvoiceResponse
+	    };
+	    sendAjaxRequest(obj);
+	    
+}   
+
+function handleInvoiceResponse(obj, response) {
+   removeAjaxImg(obj.id);
+
+   if (response != null)
+	    response = response.replace("disableSubmitRequired", "");
+   placeAjaxMessage(obj.id, response);
+   
 }
 </script>

@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.collections.map.ListOrderedMap;
+import org.apache.commons.validator.routines.EmailValidator;
 import org.apache.struts.action.ActionErrors;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -103,6 +104,76 @@ public class AdminFunctImplAction extends BaseAction {
 
 		return forward;
 	}
+	
+
+	public ActionForward loadInvoiceDetails(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		log.info("-loadInvoiceDetails-");
+		
+		long userId = getLongAsRequestParameter("userId", request);
+		long clientId = getLongAsRequestParameter("clientId", request);
+		long weeklyHrsSummaryId = getLongAsRequestParameter("weeklyHrsSummaryId", request);
+		long businessId = getUserProfile(request).getBusinessId();
+		DoTransaction doTransaction = getSpringCtxDoTransactionBean();
+		try{
+			double rate = Double.parseDouble(doTransaction.getRate(clientId, userId, businessId));
+			Map<String, Object> m = doTransaction.getWeeklySummeryDetails(weeklyHrsSummaryId);
+			double totalRegularHrs = (Double)m.get("totalRegularHrs");
+			double totalOvertimeHrs = (Double)m.get("totalOvertimeHrs");
+			double totalHolidayHrs = (Double)m.get("totalHolidayHrs");
+			
+			putObjInRequest("RH", request, totalRegularHrs);
+			putObjInRequest("OH", request, totalOvertimeHrs);
+			putObjInRequest("HH", request, totalHolidayHrs);
+			putObjInRequest("RATE", request, rate);
+		}
+		catch(Exception e)
+		{
+			log.debug("Unable to get the User rate {}", e.getMessage());
+			//e.printStackTrace();
+			putAjaxStatusObjInRequest(request,"UnableToShow");
+			return mapping.findForward("generalJSP4AJAXMsg");
+		}
+		
+		ActionForward forward = new ActionForward();
+		forward = mapping.findForward("showInvoice");
+		return (forward);
+	}
+	
+	public ActionForward setUserRate(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		ActionForward forward = new ActionForward();
+		log.info("-setUserRate-");
+
+		long userId = getLongAsRequestParameter("userId", request);
+		long clientId = getLongAsRequestParameter("clientId", request);
+		double rate = getDoubleAsRequestParameter("rate", request);
+		long businessId = getUserProfile(request).getBusinessId();
+		DoTransaction doTransaction = getSpringCtxDoTransactionBean();
+		int result =-1;
+		if(rate != 0){
+			result = doTransaction.setRate(clientId, userId, businessId, rate);
+		}
+		else{
+			result = -1;
+		}
+		
+		String status = "";
+		if(result == -1)
+		{
+			status = "No Action Performed";
+		}else
+		{
+			status = "Rate Set";
+		}
+		
+
+		putAjaxStatusObjInRequest(request,status);
+		forward = mapping.findForward("generalJSP4AJAXMsg");
+
+		return forward;
+	}
+	
 	
 	public ActionForward notifyToUploadProfile(ActionMapping mapping, ActionForm form, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
@@ -365,6 +436,9 @@ public class AdminFunctImplAction extends BaseAction {
 		if (orderBy == null)
 			orderBy = "firstName";
 		log.info(orderBy + " : " + order);
+		
+		
+		
 		List<Map<String, Object>> listAllMyEmployees = getSpringCtxDoTransactionBean().getAllMySearchEmployeesList(
 				businessId, orderBy, order, SQL);
 		
@@ -457,7 +531,6 @@ public class AdminFunctImplAction extends BaseAction {
 		log.info(orderBy + " : " + order);
 		List<Map<String, Object>> listAllMyEmployees = getSpringCtxDoTransactionBean().getAllMyEmployeesList(businessId,
 				orderBy, order);
-
 		resetSessionObjects(request);
 
 		if (order != null && order.equalsIgnoreCase("desc")) {
@@ -889,7 +962,7 @@ public class AdminFunctImplAction extends BaseAction {
 		forward = mapping.findForward("totalHrsClaimed");
 		return (forward);
 	}
-
+	
 	public ActionForward investedAmountOnEmployee(ActionMapping mapping, ActionForm form, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		log.info("InvestedAmountOnEmployee-");
@@ -1224,7 +1297,7 @@ public class AdminFunctImplAction extends BaseAction {
 	
 	public ActionForward requestAllEmployeesToUpdateTheirProfiles(ActionMapping mapping, ActionForm form, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
-		log.info("-sendBusinessIdToAllMyEmployees-");
+		log.info("-requestAllEmployeesToUpdateTheirProfiles-");
 		
 		ActionForward forward = new ActionForward();
 		forward = mapping.findForward("adminFunctions");
@@ -1251,7 +1324,39 @@ public class AdminFunctImplAction extends BaseAction {
 		putObjInRequest("isNotified", request, "yes");
 		return (forward);
 	}
-	
+
+	public ActionForward requestAllEmployeesToUpdateTheirImmigrrationDetails(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		log.info("-requestAllEmployeesToUpdateTheirImmigrrationDetails-");
+		
+		ActionForward forward = new ActionForward();
+		forward = mapping.findForward("adminFunctions");
+		long businessId = getUserProfile(request).getBusinessId();
+		List<Map<String, Object>> listAllMyEmployees = getSpringCtxDoTransactionBean().getAllMyEmployeesWithNoImmigrationDetails(businessId);
+		
+		List<String> bcc = new ArrayList<String>();
+		
+		EmailDetails emailDetails = new EmailDetails();
+
+		for(Map<String, Object> email : listAllMyEmployees)
+		{
+			String employeeEmail = (String)email.get("contactEmail");
+			if(EmailValidator.getInstance().isValid(employeeEmail))
+				bcc.add(employeeEmail);
+		}
+		VMInputBean bean = new VMInputBean();
+		bean.setText(String.valueOf(businessId));
+		emailDetails.setSubject("Request from your employer : " + getUserProfile(request).getEmployerName());
+		String sb = getEmailTemplate(bean, VMConstants.VM_REQUEST_TO_UPDATE_IMMIGRATION_DETAILS);
+		emailDetails.setEmailContent(new StringBuffer(sb));
+		emailDetails.setBcc(bcc);
+		emailDetails.setFrom(getUserProfile(request).getEmployerEmail());
+		sendEmail(emailDetails);
+		putStatusObjInRequest(request, "All Your Employees Notified Successfully");
+		putObjInRequest("isNotified", request, "yes");
+		return (forward);
+	}
+
 	public ActionForward requestAnEmployeeToUpdateProfile(ActionMapping mapping, ActionForm form, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		log.info("-sendBusinessIdToAllMyEmployees-");
@@ -1276,6 +1381,33 @@ public class AdminFunctImplAction extends BaseAction {
 		putAjaxStatusObjInRequest(request, "Notified");
 		return (forward);
 	}
+
+	
+	public ActionForward requestAnEmployeeToUpdateImmigrationDetails(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		log.info("-sendBusinessIdToAllMyEmployees-");
+		
+		ActionForward forward = new ActionForward();
+		forward = mapping.findForward("generalJSP4AJAXMsg");
+		
+		long usrId = getLongAsRequestParameter("ajaxParam", request);
+		String usrEmail = getSpringCtxDoTransactionBean().getUserEmail(usrId);
+		
+		List<String> bcc = new ArrayList<String>();
+		
+		EmailDetails emailDetails = new EmailDetails();
+		bcc.add(usrEmail);
+		VMInputBean bean = new VMInputBean();
+		emailDetails.setSubject("Request from your employer : " + getUserProfile(request).getEmployerName());
+		String sb = getEmailTemplate(bean, VMConstants.VM_REQUEST_TO_UPDATE_IMMIGRATION_DETAILS);
+		emailDetails.setEmailContent(new StringBuffer(sb));
+		emailDetails.setTo(bcc);
+		emailDetails.setFrom(getUserProfile(request).getEmployerEmail());
+		sendEmail(emailDetails);
+		putAjaxStatusObjInRequest(request, "Notified");
+		return (forward);
+	}
+
 	
 	public ActionForward cancelUserRateDetails(ActionMapping mapping, ActionForm form, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {

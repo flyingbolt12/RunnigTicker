@@ -79,25 +79,23 @@ function processPasswdRestResponse(id, str, userId, action, email){
 	//System.out.println("feature --> " + feature);
 
 	String header = "Client Location";
-	if (feature != null
-			&& feature.equals(AdminSearchFunction.ACTIVATE_DEACTIVATE
-					.name()))
+	if (feature != null	&& feature.equals(AdminSearchFunction.ACTIVATE_DEACTIVATE.name()))
 		header = "CurrentStatus";
-	if (feature != null
-			&& feature.equals(AdminSearchFunction.EMP_UPDATE.name()))
+	if (feature != null	&& feature.equals(AdminSearchFunction.EMP_UPDATE.name()))
 		header = "Update Empoyee Profile Request";
-	if (feature != null
-			&& feature.equals(AdminSearchFunction.EMP_PASSWORD_RESET
-					.name()))
+	if (feature != null	&& feature.equals(AdminSearchFunction.EMP_PASSWORD_RESET.name()))
 		header = "Reset Password";
-	if (feature != null
-			&& feature.equals(AdminSearchFunction.EMP_TIMESHEET.name()))
+	if (feature != null && feature.equals(AdminSearchFunction.EMP_TIMESHEET.name()))
 		header = "Download TimeSheets";
-	if (feature != null
-			&& feature
-					.equals(AdminSearchFunction.LIST_TIMESHEETS_FOR_ADMIN
-							.name()))
+	if (feature != null && feature.equals(AdminSearchFunction.LIST_TIMESHEETS_FOR_ADMIN.name()))
 		header = "List TimeSheets";
+	if (feature != null && feature.equals(AdminSearchFunction.SET_EMPLOYEE_RATE.name()))
+		header = "Set Billing Rate";
+	if (feature != null && feature.equals(AdminSearchFunction.IMMIGRATION_DETAILS.name()))
+		header = "Immigration Details";
+	
+	
+
 %>
 <table border="0" cellspacing="1" width="100%" id="allEmployees" style="font-family: Tahoma; font-size: 10pt">
 	<tr style="vertical-align: middle;">
@@ -127,9 +125,23 @@ function processPasswdRestResponse(id, str, userId, action, email){
 			String userId = String.valueOf(((Map) listAllMyEmployeesId)
 						.get("iduser"));
 
-				String contactEmail = String
-						.valueOf(((Map) listAllMyEmployeesId)
-								.get("contactEmail"));
+				String contactEmail = String.valueOf(((Map) listAllMyEmployeesId).get("contactEmail"));
+				
+				String employeeName = String.valueOf(((Map) listAllMyEmployeesId).get("firstName"));
+				String clientName = String.valueOf(((Map) listAllMyEmployeesId).get("clientName"));
+				String clientId = String.valueOf(((Map) listAllMyEmployeesId).get("clientid"));
+				Object idimmigrationdetails = ((Map) listAllMyEmployeesId).get("idimmigrationdetails");
+				Object iduserrate = ((Map) listAllMyEmployeesId).get("iduserrate");
+				Object rate = ((Map) listAllMyEmployeesId).get("rate");
+				boolean isImmigrationDetalsAvalable = false;
+				if(idimmigrationdetails!=null){
+					isImmigrationDetalsAvalable = true;
+				}
+				
+				boolean isRateDetailsAvailable = false;
+				if(iduserrate!=null){
+					isRateDetailsAvailable = true;
+				}
 		%>
 		<tr>
 			<td rowspan="3" class="listEmployeesTdBody"><bean:write name="listAllMyEmployeesId" property="iduser"></bean:write></td>
@@ -138,51 +150,38 @@ function processPasswdRestResponse(id, str, userId, action, email){
 			<td rowspan="3" class="listEmployeesTdBody"><bean:write name="listAllMyEmployeesId" property="clientName"></bean:write></td>
 			<td rowspan="3" class="listEmployeesTdBody">
 				<%
-					String ajaxAction = "adminFunctImpl.do?parameter=activateOrDeActivateUser";
-						String status = String.valueOf(((Map) listAllMyEmployeesId)
-								.get("approvalStatus"));
+					String ajaxAction = "adminFunctImpl.do?parameter=activateOrDeActivateUser";	String status = String.valueOf(((Map) listAllMyEmployeesId).get("approvalStatus"));
 				%> <%
- 	if (feature != null
- 				&& feature
- 						.equals(AdminSearchFunction.ACTIVATE_DEACTIVATE
- 								.name())) {
+ 	if (feature != null	&& feature.equals(AdminSearchFunction.ACTIVATE_DEACTIVATE.name())) {
  			ajaxAction = "adminFunctImpl.do?parameter=activateOrDeActivateUser";
  			if (status != null && status.equals("1")) {
- %> <span id="span_<%=userId%>"> <font color="green"> <B>Active </B><BR>
-				</font> <input type="button" value="DeActivate" name="deActive" class="ButtonStyle" onclick="raiseRequestWithParamsAndProcessFunction('span_<%=userId%>','<%=ajaxAction%>',<%=userId%>,2,'<%=contactEmail%>', processResponse)">
+ %> <span id="span_<%=userId%>"> <font color="green"> <B>Active </B><BR> </font> <input type="button" value="DeActivate" name="deActive" class="ButtonStyle" onclick="raiseRequestWithParamsAndProcessFunction('span_<%=userId%>','<%=ajaxAction%>',<%=userId%>,2,'<%=contactEmail%>', processResponse)">
 			</span> <%
  	} else {
  %> <span id="span_<%=userId%>"> <font color="red"> <B>Not Active </B> <BR>
 				</font> <input type="button" value="Activate" name="active" class="ButtonStyle" onclick="raiseRequestWithParamsAndProcessFunction('span_<%=userId%>','<%=ajaxAction%>',<%=userId%>,1,'<%=contactEmail%>', processResponse)">
 			</span> <%
  	}
- 		} else if (feature != null
- 				&& feature
- 						.equals(AdminSearchFunction.EMP_UPDATE.name())) {
+ 		} else if (feature != null && feature.equals(AdminSearchFunction.EMP_UPDATE.name())) {
  %> <span id="updateBtn_<%=userId%>"><input type="button" value="Send Update Profile Request" class="ButtonStyle" onclick="sendUpdateRequest(<%=userId%>)" > </span><%
- 	} else if (feature != null
- 				&& feature
- 						.equals(AdminSearchFunction.EMP_PASSWORD_RESET
- 								.name())) {
+ 	} else if (feature != null && feature.equals(AdminSearchFunction.EMP_PASSWORD_RESET.name())) {
  			ajaxAction = "adminFunctImpl.do?parameter=resetPasswordByAdmin";
- %> <span id="span_<%=userId%>"> <input type="button" value="Reset" class="ButtonStyle" onclick="raiseRequestWithParamsAndProcessFunction('span_<%=userId%>','<%=ajaxAction%>',<%=userId%>,1,'<%=contactEmail%>', processPasswdRestResponse)">
-			</span> <%
- 	} else if (feature != null
- 				&& feature
- 						.equals(AdminSearchFunction.LIST_TIMESHEETS_FOR_ADMIN
- 								.name())) {
- %> <span id="span_<%=userId%>"> <input type="button" value="List Time Sheets" class="ButtonStyle" onclick="listTimeSheets('<%=userId%>')">
-			</span> <%
- 	} else if (feature != null
- 				&& feature.equals(AdminSearchFunction.EMP_TIMESHEET
- 						.name())) {
- %> <span id="span_<%=userId%>"> <input type="button" value="Download Time Sheets" class="ButtonStyle" onclick="downloadTimeSheets('<%=userId%>')">
-			</span> <%
- 	} else {
- %> <bean:write name="listAllMyEmployeesId" property="cleintAddress"></bean:write> <%
+ %> <span id="span_<%=userId%>"> <input type="button" value="Reset" class="ButtonStyle" onclick="raiseRequestWithParamsAndProcessFunction('span_<%=userId%>','<%=ajaxAction%>',<%=userId%>,1,'<%=contactEmail%>', processPasswdRestResponse)">			</span> <%
+ 	} else if (feature != null && feature.equals(AdminSearchFunction.LIST_TIMESHEETS_FOR_ADMIN.name())) {
+ %> <span id="span_<%=userId%>"> <input type="button" value="List Time Sheets" class="ButtonStyle" onclick="listTimeSheets('<%=userId%>')">			</span> <%
+ 	} else if (feature != null && feature.equals(AdminSearchFunction.EMP_TIMESHEET.name())) {
+ %> <span id="span_<%=userId%>"> <input type="button" value="Download Time Sheets" class="ButtonStyle" onclick="downloadTimeSheets('<%=userId%>')">	</span> <%
+ 	} else if(feature != null && feature.equals(AdminSearchFunction.SET_EMPLOYEE_RATE.name())) { %>
+ 	<% if(isRateDetailsAvailable) { %> <a href="javascript:showUserRate(<%= rate.toString() %>)" style="text-decoration: none">Click to See Billing Rate!</a> <BR><%} %>
+ 	<span id="span_<%=userId%>"> <input type="button" value="Set Rate" class="ButtonStyle" onclick="setRate('<%=employeeName%>','<%= clientName%>','<%=userId%>','<%=clientId%>')">			</span>
+ 	 <%} else if(feature != null && feature.equals(AdminSearchFunction.IMMIGRATION_DETAILS.name())){ %>
+ 	 <% if(isImmigrationDetalsAvalable) { %> Details Already Available! <a href="memberFunctImpl.do?parameter=showUpdateImmigrationDetailsPage&isFromAdmin=true&userId=<%=userId %>" style="text-decoration: none">Click here to see.</a> <BR> <%} %>
+ 	 <span id="span_<%=userId%>"> <input type="button" value="Send Update ImmigrationDetails Request" class="ButtonStyle" onclick="sendImmigrationUpdateRequest(<%=userId%>)">			</span>
+ 	 <%
+ 	 } else { %> 
+ 	<bean:write name="listAllMyEmployeesId" property="cleintAddress"></bean:write> <%
  	}
  %>
-
 			</td>
 
 			<td rowspan="3" class="listEmployeesTdBody"><logic:present name="listAllMyEmployeesId" property="recentHrs">
@@ -252,6 +251,20 @@ function sendUpdateRequest(userId)
 	    	    };
 	    	    sendAjaxRequest(obj);
 }
+function sendImmigrationUpdateRequest(userId)
+{
+	  var params = {
+	    		    ajaxParam : userId
+	    	    };
+	    	    var obj = {
+	    	    id : "span_"+userId,
+	    	    url : "adminFunctImpl.do?parameter=requestAnEmployeeToUpdateImmigrationDetails",
+	    	    params : params,
+	    	    responseHandler : handleEmpResponse
+	    	    };
+	    	    sendAjaxRequest(obj);
+}
+
 function handleEmpResponse(obj, response) {
     removeAjaxImg(obj.id);
  
@@ -271,16 +284,69 @@ function downloadTimeSheets(userId)
 	document.forms[1].submit();
 };
 
+function setRate(name, clientName, userId, clientId)
+{
+	var box = dhtmlx.modalbox({ 
+		title:"Helps Invoice!", 
+		text:name+" working for "+clientName+"<br><div id='form_in_box'><div><font color='red' size='2'>If Rate already set for the same client then it will be updated.</font><BR> <BR><label> Enter Rate Per Hour : <br><input type=text id='commentsForm' class='inform' width=20></label><div><div><div>"
+		+"<br><span class='dhtmlx_button'><input type='button' value='Set Rate' onclick=\"save_approve_callback(this,"+userId+","+clientId+")\" style='width:100px;'></span>"
+		+"<span class='dhtmlx_button'><input type='button' value='Cancel' onclick='cancel_callback(this)' style='width:100px;'></span>",
+		width:"300px",
+		height : "255px"
+	});
 
-	if (document.getElementsByTagName) {
-	    var table = document.getElementById("allEmployees");
-	    var rows = table.getElementsByTagName("tr");
-	    for (i = 0; i < rows.length; i++) {
-		    if (i % 2 == 0) {
-			    rows[i].className = "even";
-		    } else {
-			    rows[i].className = "odd";
-		    }
+};
+
+function save_approve_callback(box, userId, clientId){
+	var rate = document.getElementById('commentsForm').value;
+	dhtmlx.modalbox.hide(box);
+	// Send AJAX Request userid , client id and rate.
+	
+	 var params = {
+ 		    userId : userId,
+ 		    clientId: clientId,
+ 		    rate : rate
+ 	    };
+ 	    var obj = {
+ 	    id : "span_"+userId,
+ 	    url : "adminFunctImpl.do?parameter=setUserRate",
+ 	    params : params,
+ 	    responseHandler : handleRateResponse
+ 	    };
+ 	    sendAjaxRequest(obj);
+ 	    
+}   
+
+function handleRateResponse(obj, response) {
+    removeAjaxImg(obj.id);
+ 
+    if (response != null)
+	    response = response.replace("disableSubmitRequired", "");
+    placeAjaxMessage(obj.id, response);
+    
+}
+
+function cancel_callback(box){
+	dhtmlx.message("Operation Cancelled...");
+	dhtmlx.modalbox.hide(box);
+}
+
+function showUserRate(rate){
+	dhtmlx.alert({
+		type:"User Billing Rate",
+		text:rate
+	});
+}
+
+if (document.getElementsByTagName) {
+    var table = document.getElementById("allEmployees");
+    var rows = table.getElementsByTagName("tr");
+    for (i = 0; i < rows.length; i++) {
+	    if (i % 2 == 0) {
+		    rows[i].className = "even";
+	    } else {
+		    rows[i].className = "odd";
 	    }
     }
+   }
     </script>

@@ -19,7 +19,9 @@ import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.jdbc.support.JdbcUtils;
 
+import com.lch.general.Roles;
 import com.lch.general.constants.GeneralConstants;
 import com.lch.general.constants.VMConstants;
 import com.lch.general.dbBeans.Address;
@@ -30,6 +32,7 @@ import com.lch.general.enums.DOCTypes;
 import com.lch.general.enums.SubmissionFor;
 import com.lch.general.enums.TimeSheetStatus;
 import com.lch.general.enums.TimeSheetTypes;
+import com.lch.general.generalBeans.ImmigrationDetailsBean;
 import com.lch.general.generalBeans.UserProfile;
 import com.lch.general.generalBeans.VMInputBean;
 import com.lch.general.genericUtils.DateUtils;
@@ -370,6 +373,10 @@ public class MemberFunctImplAction extends BaseAction {
 		return forward;
 	}
 
+	
+	
+	
+
 	private void saveTimeSheetSubmittedErrors(TimeSheetStatus timeSheetStatus, HttpServletRequest request) {
 		if ((timeSheetStatus == TimeSheetStatus.PENDING) || (timeSheetStatus == TimeSheetStatus.APPROVED)) {
 			ActionErrors errors = new ActionErrors();
@@ -558,7 +565,7 @@ public class MemberFunctImplAction extends BaseAction {
 		
 		return showManageDocs(mapping, form, request, response);
 	}
-
+	
 	public ActionForward updateMyClient(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		ActionForward forward = new ActionForward();
@@ -971,7 +978,14 @@ public class MemberFunctImplAction extends BaseAction {
 
 		ActionForward forward = new ActionForward();
 		forward = mapping.findForward("memberFunctions");
-		return (forward);
+		
+		if (getUserProfile(request).getUserRole().equals(Roles.MEMBER.name()))
+		{
+			return mapping.findForward("memberFunctions");
+		} else {
+			return mapping.findForward("adminFunctions");
+		}
+		
 	}
 
 	public ActionForward verifyEmployerValidity(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -1060,6 +1074,51 @@ public class MemberFunctImplAction extends BaseAction {
 	private String buildHTML(String filePath, String fileName, HttpServletRequest request) {
 		return "<img src=\"" + filePath + fileName + "\"/><BR>";
 	}
+	
+	public ActionForward showUpdateImmigrationDetailsPage(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+		ActionForward forward = new ActionForward();
+		forward = mapping.findForward("showUpdateImmigrationDetailsPage");
+		long userId = getUserProfile(request).getUserId();
+		// To handel teh request from Admin page
+		if(request.getParameter("isFromAdmin")!=null) {
+			userId = getLongAsRequestParameter("userId", request);
+		}
+		
+		ImmigrationDetailsBean immigrationDetails = getSpringCtxDoTransactionBean()
+				.listImmigrationDetails(userId);
+		putObjInRequest("immigrationDetails", request, immigrationDetails);
+		return (forward);
+	
+	}
+
+	public ActionForward saveOrUpdateImmigrationDetails(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+		ActionForward forward = new ActionForward();
+		forward = mapping.findForward("memberFunctions");
+		log.info("saveOrUpdateImmigrationDetails - Strat working");
+		UserProfile userProfile = getUserProfile(request);
+
+		ImmigrationDetailsBean bean = new ImmigrationDetailsBean();
+		bean.setIdimmigrationdetails(getLongAsRequestParameter("idimmigrationdetails", request));
+		bean.setPassportExpiryDate(getSQLDateAsRequestParameter("passportExpiryDate", request));
+		bean.setPassportIssueDate(getSQLDateAsRequestParameter("passportIssueDate", request));
+		bean.setVisaExpiryDate(getSQLDateAsRequestParameter("visaExpiryDate", request));
+		bean.setVisaIssuedDate(getSQLDateAsRequestParameter("visaIssuedDate", request));
+		bean.setPassportNumber(request.getParameter("passportNumber"));
+		bean.setVisaType(request.getParameter("visaType"));
+		bean.setUserId(getLongAsRequestParameter("userId", request));;
+		
+		if(bean.getUserId() <= 0l || bean.getPassportExpiryDate() == null || bean.getPassportIssueDate() == null || bean.getVisaExpiryDate() == null || bean.getVisaIssuedDate() == null ) {
+			putStatusObjInRequest(request,"Invalid Details Found");
+			return  mapping.findForward("showUpdateImmigrationDetailsPage");
+		}
+		getSpringCtxDoTransactionBean().saveOrUpdateImmigrationDetails(bean);
+		
+		putObjInRequest("ImmigrationDetails", request, "yes");
+		return forward;
+	}
+
 }
 
 class FileDetails {

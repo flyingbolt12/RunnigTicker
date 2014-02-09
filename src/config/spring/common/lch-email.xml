@@ -39,7 +39,7 @@
 	</bean>
 
 	<bean  id="propBean" class="com.lch.general.email.PropertiesBean">
-		<property name="isToSendEmail" value="true" />
+		<property name="isToSendEmail" value="false" />
 	</bean>
 	
 </beans>

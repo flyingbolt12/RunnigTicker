@@ -1,3 +1,4 @@
+<%@page import="com.lch.general.generalBeans.UserProfile"%>
 <%@page import="java.util.Map"%>
 <%@page import="com.lch.general.enums.TimeSheetStatus"%>
 <%@ taglib uri="http://struts.apache.org/tags-html" prefix="html"%>
@@ -129,7 +130,7 @@ function updateAndSubmitForm(userId,month,year,action,submissionFor,weeklyHrsSum
 </script>
 <div align="center" >
 
-
+<% UserProfile userProfile = (UserProfile) session.getAttribute("userProfile"); %>
 <span>Approved/Rejected Time Sheets</span>
 <hr/> <br>
 
@@ -142,6 +143,9 @@ function updateAndSubmitForm(userId,month,year,action,submissionFor,weeklyHrsSum
 			<td class="tdHeader"> Status</td>
 			<td class="tdHeader"> Attached Docs</td>
 			<td class="tdHeader"> Action</td>
+			<% if(userProfile.isAdmin()) {%>
+			<td  class="approvalsTdHeader" width="150px">Invoice</td>
+			<%} %>
 		</tr>
 <logic:iterate id="listTimeSheetsForAdmin" name="timeSheetsForAdminList">
 		<tr>
@@ -161,7 +165,7 @@ function updateAndSubmitForm(userId,month,year,action,submissionFor,weeklyHrsSum
 			String month = ((Map)listTimeSheetsForAdmin).get("month").toString();
 			String year = ((Map)listTimeSheetsForAdmin).get("year").toString();
 			String submissionFor = (String)((Map)listTimeSheetsForAdmin).get("submissionFor");
-									
+			String clientId = (Long) ((Map) listTimeSheetsForAdmin).get("clientId") + "";
 			
 			if(!id.equals("0")){
 			%>
@@ -175,7 +179,10 @@ function updateAndSubmitForm(userId,month,year,action,submissionFor,weeklyHrsSum
 			<%} %>
 			</span>
 			</td>
-			 
+			 	<% if(userProfile.isAdmin()) {%>
+				<td  class="tdDataForAlts"><span id="invoice_<%= weeklyHrsSummaryId%>"><a href="javascript:loadInvoiceDetails(<%= weeklyHrsSummaryId%>, <%=clientId%>, <%=userId%>)">Load Invoice</a></span></td>
+			<%} %>
+			
 		</tr>
 </logic:iterate>
 		<tr>
@@ -196,5 +203,31 @@ function updateAndSubmitForm(userId,month,year,action,submissionFor,weeklyHrsSum
 <script language="JavaScript">
  function openNewWindow(url) {
  popupWin = window.open(url, 'Downloading ...', ', , , , , scrollbars, resizable, dependent, width=740, height=500, left=200, top=200');
+ }
+
+ function loadInvoiceDetails(weeklyHrsSummaryId, clientId, userId){
+ 	
+ 	 var params = {
+ 			 weeklyHrsSummaryId : weeklyHrsSummaryId,
+ 			 clientId:clientId,
+ 			 userId:userId
+ 	    };
+ 	    var obj = {
+ 	    id : "invoice_"+weeklyHrsSummaryId,
+ 	    url : "adminFunctImpl.do?parameter=loadInvoiceDetails",
+ 	    params : params,
+ 	    responseHandler : handleInvoiceResponse
+ 	    };
+ 	    sendAjaxRequest(obj);
+ 	    
+ }   
+
+ function handleInvoiceResponse(obj, response) {
+    removeAjaxImg(obj.id);
+
+    if (response != null)
+ 	    response = response.replace("disableSubmitRequired", "");
+    placeAjaxMessage(obj.id, response);
+    
  }
  </script>

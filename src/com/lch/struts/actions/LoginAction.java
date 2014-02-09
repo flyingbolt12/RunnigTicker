@@ -47,10 +47,11 @@ public class LoginAction extends BaseAction
 			UserProfile userProfile = loginCheck.isLogin(login);
 			HttpSession session = request.getSession();
 			session.setAttribute("userProfile", userProfile);
+			// ADMINS OR CHILDADMINS
 			if (userProfile.isLoginStatus()) {
 				if (userProfile.isSuperAdmin()) {
 					forward = mapping.findForward("superAdminFunctions");
-				} else if (userProfile.isAdmin()) {
+				} else if (userProfile.isAdmin() || userProfile.isChildAdmin()) {
 					forward = mapping.findForward("employeeRegistrationPendingApprovals");
 					List<ListOrderedMap> employeeRegistrationPendingApprovals = getSpringCtxDoTransactionBean().listEmployeeRegistrationPendingApprovals(userProfile);
 					List<Map> employeeTimesheetPendingApprovals = getSpringCtxDoTransactionBean().listEmployeeTimesheetPendingApprovals(getUserProfile(request));
@@ -65,6 +66,7 @@ public class LoginAction extends BaseAction
 					} else {
 						forward = mapping.findForward("adminFunctions");
 					}
+					// MEMBERS OR EMPLOYEES
 				} else {
 					Calendar cal = Calendar.getInstance();
 					int year = cal.get(1);

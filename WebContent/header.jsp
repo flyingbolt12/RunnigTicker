@@ -20,7 +20,7 @@
 			pageDecider = "Admin";
 			pageURL = URL + "superAdmin/superAdmin.jsp";
 			title = "This link will take you to Super Functional Area.";
-		} else if (userProfile.isAdmin()) {
+		} else if (userProfile.isAdmin() || userProfile.isChildAdmin()) {
 			pageDecider = "Admin";
 			pageURL = URL + "admin/adminFunctions.jsp";
 			title = "This link will take you to Admin Functional Area.";

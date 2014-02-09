@@ -22,7 +22,7 @@
 <script language="JavaScript" type="text/javascript" src="js/tiptip/jquery.tipTip.minified.js"></script>
 <script language="JavaScript" type="text/javascript" src="js/dhtmlx/codebase/message.js"></script>
 
-<!-- Parralox -->
+<!-- Parralox for home animation-->
 <link rel="stylesheet" type="text/css" href="css/parralox/demo.css" />
 <link rel="stylesheet" type="text/css" href="css/parralox/style.css" />
 <script type="text/javascript" src="js/parralox/modernizr.custom.28468.js"></script>
@@ -47,6 +47,13 @@
     
     $(function() {
 	    $(".HTMLLINK").tipTip({
+	    maxWidth : "auto",
+	    edgeOffset : 10,
+	    defaultPosition : 'right'
+	    });
+    });
+    $(function() {
+	    $(".square").tipTip({
 	    maxWidth : "auto",
 	    edgeOffset : 10,
 	    defaultPosition : 'right'

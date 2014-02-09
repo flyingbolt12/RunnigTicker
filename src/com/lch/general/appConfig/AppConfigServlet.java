@@ -69,17 +69,21 @@ public class AppConfigServlet extends HttpServlet {
 			JobKey jobKey = new JobKey("Bday" + "_Job", "NotificationGroup");
 			JobKey jobKey1 = new JobKey("Bday" + "_Job1", "NotificationGroup");
 			JobKey jobKey2 = new JobKey("Bday" + "_Job2", "NotificationGroup");
-			log.info("Job Built {}", jobKey.getName());
+			JobKey immigration = new JobKey("Immigration" + "_Job3", "NotificationGroup");
+			
 			TriggerKey tKey_2Hrs = new TriggerKey("Bday_4Hrs" + "_Trigger");
 			TriggerKey tKey_12AM = new TriggerKey("Bday_1AM" + "_Trigger");
 			TriggerKey tKey_YearlyReset = new TriggerKey("Bday_YearlyReset" + "_Trigger");
-
+			TriggerKey tKey_Immigration = new TriggerKey("Immigration_Execution" + "_Trigger");
+			
 			JobDetail jobDetails = null;
 			JobDetail jobDetails1 = null;
 			JobDetail jobDetails2 = null;
+			JobDetail jobDetails3 = null;
 			CronTrigger trigger = null;
 			CronTrigger trigger1 = null;
 			CronTrigger trigger2 = null;
+			CronTrigger trigger3 = null;
 			try {
 
 				if (!scheduler.checkExists(jobKey) && scheduler.getTrigger(tKey_2Hrs) == null) {
@@ -87,7 +91,10 @@ public class AppConfigServlet extends HttpServlet {
 					jobDetails = JobBuilder.newJob(BDayJob.class).withIdentity(jobKey.getName(), "NotificationGroup").storeDurably().build();
 					jobDetails1 = JobBuilder.newJob(BDayJob.class).withIdentity(jobKey1.getName(), "NotificationGroup").storeDurably().build();
 					jobDetails2 = JobBuilder.newJob(ResetBDayReminderJob.class).withIdentity(jobKey2.getName(), "NotificationGroup").storeDurably().build();
-
+					
+					// Build this Immigration Details Class
+					jobDetails3 = JobBuilder.newJob(ResetBDayReminderJob.class).withIdentity(immigration.getName(), "NotificationGroup").storeDurably().build();
+					
 					// Every 4 Hrs
 					trigger = (CronTrigger) TriggerBuilder.newTrigger().withIdentity(tKey_2Hrs.getName(), "NotificationGroup")
 							.withSchedule(CronScheduleBuilder.cronSchedule(new CronExpression("0 0 0/4 1/1 * ? *")).withMisfireHandlingInstructionDoNothing()).build();
@@ -100,12 +107,18 @@ public class AppConfigServlet extends HttpServlet {
 					trigger2 = (CronTrigger) TriggerBuilder.newTrigger().withIdentity(tKey_YearlyReset.getName(), "NotificationGroup")
 							.withSchedule(CronScheduleBuilder.cronSchedule(new CronExpression("0 0 11 31 12 ? *")).withMisfireHandlingInstructionDoNothing()).build();
 					
+					// Every Day 11 AM
+					trigger3 = (CronTrigger) TriggerBuilder.newTrigger().withIdentity(tKey_Immigration.getName(), "NotificationGroup")
+							.withSchedule(CronScheduleBuilder.cronSchedule(new CronExpression("0 0 1 1/11 * ? *")).withMisfireHandlingInstructionDoNothing()).build();
+					
 					log.info("Scheduling job  - {}", "Bday 4 Hrs Execution Job");
 					scheduler.scheduleJob(jobDetails, trigger);
 					log.info("Scheduling job  - {}", "Bday 1 AM Execution Job");
 					scheduler.scheduleJob(jobDetails1, trigger1);
 					log.info("Scheduling job - {}", "Bday Reset Every year end on Dec 31 at 11:00 PM");
 					scheduler.scheduleJob(jobDetails2, trigger2);
+					log.info("Scheduling job - {}", "Immigration exipiration reminder - 11 AM Execution Job");
+					scheduler.scheduleJob(jobDetails3, trigger3);
 					log.info("Jobs Scheduled");
 				} else {
 					log.info("Jobs were already scheduled and active. No Action Needed");

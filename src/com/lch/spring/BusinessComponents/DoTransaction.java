@@ -1,13 +1,16 @@
 package com.lch.spring.BusinessComponents;
 
+
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.Connection;
+import java.sql.DatabaseMetaData;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
@@ -32,11 +35,16 @@ import org.apache.commons.fileupload.disk.DiskFileItem;
 import org.apache.struts.upload.FormFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
+import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.SqlParameter;
+import org.springframework.jdbc.core.metadata.TableMetaDataProvider;
+import org.springframework.jdbc.core.metadata.TableMetaDataProviderFactory;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -45,8 +53,11 @@ import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.jdbc.core.support.SqlLobValue;
 import org.springframework.jdbc.object.SqlFunction;
 import org.springframework.jdbc.object.SqlUpdate;
+import org.springframework.jdbc.support.DatabaseMetaDataCallback;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.JdbcUtils;
 import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.jdbc.support.MetaDataAccessException;
 import org.springframework.jdbc.support.lob.DefaultLobHandler;
 import org.springframework.jdbc.support.lob.LobHandler;
 
@@ -67,6 +78,7 @@ import com.lch.general.enums.DOCTypes;
 import com.lch.general.enums.SubmissionFor;
 import com.lch.general.enums.TimeSheetStatus;
 import com.lch.general.enums.TimeSheetTypes;
+import com.lch.general.generalBeans.ImmigrationDetailsBean;
 import com.lch.general.generalBeans.UserProfile;
 import com.lch.general.genericUtils.BiWeeklyTimeSheetHours;
 import com.lch.general.genericUtils.DateUtils;
@@ -460,7 +472,7 @@ public class DoTransaction {
 		// log.info(query);
 		return (getJdbcTemplate().queryForList(query, obj));
 	}
-
+	
 	public List getAllMyEmployeesEmails(long businessId) {
 		Object[] obj = { new Long(businessId) };
 		String query = SQLQueries.LIST_MY_EMPLOYEE_EMAILS;
@@ -468,6 +480,18 @@ public class DoTransaction {
 		return (getJdbcTemplate().queryForList(query, obj));
 	}
 
+	public List getAllMyEmployeesWithNoImmigrationDetails(long businessId) {
+		Object[] obj = { new Long(businessId) };
+		String query = SQLQueries.LIST_MY_EMPLOYEE_EMAILS_NOT_HAVING_IMMIGRATION_DETAILS;
+		log.info("Business Id : {} Query : {}", businessId, query);
+		return (getJdbcTemplate().queryForList(query, obj));
+	}
+	public List getAllMyEmployeesWithImmigrationDetails(long businessId) {
+		Object[] obj = { new Long(businessId) };
+		String query = SQLQueries.LIST_MY_EMPLOYEE_EMAILS_HAVING_IMMIGRATION_DETAILS;
+		log.info("Business Id : {} Query : {}", businessId, query);
+		return (getJdbcTemplate().queryForList(query, obj));
+	}
 	public List getAllMyEnabledEmployeesEmails(long businessId) {
 		Object[] obj = { new Long(businessId) };
 		String query = SQLQueries.LIST_MY_ENABLED_EMPLOYEE_EMAILS;
@@ -615,7 +639,7 @@ public class DoTransaction {
 			if (orderBy.equalsIgnoreCase("clientName")) {
 				tableName = "clientsList.";
 			}
-			query += " and users.businessId=? and users.role<>'ADMIN' and users.personalDetailsId = userpersonaldataTable.idUserdata and users.clientId=clientsList.clientId order by " + tableName
+			query += " and users.businessId=? and users.role='MEMBER' and users.personalDetailsId = userpersonaldataTable.idUserdata and users.clientId=clientsList.clientId order by " + tableName
 					+ orderBy + " " + order;
 		}
 		log.info(query);
@@ -629,7 +653,7 @@ public class DoTransaction {
 	}
 	
 
-	public Map getUserRateDetails(UserProfile userProfile, String userId) {
+/*	public Map getUserRateDetails(UserProfile userProfile, String userId) {
 		Map m = null;
 		try {
 			UserProfile userProfile2 = new UserProfile();
@@ -647,7 +671,7 @@ public class DoTransaction {
 			m = null;
 		}
 		return m;
-	}
+	} */
 
 	public List listMyAdmins(UserProfile userProfile) {
 		String query = SQLQueries.FETCH_BUSINESS_ADMINS;
@@ -792,7 +816,7 @@ public class DoTransaction {
 
 		return uploadFiles2DB(filesList, colList, "userpersonaldata", "iduserData", adminRegistrationBean.getPersonalDetailsId() + "");
 	}
-
+	
 	public int uploadFiles2DB(List<FormFile> filesList, List<String> colList, String tableName, String whereCndClmName, String whereCndValue) {
 		int cnt = 0;
 		StringBuilder qry = new StringBuilder("update " + tableName + " set ");
@@ -1456,6 +1480,24 @@ public class DoTransaction {
 		return l;
 	}
 
+	
+	public void test(){
+		try{
+		JdbcUtils.extractDatabaseMetaData(jdbcTemplate.getDataSource(), new DatabaseMetaDataCallback() {
+			
+			@Override
+			public Object processMetaData(DatabaseMetaData databaseMetaData) throws SQLException,
+					MetaDataAccessException {
+				String databaseProductName = JdbcUtils.commonDatabaseName(databaseMetaData.getDatabaseProductName());
+				
+				return null;
+			}
+		});	
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+	
 	public List<Map<String, Object>> downloadAllEmployees(long businessId, String orderBy_1, String order_1, String orderBy_2, String order_2, String orderBy_3, String order_3) {
 		Object[] obj = { new Long(businessId) };
 		String query = SQLQueries.DOWNLOADALLEMPLOYEES;
@@ -1643,6 +1685,36 @@ public class DoTransaction {
 		return recordEffectedCount;
 	}
 
+
+	public String getRate(long clientId, long userId, long businessId) {
+			return getJdbcTemplate().queryForObject(SQLQueries.GET_CURRENT_USER_RATE, new Object[]{userId, businessId, clientId}, String.class);
+	}
+
+	
+	public int setRate(long clientId, long userId, long businessId, double rate) {
+		int recordEffectedCount  = -1;
+		int count = getJdbcTemplate().queryForInt(SQLQueries.GET_COUNT_CURRENT_USER_RATE, userId, businessId, clientId);
+		try{
+		if (count  == 0)
+		{
+			// INSERT
+			recordEffectedCount = getJdbcTemplate().update(SQLQueries.INSERT_USE_RATE, userId, clientId, businessId, rate);
+		} else if (count == 1)
+		{
+			//UPDATE
+			recordEffectedCount = getJdbcTemplate().update(SQLQueries.UPDATE_USER_RATE, rate, userId, clientId, businessId);
+		}
+		else
+		{
+			// INAVLID
+			recordEffectedCount = -1;
+		}
+		} catch (Exception e) {
+			log.error("Error in Updating user Rate");
+			e.printStackTrace();
+		}
+		return recordEffectedCount;
+	}
 	public int updateBusinessStatus(int approvalStatus,long businessId){
 		int recordsAffected = 0;
 		ArrayList paramsList = new ArrayList();
@@ -2241,4 +2313,50 @@ public class DoTransaction {
 		return usrCount;
 	}
 
+	// IMMIGRATION STUFF
+	
+	public ImmigrationDetailsBean listImmigrationDetails(long userId){
+		ImmigrationDetailsBean customer= new ImmigrationDetailsBean();
+		try{
+		customer = (ImmigrationDetailsBean)getJdbcTemplate().queryForObject(
+				SQLQueries.LIST_IMMIGRATION_USER, new Object[] { userId }, 
+				new BeanPropertyRowMapper<ImmigrationDetailsBean>(ImmigrationDetailsBean.class));
+		}catch(Exception e){
+			return null;
+		}
+		return customer;
+	}
+	
+	public long saveOrUpdateImmigrationDetails(ImmigrationDetailsBean bean) {
+		if (countImmigrationUser(bean) > 0) {
+			return updateImmigrationdetails(bean);
+		} else if (countImmigrationUser(bean) == 0) {
+			return insertImmigrationdetails(bean);
+		} else {
+			return -1;
+		}
+	}
+	
+	public int countImmigrationUser(ImmigrationDetailsBean bean) {
+		int usrCount = 0;
+		usrCount = jdbcTemplate.queryForInt(SQLQueries.COUNT_IMMIGRATION_USER, bean.getUserId());
+		return usrCount;
+	}
+	private long insertImmigrationdetails(ImmigrationDetailsBean bean) {
+		log.info("Start Doing Transaction - saveOrUpdateImmigrationDetails");
+		long id = -1;
+		KeyHolder keyHolder = new GeneratedKeyHolder();
+		SqlParameterSource parametersSource = new BeanPropertySqlParameterSource(bean);
+		getNamedParameterJdbcTemplate().update(SQLQueries.INSERT_IMMIGRATION_DETAILS, parametersSource, keyHolder);
+		id = keyHolder.getKey().intValue();
+		return id;
+	}
+	private long updateImmigrationdetails(ImmigrationDetailsBean bean) {
+		log.info("Start Doing Transaction - saveOrUpdateImmigrationDetails");
+		SqlParameterSource parametersSource = new BeanPropertySqlParameterSource(bean);
+		return getNamedParameterJdbcTemplate().update(SQLQueries.UPDATE_IMMIGRATION_DETAILS, parametersSource);
+	}
+
+	
+	
 }

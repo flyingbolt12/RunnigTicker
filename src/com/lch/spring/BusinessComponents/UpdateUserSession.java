@@ -59,48 +59,26 @@ public class UpdateUserSession {
 
 	public static UserProfile getUserProfile(ResultSet rs, DoTransaction doTransaction) throws SQLException {
 
-		UserProfile loginStatus = new UserProfile();
-		loginStatus.setUserName(rs.getString("userName"));
-		loginStatus.setEmployeeEmail(rs.getString("employeeEmail"));
-		loginStatus.setBusinessId(rs.getLong(DBConstants.BUSINESS_ID));
-		loginStatus.setFirstName(rs.getString("firstName"));
-		loginStatus.setClientId(rs.getLong("clientId"));
-		loginStatus.setLoginStatus(true);
-		loginStatus.setUserId(rs.getInt("userId"));
-		loginStatus.setBusinessEmailValidated(rs.getBoolean("isValidated"));
-		loginStatus.setPersonalDetailsId(rs.getLong("personalDetailsId"));
-		loginStatus.setEmployerName(rs.getString("employerName"));
-		loginStatus.setTimeSheetConfiguredTo(rs.getString("timeSheetConfiguredTo"));
+		UserProfile userProfile = new UserProfile();
+		userProfile.setUserName(rs.getString("userName"));
+		userProfile.setEmployeeEmail(rs.getString("employeeEmail"));
+		userProfile.setBusinessId(rs.getLong(DBConstants.BUSINESS_ID));
+		userProfile.setFirstName(rs.getString("firstName"));
+		userProfile.setClientId(rs.getLong("clientId"));
+		userProfile.setLoginStatus(true);
+		userProfile.setUserId(rs.getInt("userId"));
+		userProfile.setBusinessEmailValidated(rs.getBoolean("isValidated"));
+		userProfile.setPersonalDetailsId(rs.getLong("personalDetailsId"));
+		userProfile.setEmployerName(rs.getString("employerName"));
+		userProfile.setTimeSheetConfiguredTo(rs.getString("timeSheetConfiguredTo"));
 		String userRole = rs.getString("role");
-		loginStatus.setApprovalStatus(rs.getString("approvalstatus"));
-		
-		if (userRole.equals("ADMIN")) {
-			loginStatus.setAdmin(true);
-			loginStatus.setSuperAdmin(false);
-			loginStatus.setMember(false);
-		}
-		else if (userRole.equals("SUPERADMIN")) {
-			loginStatus.setSuperAdmin(true);
-			loginStatus.setAdmin(false);
-			loginStatus.setMember(false);
-		} else if(userRole.equals("MEMBER")){
-			loginStatus.setAdmin(false);
-			loginStatus.setSuperAdmin(false);
-			loginStatus.setMember(true);
-			if (doTransaction != null) {
-				doTransaction.updateRequiredDetails(loginStatus);
-			}
-		} else {
-			loginStatus.setAdmin(false);
-			loginStatus.setMember(false);
-			loginStatus.setSuperAdmin(false);
-		}
-		loginStatus.setUserRole(userRole);
+		userProfile.setApprovalStatus(rs.getString("approvalstatus"));
+		userProfile.setUserRole(userRole);
 		if (doTransaction != null) {
-			String employerEmail = doTransaction.getAdminEmail(loginStatus.getBusinessId());
-			loginStatus.setEmployerEmail(employerEmail);
+			String employerEmail = doTransaction.getAdminEmail(userProfile.getBusinessId());
+			userProfile.setEmployerEmail(employerEmail);
 		}
-		return loginStatus;
+		return userProfile;
 
 	}
 }

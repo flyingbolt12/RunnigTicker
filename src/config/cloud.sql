@@ -1,4 +1,6 @@
 
+CREATE DATABASE IF NOT EXISTS ilch;
+USE ilch;
 
 DROP TABLE IF EXISTS `country`;
 CREATE TABLE  `country` (
@@ -17,6 +19,27 @@ INSERT INTO `country` (`idcountry`,`name`) VALUES
 --
 -- Definition of table `actionstatuses`
 --
+
+DROP TABLE IF EXISTS `user_roles`;
+CREATE TABLE `user_roles` (
+  `NAME` varchar(45) NOT NULL DEFAULT '',
+  PRIMARY KEY (`NAME`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `user_roles`
+--
+
+/*!40000 ALTER TABLE `user_roles` DISABLE KEYS */;
+INSERT INTO `user_roles` (`NAME`) VALUES 
+ ('ADMIN'),
+ ('CHILDADMIN'),
+ ('MEMBER'),
+ ('SUPERADMIN');
+/*!40000 ALTER TABLE `user_roles` ENABLE KEYS */;
+
+
+
 DROP TABLE IF EXISTS `adminsettings`;
 DROP TABLE IF EXISTS `adminsettings`;
 CREATE TABLE `adminsettings` (
@@ -311,24 +334,6 @@ INSERT INTO `timesheetconfigurations` (`idtimesheetconfigurations`,`timeSheetCon
 /*!40000 ALTER TABLE `timesheetconfigurations` ENABLE KEYS */;
 
 
---
--- Definition of table `user_roles`
---
-
-DROP TABLE IF EXISTS `user_roles`;
-CREATE TABLE `user_roles` (
-  `idUSER_ROLES` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `NAME` varchar(45) NOT NULL DEFAULT '',
-  PRIMARY KEY (`idUSER_ROLES`,`NAME`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `user_roles`
---
-
-/*!40000 ALTER TABLE `user_roles` DISABLE KEYS */;
-/*!40000 ALTER TABLE `user_roles` ENABLE KEYS */;
-
 
 --
 -- Definition of table `userclientslist`
@@ -555,3 +560,27 @@ INSERT INTO `news` (`idnews`,`message`) VALUES
  (4,'Qualtiy & Security tests performed in USA');
 /*!40000 ALTER TABLE `news` ENABLE KEYS */;
 
+
+DROP TABLE IF EXISTS `userrate`;
+CREATE TABLE `userrate` (
+  `iduserrate` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `clientId` int(10) unsigned NOT NULL,
+  `userId` int(10) unsigned NOT NULL,
+  `rate` varchar(45) NOT NULL,
+  `businessId` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`iduserrate`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+DROP TABLE IF EXISTS `immigrationdetails`;
+DROP TABLE IF EXISTS `immigrationdetails`;
+CREATE TABLE `immigrationdetails` (
+  `idimmigrationdetails` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `visaType` varchar(45) NOT NULL,
+  `passportExpiryDate` date NOT NULL,
+  `visaIssuedDate` date DEFAULT NULL,
+  `visaExpiryDate` date NOT NULL,
+  `passportIssueDate` date DEFAULT NULL,
+  `passportNumber` varchar(45) DEFAULT NULL,
+  `userId` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`idimmigrationdetails`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;

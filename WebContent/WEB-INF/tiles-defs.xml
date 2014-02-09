@@ -284,6 +284,11 @@
 		<put name="body"
 			value="/WEB-INF/members/showManageDocs.jsp" />
 	</definition>
+	<definition name="showUpdateImmigrationDetailsPageDef" extends="templateDefinition">
+		<put name="body"
+			value="/WEB-INF/members/showUpdateImmigrationDetailsPage.jsp" />
+	</definition>
+	
 	<definition name="updateMyClientDef" extends="templateDefinition">
 		<put name="body" value="/WEB-INF/members/updateMyClient.jsp" />
 	</definition>
