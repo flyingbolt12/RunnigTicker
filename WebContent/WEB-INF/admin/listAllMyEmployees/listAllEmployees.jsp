@@ -129,10 +129,15 @@ function processPasswdRestResponse(id, str, userId, action, email){
 				
 				String employeeName = String.valueOf(((Map) listAllMyEmployeesId).get("firstName"));
 				String clientName = String.valueOf(((Map) listAllMyEmployeesId).get("clientName"));
-				String clientId = String.valueOf(((Map) listAllMyEmployeesId).get("clientid"));
+				String clientId = String.valueOf(((Map) listAllMyEmployeesId).get("actualClientId"));
 				Object idimmigrationdetails = ((Map) listAllMyEmployeesId).get("idimmigrationdetails");
 				Object iduserrate = ((Map) listAllMyEmployeesId).get("iduserrate");
 				Object rate = ((Map) listAllMyEmployeesId).get("rate");
+				Object recentHrs = ((Map) listAllMyEmployeesId).get("recentHrs");
+				Object timeSheetConfiguredTo = ((Map) listAllMyEmployeesId).get("timeSheetConfiguredTo");
+				
+				System.out.println(timeSheetConfiguredTo + "-->" + recentHrs);
+				
 				boolean isImmigrationDetalsAvalable = false;
 				if(idimmigrationdetails!=null){
 					isImmigrationDetalsAvalable = true;

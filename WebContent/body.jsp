@@ -15,9 +15,11 @@
 		<td colspan=3>
 			<div id="da-slider" class="da-slider">
 				<div class="da-slide">
-					<h2>A Revolution at Timesheets</h2>
+					<h2>A Revolution in Timesheets</h2>
 					<p>
-						No server, No database, No support staff, <br> Because it is a Web application deployed in CLOUD. <BR> No Craps! No hidden fees! No more boring nonsense stuff.
+						No server, no database, no support staff needed. <br>
+						This is a Web based application deployed in CLOUD. <br>
+						There are no hidden fees. No more tedious spreadsheets  
 					</p>
 					<div href="#" class="da-link">Its Home Made - USA</div>
 					<div class="da-img">
@@ -25,9 +27,9 @@
 					</div>
 				</div>
 				<div class="da-slide">
-					<h2>Extreamly useful for SMBs</h2>
+					<h2>A great online tool for any SMB</h2>
 					<p>
-						Made for the sake of Small and Medium Scale business.<BR>Your culture, your values and your ethics followed....
+						Designed to help any small or medium business, <BR> to fit your culture, values and ethics.
 					</p>
 					<a href="#" class="da-link" onclick="confirmlink(this)">Check here, Try Demo !</a>
 					<div class="da-img">
@@ -35,9 +37,9 @@
 					</div>
 				</div>
 				<div class="da-slide">
-					<h2>Simplicity & Reliability</h2>
+					<h2>Simple & Reliable</h2>
 					<p>
-						Simplicity is prerequisite for reliability.<BR> Nothing to learn to do a button click. No special user interface.
+						Easy to learn and use with no special interface for users<BR> 
 					</p>
 					<div class="da-link">So, Incredibly easy to use</div>
 					<div class="da-img">
@@ -45,9 +47,9 @@
 					</div>
 				</div>
 				<div class="da-slide">
-					<h2>Security & Speed</h2>
+					<h2>Allows Higher Security and Speed</h2>
 					<p>
-						In skating over thin ice, our safety is in our speed. <BR> Backups are at your foot. When you need it take a back up. Simple.
+						In skating over thin ice, our safety is in our speed. <BR> Peace of mind security at all times, protecting all data.
 					</p>
 					<div class="da-link">Blazing Fast</div>
 					<div class="da-img">
@@ -55,16 +57,16 @@
 					</div>
 				</div>
 				<div class="da-slide">
-					<h2>Visibility and Monitoring</h2>
-					<p>Remote is at you, functioning will depend on what you press. Give a try.</p>
+					<h2>Visibility and aids in Monitoring</h2>
+					<p>You control visibility and allow as much or as little monitoring needed in your business.</p>
 					<a href="#" class="da-link" onclick="confirmlink(this)">Check here, Try Demo !</a>
 					<div class="da-img">
 						<img src="images/monitoring.png" alt="image01" />
 					</div>
 				</div>
 				<div class="da-slide">
-					<h2>Quality Control</h2>
-					<p>We built this on automation, security, reliability and with common sense. Helps for CMM Level certification upon placing your own company LOGO at the top.</p>
+					<h2>Higher levels of Quality Control</h2>
+					<p>This online tool is built for Automation, Higher Security levels, Reliability and with common sense. Brings CMM level standards by placing company Logo for ownership.</p>
 					<div class="da-img">
 						<img src="images/quality.png" alt="image01" />
 					</div>

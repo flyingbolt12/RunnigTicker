@@ -141,7 +141,8 @@ public class AdminFunctImplAction extends BaseAction {
 	}
 	
 	public ActionForward setUserRate(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-			HttpServletResponse response) throws Exception {
+ HttpServletResponse response)
+			throws Exception {
 		ActionForward forward = new ActionForward();
 		log.info("-setUserRate-");
 
@@ -150,25 +151,21 @@ public class AdminFunctImplAction extends BaseAction {
 		double rate = getDoubleAsRequestParameter("rate", request);
 		long businessId = getUserProfile(request).getBusinessId();
 		DoTransaction doTransaction = getSpringCtxDoTransactionBean();
-		int result =-1;
-		if(rate != 0){
+		int result = -1;
+		if (rate != 0 && userId != 0 && clientId != 0 && businessId != 0) {
 			result = doTransaction.setRate(clientId, userId, businessId, rate);
-		}
-		else{
+		} else {
 			result = -1;
 		}
-		
+
 		String status = "";
-		if(result == -1)
-		{
+		if (result == -1) {
 			status = "No Action Performed";
-		}else
-		{
+		} else {
 			status = "Rate Set";
 		}
-		
 
-		putAjaxStatusObjInRequest(request,status);
+		putAjaxStatusObjInRequest(request, status);
 		forward = mapping.findForward("generalJSP4AJAXMsg");
 
 		return forward;
@@ -177,9 +174,11 @@ public class AdminFunctImplAction extends BaseAction {
 	
 	public ActionForward notifyToUploadProfile(ActionMapping mapping, ActionForm form, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
-		
-		putStatusObjInRequest(request, "Notified, keeping you in CC. <BR> Note that, you still need to approve your employee inorder to provide a login facility to upload a profile, if he/she is not yet approved.");
-		
+
+		putStatusObjInRequest(
+				request,
+				"Notified, keeping you in CC. <BR> Note that, you still need to approve your employee inorder to provide a login facility to upload a profile, if he/she is not yet approved.");
+
 		int userId = getIntAsRequestParameter("userId", request);
 		String businessEmail = getUserProfile(request).getEmployerEmail();
 		String userEmail = getSpringCtxDoTransactionBean().getUserEmail(userId);
@@ -197,24 +196,23 @@ public class AdminFunctImplAction extends BaseAction {
 	}
 	public ActionForward eanableDisableAdmin(ActionMapping mapping, ActionForm form, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
-		
+
 		int approvalStatus = getIntAsRequestParameter("approvalStatus", request);
 		long userId = getLongAsRequestParameter("userId", request);
-		if(approvalStatus!=1 && getSpringCtxDoTransactionBean().getAdminCount(getUserProfile(request).getBusinessId()) <= 1)
-		{
-			long activeUserId = getSpringCtxDoTransactionBean().getActiveAdminUserId(getUserProfile(request).getBusinessId());
-			if(userId == activeUserId)
-			{
-				putAjaxStatusObjInRequest(request, "Opeartion Not Allowed. One admin should be present atleast");
+		if (approvalStatus != 1
+				&& getSpringCtxDoTransactionBean().getAdminCount(
+						getUserProfile(request).getBusinessId()) <= 1) {
+			long activeUserId = getSpringCtxDoTransactionBean()
+					.getActiveAdminUserId(
+							getUserProfile(request).getBusinessId());
+			if (userId == activeUserId) {
+				putAjaxStatusObjInRequest(request,
+						"Opeartion Not Allowed. One admin should be present atleast");
 				return mapping.findForward("generalJSP4AJAXMsg");
-			}
-			else
-			{
+			} else {
 				return updateUserStatus(mapping, form, request, response);
 			}
-		}
-		else
-		{
+		} else {
 			return updateUserStatus(mapping, form, request, response);
 		}
 	}
@@ -274,62 +272,68 @@ public class AdminFunctImplAction extends BaseAction {
 	}
 
 	public ActionForward approveOrRejectRegistrationApprovals(ActionMapping mapping, ActionForm form,
-			HttpServletRequest request, HttpServletResponse response) throws Exception {
+ HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
 		ActionForward forward = new ActionForward();
 		log.info("-approveOrRejectPendingApprovals -");
 
 		String ajaxParam = request.getParameter("ajaxParam");
-		List emails ;
+		List emails;
 		String successStatus = "Congratulation, You was granted the access to login and submit time sheets online by your employer";
 		String rejectStatus = "You have to register again as your request of registration was denied by your employer. Contact your employer for more information.";
 		String status = "";
-		if (ajaxParam.equalsIgnoreCase("ApproveAll") || ajaxParam.equalsIgnoreCase("RejectAll")) {
-			
+		if (ajaxParam.equalsIgnoreCase("ApproveAll")
+				|| ajaxParam.equalsIgnoreCase("RejectAll")) {
+
 			String userIds = getStrAsRequestParameter("userId", request);
-			log.info("Action To {} Users {}",  ajaxParam, userIds);
-			
+			log.info("Action To {} Users {}", ajaxParam, userIds);
+
 			String action = "";
-			String result = "Action "+ajaxParam+" Completed"; 
-			
+			String result = "Action " + ajaxParam + " Completed";
+
 			if (ajaxParam.equalsIgnoreCase("ApproveAll")) {
-				status =successStatus;
+				status = successStatus;
 				action = TimeSheetStatus.APPROVED.name();
-			}
-			else
-			{
+			} else {
 				status = rejectStatus;
 				action = TimeSheetStatus.REJECTED.name();
 			}
-			
+
 			emails = getSpringCtxDoTransactionBean().listUserEmails(userIds);
 			String userIdArr[] = userIds.split(",");
-			
+
 			for (int i = 0; i < userIdArr.length; ++i) {
 				long userId = Integer.valueOf(userIdArr[i]);
-				getSpringCtxDoTransactionBean().approveOrRejectEmployeeRegistrationPendingApprovals(action,userId);
+				getSpringCtxDoTransactionBean()
+						.approveOrRejectEmployeeRegistrationPendingApprovals(
+								action, userId);
 			}
-			
+
 			putAjaxStatusObjInRequest(request, result);
 			sendStatusEmail(emails, status, "Your Registration Status");
-			
-		}  else if (ajaxParam.equalsIgnoreCase(TimeSheetStatus.APPROVED.name()) || ajaxParam.equalsIgnoreCase(TimeSheetStatus.REJECTED.name())) {
+
+		} else if (ajaxParam.equalsIgnoreCase(TimeSheetStatus.APPROVED.name())
+				|| ajaxParam.equalsIgnoreCase(TimeSheetStatus.REJECTED.name())) {
 			long userId = getLongAsRequestParameter("userId", request);
-			log.info(" Action To {} Users {}",  ajaxParam, userId);
-			emails = getSpringCtxDoTransactionBean().listUserEmails(String.valueOf(userId));
-			status = getSpringCtxDoTransactionBean().approveOrRejectEmployeeRegistrationPendingApprovals(ajaxParam,
-					userId);
-			
+			log.info(" Action To {} Users {}", ajaxParam, userId);
+			emails = getSpringCtxDoTransactionBean().listUserEmails(
+					String.valueOf(userId));
+			status = getSpringCtxDoTransactionBean()
+					.approveOrRejectEmployeeRegistrationPendingApprovals(
+							ajaxParam, userId);
+
 			putAjaxStatusObjInRequest(request, status);
-			if(ajaxParam.equalsIgnoreCase(TimeSheetStatus.APPROVED.name()))
-					status = successStatus;
+			if (ajaxParam.equalsIgnoreCase(TimeSheetStatus.APPROVED.name()))
+				status = successStatus;
 			else
 				status = rejectStatus;
-			sendStatusEmail(emails, status,"Your Registration Status");
-		} 
+			sendStatusEmail(emails, status, "Your Registration Status");
+		}
 
 		// Now delete Rejected Users
-		getSpringCtxDoTransactionBean().deleteRejectedUser(getUserProfile(request).getBusinessId());
-		
+		getSpringCtxDoTransactionBean().deleteRejectedUser(
+				getUserProfile(request).getBusinessId());
+
 		forward = mapping.findForward("generalJSP4AJAXMsg");
 		return forward;
 	}
@@ -443,8 +447,8 @@ public class AdminFunctImplAction extends BaseAction {
 				businessId, orderBy, order, SQL);
 		
 		int i = 0;
-		String recentHrs = "";
 		while (i < listAllMyEmployees.size()) {
+			String recentHrs = "";
 			Map m = listAllMyEmployees.get(i);
 			if (m.containsKey("recentHrs")) {
 				Object objHours = m.get("recentHrs");
@@ -471,7 +475,7 @@ public class AdminFunctImplAction extends BaseAction {
 		putObjInRequest("order", request, order);
 		putObjInRequest("actionParameter", request, "doSearch");
 		putObjInSession("prevQryExcuted", request, SQL);
-		// log.info(SQL);
+		log.info(SQL);
 		return forward;
 	}
 

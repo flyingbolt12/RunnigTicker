@@ -50,7 +50,7 @@ news[<%=index%>]='<%=msg%>';
 		</td>
 		<td height="23" width="20%">
 		<div style="float: right; padding-right: 10px">
-		<a href="http://www.facebook.com/ILChours" target="_blank" title="Connect with us for updates"><img alt="facebook" src="images/f_logo.png" width="18" height="18"></a>
+		<a href="http://www.facebook.com/RunningTicker" target="_blank" title="Connect with us for updates"><img alt="facebook" src="images/f_logo.png" width="18" height="18"></a>
 		</div>
 		</td>
 	</tr>
