@@ -136,16 +136,16 @@ public class MemberFunctImplAction extends BaseAction {
 	}
 
 	private void sendEmailToEmployer(UserProfile prof) {
-		String from = prof.getEmployeeEmail();
+		String employeeEmail = prof.getEmployeeEmail();
 
 		ArrayList to = new ArrayList();
 		ArrayList cc = new ArrayList();
 
-		// cc.add(from);
+		cc.add(employeeEmail);
 		to.add(prof.getEmployerEmail());
 		EmailDetails emailDetails = new EmailDetails();
 
-		emailDetails.setFrom(from);
+		emailDetails.setFrom("contact@allibilli.com");
 		emailDetails.setTo(to);
 		emailDetails.setCc(cc);
 		emailDetails.setSubject("ILCH - Need Action - Time Sheets");

@@ -25,21 +25,21 @@ echo "*******************************"
 
 if [ -d "$OPENSHIFT_DATA_DIR/logos" ]; then
    echo "Restore Logos"
-   cp -avr $OPENSHIFT_DATA_DIR/logos $OPENSHIFT_JBOSSEWS_DIR/webapps/logos 
+   cp -avr $OPENSHIFT_DATA_DIR/logos $OPENSHIFT_JBOSSEWS_DIR/webapps/ 
 else 
     echo "No Logos found to restore"
 fi
 
 if [ -d "$OPENSHIFT_DATA_DIR/supportingDocs" ]; then
    echo "Restore supportingDocs"
-   cp -avr $OPENSHIFT_DATA_DIR/supportingDocs $OPENSHIFT_JBOSSEWS_DIR/webapps/supportingDocs
+   cp -avr $OPENSHIFT_DATA_DIR/supportingDocs $OPENSHIFT_JBOSSEWS_DIR/webapps/
 else 
     echo "No supportingDocs found to restore"
 fi
 
 if [ -d "$OPENSHIFT_DATA_DIR/timerDocs" ]; then
    echo "Restoring timerDocs"
-   cp -avr $OPENSHIFT_DATA_DIR/timerDocs $OPENSHIFT_JBOSSEWS_DIR/webapps/timerDocs
+   cp -avr $OPENSHIFT_DATA_DIR/timerDocs $OPENSHIFT_JBOSSEWS_DIR/webapps/
 else 
     echo "No timerDocs found to restore"
 fi

@@ -266,10 +266,11 @@ public class BaseAction extends DispatchAction implements SQLQueries {
 		// String emailBody = getEmailBody(bean, VM_SEND_EMAIL_NOTIFICATION);
 		HashMap<String, Object> myMap = null;
 		try {
-			if (emailDetails.getAttachment() == null)
+			if (emailDetails.getAttachment() == null) {
 				myMap = getEmailMap(emailDetails.getSubject(), emailDetails.getTo(), emailDetails.getCc(), emailDetails.getBcc(), emailDetails.getEmailContent().toString(), emailDetails.getFrom(),
 						emailDetails.getFrom());
-			{
+			}
+			else {
 				myMap = getEmailMap(emailDetails.getSubject(), emailDetails.getTo(), emailDetails.getCc(), emailDetails.getBcc(), emailDetails.getEmailContent().toString(), emailDetails.getFrom(),
 						emailDetails.getFrom(), emailDetails.getAttachment());
 			}

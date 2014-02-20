@@ -40,6 +40,7 @@ public class LogFilter implements Filter {
 		actionsToIgnore.add("createTestAdmin.do");
 		actionsToIgnore.add("createTestMembers.do");
 		actionsToIgnore.add("contactUs.jsp");
+		actionsToIgnore.add("aboutUs.jsp");
 		actionsToIgnore.add("demo.jsp");
 		actionsToIgnore.add("membersDemo.jsp");
 		actionsToIgnore.add("adminRegistration.jsp");

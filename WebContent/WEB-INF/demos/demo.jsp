@@ -5,8 +5,9 @@
 	<hr />
 	<table border="0" cellspacing="20" cellpadding="20">
 		<tr>
-			<td><a href="genericForwardAction.do?forwardTo=demos/admin/demo.jsp" class="demoButton"> For Employers</a></td>
-			<td><a href="genericForwardAction.do?forwardTo=demos/member/demo.jsp" class="demoButton"> For Employees</a></td>
+			<td><a href="genericForwardAction.do?forwardTo=demos/admin/demo.jsp" class="demoButton">Employers Screen Shots</a></td>
+			<td><a href="genericForwardAction.do?forwardTo=demos/member/demo.jsp" class="demoButton">Employees Screen Shots</a></td>
+			<td><a href="javascript: openNewWindow('pdf/ILCH_FEATURES.pdf')" class="demoButton">Download App Features</a></td>
 		</tr>
 	</table>
 

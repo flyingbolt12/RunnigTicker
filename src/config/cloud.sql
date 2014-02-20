@@ -16,28 +16,17 @@ INSERT INTO `country` (`idcountry`,`name`) VALUES
  (4,'Singapore'),
  (5,'Philippines'),
  (6,'Australia');
---
--- Definition of table `actionstatuses`
---
-
 DROP TABLE IF EXISTS `user_roles`;
 CREATE TABLE `user_roles` (
   `NAME` varchar(45) NOT NULL DEFAULT '',
   PRIMARY KEY (`NAME`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `user_roles`
---
-
-/*!40000 ALTER TABLE `user_roles` DISABLE KEYS */;
 INSERT INTO `user_roles` (`NAME`) VALUES 
  ('ADMIN'),
  ('CHILDADMIN'),
  ('MEMBER'),
  ('SUPERADMIN');
-/*!40000 ALTER TABLE `user_roles` ENABLE KEYS */;
-
 
 
 DROP TABLE IF EXISTS `adminsettings`;
@@ -57,10 +46,6 @@ CREATE TABLE `actionstatuses` (
   PRIMARY KEY (`actionStatusId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `actionstatuses`
---
-
 DROP TABLE IF EXISTS `usercontactdata`;
 CREATE TABLE `usercontactdata` (
   `idusercontact` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -78,19 +63,11 @@ CREATE TABLE `usercontactdata` (
   PRIMARY KEY (`idusercontact`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-/*!40000 ALTER TABLE `actionstatuses` DISABLE KEYS */;
 INSERT INTO `actionstatuses` (`actionStatusId`,`actionStatus`) VALUES 
  (1,'ENABLE'),
  (2,'DISABLE'),
  (3,'UPDATE'),
  (4,'DELETE');
-/*!40000 ALTER TABLE `actionstatuses` ENABLE KEYS */;
-
-
---
--- Definition of table `addressinfo`
---
-
 DROP TABLE IF EXISTS `addressinfo`;
 CREATE TABLE `addressinfo` (
   `idAddressInfo` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -103,18 +80,6 @@ CREATE TABLE `addressinfo` (
   `landmark` varchar(45) NOT NULL DEFAULT '',
   PRIMARY KEY (`idAddressInfo`)
 ) ENGINE=InnoDB AUTO_INCREMENT=379 DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `addressinfo`
---
-
-/*!40000 ALTER TABLE `addressinfo` DISABLE KEYS */;
-/*!40000 ALTER TABLE `addressinfo` ENABLE KEYS */;
-
-
---
--- Definition of table `attacheddocs`
---
 
 DROP TABLE IF EXISTS `attacheddocs`;
 CREATE TABLE `attacheddocs` (
@@ -130,18 +95,6 @@ CREATE TABLE `attacheddocs` (
   PRIMARY KEY (`idattacheddocs`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `attacheddocs`
---
-
-/*!40000 ALTER TABLE `attacheddocs` DISABLE KEYS */;
-/*!40000 ALTER TABLE `attacheddocs` ENABLE KEYS */;
-
-
---
--- Definition of table `docsforsupporting`
---
-
 DROP TABLE IF EXISTS `docsforsupporting`;
 CREATE TABLE `docsforsupporting` (
   `supportingDocId` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -152,42 +105,17 @@ CREATE TABLE `docsforsupporting` (
   PRIMARY KEY (`supportingDocId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `docsforsupporting`
---
-
-/*!40000 ALTER TABLE `docsforsupporting` DISABLE KEYS */;
-/*!40000 ALTER TABLE `docsforsupporting` ENABLE KEYS */;
-
-
---
--- Definition of table `doctypes`
---
-
 DROP TABLE IF EXISTS `doctypes`;
 CREATE TABLE `doctypes` (
   `docTypeId` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `documentType` varchar(45) NOT NULL DEFAULT '',
   PRIMARY KEY (`docTypeId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `doctypes`
---
-
-/*!40000 ALTER TABLE `doctypes` DISABLE KEYS */;
 INSERT INTO `doctypes` (`docTypeId`,`documentType`) VALUES 
  (1,'userProfile'),
  (2,'businessProfile'),
  (3,'HrsSubmissionSupportingDoc'),
  (4,'businessLogo');
-/*!40000 ALTER TABLE `doctypes` ENABLE KEYS */;
-
-
---
--- Definition of table `emailremindertypes`
---
-
 DROP TABLE IF EXISTS `emailremindertypes`;
 CREATE TABLE `emailremindertypes` (
   `emailReminderTypeId` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -195,23 +123,12 @@ CREATE TABLE `emailremindertypes` (
   PRIMARY KEY (`emailReminderTypeId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `emailremindertypes`
---
-
-/*!40000 ALTER TABLE `emailremindertypes` DISABLE KEYS */;
 INSERT INTO `emailremindertypes` (`emailReminderTypeId`,`emailReminderType`) VALUES 
  (1,'Weekly'),
  (2,'Monthly'),
  (3,'Yearly'),
  (4,'Daily'),
  (5,'Hourly');
-/*!40000 ALTER TABLE `emailremindertypes` ENABLE KEYS */;
-
-
---
--- Definition of table `exceptiontrace`
---
 
 DROP TABLE IF EXISTS `exceptiontrace`;
 CREATE TABLE `exceptiontrace` (
@@ -221,18 +138,6 @@ CREATE TABLE `exceptiontrace` (
   `occuredDateTime` varchar(80) NOT NULL,
   PRIMARY KEY (`idexceptionTrace`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `exceptiontrace`
---
-
-/*!40000 ALTER TABLE `exceptiontrace` DISABLE KEYS */;
-/*!40000 ALTER TABLE `exceptiontrace` ENABLE KEYS */;
-
-
---
--- Definition of table `lch_business`
---
 
 DROP TABLE IF EXISTS `lch_business`;
 CREATE TABLE `lch_business` (
@@ -259,12 +164,6 @@ CREATE TABLE `scheduledtimers` (
   PRIMARY KEY (`timerId`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `scheduledtimers`
---
-
-/*!40000 ALTER TABLE `scheduledtimers` DISABLE KEYS */;
-/*!40000 ALTER TABLE `scheduledtimers` ENABLE KEYS */;
 
 DROP TABLE IF EXISTS `supersettings`;
 CREATE TABLE `supersettings` (
@@ -274,19 +173,6 @@ CREATE TABLE `supersettings` (
   PRIMARY KEY (`idsuperSettings`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `supersettings`
---
-
-/*!40000 ALTER TABLE `supersettings` DISABLE KEYS */;
-INSERT INTO `supersettings` (`idsuperSettings`,`info`,`type`) VALUES 
- (2,'ILCH is about to have an upgrade and will be down during Mon Sep 16 2013, 12:00 AM to 3:00 AM CDT.','OUTAGE');
-/*!40000 ALTER TABLE `supersettings` ENABLE KEYS */;
-
-
---
--- Definition of table `timercontents`
---
 
 DROP TABLE IF EXISTS `timercontents`;
 CREATE TABLE `timercontents` (
@@ -302,17 +188,6 @@ CREATE TABLE `timercontents` (
   PRIMARY KEY (`contentId`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `timercontents`
---
-
-/*!40000 ALTER TABLE `timercontents` DISABLE KEYS */;
-/*!40000 ALTER TABLE `timercontents` ENABLE KEYS */;
-
-
---
--- Definition of table `timesheetconfigurations`
---
 
 DROP TABLE IF EXISTS `timesheetconfigurations`;
 CREATE TABLE `timesheetconfigurations` (
@@ -321,24 +196,11 @@ CREATE TABLE `timesheetconfigurations` (
   PRIMARY KEY (`idtimesheetconfigurations`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `timesheetconfigurations`
---
-
-/*!40000 ALTER TABLE `timesheetconfigurations` DISABLE KEYS */;
 INSERT INTO `timesheetconfigurations` (`idtimesheetconfigurations`,`timeSheetConfigured`) VALUES 
  (1,'BIWEEKLY'),
  (2,'MONTHLY'),
  (3,'WEEKLY'),
  (4,'DAYS15');
-/*!40000 ALTER TABLE `timesheetconfigurations` ENABLE KEYS */;
-
-
-
---
--- Definition of table `userclientslist`
---
-
 DROP TABLE IF EXISTS `userclientslist`;
 CREATE TABLE `userclientslist` (
   `clientId` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -350,17 +212,6 @@ CREATE TABLE `userclientslist` (
   PRIMARY KEY (`clientId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=125 DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `userclientslist`
---
-
-/*!40000 ALTER TABLE `userclientslist` DISABLE KEYS */;
-/*!40000 ALTER TABLE `userclientslist` ENABLE KEYS */;
-
-
---
--- Definition of table `userpersonaldata`
---
 
 DROP TABLE IF EXISTS `userpersonaldata`;
 CREATE TABLE `userpersonaldata` (
@@ -382,17 +233,6 @@ CREATE TABLE `userpersonaldata` (
   PRIMARY KEY (`iduserData`)
 ) ENGINE=InnoDB AUTO_INCREMENT=128 DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `userpersonaldata`
---
-
-/*!40000 ALTER TABLE `userpersonaldata` DISABLE KEYS */;
-/*!40000 ALTER TABLE `userpersonaldata` ENABLE KEYS */;
-
-
---
--- Definition of table `users`
---
 
 DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (
@@ -412,17 +252,6 @@ CREATE TABLE `users` (
   PRIMARY KEY (`iduser`)
 ) ENGINE=InnoDB AUTO_INCREMENT=128 DEFAULT CHARSET=latin1 COMMENT='InnoDB free: 11264 kB; (`idBusiness`) REFER `lch/lch_busines';
 
---
--- Dumping data for table `users`
---
-
-/*!40000 ALTER TABLE `users` DISABLE KEYS */;
-/*!40000 ALTER TABLE `users` ENABLE KEYS */;
-
-
---
--- Definition of table `userstatus`
---
 
 DROP TABLE IF EXISTS `userstatus`;
 CREATE TABLE `userstatus` (
@@ -432,22 +261,11 @@ CREATE TABLE `userstatus` (
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `userstatus`
---
-
-/*!40000 ALTER TABLE `userstatus` DISABLE KEYS */;
 INSERT INTO `userstatus` (`iduserstatus`,`status`) VALUES 
  (1,'APPROVED'),
  (2,'DISABLED'),
  (3,'DELETED'),
  (5,'PENDING');
-/*!40000 ALTER TABLE `userstatus` ENABLE KEYS */;
-
-
---
--- Definition of table `weeklyhrs`
---
-
 DROP TABLE IF EXISTS `weeklyhrs`;
 CREATE TABLE `weeklyhrs` (
   `idweeklyHrs` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -473,17 +291,6 @@ CREATE TABLE `weeklyhrs` (
   PRIMARY KEY (`idweeklyHrs`,`year`,`idUser`,`month`,`idBusiness`)
 ) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `weeklyhrs`
---
-
-/*!40000 ALTER TABLE `weeklyhrs` DISABLE KEYS */;
-/*!40000 ALTER TABLE `weeklyhrs` ENABLE KEYS */;
-
-
---
--- Definition of table `weeklyhrssummary`
---
 
 DROP TABLE IF EXISTS `weeklyhrssummary`;
 CREATE TABLE `weeklyhrssummary` (
@@ -509,10 +316,6 @@ CREATE TABLE `weeklyhrssummary` (
   PRIMARY KEY (`weeklyHrsSummaryId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
 
-
--- Definition of table `log`
---
-
 DROP TABLE IF EXISTS `log`;
 CREATE TABLE `log` (
   `idlog` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -521,21 +324,6 @@ CREATE TABLE `log` (
   PRIMARY KEY (`idlog`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `log`
---
-
-/*!40000 ALTER TABLE `log` DISABLE KEYS */;
-INSERT INTO `log` (`idlog`,`log`,`logType`) VALUES 
- (1,'From : contact@allibilli.comSubject :Your TimeSheet StatusContent :<html>\r\n\r\n<body link=\"#00FFFF\" vlink=\"#FFFFFF\" alink=\"#008080\">\r\n\r\n<table border=\"0\" width=\"100%\" height=\"351\" style=\"font-family: Tahoma\">\r\n	<tr>\r\n		<td bgcolor=\"#224F90\">\r\n		<table border=\"0\" width=\"100%\" cellpadding=\"15\" cellspacing=\"0\">\r\n			<tr>\r\n				<td width=\"100%\" style=\"color: #FFFFFF\" align=\"right\"><b>\r\n				<font size=\"2\">ILCH</font></b></td>\r\n			</tr>\r\n		</table>\r\n		</td>\r\n	</tr>\r\n	<tr>\r\n		<td bgcolor=\"#946EA9\" align=\"left\" valign=\"top\">\r\n		<table border=\"0\" width=\"100%\" height=\"100%\" cellpadding=\"55\" id=\"table1\">\r\n			<tr>\r\n				<td width=\"100%\" height=\"100%\" style=\"color: #224F90\" bgcolor=\"#946EA9\">\r\n				<font ><font color=\"#FFFFFF\"><span style=\"font-weight: 700; \">\r\n				<font size=\"2\">Dear User,</font></span><ul>\r\n					<p><font size=\"2\">\r\n					<span style=\"line-height: 150%\"><font color=\"#FFFFFF\">Your approval request submitted for time sheet is now approved by your employer.</span></font></font></p>\r\n				</ul>\r\n				\r\n				</font>\r\n				<p><font color=\"#FFFFFF\"><span style=\"font-weight: 700; \"><br>\r\n				</span><font size=\"2\" >Thank you,</font></p>\r\n				<p><font size=\"2\" color=\"#FFFFFF\">Team AlliBilli.</font></font></p>\r\n				</td>\r\n			</tr>\r\n		</table>\r\n		</td>\r\n	</tr>\r\n	<tr>\r\n		<td bgcolor=\"#224F90\">\r\n		<table border=\"0\" width=\"100%\" cellpadding=\"15\" cellspacing=\"0\">\r\n			<tr>\r\n				<td width=\"100%\" style=\"color: #C0C0C0; font-size:8pt; font-family:Tahoma\" align=\"center\">\r\n				All Rights Reserved. A Product of AlliBilli.com</td>\r\n			</tr>\r\n		</table>\r\n		</td>\r\n	</tr>\r\n</table>\r\n\r\n</body>\r\n\r\n</html>','EMAIL'),
- (2,'From : contact@allibilli.comSubject :Your TimeSheet StatusContent :<html>\r\n\r\n<body link=\"#00FFFF\" vlink=\"#FFFFFF\" alink=\"#008080\">\r\n\r\n<table border=\"0\" width=\"100%\" height=\"351\" style=\"font-family: Tahoma\">\r\n	<tr>\r\n		<td bgcolor=\"#224F90\">\r\n		<table border=\"0\" width=\"100%\" cellpadding=\"15\" cellspacing=\"0\">\r\n			<tr>\r\n				<td width=\"100%\" style=\"color: #FFFFFF\" align=\"right\"><b>\r\n				<font size=\"2\">ILCH</font></b></td>\r\n			</tr>\r\n		</table>\r\n		</td>\r\n	</tr>\r\n	<tr>\r\n		<td bgcolor=\"#946EA9\" align=\"left\" valign=\"top\">\r\n		<table border=\"0\" width=\"100%\" height=\"100%\" cellpadding=\"55\" id=\"table1\">\r\n			<tr>\r\n				<td width=\"100%\" height=\"100%\" style=\"color: #224F90\" bgcolor=\"#946EA9\">\r\n				<font ><font color=\"#FFFFFF\"><span style=\"font-weight: 700; \">\r\n				<font size=\"2\">Dear User,</font></span><ul>\r\n					<p><font size=\"2\">\r\n					<span style=\"line-height: 150%\"><font color=\"#FFFFFF\">Your approval request submitted for time sheet is now approved by your employer.</span></font></font></p>\r\n				</ul>\r\n				\r\n				</font>\r\n				<p><font color=\"#FFFFFF\"><span style=\"font-weight: 700; \"><br>\r\n				</span><font size=\"2\" >Thank you,</font></p>\r\n				<p><font size=\"2\" color=\"#FFFFFF\">Team AlliBilli.</font></font></p>\r\n				</td>\r\n			</tr>\r\n		</table>\r\n		</td>\r\n	</tr>\r\n	<tr>\r\n		<td bgcolor=\"#224F90\">\r\n		<table border=\"0\" width=\"100%\" cellpadding=\"15\" cellspacing=\"0\">\r\n			<tr>\r\n				<td width=\"100%\" style=\"color: #C0C0C0; font-size:8pt; font-family:Tahoma\" align=\"center\">\r\n				All Rights Reserved. A Product of AlliBilli.com</td>\r\n			</tr>\r\n		</table>\r\n		</td>\r\n	</tr>\r\n</table>\r\n\r\n</body>\r\n\r\n</html>','EMAIL'),
- (3,'From : contact@allibilli.comSubject :Your TimeSheet StatusContent :<html>\r\n\r\n<body link=\"#00FFFF\" vlink=\"#FFFFFF\" alink=\"#008080\">\r\n\r\n<table border=\"0\" width=\"100%\" height=\"351\" style=\"font-family: Tahoma\">\r\n	<tr>\r\n		<td bgcolor=\"#224F90\">\r\n		<table border=\"0\" width=\"100%\" cellpadding=\"15\" cellspacing=\"0\">\r\n			<tr>\r\n				<td width=\"100%\" style=\"color: #FFFFFF\" align=\"right\"><b>\r\n				<font size=\"2\">ILCH</font></b></td>\r\n			</tr>\r\n		</table>\r\n		</td>\r\n	</tr>\r\n	<tr>\r\n		<td bgcolor=\"#946EA9\" align=\"left\" valign=\"top\">\r\n		<table border=\"0\" width=\"100%\" height=\"100%\" cellpadding=\"55\" id=\"table1\">\r\n			<tr>\r\n				<td width=\"100%\" height=\"100%\" style=\"color: #224F90\" bgcolor=\"#946EA9\">\r\n				<font ><font color=\"#FFFFFF\"><span style=\"font-weight: 700; \">\r\n				<font size=\"2\">Dear User,</font></span><ul>\r\n					<p><font size=\"2\">\r\n					<span style=\"line-height: 150%\"><font color=\"#FFFFFF\">Your approval request submitted for time sheet is rejected by your employer. Please edit and re submit accordingly. If you have any issues please contact your employer.</span></font></font></p>\r\n				</ul>\r\n				\r\n				</font>\r\n				<p><font color=\"#FFFFFF\"><span style=\"font-weight: 700; \"><br>\r\n				</span><font size=\"2\" >Thank you,</font></p>\r\n				<p><font size=\"2\" color=\"#FFFFFF\">Team AlliBilli.</font></font></p>\r\n				</td>\r\n			</tr>\r\n		</table>\r\n		</td>\r\n	</tr>\r\n	<tr>\r\n		<td bgcolor=\"#224F90\">\r\n		<table border=\"0\" width=\"100%\" cellpadding=\"15\" cellspacing=\"0\">\r\n			<tr>\r\n				<td width=\"100%\" style=\"color: #C0C0C0; font-size:8pt; font-family:Tahoma\" align=\"center\">\r\n				All Rights Reserved. A Product of AlliBilli.com</td>\r\n			</tr>\r\n		</table>\r\n		</td>\r\n	</tr>\r\n</table>\r\n\r\n</body>\r\n\r\n</html>','EMAIL');
-/*!40000 ALTER TABLE `log` ENABLE KEYS */;
-
-
---
--- Definition of table `news`
---
 
 DROP TABLE IF EXISTS `news`;
 CREATE TABLE `news` (
@@ -543,14 +331,6 @@ CREATE TABLE `news` (
   `message` text NOT NULL,
   PRIMARY KEY (`idnews`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `news`
---
-
---
--- Dumping data for table `news`
---
 
 /*!40000 ALTER TABLE `news` DISABLE KEYS */;
 INSERT INTO `news` (`idnews`,`message`) VALUES 

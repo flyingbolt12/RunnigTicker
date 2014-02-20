@@ -24,7 +24,7 @@ echo "*******************************"
 
 if [ -d "$OPENSHIFT_JBOSSEWS_DIR/webapps/logos" ]; then
   echo "Backing up Logos"
-   cp -avr $OPENSHIFT_JBOSSEWS_DIR/webapps/logos $OPENSHIFT_DATA_DIR/logos
+   cp -avr $OPENSHIFT_JBOSSEWS_DIR/webapps/logos $OPENSHIFT_DATA_DIR/
 else 
     echo "No Logos found to back up"
 fi
@@ -32,14 +32,14 @@ fi
 
 if [ -d "$OPENSHIFT_JBOSSEWS_DIR/webapps/supportingDocs" ]; then
   echo "Backing up supportingDocs"
-   cp -avr $OPENSHIFT_JBOSSEWS_DIR/webapps/supportingDocs $OPENSHIFT_DATA_DIR/supportingDocs
+   cp -avr $OPENSHIFT_JBOSSEWS_DIR/webapps/supportingDocs $OPENSHIFT_DATA_DIR/
 else 
     echo "No supportingDocs found to back up"
 fi
 
 if [ -d "$OPENSHIFT_JBOSSEWS_DIR/webapps/timerDocs" ]; then
   echo "Backing up timerDocs"
-   cp -avr $OPENSHIFT_JBOSSEWS_DIR/webapps/timerDocs $OPENSHIFT_DATA_DIR/timerDocs
+   cp -avr $OPENSHIFT_JBOSSEWS_DIR/webapps/timerDocs $OPENSHIFT_DATA_DIR/
 else 
     echo "No timerDocs found to back up"
 fi

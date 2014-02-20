@@ -4,7 +4,8 @@
 	}%>
 
 <%
-	com.lch.general.generalBeans.UserProfile userProfile = (com.lch.general.generalBeans.UserProfile) session.getAttribute("userProfile");
+	com.lch.general.generalBeans.UserProfile userProfile = (com.lch.general.generalBeans.UserProfile) session
+			.getAttribute("userProfile");
 
 	String userName = "Guest";
 	if (userProfile != null && userProfile.getFirstName().length() != 0) {
@@ -40,50 +41,44 @@
 </div>
 <div style="float: right;">
 	<%
-		if (userProfile == null || (userProfile != null && !userProfile.isLoginStatus())) {
+		if (userProfile == null
+				|| (userProfile != null && !userProfile.isLoginStatus())) {
 	%>
-	<html:link href="index.jsp" styleClass="headerLinks"
-		title="This link will take you to Login & Registration page">Home</html:link>
+	<html:link href="index.jsp" styleClass="headerLinks" styleId="homeLink"
+		title="This link will take you to Login & Registration page"> <font color="#FFCC00"> Home </font></html:link>
 	|
+
 	<%
 		}
 	%>
-
+	<html:link action="/genericForwardAction.do?forwardTo=generic/aboutUs.jsp" styleClass="headerLinks" title="Helps you to report problem.">About Us</html:link> |
 	<%
 		if (userProfile != null && userProfile.isLoginStatus()) {
 	%>
 	<html:link action="<%=pageURL%>" styleClass="headerLinks"
-		title="<%=title%>"> <font color="#CCFF00">
-		<%=pageDecider%>'s Dashboard </font></html:link>
+		title="<%=title%>">
+		<font color="#CCFF00"> <%=pageDecider%>'s Dashboard		</font>
+	</html:link>
 	|
-	<%
-			}
-		%>
-	<html:link
-		action="/genericForwardAction.do?forwardTo=generic/contactUs.jsp"
-		styleClass="headerLinks" title="Helps you to report problem.">Report A Problem</html:link>
-	|
-	<html:link action="/genericForwardAction.do?forwardTo=demos/demo.jsp"
-		styleClass="headerLinks">Screen Cast</html:link>
-		| <html:link href="javascript: openNewWindow('pdf/ILCH_FEATURES.pdf')" styleClass="headerLinks">Insight Features</html:link>
-	<%
-		if (userProfile != null && userProfile.isLoginStatus()) {
-	%>
-	|
-	<html:link action="/signoutAction.do" styleClass="headerLinks"><font color="#CCFF00">Signout</font></html:link>
 	<%
 		}
 	%>
+
+	<html:link action="/genericForwardAction.do?forwardTo=demos/demo.jsp" styleClass="headerLinks">Screen Cast</html:link>
+	<%		if (userProfile != null && userProfile.isLoginStatus()) {	%>
 	
-	
-	
+	|<html:link action="/signoutAction.do" styleClass="headerLinks">
+		<font color="#CCFF00">Signout</font>
+	</html:link>
+	<%		}	%>
+
+	|
+	<html:link action="/footerFunct.do?parameter=contactInformation" styleClass="headerLinks">Contact Us</html:link>
 	&nbsp;&nbsp;
 </div>
 
 <script language="JavaScript">
- 
- function openNewWindow(url) {
- popupWin = window.open(url, 'Features', ', , , , , scrollbars, resizable, dependent')
- }
- 
- </script>
+	function openNewWindow(url) {
+		popupWin = window.open(url, 'Features',', , , , , scrollbars, resizable, dependent')
+	}
+</script>

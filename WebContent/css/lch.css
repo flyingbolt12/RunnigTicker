@@ -657,7 +657,28 @@ background: -o-linear-gradient(top,  #ffffff 0%,#f1f9ed 50%,#e1f1d9 51%,#f6fbf3 
 background: -ms-linear-gradient(top,  #ffffff 0%,#f1f9ed 50%,#e1f1d9 51%,#f6fbf3 100%); /* IE10+ */
 background: linear-gradient(to bottom,  #ffffff 0%,#f1f9ed 50%,#e1f1d9 51%,#f6fbf3 100%); /* W3C */
 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#f6fbf3',GradientType=0 ); /* IE6-8 */
+}
 
-
-
+.i2Style{
+font:normal 15px Verdana, Geneva, sans-serif;
+font-style:normal;
+color:#000000;
+background:#f5f5f5;
+border:1px solid #bbb;
+text-shadow:0px 1px 0px #fff;
+box-shadow:0px 1px 10px #d1cfd1;
+-moz-box-shadow:0px 1px 10px #d1cfd1;
+-webkit-box-shadow:0px 1px 10px #d1cfd1;
+border-radius:20px 0px 20px 0px;
+-moz-border-radius:20px 0px 20px 0px;
+-webkit-border-radius:20px 0px 20px 0px;
+width:46px;
+padding:15px 50px;
+cursor:pointer;
+margin:0 auto;
+}
+.i2Style:active{
+cursor:pointer;
+position:relative;
+top:2px;
 }
