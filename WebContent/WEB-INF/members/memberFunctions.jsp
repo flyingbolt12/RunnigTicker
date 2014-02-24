@@ -18,7 +18,6 @@
 %>
 <c:if test="${isEmployerNotified == 'yes'}">
 	<script>
-	
 		dhtmlx.message({type:"error", expire:6000, text:"Employer Notified." });
 	</script>
 </c:if>

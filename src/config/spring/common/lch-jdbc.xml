@@ -69,10 +69,10 @@ xmlns="http://www.springframework.org/schema/beans"
 <!--     </property> -->
 <!--   </bean> -->
 
-<!-- 	<jdbc:initialize-database data-source="dataSource"> -->
-<!-- 		<jdbc:script location="config/cloud.sql" /> -->
-<!-- 		<jdbc:script location="config/quartz.sql" /> -->
-<!-- 		<jdbc:script location="config/functions.sql" separator="$$" /> -->
-<!-- 	</jdbc:initialize-database> -->
+	<jdbc:initialize-database data-source="dataSource">
+		<jdbc:script location="config/cloud.sql" />
+		<jdbc:script location="config/quartz.sql" />
+		<jdbc:script location="config/functions.sql" separator="$$" />
+	</jdbc:initialize-database>
 
 </beans>

@@ -574,7 +574,7 @@
 			<field property="login" depends="required">
 				<arg0 key="error.login" />
 			</field>
-			<field property="password" depends="required, minlength">
+			<!-- <field property="password" depends="required, minlength">
 				<arg0 key="error.password" />
 				<arg1 name="minlength" key="${var:minlength}" resource="false" />
 				<var>
@@ -590,6 +590,7 @@
 					<var-value>6</var-value>
 				</var>
 			</field>
+			 -->
 			<field property="phoneNumber" depends="required,long">
 				<arg0 key="error.phoneNumber" />
 			</field>

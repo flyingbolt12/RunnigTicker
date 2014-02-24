@@ -1,3 +1,6 @@
+<%@page import="java.util.List"%>
+<%@page import="com.lch.spring.BusinessComponents.DoTransaction"%>
+<%@page import="org.springframework.context.support.GenericXmlApplicationContext"%>
 <%@ taglib uri="http://struts.apache.org/tags-html" prefix="html"%>
 <%@ taglib uri="http://struts.apache.org/tags-bean" prefix="bean"%>
 <%@ taglib uri="http://struts.apache.org/tags-logic" prefix="logic"%>
@@ -27,9 +30,18 @@
 
 		<table border="0" cellspacing="1" style="font-family: Tahoma; font-size: 10pt" id="regEmp" width="90%">
 			<tr>
-				<td colspan="3" class="tdHeader">Creating Another Administrator
+				<td colspan="3" class="tdHeader">Creating Another Child Administrator
 				</td>
 			</tr>
+			
+			<tr>
+				<td>User Name<font color="#FF0000">*</font></td>
+				<td colspan="2">
+					<html:text property="login" styleClass="BusinessTextBox" size="20" tabindex="16" onblur="verifyUser(this.value)" styleId="userName"></html:text> 
+					<font color="#FF0000"><span id="usrAvailabilityCheckMsg"></span></font>
+				</td>					
+			</tr>
+			
 			<tr>
 				<td width="20%"><span style="font-size: 10.0pt; font-family: Tahoma">First Name<font color="#FF0000">*</font></span></td>
 				<td colspan="2"><html:messages id="err_name" property="firstName">
@@ -141,7 +153,31 @@
 						<%
 							errMsg = err_name;
 						%>
-					</html:messages> <html:text property="listAddress[1].country" styleClass="BusinessTextBox" size="20" tabindex="13"></html:text><%=errMsg%> <%
+					</html:messages> 
+					<html:select property="listAddress[1].country" styleClass="BusinessTextBox" tabindex="13" >
+				
+				<%
+				
+				GenericXmlApplicationContext ctx = null;
+				try {
+					ctx = (GenericXmlApplicationContext) application.getAttribute("ctx");
+				} catch (Exception e) {
+					
+				}
+				
+				DoTransaction doTransaction = (DoTransaction) ctx.getBean("doTransaction");
+				List<String> countires = (List<String>)doTransaction.listCountries();
+				
+				for (String country : countires)
+				{
+				%>
+				<html:option value="<%= country%>"></html:option>
+				<%} %>
+				</html:select>
+				
+					
+					
+					<%=errMsg%> <%
  	errMsg = "";
  %></td>
 			</tr>
@@ -165,7 +201,7 @@
  	errMsg = "";
  %></td>
 			</tr>
-			
+			<!-- 
 			<tr>
 				<td>User Name<font color="#FF0000">*</font></td>
 				<td colspan="2">
@@ -173,6 +209,7 @@
 					<font color="#FF0000"><span id="usrAvailabilityCheckMsg"></span></font>
 				</td>					
 			</tr>
+			
 			
 			<tr>
 				<td><font face="Tahoma" size="2">Password<font color="#FF0000">*</font></font></td>
@@ -194,6 +231,8 @@
  	errMsg = "";
  %><span id="cnfrmPwdErr"></span></td>
 			</tr>
+			
+			 -->
 			<tr>
 				<td></td>
 				<td colspan="2"></td>

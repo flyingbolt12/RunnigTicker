@@ -67,7 +67,7 @@
     }
     function confirmlink(thislink) {
 	    optionSeletced = "employee";
-	    var msg = '<input type="radio" value="Employer" name="R1" onclick="updateSelectedOption(this.value)"> Try as Employer	<br>  <input type="radio" value="employee" checked name="R1" onclick="updateSelectedOption(this.value)"> Try as Employee';
+	    var msg = '<input type="radio" value="Employer" name="R1" onclick="updateSelectedOption(this.value)"> Try as an Employer	<br>  <input type="radio" value="employee" checked name="R1" onclick="updateSelectedOption(this.value)"> Try as an Employee';
 	    
 	    dhtmlx.confirm({
 	    title : "Choose an option",

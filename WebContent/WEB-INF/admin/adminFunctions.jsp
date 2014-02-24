@@ -26,325 +26,301 @@
 		dhtmlx.message({type:"error", expire:6000, text:"<%= request.getAttribute("status")%>" });
 	</script>
 </c:if>
+<c:if test="${not empty showStatus}">
+	<script>
+		dhtmlx.message({type:"error", expire:6000, text:"<%= request.getAttribute("showStatus")%>" });
+	</script>
+</c:if>
 
-<%
-	String status = (String) request.getAttribute("adminAdded");
-	if (status != null && status.length() > 0) {
-%>
-<script>
-	dhtmlx.message({type:"error", expire:6000, text:"Admin Created." });
-</script>
-
-<%
-	}
-%>
 
 <%
 	com.lch.general.generalBeans.UserProfile up = (com.lch.general.generalBeans.UserProfile) session
 			.getAttribute("userProfile");
 	int approvalStatus = up.getApprovalStatus();
 	
-	System.out.println(up.getUserRole());
-	if(!up.getUserRole().equals(Roles.ADMIN.name()))
+	if(!up.getUserRole().equals(Roles.ADMIN.name()) && !up.getUserRole().equals(Roles.CHILDADMIN.name()))
 	{
 		%> 
-		<script>
-			notAdmin = true;
-		</script>
-		<%
-		System.out.println("Inavlid placement for admin functions page");
-		return;
-	}
+		<script>			notAdmin = true;		</script>
+		Our security tools suspected invalid activity and you are not allowed to view this page.
+		<%	return;
+	} %>
 	
-%>
-
 <style>
 
-.HTMLLINK {
-	text-decoration: none;
-	font-family: Tahoma;
-	font-size: 10pt;
+
+.accordianContentStyle{
+	max-width: 500px;
+	margin-left:26%;
+	margin-top: 10px;
+	margin-bottom: 10px;
 }
 
-.HTMLHIDDENLINK {
-	display: none;
+.accordinaStyle{
+	color : #1F3B08;
+font-size:9pt;
+font-weight : bold;
+background: rgb(255,255,255); /* Old browsers */
+background: -moz-linear-gradient(top,  rgba(255,255,255,1) 0%, rgba(241,241,241,1) 50%, rgba(225,225,225,1) 51%, rgba(246,246,246,1) 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,255,255,1)), color-stop(50%,rgba(241,241,241,1)), color-stop(51%,rgba(225,225,225,1)), color-stop(100%,rgba(246,246,246,1))); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top,  rgba(255,255,255,1) 0%,rgba(241,241,241,1) 50%,rgba(225,225,225,1) 51%,rgba(246,246,246,1) 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(top,  rgba(255,255,255,1) 0%,rgba(241,241,241,1) 50%,rgba(225,225,225,1) 51%,rgba(246,246,246,1) 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(top,  rgba(255,255,255,1) 0%,rgba(241,241,241,1) 50%,rgba(225,225,225,1) 51%,rgba(246,246,246,1) 100%); /* IE10+ */
+background: linear-gradient(to bottom,  rgba(255,255,255,1) 0%,rgba(241,241,241,1) 50%,rgba(225,225,225,1) 51%,rgba(246,246,246,1) 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#f6f6f6',GradientType=0 ); /* IE6-9 */
+
+}
+.accordinaStyle:hover{
+	color : #FFF;
+background: rgb(207,207,231); /* Old browsers */
+background: -moz-linear-gradient(top,  rgba(207,207,231,1) 0%, rgba(90,92,114,1) 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(207,207,231,1)), color-stop(100%,rgba(90,92,114,1))); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top,  rgba(207,207,231,1) 0%,rgba(90,92,114,1) 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(top,  rgba(207,207,231,1) 0%,rgba(90,92,114,1) 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(top,  rgba(207,207,231,1) 0%,rgba(90,92,114,1) 100%); /* IE10+ */
+background: linear-gradient(to bottom,  rgba(207,207,231,1) 0%,rgba(90,92,114,1) 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cfcfe7', endColorstr='#5a5c72',GradientType=0 ); /* IE6-9 */
+
+	
 }
 
-.tdHeader {
-	background: rgb(181, 189, 200); /* Old browsers */
-	/* IE9 SVG, needs conditional override of 'filter' to 'none' */
-	background:
-		url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2I1YmRjOCIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjODI4Yzk1IiBzdG9wLW9wYWNpdHk9IjEiLz4KICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzI4MzQzYiIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgPC9saW5lYXJHcmFkaWVudD4KICA8cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMSIgaGVpZ2h0PSIxIiBmaWxsPSJ1cmwoI2dyYWQtdWNnZy1nZW5lcmF0ZWQpIiAvPgo8L3N2Zz4=);
-	background: -moz-linear-gradient(top, rgba(181, 189, 200, 1) 0%, rgba(130, 140, 149, 1) 0%, rgba(40, 52, 59, 1) 100% ); /* FF3.6+ */
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(181,189, 200, 1) ), color-stop(0%, rgba(130, 140, 149, 1) ),
-		color-stop(100%, rgba(40, 52, 59, 1) ) ); /* Chrome,Safari4+ */
-	background: -webkit-linear-gradient(top, rgba(181, 189, 200, 1) 0%,rgba(130, 140, 149, 1) 0%, rgba(40, 52, 59, 1) 100% );
-	/* Chrome10+,Safari5.1+ */
-	background: -o-linear-gradient(top, rgba(181, 189, 200, 1) 0%,rgba(130, 140, 149, 1) 0%, rgba(40, 52, 59, 1) 100% );
-	/* Opera 11.10+ */
-	background: -ms-linear-gradient(top, rgba(181, 189, 200, 1) 0%,	rgba(130, 140, 149, 1) 0%, rgba(40, 52, 59, 1) 100% ); /* IE10+ */
-	background: linear-gradient(to bottom, rgba(181, 189, 200, 1) 0%,rgba(130, 140, 149, 1) 0%, rgba(40, 52, 59, 1) 100% ); /* W3C */
-	filter: progid:DXImageTransform.Microsoft.gradient(  startColorstr='#b5bdc8',endColorstr='#28343b', GradientType=0 ); /* IE6-8 */
-	color: #FFFFFF;
-	font-size: 10pt;
-	font-weight: bold;
+.accContentBack{
+background: -moz-radial-gradient(center, ellipse cover,  rgba(255,255,255,1) 1%, rgba(255,255,255,0.77) 76%, rgba(90,114,97,0.69) 100%); /* FF3.6+ */
+background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(1%,rgba(255,255,255,1)), color-stop(76%,rgba(255,255,255,0.77)), color-stop(100%,rgba(90,114,97,0.69))); /* Chrome,Safari4+ */
+background: -webkit-radial-gradient(center, ellipse cover,  rgba(255,255,255,1) 1%,rgba(255,255,255,0.77) 76%,rgba(90,114,97,0.69) 100%); /* Chrome10+,Safari5.1+ */
+background: -o-radial-gradient(center, ellipse cover,  rgba(255,255,255,1) 1%,rgba(255,255,255,0.77) 76%,rgba(90,114,97,0.69) 100%); /* Opera 12+ */
+background: -ms-radial-gradient(center, ellipse cover,  rgba(255,255,255,1) 1%,rgba(255,255,255,0.77) 76%,rgba(90,114,97,0.69) 100%); /* IE10+ */
+background: radial-gradient(ellipse at center,  rgba(255,255,255,1) 1%,rgba(255,255,255,0.77) 76%,rgba(90,114,97,0.69) 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#b05a7261',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+
 }
+
+#accordion .ui-accordion-header.ui-state-active { 
+color : white;
+background: rgb(169,3,41); /* Old browsers */
+background: -moz-linear-gradient(top,  rgba(169,3,41,1) 0%, rgba(143,2,34,1) 44%, rgba(109,0,25,1) 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(169,3,41,1)), color-stop(44%,rgba(143,2,34,1)), color-stop(100%,rgba(109,0,25,1))); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top,  rgba(169,3,41,1) 0%,rgba(143,2,34,1) 44%,rgba(109,0,25,1) 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(top,  rgba(169,3,41,1) 0%,rgba(143,2,34,1) 44%,rgba(109,0,25,1) 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(top,  rgba(169,3,41,1) 0%,rgba(143,2,34,1) 44%,rgba(109,0,25,1) 100%); /* IE10+ */
+background: linear-gradient(to bottom,  rgba(169,3,41,1) 0%,rgba(143,2,34,1) 44%,rgba(109,0,25,1) 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a90329', endColorstr='#6d0019',GradientType=0 ); /* IE6-9 */ }
+
+
 </style>
-
-
-<div align="center" id="adminFucntionsPage">
-	<table border="0" width="90%" id="table1" cellspacing="20"
-		cellpadding="5">
-		<tr>
-			<td height="18" colspan="2" class="tdHeader"><font
-				class="headerLinks">Listing &amp; Searching</font></td>
-			<td colspan="2" class="tdHeader"><font class="headerLinks">Operations</font></td>
-		</tr>
-		<tr>
-			<td width="25"><p>&nbsp;</td>
-			<td width="235">
-				<table border="0" id="table3">
-					<tr>
-						<td><b><font SIZE="2">»</font></b></td>
-						<td><html:link styleClass="HTMLLINK" 
-								title= "Displays the list of all your employees in a single page"
-								action="/adminFunctImpl.do?parameter=listAllEmployees">
-		List all my employees</html:link></td>
-					</tr>
-					<tr>
-						<td><b><font SIZE="2">»</font></b></td>
-						<td><html:link styleClass="HTMLLINK"
-								title="Performs a search"
-								action="/adminFunctImpl.do?parameter=searchOptions">
-		Find employee(s)</html:link></td>	
-					</tr>
-				</table>
-			</td>
-			<td width="25">&nbsp;</td>
-			<td width="235" rowspan="5">
-				<table border="0" id="table6">
-				
-				<tr height="50">
-						<td><b><font SIZE="2"> </font></b></td>
-						<td><b><font SIZE="2"> Approval Management Links </font></b></td>
-				</tr>					
-				
-				
-					<tr>
-						<td><b><font SIZE="2">»</font></b></td>
-						<td><html:link styleClass="HTMLLINK"
-								title="Shows employee requests that requires employer approval."
-								action="/genericForwardAction.do?forwardTo=admin/pendingApprovals/pendingApprovals">
-		Pending Approvals</html:link></td>
-					</tr>
-					<tr>
-						<td><b><font SIZE="2">»</font></b></td>
-						<td><html:link styleClass="HTMLLINK"
-								title="Lets Active/Deactive stoping the employee to submit the Timesheets."
-								action="/adminFunctImpl.do?parameter=searchOptions&featureRequest=ACTIVATE_DEACTIVATE">
-		Activate/Deactivate an Employee</html:link></td>
-					</tr>
-					<tr>
-						<td><b><font SIZE="2">»</font></b></td>
-						<td><html:link styleClass="HTMLLINK" title="Manage the approved timesheets."	
-								action="/adminFunctImpl.do?parameter=searchOptions&featureRequest=LIST_TIMESHEETS_FOR_ADMIN">
-		Manage Approved TimeSheets</html:link></td>
-					</tr>					
-					<tr height="50">
-						<td><b><font SIZE="2"> </font></b></td>
-						<td><b><font SIZE="2"> Admin & Employee Management Links </font></b></td>
-				</tr>	
-					<tr>
-						<td><b><font SIZE="2">»</font></b></td>
-						<td><html:link styleClass="HTMLLINK"
-								title="Create new Admin."
-								action="/adminFunctImpl.do?parameter=createAnotherAdmin">
-		Create Another Admin</html:link></td>
-					</tr>
-					<tr>
-						<td><font SIZE="2"><b>»</b></font></td>
-						<td><html:link styleClass="HTMLLINK"
-								title="Helps in managing the Admins."
-								action="/adminFunctImpl.do?parameter=manageMyAdmins">
-		Manage my Admins</html:link></td>
-					</tr>
-					<tr>
-						<td><b><font SIZE="2">»</font></b></td>
-						<td><html:link styleClass="HTMLLINK"
-								title="Register a new Employee."
-								action="/adminFunctImpl.do?parameter=addAnEmployeeOptions">
-		Add an Employee</html:link></td>
-					</tr>
-					<tr>
-						<td><b><font SIZE="2">»</font></b></td>
-						<td><html:link styleClass="HTMLLINK"
-								title="Notifies employee to update his/her profile"
-								action="/adminFunctImpl.do?parameter=searchOptions&featureRequest=EMP_UPDATE">
-		Request employee to update profile</html:link></td>
-					</tr>
-					
-					<tr>
-						<td><b><font SIZE="2">»</font></b></td>
-						<td><html:link styleClass="HTMLLINK"
-								title="Notifies all employees to update their profiles" onclick="confirmlinkForRequestAllEmployeesToUpdateTheirProfiles()"
-								href="#">
-		Request all employees to update their profiles</html:link></td>
-					</tr>
-					<tr>
-						<td><b><font SIZE="2">»</font></b></td>
-						<td><html:link styleClass="HTMLLINK"
-								title="Notifies employee to update his/her immigration details"
-								action="/adminFunctImpl.do?parameter=searchOptions&featureRequest=IMMIGRATION_DETAILS">
-		Request employee to update immigration details</html:link></td>
-					</tr>
-					<tr>
-						<td><b><font SIZE="2">»</font></b></td>
-						<td><html:link styleClass="HTMLLINK"
-								title="Notifies all employees to update their immigration details who don't updated their details yet" onclick="confirmlinkForRequestAllEmployeesToUpdateTheirImmigrationDetails()"
-								href="#">
-		Request employees to update their immigration details</html:link></td>
-					</tr>
-				<%
+  
+  
+  <script>
+  var cookieName = 'myHotCookie';
+  $(function() {
+		$("#accordion").accordion({active : ( (isNaN(parseInt($.cookie(cookieName))))? 2 : parseInt($.cookie(cookieName))), collapsible: true, heightStyle: "content",  activate: function(event, ui) {
+			 $.cookie(cookieName,parseInt($(this).accordion('option','active')));
+			}
+		});});
+  
+  </script>
+ <div id="accordion">
+  <h3 class="accordinaStyle">Employee Operations Area</h3>
+  <div class="accContentBack">
+    <div class="accordianContentStyle">
+   			<html:link styleClass="memberLinks" action="/adminFunctImpl.do?parameter=listAllEmployees">
+   			<div class="squareAdmin" title="Displays the list of all your employees in a single page"><span class="spanStyle"><img src="images/time.png" ></span><span class="spanStyle">List all my employees</span></div>
+			</html:link>
+   			
+   			<html:link styleClass="memberLinks" action="/adminFunctImpl.do?parameter=searchOptions">
+   			<div class="squareAdmin" title="Performs a search"><span class="spanStyle"><img src="images/time.png" ></span><span class="spanStyle">Find employee(s)</span></div>
+			</html:link>
+			
+			<html:link styleClass="memberLinks"  action="/adminFunctImpl.do?parameter=searchOptions&&featureRequest=EMP_PASSWORD_RESET">
+				<div class="squareAdmin" title="Reset an Employee Password"><span class="spanStyle"><img src="images/time.png" ></span><span class="spanStyle">Reset Employee Password</span></div>
+			</html:link>
+		
+			<html:link styleClass="memberLinks"  action="/adminFunctImpl.do?parameter=addAnEmployeeOptions">
+				<div class="squareAdmin" title="Register a new Employee."><span class="spanStyle"><img src="images/time.png" ></span><span class="spanStyle">Add an Employee</span></div>
+			</html:link>
+			
+			<html:link styleClass="memberLinks"	action="/adminFunctImpl.do?parameter=searchOptions&featureRequest=ACTIVATE_DEACTIVATE">
+				<div class="squareAdmin" title="Lets Active/Deactive stoping the employee to submit the Timesheets."><span class="spanStyle"><img src="images/time.png" ></span><span class="spanStyle">Activate/Deactivate an Employee</span></div>   		
+			</html:link>
+			
+		
+			<%
 						UserProfile userProfile = (UserProfile) session.getAttribute("userProfile");
 						String action = "";
 						boolean isAdmin = userProfile.isAdmin();
 						if(isAdmin) {
 						%>
 						
-					<tr>
-						<td><b><font SIZE="2">»</font></b></td>
-						<td>
-						<html:link styleClass="HTMLLINK" title="Tells about invoice to bill clients - Not available for Child Admins" action="/adminFunctImpl.do?parameter=searchOptions&featureRequest=SET_EMPLOYEE_RATE">Set Rate - How much to bill?</html:link></td>
-					</tr>
-					<% } %>
-					<tr height="50">
-						<td><b><font SIZE="2"> </font></b></td>
-						<td><b><font SIZE="2"> Timer Management Links </font></b></td>
-					</tr>					
-					
-					<tr>
-						<td><b><font SIZE="2">»</font></b></td>
-						<td><html:link styleClass="HTMLLINK"
-								title="Set the timer's to deliver the email listings automatically."
-								action="/adminFunctImpl.do?parameter=showTimerCreationPage">
-		Set Regular Email Reminder</html:link></td>
-					</tr>
-					<tr>
-						<td><b><font SIZE="2">»</font></b></td>
-						<td><html:link styleClass="HTMLLINK"
-								title="Manage the reminders."
-								action="/adminFunctImpl.do?parameter=showManageTimersPage">
-		Manage Timers</html:link></td>
-					</tr>
+			<html:link styleClass="memberLinks"  action="/adminFunctImpl.do?parameter=searchOptions&featureRequest=SET_EMPLOYEE_RATE">
+				<div class="squareAdmin" title="Tells about invoice to bill clients - Not available for Child Admins"><span class="spanStyle"><img src="images/time.png" ></span><span class="spanStyle">Set Rate - How much to bill?</span></div>
+			</html:link>
+		<% } %>
+		</div>
+  </div>
+  <h3 class="accordinaStyle">Notifications Spot</h3>
+   <div class="accContentBack">
+   <div class="accordianContentStyle">
+   			
+   			<html:link styleClass="memberLinks" action="/adminFunctImpl.do?parameter=makeGenericEmail">
+   				<div class="squareAdmin" title="Send message to employees(based on their category)."><span class="spanStyle"><img src="images/time.png" ></span><span class="spanStyle">Notify Group Of Employees</span></div>
+			</html:link>
+   		
+   			<html:link styleClass="memberLinks" action="/adminFunctImpl.do?parameter=searchOptions&featureRequest=EMP_UPDATE">
+				<div class="squareAdmin" title="Sends an email to you with your comapny unique id"><span class="spanStyle"><img src="images/time.png" ></span><span class="spanStyle">Ask An Employee To Update Profile</span></div>
+			</html:link>
+   		
+   	   		<html:link styleClass="memberLinks" href="#" onclick="confirmlinkForRequestAllEmployeesToUpdateTheirProfiles()">
+				<div class="squareAdmin" title="Notifies all employees to update their profiles"><span class="spanStyle"><img src="images/time.png" ></span><span class="spanStyle">Ask All Employees To Update Profiles</span></div>
+			</html:link>	
+   		
+   		   	<html:link styleClass="memberLinks" action="/adminFunctImpl.do?parameter=searchOptions&featureRequest=IMMIGRATION_DETAILS">
+				<div class="squareAdmin" title="Notifies employee to update his/her immigration details"><span class="spanStyle"><img src="images/time.png" ></span><span class="spanStyle">Ask An Employee To Update Immigration Details</span></div>
+			</html:link>	
+		
+   		   	<html:link styleClass="memberLinks" href="#" onclick="confirmlinkForRequestAllEmployeesToUpdateTheirImmigrationDetails()">
+				<div class="squareAdmin" title="Notifies all employees to update their immigration details who don't updated their details yet"><span class="spanStyle"><img src="images/time.png" ></span><span class="spanStyle">Ask Employees To Update Immigration Details</span></div>
+			</html:link>	
+			
+		</div>
+  </div>
+  <h3 class="accordinaStyle">Manage Approvals Area</h3>
+   <div class="accContentBack">
+    <div class="accordianContentStyle">
+		
+			<html:link styleClass="memberLinks"	action="/adminFunctImpl.do?parameter=employeeTimesheetPendingApprovals">
+				<div class="squareAdmin" title="Approve or Reject Submitted TimeSheets by your Employees"><span class="spanStyle"><img src="images/time.png" ></span><span class="spanStyle">Employee Time Sheet Pending Approvals</span></div>   		
+			</html:link>
 
-					<tr>
-						<td><b><font SIZE="2">»</font></b></td>
-						<td><html:link styleClass="HTMLLINK" title="Manage the approved timesheets."	
-								action="/adminTimer.do?parameter=showManageEmailContentsPage">
-		Manage Email Contents</html:link></td>
-					</tr>
+			<html:link styleClass="memberLinks"	action="/adminFunctImpl.do?parameter=employeeRegistrationPendingApprovals">
+				<div class="squareAdmin" title="Approve or Reject employees who waiting to get the access into this application"><span class="spanStyle"><img src="images/time.png" ></span><span class="spanStyle">Employee Registration Pending Approvals</span></div>   		
+			</html:link>
+			
+			<html:link styleClass="memberLinks"	action="/adminFunctImpl.do?parameter=searchOptions&featureRequest=LIST_TIMESHEETS_FOR_ADMIN">
+				<div class="squareAdmin" title="Manage the approved timesheets."><span class="spanStyle"><img src="images/time.png" ></span><span class="spanStyle">Manage Approved TimeSheets</span></div>   		
+			</html:link>
+		
+		</div>
+  </div>
+  <h3 class="accordinaStyle">Manage Child Admins Area</h3>
+   <div class="accContentBack">
+    <div class="accordianContentStyle">
+   			
+	   		<html:link styleClass="memberLinks"	action="/adminFunctImpl.do?parameter=createAnotherAdmin">
+				<div class="squareAdmin" title="Create new Admin."><span class="spanStyle"><img src="images/time.png" ></span><span class="spanStyle">Create Another Admin</span></div>   		
+			</html:link>
 
-
-				</table>
-			</td>
-		</tr>
-		<tr>
-			<td height="18" colspan="2" class="tdHeader"><font
-				class="headerLinks">Notifications</font></td>
-		</tr>
-		<tr>
-			<td>&nbsp;</td>
-			<td>
-				<table border="0" id="table4">
-
-					<tr>
-						<td><b><font SIZE="2">»</font></b></td>
-						<td><html:link styleClass="HTMLLINK"
-								title="Send message to employees(based on their category)."
-								action="/adminFunctImpl.do?parameter=makeGenericEmail">
-		Notify employees</html:link></td>
-					</tr>
-					<tr>
-						<td><b><font SIZE="2">»</font></b></td>
-						<td><html:link styleClass="HTMLLINK"
-								title="Sends an email to you with your comapny unique id"
-								action="/adminFunctImpl.do?parameter=viewMyUniqueNumberOptions">
-		Company Unique Id</html:link></td>
-					</tr>
-					<tr>
-						<td><b><font SIZE="2">»</font></b></td>
-						<td><html:link styleId="sendlink" onclick="confirmlink()"
-								href="#" styleClass="HTMLLINK"
-								title="Sends an email having comapny unique id to all employees, for their registration purpose">
-		Notify Company Id to Employees</html:link></td>
-					</tr>
-					<tr>
-						<td><b><font SIZE="2">»</font></b></td>
-						<td><html:link styleId="sendlink"
-								action="/adminFunctImpl.do?parameter=showNotifyEmailsPage"
-								styleClass="HTMLLINK"
-								title="Sends an email with comapny unique id to the listed emails(not neccessarily the employees).">
-		Notify Company Id to Emails</html:link></td>
-					</tr>
-					<tr>
-						<td><b><font SIZE="2">»</font></b></td>
-						<td><html:link styleClass="HTMLLINK"
-								title="Recommend ILCH"
-								action="/adminFunctImpl.do?parameter=inviteOtherBusinessOptions">
-		Recommend us</html:link></td>
-					</tr>
-				</table>
-			</td>
-			<td rowspan="3">&nbsp;</td>
-		</tr>
-		<tr>
-			<td height="18" colspan="2" class="tdHeader"><font
-				class="headerLinks">General</font></td>
-		</tr>
-		<tr>
-			<td>&nbsp;</td>
-			<td>
-				<table border="0" id="table5">
-					<tr>
-						<td height="23"><b><font SIZE="2">»</font></b></td>
-						<td height="23"><html:link styleClass="HTMLLINK"
-								title="Lists out useful reports."
-								action="/adminFunctImpl.do?parameter=reports">
-		Reports</html:link></td>
-					</tr>
-					<tr>
-						<td height="23"><b><font SIZE="2">»</font></b></td>
-						<td height="23"><html:link styleClass="HTMLLINK"
-								title="Account Settings"
-								action="/genericForwardAction.do?forwardTo=admin/adminAccountSettings">
-		Account Settings</html:link></td>
-					</tr>
-					<tr>
-						<td height="23"><b><font SIZE="2">»</font></b></td>
-						<td height="23"><html:link styleClass="HTMLLINK"
-								title="Reset an Employee Password"
-								action="/adminFunctImpl.do?parameter=searchOptions&&featureRequest=EMP_PASSWORD_RESET">
-		Reset Employee Password</html:link></td>
-					</tr>
-					<tr>
-						<td height="23"><b><font SIZE="2">»</font></b></td>
-						<td height="23">
-					<html:link styleClass="HTMLLINK"
-					title="Update  Business Logo"
-					action="/adminFunctImpl.do?parameter=showLogoUpdatePage">
-		Update Logo</html:link></td>
-					</tr>
-				</table>
-			</td>
-		</tr>
-	</table>	
+	   		<html:link styleClass="memberLinks"	action="/adminFunctImpl.do?parameter=manageMyAdmins">
+				<div class="squareAdmin" title="Helps in managing the Admins."><span class="spanStyle"><img src="images/time.png" ></span><span class="spanStyle">Manage My Admins</span></div>   		
+			</html:link>
+			
+		</div>
+  </div>
+  <h3 class="accordinaStyle">Manage Timers &amp; Email Contents</h3>
+   <div class="accContentBack">
+    <div class="accordianContentStyle" >
+   			
+	   		<html:link styleClass="memberLinks"	action="/adminFunctImpl.do?parameter=showTimerCreationPage">
+				<div class="squareAdmin" title="Set the timer's to deliver the email listings automatically."><span class="spanStyle"><img src="images/time.png" ></span><span class="spanStyle">Set Regular Email Reminder</span></div>   		
+			</html:link>
+			
+			<html:link styleClass="memberLinks"	action="/adminFunctImpl.do?parameter=showManageTimersPage">
+				<div class="squareAdmin" title="Manage the reminders."><span class="spanStyle"><img src="images/time.png" ></span><span class="spanStyle">Manage Timers</span></div>   		
+			</html:link>
 	
+			<html:link styleClass="memberLinks"	action="/adminTimer.do?parameter=showManageEmailContentsPage">
+				<div class="squareAdmin" title="Manage the approved timesheets."><span class="spanStyle"><img src="images/time.png" ></span><span class="spanStyle">Manage Email Contents</span></div>   		
+			</html:link>
+				
+		</div>
+  </div>
+  <h3 class="accordinaStyle">Settings Spot</h3>
+  <div class="accContentBack">
+   <div class="accordianContentStyle">
+   			
+   			<html:link href="#" styleClass="memberLinks" onclick="resetPassword()">
+				<div class="squareAdmin" title="Reset Password"><span class="spanStyle"><img src="images/time.png" ></span><span class="spanStyle"> Reset My Password</span></div>
+			</html:link>
+			
+			<html:link href="#" styleClass="memberLinks" onclick="disableBusnessConfirmationDialog()">
+				<div class="squareAdmin" title="Disables your busiess"><span class="spanStyle"><img src="images/time.png" ></span><span class="spanStyle"> Disable My Business</span></div>
+			</html:link>
+			
+			<html:link href="#" styleClass="memberLinks" onclick="showTimeSheetConfiguration()">
+				<div class="squareAdmin" title="Set Timesheet default values"><span class="spanStyle"><img src="images/time.png" ></span><span class="spanStyle"> TimeSheet Configuration</span></div>
+			</html:link>
+			
+   			<html:link href="#" styleClass="memberLinks" onclick="updateBusinessLogo()">
+				<div class="squareAdmin" title="Updates your Logo"><span class="spanStyle"><img src="images/time.png" ></span><span class="spanStyle">Update Logo</span></div>
+			</html:link>
+			
+			<html:link styleClass="memberLinks" title="Recommend ILCH" action="/adminFunctImpl.do?parameter=inviteOtherBusinessOptions">
+				<div class="squareAdmin" title="Sends an email to you with your comapny unique id"><span class="spanStyle"><img src="images/time.png" ></span><span class="spanStyle">Recommend us</span></div>
+			</html:link>
+   			
+   			<html:link styleClass="memberLinks" action="/adminFunctImpl.do?parameter=viewMyUniqueNumberOptions">
+				<div class="squareAdmin" title="Sends an email to you with your comapny unique id"><span class="spanStyle"><img src="images/time.png" ></span><span class="spanStyle">My Company Unique Id</span></div>
+			</html:link>
+			
+			<html:link styleId="sendlink" action="/adminFunctImpl.do?parameter=showNotifyEmailsPage" styleClass="memberLinks">
+				<div class="squareAdmin" title="Sends an email with comapny unique id to the listed emails(not neccessarily the employees)."><span class="spanStyle"><img src="images/time.png" ></span><span class="spanStyle">Notify Company Id to Emails</span></div>
+			</html:link>
+			
+			<html:link styleId="sendlink" href="#" styleClass="memberLinks" onclick="showMyAppURL()">
+				<div class="squareAdmin" title="Sends an email with comapny unique id to the listed emails(not neccessarily the employees)."><span class="spanStyle"><img src="images/time.png" ></span><span class="spanStyle">MyLogo ApplicationURL</span></div>
+			</html:link>
+			
+		 <form method="POST" action="adminFunctImpl.do">
+			<input type="hidden" name="parameter" value="resetPassword">
+		</form>
+		<form action="adminFunctImpl.do" method="POST"><input type="hidden" name="parameter" value="disableBusiness"></form> 
+		</div>
+  </div>
+  <h3 class="accordinaStyle">Downloading Reports Area</h3>
+   <div class="accContentBack">
+    <div class="accordianContentStyle">
+   			
+			<html:link styleClass="memberLinks" action="/downloadReports.do?parameter=showAdminDownloadAllEmployeesSortOpetionPage">
+				<div class="squareAdmin" title="A PDF will be downloaded having your employees list"><span class="spanStyle"><img src="images/time.png" ></span><span class="spanStyle">Download All Employees</span></div>
+			</html:link>
+						
+			<html:link styleClass="memberLinks" action="/adminFunctImpl.do?parameter=searchOptions&featureRequest=EMP_TIMESHEET">
+				<div class="squareAdmin" title="Helps you to download total working hours of employee."><span class="spanStyle"><img src="images/time.png" ></span><span class="spanStyle">Download an Employee TimeSheet History</span></div>
+			</html:link>
+			
+			</div>
+  </div>
 </div>
-<div id="security"></div>
-<form action="adminFunctImpl.do" method="POST">
-<input type="hidden" name="parameter">
-</form>
-<script>
+ 	<script>
+		function disableBusnessConfirmationDialog(thislink) {
+			
+			var msg = "Are you sure, do you want to disable business?";
+			
+			dhtmlx.confirm({ title: "Confirmation Needed", text:msg, ok:"Yes", cancel:"No", callback:function(result){ 
+				if (result == true) {document.forms[1].submit(); } else {document.getElementById('business').checked = false;}
+			 }});
+
+		}
+		
+		function showTimeSheetConfiguration(thislink) {
+			document.forms[0].parameter.value="showTimeSheetConfiguration";
+			document.forms[0].submit();
+		}
+		
+		function updateBusinessLogo(thislink) {
+			document.forms[0].parameter.value="showLogoUpdatePage";
+			document.forms[0].submit();
+		}
+		function resetPassword(thislink) {
+			document.forms[0].parameter.value="resetPassword";
+			document.forms[0].submit();
+		}
+	
+
+	function showMyAppURL() {
+			window.prompt("Press Ctrl+C, Enter", "http://www.RunningTicker.com?businessId=<%= userProfile.getBusinessId()%>");
+	}
+
+		
 	function confirmlink() {
 
 		var msg = "Do you want to send email with Business Id to all your employees?";

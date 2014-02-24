@@ -208,7 +208,8 @@ function cancel_callback(box){
 						String id = (String) ((Map) employeeTimesheetPendingApprovalsId)
 									.get("supportingDocIds");
 							if (!id.equals("0")) {
-					%> <a href=javascript:openNewWindow('downloadAFile.do?id=<%=weeklyHrsSummaryId%> &action=timeSheets')>Click</a> <%
+								String url = "downloadAFile.do?id="+weeklyHrsSummaryId+"&action=timeSheets";
+					%> <a href=javascript:openNewWindow('<%=url%>')>Click</a> <%
  	} else {
  %> N/A<%
  	}

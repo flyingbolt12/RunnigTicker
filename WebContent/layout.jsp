@@ -4,6 +4,7 @@
 
 <html>
 <head>
+<meta name="google-site-verification" content="T6xOf6cd8P5jcz3sJjWrqXQkuhquUFD2C0MPE3kVtSo" />
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Web TimeSheets & Communication System</title>
@@ -11,16 +12,24 @@
 <link rel="shortcut icon" href="http://www.runningticker.com/fav.ico" />
 <meta name="keywords" content="timesheet software time tracking web time sheet timekeeping timesheets timesheet software, online timesheets, web based timsheets, punch clock, timesheet software, small business timekeeping, employee timeclock, employee time card, time sheet attendance, employee time tracking" />
 
+<link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+<script src="//code.jquery.com/jquery-1.9.1.js"></script>
+<script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+<script src="js/jquery.cookie.js"></script>
 
 <link href="css/lch.css" rel="stylesheet" type="text/css" />
 <link href="js/tiptip/tipTip.css" rel="stylesheet" type="text/css" />
-<meta name="google-site-verification" content="T6xOf6cd8P5jcz3sJjWrqXQkuhquUFD2C0MPE3kVtSo" />
+
 <script language="JavaScript" type="text/javascript" src="js/lch/globals.js"></script>
 <script language="JavaScript" type="text/javascript" src="js/lch/ajax.js"></script>
 <script language="JavaScript" src="js/lch/admin.js"></script>
-<script type="text/javascript" src="js/jquery.min.js"></script>
+
 <script language="JavaScript" type="text/javascript" src="js/tiptip/jquery.tipTip.minified.js"></script>
 <script language="JavaScript" type="text/javascript" src="js/dhtmlx/codebase/message.js"></script>
+
+
+<!--   <script src="//code.jquery.com/jquery-1.9.1.js"></script> -->
+<!--   <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script> -->
 
 <!-- Parralox for home animation-->
 <link rel="stylesheet" type="text/css" href="css/parralox/demo.css" />
@@ -35,6 +44,7 @@
 
 
 <script type="text/javascript">
+	
 	$(function() {
 	    
 	    $('#da-slider').cslider({
@@ -67,7 +77,7 @@
   m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
   })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-  ga('create', 'UA-46699543-1', 'allibilli.com');
+  ga('create', 'UA-48072437-1', 'runningticker.com');
   ga('send', 'pageview');
 
 </script>
