@@ -37,8 +37,8 @@
 
 		<tr>
 			<td width="58"></td>
-			<td bgcolor="#F4F4F4" align="left">User Name</td>
-			<td bgcolor="#F4F4F4" align="left"><html:text property="userName" tabindex="1" styleClass="BusinessTextBox"></html:text></td>
+			<td align="left">User Name</td>
+			<td align="left"><html:text property="userName" tabindex="1" styleClass="BusinessTextBox"></html:text></td>
 
 		</tr>
 		<tr>
@@ -48,7 +48,7 @@
 		</tr>
 
 		<tr>
-			<td colspan="3" bgcolor="#F4F4F4" align="right"><html:submit value="Submit" property="lsubmit" styleClass="ButtonStyle" tabindex="3"></html:submit> <html:reset value="Reset" property="reset" styleClass="ButtonStyle" tabindex="4"></html:reset></td>
+			<td colspan="3" align="right"><html:submit value="Submit" property="lsubmit" styleClass="ButtonStyle" tabindex="3"></html:submit> <html:reset value="Reset" property="reset" styleClass="ButtonStyle" tabindex="4"></html:reset></td>
 		</tr>
 
 		<tr>
@@ -66,8 +66,8 @@
 	    optionSeletced = option;
     }
     function confirmlink(thislink) {
-	    optionSeletced = "employee";
-	    var msg = '<input type="radio" value="Employer" name="R1" onclick="updateSelectedOption(this.value)"> Try as an Employer	<br>  <input type="radio" value="employee" checked name="R1" onclick="updateSelectedOption(this.value)"> Try as an Employee';
+	    optionSeletced = "employer";
+	    var msg = '<input type="radio" value="Employer" checked name="R1" onclick="updateSelectedOption(this.value)"> Try as an Employer	<br>  <input type="radio" value="employee" name="R1" onclick="updateSelectedOption(this.value)"> Try as an Employee';
 	    
 	    dhtmlx.confirm({
 	    title : "Choose an option",

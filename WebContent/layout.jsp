@@ -11,6 +11,7 @@
 <meta name="description" content="Online timesheets and communication systems software. RunningTicker is the easiest and quickest way to track employee time and manage timesheets. Its your own Cloud Deployed and Looks like your product. For small & medium scale businesses. Its built on Cloud - Java Platform" />
 <link rel="shortcut icon" href="http://www.runningticker.com/fav.ico" />
 <meta name="keywords" content="timesheet software time tracking web time sheet timekeeping timesheets timesheet software, online timesheets, web based timsheets, punch clock, timesheet software, small business timekeeping, employee timeclock, employee time card, time sheet attendance, employee time tracking" />
+<script src="js/browserVersionDector.js"></script>
 
 <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
 <script src="//code.jquery.com/jquery-1.9.1.js"></script>
@@ -26,10 +27,6 @@
 
 <script language="JavaScript" type="text/javascript" src="js/tiptip/jquery.tipTip.minified.js"></script>
 <script language="JavaScript" type="text/javascript" src="js/dhtmlx/codebase/message.js"></script>
-
-
-<!--   <script src="//code.jquery.com/jquery-1.9.1.js"></script> -->
-<!--   <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script> -->
 
 <!-- Parralox for home animation-->
 <link rel="stylesheet" type="text/css" href="css/parralox/demo.css" />
@@ -69,6 +66,14 @@
 	    defaultPosition : 'right'
 	    });
     });
+    
+    $(document).ready(function() {
+    
+    	detectBrowserCompatability();
+    	
+    });
+
+   
 </script>
 
 <script>

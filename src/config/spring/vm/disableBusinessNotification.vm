@@ -7,8 +7,7 @@
 		<td bgcolor="#224F90">
 		<table border="0" width="100%" cellpadding="15" cellspacing="0" style="font-family: Tahoma; font-size: 10pt; color: #FFFFFF">
 			<tr>
-				<td width="100%" style="color: #FFFFFF" align="right"><b>ILCH & CCS - 
-				Employee Registration Request Notification!</b></td>
+				<td width="100%" style="color: #FFFFFF" align="right"><b>ILCH & CCS - Disable Business Notification!</b></td>
 			</tr>
 		</table>
 		</td>
@@ -20,17 +19,11 @@
 				<td width="100%" height="100%">
 				<b>Dear User,</b><BR><BR>
 				<div style="margin-left:5em">
-							
-					${notificationBean.text}
-					<p>First Name : ${notificationBean.name}<br/>
-					Middle Name : ${notificationBean.middleName}<br/>
-					Client Working For : ${notificationBean.clientName}<br/>
-					Email Id : ${notificationBean.emailId}</p>
-					<p><a href="${notificationBean.url}">
-					<input type="button" value="CLICK HERE TO APPROVE" style="font-family: Tahoma; font-size: 8pt; color: #000000; font-variant: small-caps; font-weight: bold"></a></p> 
-							
+								
+					You have a change in your account status in ILCH & CCS. Current Status : ${notificationBean.text}.
+					Please contact us to activate if not active using our contact us form.
+
 				</div>
-				<p>
 				<br><br>
 				Thank you.</td>
 			</tr>

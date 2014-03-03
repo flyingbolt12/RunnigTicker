@@ -39,7 +39,7 @@ public class ConfirmMemberRegistrationAction extends BaseAction {
 		testMembers.put("monthly.member","ilchmonthly@gmail.com");//gopikrishna
 		testMembers.put("weekly.member","ilchweekly@gmail.com");//gopikrishna
 		testMembers.put("biweekly.member","ilchbiweekly@gmail.com");//gopikrishna
-		testMembers.put("days15.member","ilchdays151@gmail.com");//gopikrishna
+		testMembers.put("days15.member","ilchdays15@gmail.com");//gopikrishna
 	}
 	public ActionForward addAnEmployee(ActionMapping mapping,
 			ActionForm form, HttpServletRequest request,

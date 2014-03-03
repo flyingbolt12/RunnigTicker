@@ -62,11 +62,15 @@ public class EmailUtil implements Serializable {
 			Object bcc = myMap.get(EmailConstants.BCC);
 			Object cc = myMap.get(EmailConstants.CC);
 			String emailBody = (String) myMap.get(EmailConstants.EMAILBODY);
-			String from = (String) myMap.get(EmailConstants.FROM);
+			//String from = (String) myMap.get(EmailConstants.FROM);
+			String from = "contact@allibilli.com";
 			File attachment = (File) myMap.get(EmailConstants.ATTACHMENT);
 			emailBody += unsub;
 
 			String replyTo = (String) myMap.get(EmailConstants.REPLYTO);
+			if(replyTo==null || (replyTo!=null && replyTo.trim().length() ==0)){
+				replyTo = (String) myMap.get(EmailConstants.FROM);
+			}
 			sb.append("TO : ");
 			if (to != null && to instanceof String) {
 				String to_str = (String) to;

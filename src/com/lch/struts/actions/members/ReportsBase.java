@@ -55,7 +55,7 @@ public abstract class ReportsBase extends BaseAction {
 		jasperPrint = JasperFillManager.fillReport(jasperReport, new HashMap<String, Object>(), ds);
 
 		response.setContentType("application/pdf");
-		response.setHeader("Content-disposition", "inline;filename=MyActive Employees.pdf");
+		response.setHeader("Content-disposition", "inline;filename=Reports.pdf");
 		response.setHeader("Cache-Control", "cache");
 		response.addHeader("Cache-Control", "must-revalidate");
 		response.setHeader("Pragma", "public");

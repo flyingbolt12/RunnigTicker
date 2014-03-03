@@ -1192,8 +1192,9 @@ public class AdminFunctImplAction extends BaseAction {
 		else
 		{
 			String msg = "Employees Notified as requested";
-			List<String> cc = new ArrayList<String>();
-			
+			List<String> to = new ArrayList<String>();
+			List<String> valid = new ArrayList<String>();
+			List<String> invalid = new ArrayList<String>();
 			EmailDetails emailDetails = new EmailDetails();
 			List<Map<String, String>> listAllMyEmployees;
 			if(bean.getEmployeeType().equals("all"))
@@ -1205,17 +1206,27 @@ public class AdminFunctImplAction extends BaseAction {
 				listAllMyEmployees = getSpringCtxDoTransactionBean().getAllMyEmployeesEmailsByTimeSheetConfiguration(businessId, bean.getEmployeeType());
 			}
 			
-			
+			String emailStr;
 			for(Map<String, String> email : listAllMyEmployees)
 			{
-				cc.add(email.get("contactEmail"));
-			
+				to.clear();
+				emailStr = email.get("contactEmail");
+				if(EmailValidator.getInstance().isValid(emailStr))
+				{
+					to.add(emailStr);
+					valid.add(emailStr);
+				}
+				else
+				{
+					invalid.add(emailStr);
+				}
+				
 				VMInputBean vmbean = new VMInputBean();
 				vmbean.setText(bean.getEmailContent());
 				emailDetails.setSubject(bean.getSubject());
 				String sb = getEmailTemplate(vmbean, VMConstants.VM_NOTIFY_EMPLOYEES);
 				emailDetails.setEmailContent(new StringBuffer(sb));
-				emailDetails.setCc(cc);
+				emailDetails.setTo(to);
 				log.info("Size of file attached {} , 2MB : {}", bean.getAttachement().getFileSize() , 1024*1024*2);
 				if(bean.getAttachement()!=null && bean.getAttachement().getFileSize() > 0 && bean.getAttachement().getFileSize() < 1024*1024*2)
 				{
@@ -1235,7 +1246,7 @@ public class AdminFunctImplAction extends BaseAction {
 			{
 				msg = msg + " with no file attachement";
 			}
-			sendReportToEmployer(getUserProfile(request),cc, bean.getSubject(),bean.getAttachement());
+			sendReportToEmployer(getUserProfile(request),valid,invalid, bean.getSubject(),bean.getAttachement());
 			putStatusObjInRequest(request, msg);
 			putObjInRequest("isNotified", request, "yes");
 		}
@@ -1243,18 +1254,27 @@ public class AdminFunctImplAction extends BaseAction {
 		return (forward);
 	}
 	
-	private void sendReportToEmployer(UserProfile profile, List<String> employees, String subject, FormFile attachment)
+	private void sendReportToEmployer(UserProfile profile, List<String> validEmployees,List<String> invalidEmployees, String subject, FormFile attachment)
 	{
 		EmailDetails emailDetails = new EmailDetails();
 		VMInputBean vmbean = new VMInputBean();
 		int count = 1;
 		StringBuffer text = new StringBuffer();
-		for (String name : employees)
+		text.append("Status of your recent notification request <BR>");
+		text.append("<BR> Emails that are notified<BR>");
+		for (String name : validEmployees)
 		{
 			text.append(count).append(".").append(name).append("<BR>");
 		}
+		text.append("<BR> Inavlid emails that are not notified<BR>");
+		count = 1;
+		for (String name : invalidEmployees)
+		{
+			text.append(count).append(".").append(name).append("<BR>");
+		}
+		
 		vmbean.setText(text.toString());
-		emailDetails.setSubject("Status report  for :  " + subject);
+		emailDetails.setSubject("Status report  of :  " + subject);
 		String sb = getEmailTemplate(vmbean, VMConstants.VM_GENERIC_EMAIL);
 		emailDetails.setEmailContent(new StringBuffer(sb));
 		ArrayList<String> cc= new ArrayList<String>();
@@ -1471,9 +1491,9 @@ public class AdminFunctImplAction extends BaseAction {
 		ArrayList<String> to = new ArrayList<String>();
 		to.add(email);
 		VMInputBean vmbean = new VMInputBean();
-		vmbean.setText("Your Password was reset by your employer.Your new passowrd :  " + password);
+		vmbean.setText(password);
 		EmailDetails emailDetails = new EmailDetails();
-		emailDetails.setSubject("Your ILCH Password");
+		emailDetails.setSubject("Your ILCH & CCS Password");
 		String content = getEmailTemplate(vmbean,VMConstants.VM_PASSWORD_RESET_EMPLOYEE);
 		emailDetails.setEmailContent(new StringBuffer(content));
 		emailDetails.setTo(to);
@@ -1515,7 +1535,7 @@ public class AdminFunctImplAction extends BaseAction {
 			sendEmail(emailDetails);
 			
 			bean.setText(sb.toString());
-			emailDetails.setSubject("ILCH - Status Report");
+			emailDetails.setSubject("ILCH - Status Report of Business Code Notification");
 			String buffer = getEmailTemplate(bean,VMConstants.VM_GENERIC_EMAIL);
 			emailDetails.setEmailContent(new StringBuffer(buffer));
 			List<String> bcc = new ArrayList<String>();

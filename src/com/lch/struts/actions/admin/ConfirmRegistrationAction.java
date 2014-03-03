@@ -403,7 +403,6 @@ public class ConfirmRegistrationAction extends BaseAction {
 		emailDetails.setTo(to);
 		emailDetails.setSubject("New Employer Registered");
 
-		bean.setText("activate");
 		sb = getApproveBusinessUserByAdmin(request,adminRegistrationBean, bean);
 		emailDetails.setEmailContent(sb);
 		sendEmail(emailDetails);
@@ -414,7 +413,7 @@ public class ConfirmRegistrationAction extends BaseAction {
 		to.add(adminRegistrationBean.getContactEmail());
 		emailDetails.setTo(to);
 		emailDetails.setSubject("Business Registration - Email Validation");
-		
+		bean.setText("activate");
 		sb = getValidateBusinessEmail(request,adminRegistrationBean, bean);
 		emailDetails.setEmailContent(sb);
 		sendEmail(emailDetails);

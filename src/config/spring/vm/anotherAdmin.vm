@@ -2,41 +2,42 @@
 
 <body link="#00FFFF" vlink="#FFFFFF" alink="#008080">
 
-<table border="0" width="100%" style="font-family: Tahoma">
+<table border="0" width="100%" style="font-family: Tahoma" style="font-family: Tahoma; font-size: 10pt; color: #FFFFFF">
 	<tr>
 		<td bgcolor="#224F90">
-		<table border="0" width="100%" cellpadding="15" cellspacing="0">
+		<table border="0" width="100%" cellpadding="15" cellspacing="0" style="font-family: Tahoma; font-size: 10pt; color: #FFFFFF">
 			<tr>
 				<td width="100%" style="color: #FFFFFF" align="right"><b>
-				<font size="2">ILCH - Child Admin Access Details</font></b></td>
+				ILCH - Child Admin Access Details</b></td>
 			</tr>
 		</table>
 		</td>
 	</tr>
 	<tr>
 		<td bgcolor="#946EA9" align="left" valign="top">
-		<table border="0" width="100%" height="100%" cellpadding="55" id="table1">
+		<table border="0" width="100%" height="100%" cellpadding="55" style="font-family: Tahoma; font-size: 10pt; color: #FFFFFF">
 			<tr>
-				<td width="100%" height="100%" style="color: #224F90" bgcolor="#946EA9">
-				<font size="2" color="#FFFFFF"><b>Hi,</b>
+				<td width="100%" height="100%">
 				
+				<b>Hi,</b>
+				<div style="margin-left:5em">
 				<p>
-					Congratulations!! You are now granted with 
-					child admin rights to access <b>ILCH &amp; CCS</b> System. 
-					Its time to login</p>
+					Congratulations!! Now, you have the access to <b>ILCH &amp; CCS</b> System 
+					as a Child Admin. 
+					So, time to login and make your ticker running.</p>
 				<p>
 				Your User name is : ${notificationBean.userId} and Password is : ${notificationBean.password}
 				</p>
 				<p>
-					If you would like to reset your password : 
-					Login&nbsp; and go to Admin DashBoard --&gt; click on Account Settings --> 
+					<b>Hint : </b>If you would like to reset your password : 
+					Login and go to Admin DashBoard --&gt; click on Account Settings --> 
 					click on Reset password.
 				</p>
 				
 				<br>
 				Thanks,<br>
 				${notificationBean.name}
-				</font>
+				</div>
 				</td>
 			</tr>
 		</table>

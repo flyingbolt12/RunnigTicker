@@ -24,6 +24,8 @@ public interface VMConstants {
 	public static final String VM_GENERIC_EMAIL = "genericEmail.vm";
 	public static final String VM_ANOTHER_ADMIN = "anotherAdmin.vm";
 	public static final String VM_PASSWORD_RESET_NOTIFICATION = "passwordReset.vm";
+	public static final String VM_DISABLE_BUSINESS_NOTIFICATION = "disableBusinessNotification.vm";
+	
 	public static final String VM_PASSWORD_RESET_EMPLOYEE = "passwdResetEmployee.vm";
 	public static final String VM_BEAN = "notificationBean";
 	public static final String VM_SIGNATURE = "signature";

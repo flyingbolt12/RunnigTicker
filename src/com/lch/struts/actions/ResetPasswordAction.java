@@ -13,7 +13,9 @@ import org.apache.struts.action.ActionMapping;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.lch.general.constants.VMConstants;
 import com.lch.general.email.EmailDetails;
+import com.lch.general.generalBeans.VMInputBean;
 import com.lch.struts.actions.admin.AdminFunctImplAction;
 import com.lch.struts.formBeans.ResetPasswordBean;
 @SuppressWarnings({ "rawtypes", "unchecked" })
@@ -39,13 +41,16 @@ public class ResetPasswordAction extends BaseAction {
 		EmailDetails emailDetails = new EmailDetails();
 		ArrayList<String> to = new ArrayList<String>();
 		String emailId = contactEmail;
+		VMInputBean vmBean = new VMInputBean();
 		if(emailId!=null && emailId.length()>0)
 		{
 			to.add(emailId);
 			emailDetails.setTo(to);
-			emailDetails.setSubject("Password Reset");
-			StringBuffer sb=new StringBuffer("Your password had been reset. If you are not the one done this, please report us using contact us form.");
-			emailDetails.setEmailContent(sb);
+			emailDetails.setSubject("Recent Password Reset Request");
+			//vmBean.setText("Your password had been reset. If you are not the one done this, please report us using contact us form.");
+			vmBean.setText(password);
+			String sb = getEmailTemplate(bean, VMConstants.VM_PASSWORD_RESET_NOTIFICATION);
+			emailDetails.setEmailContent(new StringBuffer(sb));
 			sendEmail(emailDetails);
 		}
 		

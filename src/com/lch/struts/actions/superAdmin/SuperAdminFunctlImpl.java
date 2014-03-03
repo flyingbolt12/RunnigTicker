@@ -17,8 +17,10 @@ import org.apache.struts.action.ActionMapping;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.lch.general.constants.VMConstants;
 import com.lch.general.email.EmailDetails;
 import com.lch.general.enums.TimerStatus;
+import com.lch.general.generalBeans.VMInputBean;
 import com.lch.spring.BusinessComponents.DoTransaction;
 import com.lch.spring.services.BDayService;
 import com.lch.spring.services.ImmigrationExpirationService;
@@ -28,24 +30,32 @@ import com.lch.struts.actions.admin.ConfirmRegistrationAction;
 import com.lch.struts.formBeans.SuperAdminBean;
 
 public class SuperAdminFunctlImpl extends BaseAction {
-	private static Logger log = LoggerFactory.getLogger(AdminFunctImplAction.class);
+	private static Logger log = LoggerFactory
+			.getLogger(AdminFunctImplAction.class);
 
 	enum type {
 		OUTAGE
 	};
 
-	public ActionForward createDemoUsers(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public ActionForward createDemoUsers(ActionMapping mapping,
+			ActionForm form, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
 		ConfirmRegistrationAction action = new ConfirmRegistrationAction();
-		action.createDemoEmployer(mapping, form, request, response, getSpringCTX());
+		action.createDemoEmployer(mapping, form, request, response,
+				getSpringCTX());
 		putObjInRequest("demoUsres", request, "yes");
 		return mapping.findForward("superAdminFunctions");
 	}
 
-	public ActionForward showOutagePage(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public ActionForward showOutagePage(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
 		return mapping.findForward("showOutagePage");
 	}
 
-	public ActionForward removeOutage(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public ActionForward removeOutage(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
 		log.info("Removing Outage..");
 
 		String status = "Opeartion Success";
@@ -56,18 +66,24 @@ public class SuperAdminFunctlImpl extends BaseAction {
 		return mapping.findForward("generalJsp");
 	}
 
-	public ActionForward showDisableBusinessPage(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public ActionForward showDisableBusinessPage(ActionMapping mapping,
+			ActionForm form, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
 
 		// List all business people from users and lch_business table and send
 		// them to the jsp to show
 
-		// Business and business admin user both should set to approvalstatus to 2.
-		List<Map<String, Object>> listAllBusiness = getSpringCtxDoTransactionBean().getAllBusinessList();
+		// Business and business admin user both should set to approvalstatus to
+		// 2.
+		List<Map<String, Object>> listAllBusiness = getSpringCtxDoTransactionBean()
+				.getAllBusinessList();
 		putObjInRequest("listAllBusiness", request, listAllBusiness);
 		return mapping.findForward("showDisableBusinessPage");
 	}
 
-	public ActionForward activateOrDeActivateBusiness(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public ActionForward activateOrDeActivateBusiness(ActionMapping mapping,
+			ActionForm form, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
 		ActionForward forward = new ActionForward();
 
 		// here userId parameter is the BusinessId
@@ -76,22 +92,22 @@ public class SuperAdminFunctlImpl extends BaseAction {
 
 		String status = "";
 		int recordEffectedCount = 0;
-		if (approvalStatus == 2)
-		{
-			recordEffectedCount = getSpringCtxDoTransactionBean().updateBusinessStatus(approvalStatus, businessId);
-		}
-		else if( approvalStatus == 3)
-		{
-			String iduser = getSpringCtxDoTransactionBean().selectAdminIdUserByBusinessId(businessId);
-			
+		if (approvalStatus == 2) {
+			recordEffectedCount = getSpringCtxDoTransactionBean()
+					.updateBusinessStatus(approvalStatus, businessId);
+		} else if (approvalStatus == 3) {
+			String iduser = getSpringCtxDoTransactionBean()
+					.selectAdminIdUserByBusinessId(businessId);
+
 			Map<String, String> map = new HashMap<String, String>();
 			map.put("userid", iduser.toString());
 			map.put("status", TimerStatus.DISABLE.name());
 			getSpringCtxDoTransactionBean().updateTimerStatusByUser(map);
-			recordEffectedCount = getSpringCtxDoTransactionBean().updateBusinessStatus(approvalStatus, businessId);			
-		}
-		else
-			recordEffectedCount = getSpringCtxDoTransactionBean().updateBusinessStatus(approvalStatus, businessId);
+			recordEffectedCount = getSpringCtxDoTransactionBean()
+					.updateBusinessStatus(approvalStatus, businessId);
+		} else
+			recordEffectedCount = getSpringCtxDoTransactionBean()
+					.updateBusinessStatus(approvalStatus, businessId);
 
 		if (recordEffectedCount <= 0) {
 			status = "No Action Performed";
@@ -109,41 +125,53 @@ public class SuperAdminFunctlImpl extends BaseAction {
 		ArrayList<String> l = new ArrayList<String>();
 		l.add(email);
 		emailDetails.setTo(l);
-		emailDetails.setEmailContent(new StringBuffer().append("Admin Action received : " + status));
+
+		VMInputBean bean = new VMInputBean();
+		bean.setText(status);
+		String sb = getEmailTemplate(bean,
+				VMConstants.VM_DISABLE_BUSINESS_NOTIFICATION);
+		emailDetails.setEmailContent(new StringBuffer(sb));
+
 		sendEmail(emailDetails);
 
 		return forward;
 	}
 
-	
-
-	public ActionForward triggerBdayJobs(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public ActionForward triggerBdayJobs(ActionMapping mapping,
+			ActionForm form, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
 		log.info("-triggerBdayJobs-");
 
 		ActionForward forward = new ActionForward();
 		forward = mapping.findForward("generalJSP4AJAXMsg");
-		 
-		BDayService service = (BDayService) getSpringCTX().getBean("BDayService");
+
+		BDayService service = (BDayService) getSpringCTX().getBean(
+				"BDayService");
 		service.notifyBdays();
-		
+
 		putAjaxStatusObjInRequest(request, "Job execution Started!!");
 		return (forward);
 	}
 
-	public ActionForward triggerImmigrationJobs(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public ActionForward triggerImmigrationJobs(ActionMapping mapping,
+			ActionForm form, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
 		log.info("-triggerImmigrationJobs-");
 
 		ActionForward forward = new ActionForward();
 		forward = mapping.findForward("generalJSP4AJAXMsg");
-		 
-		ImmigrationExpirationService service = (ImmigrationExpirationService) getSpringCTX().getBean("immigrationExpirationService");
+
+		ImmigrationExpirationService service = (ImmigrationExpirationService) getSpringCTX()
+				.getBean("immigrationExpirationService");
 		service.notifyExpirations();
-		
+
 		putAjaxStatusObjInRequest(request, "Job execution Started!!");
 		return (forward);
 	}
-	
-	public ActionForward enbleBusinessForTestingPurpose(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+	public ActionForward enbleBusinessForTestingPurpose(ActionMapping mapping,
+			ActionForm form, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
 		log.info("-enbleBusinessForTestingPurpose-");
 
 		ActionForward forward = new ActionForward();
@@ -153,7 +181,9 @@ public class SuperAdminFunctlImpl extends BaseAction {
 		return (forward);
 	}
 
-	public ActionForward saveOutageDetails(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public ActionForward saveOutageDetails(ActionMapping mapping,
+			ActionForm form, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
 
 		String status = "Opeartion Success";
 
@@ -163,7 +193,8 @@ public class SuperAdminFunctlImpl extends BaseAction {
 
 		SuperAdminBean superAdminBean = (SuperAdminBean) form;
 
-		StringBuffer infoBuff = new StringBuffer("ILCH is about to have an upgrade and will be down during ");
+		StringBuffer infoBuff = new StringBuffer(
+				"ILCH is about to have an upgrade and will be down during ");
 
 		DateFormat formatter = new SimpleDateFormat("MM-dd-yyyy");
 		Date date = (Date) formatter.parse(superAdminBean.getOutageDate());
@@ -187,7 +218,8 @@ public class SuperAdminFunctlImpl extends BaseAction {
 		infoBuff.append(".");
 
 		DoTransaction doTransaction = getSpringCtxDoTransactionBean();
-		doTransaction.insertSuperSettings(infoBuff.toString(), type.OUTAGE.name());
+		doTransaction.insertSuperSettings(infoBuff.toString(),
+				type.OUTAGE.name());
 		return mapping.findForward("generalJsp");
 	}
 

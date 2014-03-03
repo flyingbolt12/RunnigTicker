@@ -77,7 +77,7 @@
 			</div>
 		</td>
 	</tr>
-	<tr height="100%">
+	<tr height="100%" class="homeTd">
 		<td width="25%" height="100%" align="center"><a class="roundDiv" href="genericForwardAction.do?forwardTo=admin/registration/adminRegistration.jsp" title="Employer" /> 
 		<br>
 		<img alt="" src="images/employer.png" border="0px"><br>

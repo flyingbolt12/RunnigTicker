@@ -96,7 +96,7 @@ public class ConfirmRegistrationForAdmin extends BaseAction {
 			
 			emailDetails.setTo(to);
 
-			emailDetails.setSubject("ILCH - You are now a Child Admin");
+			emailDetails.setSubject("RunningTicker-You are now a Child Admin");
 			String sb = getEmailTemplate(vmbean, VMConstants.VM_ANOTHER_ADMIN);
 			emailDetails.setEmailContent(new StringBuffer(sb));
 			sendEmail(emailDetails);

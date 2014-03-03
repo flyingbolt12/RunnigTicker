@@ -2,90 +2,91 @@
 
 <body link="#00FFFF" vlink="#FFFFFF" alink="#008080">
 
-<table border="0" width="100%" height="351" style="font-family: Tahoma">
+<table border="0" width="100%" height="351" style="font-family: Tahoma; font-size: 10pt; color: #FFFFFF">
+
 	<tr>
 		<td bgcolor="#224F90">
-		<table border="0" width="100%" cellpadding="15" cellspacing="0">
+		<table border="0" width="100%" cellpadding="15" cellspacing="0" style="font-family: Tahoma; font-size: 10pt; color: #FFFFFF">
 			<tr>
-				<td width="100%" style="color: #FFFFFF" align="right"><b>
-				<font size="2">ILCH</font></b></td>
+				<td width="100%" style="color: #FFFFFF" align="right"><b>ILCH - Buzz Notification</b></td>
 			</tr>
 		</table>
 		</td>
 	</tr>
 	<tr>
 		<td bgcolor="#946EA9" align="left" valign="top">
-<div align="center"><font SIZE="2" color="#FFFFF">
-	<table border="0" width="587" height="279">
+<div align="center" style="margin-left:5em">
+	<table border="0" width="643" height="279" style="font-family: Tahoma; font-size: 10pt; color: #FFFFFF">
 		<tr>
-			<td height="23" width="581" colspan="4"><font SIZE="2" color="#FFFFF">
+			<td height="23" width="637" colspan="4" nowrap>
 			<p ALIGN="LEFT">Your employee ${notificationBean.name}, reminded to 
-			approve his/her time sheet which is in pending state.</font></td>
+			approve his/her time sheet which is in pending state.</td>
 		</tr>
 		<tr>
-			<td height="23" width="581" colspan="4"><font SIZE="2">Employee 
-			Details :</font></td>
+			<td height="23" width="637" colspan="4" nowrap>Employee 
+			Details :</td>
 		</tr>
 		<tr>
-			<td height="73" width="68" rowspan="3">&nbsp;</td>
-			<td height="23" width="176" align="right"><font SIZE="2" color="#FFFFF">Name</font></td>
-			<td height="23" width="18" align="center">:</td>
-			<td height="23" width="305">${notificationBean.name}</td>
+			<td height="73" width="68" rowspan="3" nowrap>&nbsp;</td>
+			<td height="23" width="176" align="right" nowrap>Name</td>
+			<td height="23" width="18" align="center" nowrap>:</td>
+			<td height="23" width="362" nowrap>${notificationBean.name}</td>
 		</tr>
 		<tr>
-			<td height="23" width="176" align="right"><font SIZE="2" color="#FFFFF">Client 
-			working for</font></td>
-			<td height="23" width="18" align="center">:</td>
-			<td height="23" width="305">${notificationBean.client}</td>
+			<td height="23" width="176" align="right" nowrap>Client 
+			working for</td>
+			<td height="23" width="18" align="center" nowrap>:</td>
+			<td height="23" width="362" nowrap>${notificationBean.client}</td>
 		</tr>
 		<tr>
-			<td height="23" width="176" align="right"><font SIZE="2" color="#FFFFF">Submitted 
-			Date</font></td>
-			<td height="23" width="18" align="center">:</td>
-			<td height="23" width="305">${notificationBean.SUBMITTED_DATE}</td>
+			<td height="23" width="176" align="right" nowrap>Submitted 
+			Date</td>
+			<td height="23" width="18" align="center" nowrap>:</td>
+			<td height="23" width="362" nowrap>${notificationBean.SUBMITTED_DATE}</td>
 		</tr>
 		<tr>
-			<td height="23" width="577" colspan="4"><font SIZE="2" color="#FFFFF">Time Sheet 
-			Details :</font></td>
+			<td height="23" width="637" colspan="4" nowrap>Time Sheet 
+			Details :</td>
 		</tr>
 		<tr>
-			<td height="123" width="68" rowspan="7">&nbsp;</td>
-			<td height="23" width="176" align="right">Total Hours</td>
-			<td height="23" width="18" align="center">:</td>
-			<td height="23" width="305">${notificationBean.TH}</td>
+			<td height="123" width="68" rowspan="7" nowrap>&nbsp;</td>
+			<td height="23" width="176" align="right" nowrap>Total Hours</td>
+			<td height="23" width="18" align="center" nowrap>:</td>
+			<td height="23" width="362" nowrap>${notificationBean.TH}</td>
 		</tr>
 		<tr>
-			<td height="23" width="176" align="right">Regular Hours</td>
-			<td height="23" width="18" align="center">:</td>
-			<td height="23" width="305">${notificationBean.RH}</td>
+			<td height="23" width="176" align="right" nowrap>Regular Hours</td>
+			<td height="23" width="18" align="center" nowrap>:</td>
+			<td height="23" width="362" nowrap>${notificationBean.RH}</td>
 		</tr>
 		<tr>
-			<td height="23" width="176" align="right">OverTime Hours</td>
-			<td height="23" width="18" align="center">:</td>
-			<td height="23" width="305">${notificationBean.OT}</td>
+			<td height="23" width="176" align="right" nowrap>OverTime Hours</td>
+			<td height="23" width="18" align="center" nowrap>:</td>
+			<td height="23" width="362" nowrap>${notificationBean.OT}</td>
 		</tr>
 		<tr>
-			<td height="23" width="176" align="right">Holiday Hours</td>
-			<td height="23" width="18" align="center">:</td>
-			<td height="23" width="305">${notificationBean.HH}</td>
+			<td height="23" width="176" align="right" nowrap>Holiday Hours</td>
+			<td height="23" width="18" align="center" nowrap>:</td>
+			<td height="23" width="362" nowrap>${notificationBean.HH}</td>
 		</tr>
 		<tr>
-			<td height="10" width="176" align="right">Submission type</td>
-			<td height="10" width="18" align="center">:</td>
-			<td height="10" width="305">${notificationBean.SUBMISSION_FOR}</td>
+			<td height="10" width="176" align="right" nowrap>Submission type</td>
+			<td height="10" width="18" align="center" nowrap>:</td>
+			<td height="10" width="362" nowrap>${notificationBean.SUBMISSION_FOR}</td>
 		</tr>
 		<tr>
-			<td height="8" width="176" align="right">Start Week Date</td>
-			<td height="8" width="18" align="center">:</td>
-			<td height="8" width="305">${notificationBean.START_WEEK_DATE}</td>
+			<td height="8" width="176" align="right" nowrap>Start Week Date</td>
+			<td height="8" width="18" align="center" nowrap>:</td>
+			<td height="8" width="362" nowrap>${notificationBean.START_WEEK_DATE}</td>
 		</tr>
 		<tr>
-			<td height="3" width="176" align="right">End Week Date</td>
-			<td height="3" width="18" align="center">:</td>
-			<td height="3" width="305">${notificationBean.END_WEEK_DATE}</td>
+			<td height="3" width="176" align="right" nowrap>End Week Date</td>
+			<td height="3" width="18" align="center" nowrap>:</td>
+			<td height="3" width="362" nowrap>${notificationBean.END_WEEK_DATE}</td>
 		</tr>
+		
 	</table>
-	</font>
+	Please visit the website to find any additional information such attachments or screenshots.
 </div>
 </td>
 	</tr>
@@ -99,6 +100,7 @@
 		</table>
 		</td>
 	</tr>
+
 </table>
 
 </body>

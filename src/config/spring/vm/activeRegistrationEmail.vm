@@ -27,19 +27,17 @@
 					Thank you for registering with ILCH &amp; CCS.
 					</li>
 					<li type="square">
-						Please click on the link provided to ${notificationBean.text} your account. <a href="${notificationBean.url}">CLICK HERE</a>
+						Please click on the link provided to activate your account. <a href="${notificationBean.url}">CLICK HERE</a>
 					</li>
 				</ul>
 				<p><b>Please explore the links below for more information :</b></p>
 				<ul>
-					<li type="square">	
-						Screen Casting :
-						<a href="http://www.runningticker.com/genericForwardAction.do?forwardTo=demos/demo.jsp">
-						Click Here</a></li>
+				
 					<li type="square">
-						Connect us on Facebook
-						<a href="https://www.facebook.com/RunningTicker">Click 
-						Here</a></li>
+					You can connect us at <a target="_blank" href="http://www.facebook.com/RunningTicker">Facebook</a> for more information</li>
+					<li type="square"><a target="_blank" href="http://www.runningticker.com/genericForwardAction.do?forwardTo=generic/aboutUs.jsp">Click here</a> to know about RunningTicker.</li>
+					<li type="square"><a target="_blank" href="http://www.runningticker.com/genericForwardAction.do?forwardTo=demos/demo.jsp">Click here</a> to see Screen shots.</li>
+					<li type="square"><a target="_blank" href="http://www.runningticker.com/pdf/ILCH_FEATURES.pdf">Look Insight Features</a></p></li>
 				</ul>
 				<br>
 				Thank you.</font></td>

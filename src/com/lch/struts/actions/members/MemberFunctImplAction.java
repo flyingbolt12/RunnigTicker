@@ -149,7 +149,7 @@ public class MemberFunctImplAction extends BaseAction {
 		emailDetails.setTo(to);
 		emailDetails.setCc(cc);
 		emailDetails.setSubject("ILCH - Need Action - Time Sheets");
-		emailDetails.setEmailContent(getEmailContent());
+		emailDetails.setEmailContent(getEmailContent(prof));
 		sendEmail(emailDetails);
 	}
 
@@ -481,11 +481,13 @@ public class MemberFunctImplAction extends BaseAction {
 		return forward;
 	}
 
-	StringBuffer getEmailContent() {
+	StringBuffer getEmailContent(UserProfile prof) {
 		VMInputBean bean = new VMInputBean();
-		bean.setText("A new Time Sheet is pending for your approval\nPlease login and See the pending list of approvals in your functional page.");
-		String sb = getEmailTemplate(bean, VMConstants.VM_PENDING_TIMESHEET);
-		return new StringBuffer(sb);
+		bean.setText(prof.getFirstName());
+		String content = getEmailTemplate(bean, VMConstants.VM_PENDING_TIMESHEET);
+		StringBuffer sb = new StringBuffer(content);
+		sb.append(prof.getFirstName()).append(" working for ").append(prof.getCurrentClientName());
+		return sb;
 	}
 
 	public ActionForward showManageDocs(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -902,12 +904,12 @@ public class MemberFunctImplAction extends BaseAction {
 		
 		if (msg.equals("Successfully Uploaded")) {
 			VMInputBean bean = new VMInputBean();
-			bean.setText("Employee updated his/her profile. You can have a look at it by logging into your account.");
+			bean.setText(getUserProfile(request).getFirstName());
 			EmailDetails emailDetails = new EmailDetails();
 			ArrayList<String> to = new ArrayList<String>();
 			to.add(getUserProfile(request).getEmployerEmail());
 			emailDetails.setTo(to);
-			emailDetails.setSubject(getUserProfile(request).getFirstName() + " uploaded a new Profile in your ILCH System.");
+			emailDetails.setSubject(getUserProfile(request).getFirstName() + " Uploaded a new Profile into ILCH & CCS Application.");
 			String sb = getEmailTemplate(bean, VMConstants.VM_RESUME_UPLOAD_NOTIFY);
 			emailDetails.setEmailContent(new StringBuffer(sb));
 			sendEmail(emailDetails);

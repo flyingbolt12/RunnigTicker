@@ -48,6 +48,16 @@ sed -i "s/OPENSHIFT_MYSQL_DB_USERNAME/${OPENSHIFT_MYSQL_DB_USERNAME}/g" qtz.prop
 sed -i "s/OPENSHIFT_MYSQL_DB_PASSWORD/${OPENSHIFT_MYSQL_DB_PASSWORD}/g" qtz.properties
 
 echo "*******************************"
+echo " Deleting the default schema executions from Application"
+echo "*******************************"
+
+cd $OPENSHIFT_REPO_DIR/webapps/ROOT/WEB-INF/classes/config/spring/common/
+ sed '/cloud.sql/d' lch-jdbc.xml
+ sed '/quartz.sql/d' lch-jdbc.xml
+ sed '/functions.sql/d' lch-jdbc.xml
+  sed '/jdbc:initialize-database/d' lch-jdbc.xml
+ 
+echo "*******************************"
 echo " Enable Email Settings "
 echo "*******************************"
 

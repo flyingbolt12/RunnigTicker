@@ -1,33 +1,40 @@
+<html>
 
-<table border="0" width="100%" height="351" style="font-family: Tahoma">
+<body link="#00FFFF" vlink="#FFFFFF" alink="#008080">
+
+<table border="0" width="100%" height="351" style="font-family: Tahoma; font-size: 10pt; color: #FFFFFF">
 	<tr>
 		<td bgcolor="#224F90">
-		<table border="0" width="100%" cellpadding="15" cellspacing="0">
+		<table border="0" width="100%" cellpadding="15" cellspacing="0" style="font-family: Tahoma; font-size: 10pt; color: #FFFFFF">
 			<tr>
 				<td width="100%" style="color: #FFFFFF" align="right"><b>
-				<font size="2">Birthday - Report</font></b></td>
+				ILCH & CCS : Birthday Notifications Report!</b></td>
 			</tr>
 		</table>
 		</td>
 	</tr>
 	<tr>
-		<td>
-		
-		
-		
-		<table border="0" width="669" height="80" cellspacing="4" cellpadding="3" style="font-family: Tahoma; font-size: 10pt">
-	<tr>
-		<td height="23" width="205" align="center" style="background-color: #D2D2D2">
-		<b>Name</b></td>
-		<td height="23" width="211" align="center" style="background-color: #D2D2D2">
-		<b>Email</b></td>
-		<td height="23" width="231" align="center" style="background-color: #D2D2D2">
-		<b>DOB</b></td>
-	</tr>
-	${notificationBean}
-</table>
+		<td bgcolor="#946EA9" align="left" valign="top">
+		<table border="0" width="100%" height="100%" cellpadding="55" style="font-family: Tahoma; font-size: 10pt; color: #FFFFFF">
+			<tr>
+				<td width="100%" height="100%" style="color: #224F90" bgcolor="#946EA9">
+				
+					<table border="0" width="669" height="38" cellspacing="4" cellpadding="3" style="font-family: Tahoma; font-size: 10pt">
+						<tr>
+							<td height="30" width="205" align="center" style="background-color: #D2D2D2" nowrap>
+							<b>Name</b></td>
+							<td height="30" width="211" align="center" style="background-color: #D2D2D2" nowrap>
+							<b>Email</b></td>
+							<td height="30" width="231" align="center" style="background-color: #D2D2D2" nowrap>
+							<b>DOB</b></td>
+						</tr>
+						${notificationBean}
+					</table>
 
-
+				
+				</td>
+			</tr>
+		</table>
 		</td>
 	</tr>
 	<tr>
@@ -42,3 +49,6 @@
 	</tr>
 </table>
 
+</body>
+
+</html>
