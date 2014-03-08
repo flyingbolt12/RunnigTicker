@@ -69,6 +69,9 @@
 	<definition name="showLogoUpdatePageDef" extends="templateDefinition">
 		<put name="body" value="/WEB-INF/admin/showLogoUpdatePage.jsp" />
 	</definition>
+	<definition name="showLogoSettingsPageDef" extends="templateDefinition">
+		<put name="body" value="/WEB-INF/admin/showLogoSettingsPage.jsp" />
+	</definition>
 	<definition name="makeGenericEmailDef" extends="templateDefinition">
 		<put name="body" value="/WEB-INF/admin/emailProcess/sendGenericEmail.jsp" />
 	</definition>

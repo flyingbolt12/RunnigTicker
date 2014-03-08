@@ -249,8 +249,8 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a90329', end
 				<div class="squareAdmin" title="Set Timesheet default values"><span class="spanStyle"><img src="images/time.png" ></span><span class="spanStyle"> TimeSheet Configuration</span></div>
 			</html:link>
 			
-   			<html:link href="#" styleClass="memberLinks" onclick="updateBusinessLogo()">
-				<div class="squareAdmin" title="Updates your Logo"><span class="spanStyle"><img src="images/time.png" ></span><span class="spanStyle">Update Logo</span></div>
+   			<html:link href="#" styleClass="memberLinks" onclick="showLogoSettings()">
+				<div class="squareAdmin" title="Updates your Logo"><span class="spanStyle"><img src="images/time.png" ></span><span class="spanStyle">Logo Settings</span></div>
 			</html:link>
 			
 			<html:link styleClass="memberLinks" title="Recommend ILCH" action="/adminFunctImpl.do?parameter=inviteOtherBusinessOptions">
@@ -306,8 +306,8 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a90329', end
 			document.forms[0].submit();
 		}
 		
-		function updateBusinessLogo(thislink) {
-			document.forms[0].parameter.value="showLogoUpdatePage";
+		function showLogoSettings(thislink) {
+			document.forms[0].parameter.value="showLogoSettingsPage";
 			document.forms[0].submit();
 		}
 		function resetPassword(thislink) {
@@ -317,6 +317,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a90329', end
 	
 
 	function showMyAppURL() {
+			dhtmlx.message({type:"error", expire:6000, text:"Did you see the prompt? Copy that URL." });
 			window.prompt("Press Ctrl+C, Enter", "http://www.RunningTicker.com?businessId=<%= userProfile.getBusinessId()%>");
 	}
 

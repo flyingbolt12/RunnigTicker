@@ -290,6 +290,9 @@
 			<forward name="showLogoUpdatePage" path="showLogoUpdatePageDef">
 			</forward>
 			
+			<forward name="showLogoSettingsPage" path="showLogoSettingsPageDef">
+			</forward>
+			
 			<forward name="adminHelp" path="adminHelpDef">
 			</forward>
 

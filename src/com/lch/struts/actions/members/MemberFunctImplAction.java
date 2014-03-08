@@ -147,7 +147,7 @@ public class MemberFunctImplAction extends BaseAction {
 
 		emailDetails.setFrom("contact@allibilli.com");
 		emailDetails.setTo(to);
-		emailDetails.setCc(cc);
+		//emailDetails.setCc(cc);
 		emailDetails.setSubject("ILCH - Need Action - Time Sheets");
 		emailDetails.setEmailContent(getEmailContent(prof));
 		sendEmail(emailDetails);
@@ -483,10 +483,11 @@ public class MemberFunctImplAction extends BaseAction {
 
 	StringBuffer getEmailContent(UserProfile prof) {
 		VMInputBean bean = new VMInputBean();
-		bean.setText(prof.getFirstName());
-		String content = getEmailTemplate(bean, VMConstants.VM_PENDING_TIMESHEET);
-		StringBuffer sb = new StringBuffer(content);
+		StringBuffer sb = new StringBuffer();
 		sb.append(prof.getFirstName()).append(" working for ").append(prof.getCurrentClientName());
+		bean.setText(sb.toString());
+		String content = getEmailTemplate(bean, VMConstants.VM_PENDING_TIMESHEET);
+		
 		return sb;
 	}
 
@@ -563,7 +564,6 @@ public class MemberFunctImplAction extends BaseAction {
 		{
 			putObjInRequest("timeSheetSupportingDocStatus", request, "no");
 		}
-		
 		
 		return showManageDocs(mapping, form, request, response);
 	}

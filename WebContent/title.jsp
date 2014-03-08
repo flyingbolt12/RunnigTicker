@@ -43,7 +43,7 @@
 <table border="0" cellspacing="1" width="100%">
 	<tr style="background-color: none;" valign="middle">
 		<td height="49" width="100%" >
-		<div style="float: left;height: 45; width: 100%; max-height: 45; max-width: 120 "><img border="0" src="<%= logoPath%>" align="left" style="max-height: 45px;"></div><div id="links" style="float: right;" class="headerLinks"> <a href="mailto:contact@allibilli.com" style="text-decoration: none" title="We will respond quickly">sales : contact@allibilli.com</a></div>
+		<div style="float: left;height: 45; width: 100%; max-height: 45; max-width: 120 "><img border="0" id="appLogo" src="<%= logoPath%>" align="left" style="max-height: 45px;"></div><div id="links" style="float: right;" class="headerLinks"> <a href="mailto:contact@allibilli.com" style="text-decoration: none" title="We will respond quickly">sales : contact@allibilli.com</a></div>
 		</td>
 	</tr>
 </table>

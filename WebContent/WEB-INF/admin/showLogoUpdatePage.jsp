@@ -30,13 +30,13 @@
 				style="font-size: 10.0pt; font-family: Tahoma">Logo Path&nbsp;:</span></td>
 			<td height="18" width="396" bgcolor="#FFFFFF"><html:file
 				property="logo" styleClass="EmployeeTextBox" size="20"
-				tabindex="14"></html:file> <BR>This image shoudn't be more than 500 KB</td>
+				tabindex="14"></html:file> <BR>This image shouldn't be more than 500 KB</td>
 		</tr>
 		<tr>
 			<td height="18" width="453" bgcolor="#F4F4F4" colspan="2" align="center" ><html:submit
 				property="submit" value="Submit" styleClass="ButtonStyle"
 				tabindex="12"></html:submit> <html:submit
-				property="submit" value="Reset logo" styleClass="ButtonStyle"
+				property="submit" value="Restore to default logo" styleClass="ButtonStyle"
 				tabindex="12"></html:submit> </td>
 		</tr>
 		

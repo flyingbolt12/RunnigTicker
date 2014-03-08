@@ -716,7 +716,30 @@ public class AdminFunctImplAction extends BaseAction {
 		forward = mapping.findForward("showLogoUpdatePage");
 		return (forward);
 	}
+	public ActionForward showLogoSettingsPage(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		
+		ActionForward forward = new ActionForward();
+		forward = mapping.findForward("showLogoSettingsPage");
+		return (forward);
+	}
+	public ActionForward restoreLogo(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+
+		ActionForward forward = new ActionForward();
+		forward = mapping.findForward("adminFunctions");
+		
+		
+		UserProfile userProfile = getUserProfile(request);
+		long businessId = userProfile.getBusinessId();
+		long userId = userProfile.getUserId();
+		DoTransaction doTransaction = getSpringCtxDoTransactionBean();
+		log.info("Resetting logo");
+		doTransaction.resetLogo(businessId, userId, DOCTypes.BusinessLogo);
+		putObjInRequest("showStatus",request,"Logo Reset Done! Signout and Login again.");
+		return (forward);
 	
+	}
 	public ActionForward uploadLogo(ActionMapping mapping, ActionForm form, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 
@@ -729,14 +752,7 @@ public class AdminFunctImplAction extends BaseAction {
 			SearchOptions searchOptions = (SearchOptions) form;
 			String submitFor = searchOptions.getSubmit();
 			DoTransaction doTransaction = getSpringCtxDoTransactionBean();
-			
-			if(submitFor.contains("Reset"))
-			{
-				log.info("Resetting logo");
-				doTransaction.resetLogo(businessId, userId, DOCTypes.BusinessLogo);
-				msg = "Completed";
-			}
-			else{
+
 			String aFilePath = "";
 			String rFilePath = "";
 			if(searchOptions.getLogo()!=null && searchOptions.getLogo().getFileName()!=null  && searchOptions.getLogo().getFileSize() < 1024*1024*1 && searchOptions.getLogo().getFileSize() > 100 )
@@ -757,7 +773,7 @@ public class AdminFunctImplAction extends BaseAction {
 			{
 				msg = "Not a Valid image it seems.!! ";
 			}
-			}
+			
 			
 		} catch (Exception e) {
 			msg = "Sorry Couldn't able to update!! " + e.getMessage();
