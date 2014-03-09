@@ -171,7 +171,7 @@ function processPasswdRestResponse(id, str, userId, action, email){
  %> <span id="updateBtn_<%=userId%>"><input type="button" value="Send Update Profile Request" class="ButtonStyle" onclick="sendUpdateRequest(<%=userId%>)" > </span><%
  	} else if (feature != null && feature.equals(AdminSearchFunction.EMP_PASSWORD_RESET.name())) {
  			ajaxAction = "adminFunctImpl.do?parameter=resetPasswordByAdmin";
- %> <span id="span_<%=userId%>"> <input type="button" value="Reset" class="ButtonStyle" onclick="raiseRequestWithParamsAndProcessFunction('span_<%=userId%>','<%=ajaxAction%>',<%=userId%>,1,'<%=contactEmail%>', processPasswdRestResponse)">			</span> <%
+ %> <span id="span_<%=userId%>"> <input type="button" id="btn_<%=userId %>" value="Reset" class="ButtonStyle" onclick="raiseRequestWithParamsAndProcessFunction('span_<%=userId%>','<%=ajaxAction%>',<%=userId%>,1,'<%=contactEmail%>', processPasswdRestResponse)">			</span> <%
  	} else if (feature != null && feature.equals(AdminSearchFunction.LIST_TIMESHEETS_FOR_ADMIN.name())) {
  %> <span id="span_<%=userId%>"> <input type="button" value="List Time Sheets" class="ButtonStyle" onclick="listTimeSheets('<%=userId%>')">			</span> <%
  	} else if (feature != null && feature.equals(AdminSearchFunction.EMP_TIMESHEET.name())) {

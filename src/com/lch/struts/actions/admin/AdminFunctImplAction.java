@@ -99,7 +99,11 @@ public class AdminFunctImplAction extends BaseAction {
 		ArrayList l = new ArrayList();
 		l.add(email);
 		emailDetails.setTo(l);
-		emailDetails.setEmailContent(new StringBuffer().append("Admin Action : " + status));
+		VMInputBean bean = new VMInputBean();
+		bean.setText(status);
+		emailDetails.setSubject("ILCH & CCS : Your Account Status Changed");
+		String sb = getEmailTemplate(bean, VMConstants.VM_ACTIVATE_DEACTIVATE);
+		emailDetails.setEmailContent(new StringBuffer(sb));
 		sendEmail(emailDetails);
 
 		return forward;

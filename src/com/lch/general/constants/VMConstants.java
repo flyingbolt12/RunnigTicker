@@ -38,6 +38,6 @@ public interface VMConstants {
 	public static final String VM_BDAY_REPORT= "bdayReport.vm";
 	public static final String VM_HAPPY_BDAY= "happyBirthday.vm";
 	public static final String VM_IMMIGRATION_REPORT= "immigrationReport.vm";
-	
+	public static final String VM_ACTIVATE_DEACTIVATE= "activateDeactiveEmployee.vm";
 	
 }

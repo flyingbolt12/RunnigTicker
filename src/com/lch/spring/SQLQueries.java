@@ -131,7 +131,7 @@ public interface SQLQueries {
 	static final String GET_USER_PERSONAL_DATA_BY_USER_ID = "SELECT * FROM userpersonaldata u, users us where u.iduserData=us.personalDetailsId and us.iduser=?";
 	static final String GET_CLIENT_DETAILS = "select cl.* from userclientslist cl  where (select clientId from users where iduser=?) = cl.clientId";
 
-	static final String LIST_BUSINESS_USERS_PENDING_APPROVALS = "select * from lch_business bus,users users, userpersonaldata u,userclientslist clientsList  where clientsList.clientId=users.clientId and clientsList.isCurrent='true' and users.personalDetailsId = u.iduserData and users.businessId = bus.businessId and bus.businessId=? and users.approvalStatus in (0,2)";
+	static final String LIST_BUSINESS_USERS_PENDING_APPROVALS = "select * from lch_business bus,users users, userpersonaldata u,userclientslist clientsList  where clientsList.clientId=users.clientId and clientsList.isCurrent='true' and users.personalDetailsId = u.iduserData and users.businessId = bus.businessId and bus.businessId=? and users.approvalStatus in (0)";
 
 	static final String UPDATE_USRPERSONALDATA_USR_PROFILE_ATTACHED_DOC_IDS = "update userpersonaldata up, users u set up.profilePath=? where up.iduserData=u.personalDetailsId and u.iduser=?";
 	static final String UPDATE_LCH_BUSINESS_LOGO_AND_PROFILE = "update lch_business set logo=?, businessProfile=? where businessId=?";
