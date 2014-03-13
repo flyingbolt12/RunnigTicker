@@ -19,6 +19,7 @@
 			<td class="tdHeader"><b>Sl., No</b></td>
 			<td class="tdHeader"><b>Name</b></td>
 			<td class="tdHeader"><b>User Name</b></td>
+			<td class="tdHeader"><b>Email Id</b></td>
 			<td class="tdHeader"><b>Actions</b></td>
 			<td class="tdHeader"><b>Status</b></td>
 		</tr>
@@ -79,6 +80,8 @@
 						name="listAllMyAdminsId" property="middleName"></bean:write></td>
 				<td height="20" align="center"><bean:write
 						name="listAllMyAdminsId" property="login"></bean:write></td>
+				<td height="20" align="center"><bean:write
+						name="listAllMyAdminsId" property="contactEmail"></bean:write></td>
 				<td height="20" align="center" bordercolor="#F4F4F4" nowrap="nowrap"><input
 					type="submit" value="Enable" id="enable" class="ButtonStyle"
 <%-- 					onclick="raiseRequestWithParams('span_<%=userId%>','adminFunctImpl.do?parameter=eanableDisableAdmin',<%=userId%>,1,'<%=contactEmail%>')"> --%>

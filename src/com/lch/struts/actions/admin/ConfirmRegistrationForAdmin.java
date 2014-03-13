@@ -57,9 +57,10 @@ public class ConfirmRegistrationForAdmin extends BaseAction {
 			
 			adminRegistrationBean.setBusinessId(businessId);
 			adminRegistrationBean.setApprovalStatus(1);
-			
+			adminRegistrationBean.setIsEmailValidated(1);
 			password = GeneratePassword.getGeneratedPassword();
 			adminRegistrationBean.setPassword(password);
+			adminRegistrationBean.setTimeSheetConfiguredTo("");
 			long userId = doTransaction.insertUSERS(adminRegistrationBean,
 					getUserProfile(request));
 			log.info("UserId :" + userId);

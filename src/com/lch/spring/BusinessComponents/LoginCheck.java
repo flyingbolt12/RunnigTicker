@@ -65,13 +65,14 @@ public class LoginCheck {
 			log.info("Approval Status {}", userProfile.getApprovalStatus());
 
 			// If deleted case of admin
-			if (userProfile.isAdmin() && userProfile.getApprovalStatus() == 3) {
+			if ((userProfile.isAdmin() || userProfile.isChildAdmin()) && ( userProfile.getApprovalStatus() == 3 || userProfile.getApprovalStatus() == 2)) {
 				loginStatus.setLoginStatus(false);
 				loginStatus.setLoginFailReason("invalidLoginDeletedEmployer");
-			} else if (userProfile.getApprovalStatus() == 1 || userProfile.getApprovalStatus() == 2 || userProfile.getApprovalStatus() == 3) // If approved and disabled 3
+			} 
+			else if (userProfile.getApprovalStatus() == 1 || userProfile.getApprovalStatus() == 2 || userProfile.getApprovalStatus() == 3) // If approved and disabled 3 Memeber
 			{
 			
-				if (userProfile.isBusinessEmailValidated()) {
+				if (userProfile.isEmailValidated()) {
 					try {
 						BeanUtils.copyProperties(loginStatus, userProfile);
 						if (loginStatus.isAdmin() || loginStatus.isChildAdmin()) {
@@ -96,15 +97,12 @@ public class LoginCheck {
 					}
 					log.info("Login Successed");
 				} else {
-					if (userProfile.isAdmin() || userProfile.isChildAdmin()) {
+					
+					// Who ever it is - if email not validated fail the login
 						loginStatus.setLoginStatus(false);
-						loginStatus.setLoginFailReason("businessEmailNotYetValidatedAdmin");
+						loginStatus.setLoginFailReason("emailNotValidated");
 						log.warn("Login Failed : " + loginStatus.getLoginFailReason());
-					} else {
-						loginStatus.setLoginStatus(false);
-						loginStatus.setLoginFailReason("businessEmailNotYetValidatedMember");
-						log.warn("Login Failed : " + loginStatus.getLoginFailReason());
-					}
+					
 				}
 			} else if (userProfile.getApprovalStatus() == 0) {
 				loginStatus.setLoginStatus(false);

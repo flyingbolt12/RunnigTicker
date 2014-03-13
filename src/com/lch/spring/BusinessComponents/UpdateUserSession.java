@@ -67,7 +67,8 @@ public class UpdateUserSession {
 		userProfile.setClientId(rs.getLong("clientId"));
 		userProfile.setLoginStatus(true);
 		userProfile.setUserId(rs.getInt("userId"));
-		userProfile.setBusinessEmailValidated(rs.getBoolean("isValidated"));
+		//userProfile.setBusinessEmailValidated(rs.getBoolean("isValidated"));
+		userProfile.setEmailValidated(rs.getBoolean("isEmailValidated"));
 		userProfile.setPersonalDetailsId(rs.getLong("personalDetailsId"));
 		userProfile.setEmployerName(rs.getString("employerName"));
 		userProfile.setTimeSheetConfiguredTo(rs.getString("timeSheetConfiguredTo"));

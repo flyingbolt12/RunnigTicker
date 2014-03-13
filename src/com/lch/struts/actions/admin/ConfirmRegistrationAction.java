@@ -119,11 +119,13 @@ public class ConfirmRegistrationAction extends BaseAction {
 		{
 			log.info("Creating Super Admin");
 			AdminRegistrationBean adminRegistrationBean = getRegistrationBean();
+			adminRegistrationBean.setBusinessName("SuperAdmin");
+			adminRegistrationBean.setWebsiteURL("http://www.runningticker.com");
 			adminRegistrationBean.setRole("SUPERADMIN");
 			adminRegistrationBean.setClientWorkingFor("NONE");
 			adminRegistrationBean.setContactEmail("haigopi@gmail.com");
-			adminRegistrationBean.setFatherName("SUPERADMIN");
-			adminRegistrationBean.setFirstName("SUPERADMIN");
+			adminRegistrationBean.setFatherName("KVS Prasada Rao");
+			adminRegistrationBean.setFirstName("Gopi");
 			adminRegistrationBean.setLogin("superadmin");
 			adminRegistrationBean.setTimeSheetConfiguredTo("");
 

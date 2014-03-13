@@ -240,8 +240,8 @@
 			<tr>
 				<td class="odd"></td>
 				<td class="odd" colspan="2">
-					<html:submit property="confirm" value="Create Another Admin" styleClass="ButtonStyleDisabled" tabindex="19" styleId="cNext" disabled="true"></html:submit> 
-					<html:submit property="cancel" value="Cancel Creation" onclick="adminCancelReg()" styleClass="ButtonStyle" tabindex="20"></html:submit>
+					<html:button property="confirm" value="Create Another Admin" styleClass="ButtonStyleDisabled" tabindex="19" styleId="cNext" disabled="true" onclick="sendData(this)"></html:button> 
+					<html:button property="cancel" value="Cancel Creation" onclick="adminCancelReg()" styleClass="ButtonStyle" tabindex="20"></html:button>
 				</td>
 			</tr>
 		</table>
@@ -249,6 +249,11 @@
 </div>
 
 <script>
+function sendData(btn) {
+	btn.disabled=true; 
+	btn.value='Sending...';
+    document.forms[0].submit();    
+}
 	function adminCancelReg() {
 	    document.forms[0].action = "adminRegistration.do";
 	    document.forms[0].parameter.value = "adminCancelReg";

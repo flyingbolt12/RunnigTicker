@@ -229,6 +229,17 @@
 			</forward>
 		</action>
 		
+		<action path="/adminAndroidLogin" scope="session" type="com.lch.struts.actions.admin.adminAndroid.AdminAndroidLogin">
+			<forward name = "androidPage" path="/WEB-INF/Android/AndroidSuccess.jsp">
+			</forward>
+		</action>
+		<action path="/adminAndroidPendingApprovals" parameter="parameter" scope="session" type="com.lch.struts.actions.admin.adminAndroid.AndroidPendingApprovals">
+			<forward name = "mRegistrationPendingApprovalsPage" path="/WEB-INF/Android/mobileEmployeeRegistrationPendingApprovals.jsp">
+			</forward>
+			<forward name = "mTimeSheetPendingApprovalsPage" path="/WEB-INF/Android/mobileEmployeeTimeSheetPendingApprovals.jsp">
+			</forward>
+		</action>
+		
 		<action name="superAdminBean" parameter="parameter" path="/superAdminFunctImpl" 
 			scope="session" type="com.lch.struts.actions.superAdmin.SuperAdminFunctlImpl">
 			<forward name="showOutagePage" path="showOutagePageDef">

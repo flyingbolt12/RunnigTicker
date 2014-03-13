@@ -27,7 +27,17 @@ public class UserProfile {
 	private long clientId = 0;
 	private String userName = "";
 	private String firstName = "";
-	private boolean isBusinessEmailValidated = false;
+	//private boolean isBusinessEmailValidated = false;
+	private boolean isEmailValidated = false;
+	
+	public boolean isEmailValidated() {
+		return isEmailValidated;
+	}
+
+	public void setEmailValidated(boolean isEmailValidated) {
+		this.isEmailValidated = isEmailValidated;
+	}
+
 	private DateUtils du = null;
 	private boolean loginStatus;
 	
@@ -173,21 +183,6 @@ public class UserProfile {
 
 	public void setClientId(long clientId) {
 		this.clientId = clientId;
-	}
-
-	/**
-	 * @return the isBusinessEmailValidated
-	 */
-	public boolean isBusinessEmailValidated() {
-		return isBusinessEmailValidated;
-	}
-
-	/**
-	 * @param isBusinessEmailValidated
-	 *            the isBusinessEmailValidated to set
-	 */
-	public void setBusinessEmailValidated(boolean isBusinessEmailValidated) {
-		this.isBusinessEmailValidated = isBusinessEmailValidated;
 	}
 
 	/**

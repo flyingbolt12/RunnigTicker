@@ -201,6 +201,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a90329', end
 		
 		</div>
   </div>
+  <%if(isAdmin) {%>
   <h3 class="accordinaStyle">Manage Child Admins Area</h3>
    <div class="accContentBack">
     <div class="accordianContentStyle">
@@ -215,6 +216,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a90329', end
 			
 		</div>
   </div>
+  <% } %>
   <h3 class="accordinaStyle">Manage Timers &amp; Email Contents</h3>
    <div class="accContentBack">
     <div class="accordianContentStyle" >

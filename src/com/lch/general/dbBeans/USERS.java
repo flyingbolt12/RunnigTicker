@@ -19,6 +19,15 @@ public class USERS {
 
 	int clientId = 0;
 	int approvalStatus = 0;
+	int isEmailValidated = 0;
+
+	public int getIsEmailValidated() {
+		return isEmailValidated;
+	}
+
+	public void setIsEmailValidated(int isEmailValidated) {
+		this.isEmailValidated = isEmailValidated;
+	}
 
 	public String getTimeSheetConfiguredTo() {
 		return timeSheetConfiguredTo;
