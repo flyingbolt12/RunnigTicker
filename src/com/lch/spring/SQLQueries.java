@@ -114,6 +114,7 @@ public interface SQLQueries {
 	static final String LIST_EMPLOYEE_TIMESHEETS = "SELECT c.clientName, w.*,(SELECT concat('(T)',totalHrsSubmitted,' / ',' (R) ',totalRegularHrs,' / ', ' (O) ',totalOvertimeHrs,' / ','(H) ',totalHolidayHrs,'  --  ',startWeekDate,' : ',endWeekDate) FROM weeklyhrssummary where weeklyHrsSummaryId=(select max(weeklyHrsSummaryId) from weeklyhrssummary where userId=u.idUser)) as recentHrs FROM weeklyhrssummary w, users u, userclientslist c where w.userId = u.idUser and w.clientId = c.clientId and w.userId = ?";
 	static final String LIST_EMPLOYEE_CONDITIONAL_TIMESHEETS = "SELECT c.clientName, w.*, (SELECT concat('(T)',totalHrsSubmitted,' / ',' (R) ',totalRegularHrs,' / ', ' (O) ',totalOvertimeHrs,' / ','(H) ',totalHolidayHrs,'  --  ',startWeekDate,'-',endWeekDate) FROM weeklyhrssummary where weeklyHrsSummaryId=(select max(weeklyHrsSummaryId) from weeklyhrssummary where userId=u.idUser)) as recentHrs FROM weeklyhrssummary w, users u, userclientslist c where w.userId = u.idUser and u.clientId = c.clientId and w.userId = ? and w.status = ?";
 
+	static final String LIST_WEEKLY_SUMMARY_HRS = "SELECT * FROM weeklyhrssummary where weeklyHrsSummaryId = ?";
 	//static final String LIST_USER_RATE_DETAILS = "select clientsList.clientId as clientId, clientsList.clientName, (SELECT a.userActualRate FROM useraccounts a where a.userId=:userId and a.businessId=:businessId) userActualRate,(SELECT a.userGivenRate FROM useraccounts a where a.userId=:userId and a.businessId=:businessId) userGivenRate from users users,userpersonaldata userpersonaldataTable,userclientslist clientsList where users.idUser=:userId and users.personalDetailsId = userpersonaldataTable.idUserdata and users.role<>'ADMIN' and users.businessId=:businessId and clientsList.clientId=users.clientId and clientsList.isCurrent='true'";
 	static final String INSERT_USER_ACCOUNTS = "INSERT INTO `useraccounts` (`userId`,`userActualRate`,`userGivenRate`,`userRateTypeId`,`userClientId`,`businessId`) VALUES (:userId,:userActualRate,:userGivenRate,:userRateTypeId,:userClientId,:businessId)";
 	static final String INSERT_FILE_DETAILS = "INSERT INTO `attacheddocs` (`userId`,`businessId`,`docType`,`docAPath`,`docRPath`,`attachedDate`,`docName`,`docSavedName`) VALUES (:userId,:businessId,:docType,:docAPath,:docRPath,:attachedDate,:docName,:docSavedName)";
@@ -182,9 +183,11 @@ public interface SQLQueries {
 	static final String APPROVE_OR_REJECT_EMPLOYEE_REGISTRATION = "update users set approvalStatus=? where idUser=?";
 	static final String DEACTIVATE_EMPLOYEE = "update users set approvalStatus=?, businessId=? where idUser=?";
 	static final String GET_CURRENT_USER_RATE = "SELECT rate FROM userrate where userId=? and businessId=? and clientId=?";
+	static final String GET_TIME_SHEET_USER_RATE = "SELECT userRate FROM weeklyhrssummary where weeklyHrsSummaryId=?";
 	static final String GET_COUNT_CURRENT_USER_RATE = "SELECT count(1) FROM userrate where userId=? and businessId=? and clientId=?";
 	static final String INSERT_USE_RATE = "INSERT INTO `userrate` (`userId`, `clientId`, `businessId`, `rate`) VALUES (?,?, ?, ?)";
 	static final String UPDATE_USER_RATE = "update userrate u set u.rate=? where u.userId=? and u.clientId=? and u.businessId=?";
+	static final String UPDATE_TIMESHEET_SUMMARY_RATE = "update weeklyhrssummary u set u.userRate=? where u.weeklyHrsSummaryId = ?";
 	
 	static final String APPROVE_OR_REJECT_EMPLOYEE_TIMESHEET = "UPDATE weeklyhrssummary set status=?, actionDate=? where weeklyHrsSummaryId=?";
 	static final String LIST_INVESTMENT_TYPES = "select * from bus_investmenttypeonemployee b";

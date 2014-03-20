@@ -21,9 +21,19 @@
 						This is a Web based application deployed in CLOUD. <br>
 						There are no hidden fees. No more tedious spreadsheets  
 					</p>
-					<div href="#" class="da-link">Its Home Made - USA</div>
+					<div href="#" class="da-link">Designed in the USA</div>
 					<div class="da-img">
-						<img src="images/clock.png" alt="image01" />
+						<img src="images/clock.png" alt="TimeSheets" />
+					</div>
+				</div>
+				<div class="da-slide">
+					<h2>Powerful Communications</h2>
+					<p>
+						Send email notifications to your employees with just few clicks.<br>
+					</p>
+					<div href="#" class="da-link">Designed in the USA</div>
+					<div class="da-img">
+						<img src="images/communications.png" alt="Communications" />
 					</div>
 				</div>
 				<div class="da-slide">
@@ -56,14 +66,7 @@
 						<img src="images/security.png" alt="image01" />
 					</div>
 				</div>
-				<div class="da-slide">
-					<h2>Visibility and aids in Monitoring</h2>
-					<p>You control visibility and allow as much or as little monitoring needed in your business.</p>
-					<a href="#" class="da-link" onclick="confirmlink(this)">Check here, Try Demo !</a>
-					<div class="da-img">
-						<img src="images/monitoring.png" alt="image01" />
-					</div>
-				</div>
+				
 				<div class="da-slide">
 					<h2>Higher levels of Quality Control</h2>
 					<p>This online tool is built for Automation, Higher Security levels, Reliability and with common sense. Brings CMM level standards by placing company Logo for ownership.</p>

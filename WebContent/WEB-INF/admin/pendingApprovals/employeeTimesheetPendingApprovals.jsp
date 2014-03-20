@@ -286,7 +286,8 @@ function loadInvoiceDetails(weeklyHrsSummaryId, clientId, userId){
 	 var params = {
 			 weeklyHrsSummaryId : weeklyHrsSummaryId,
 			 clientId:clientId,
-			 userId:userId
+			 userId:userId,
+			 loadFromUserRateTable:"yes"
 	    };
 	    var obj = {
 	    id : "invoice_"+weeklyHrsSummaryId,

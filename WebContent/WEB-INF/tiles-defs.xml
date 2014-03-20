@@ -81,6 +81,9 @@
 	<definition name="showOutagePageDef" extends="templateDefinition">
 		<put name="body" value="/WEB-INF/superAdmin/showOutagePage.jsp" />
 	</definition>
+	<definition name="showDisableBusinessPageDef" extends="templateDefinition">
+		<put name="body" value="/WEB-INF/superAdmin/showInvitationEmailPage.jsp" />
+	</definition>
 	<definition name="adminHelpDef" extends="templateDefinition">
 		<put name="body" value="/WEB-INF/admin/adminHelp.jsp" />
 	</definition>

@@ -118,9 +118,14 @@ public class AdminFunctImplAction extends BaseAction {
 		long clientId = getLongAsRequestParameter("clientId", request);
 		long weeklyHrsSummaryId = getLongAsRequestParameter("weeklyHrsSummaryId", request);
 		long businessId = getUserProfile(request).getBusinessId();
+		String loadFrom = getStrAsRequestParameter("loadFromUserRateTable", request); 
 		DoTransaction doTransaction = getSpringCtxDoTransactionBean();
 		try{
-			double rate = Double.parseDouble(doTransaction.getRate(clientId, userId, businessId));
+			double rate = 0.0d;
+			if(loadFrom!=null)
+				rate = Double.parseDouble(doTransaction.getRate(clientId, userId, businessId));
+			else
+				rate = Double.parseDouble(doTransaction.getTimeSheetSpecificRate(weeklyHrsSummaryId+""));
 			Map<String, Object> m = doTransaction.getWeeklySummeryDetails(weeklyHrsSummaryId);
 			double totalRegularHrs = (Double)m.get("totalRegularHrs");
 			double totalOvertimeHrs = (Double)m.get("totalOvertimeHrs");
@@ -269,7 +274,11 @@ public class AdminFunctImplAction extends BaseAction {
 		ArrayList l = new ArrayList();
 		l.add(email);
 		emailDetails.setTo(l);
-		emailDetails.setEmailContent(new StringBuffer().append("Admin Action : " + status));
+		
+		VMInputBean bean = new VMInputBean();
+		bean.setText(status);
+		String sb = getEmailTemplate(bean, VMConstants.VM_ADMIN_ACCOUNT_STATUS);
+		emailDetails.setEmailContent(new StringBuffer(sb));
 		sendEmail(emailDetails);
 
 		return forward;
@@ -341,44 +350,6 @@ public class AdminFunctImplAction extends BaseAction {
 		forward = mapping.findForward("generalJSP4AJAXMsg");
 		return forward;
 	}
-	public ActionForward approveOrRejectAllPendingTimeSheets(ActionMapping mapping, ActionForm form,
-			HttpServletRequest request, HttpServletResponse response) throws Exception {
-		ActionForward forward = new ActionForward();
-		log.info("-approveOrRejectPendingApprovals -");
-
-		String ajaxParam = request.getParameter("ajaxParam");
-		List emails ;
-		String status = "";
-		if (ajaxParam.equalsIgnoreCase("ApproveAll")) {
-			log.info("-ApproveAll-" + ajaxParam);
-			status = "Your approval request submitted for time sheet is now approved by your employer.";
-			String weeklyHrsSummaryIds = getStrAsRequestParameter("weeklyHrsSummaryIds", request);
-			emails = getSpringCtxDoTransactionBean().listUserEmailsByWeeklyIds(weeklyHrsSummaryIds);
-			String idArr[] = weeklyHrsSummaryIds.split(",");
-			for (int i = 0; i < idArr.length; ++i) {
-				getSpringCtxDoTransactionBean().approveOrRejectEmployeeTimeSheets(TimeSheetStatus.APPROVED.name(),
-						idArr[i]);
-			}
-			putAjaxStatusObjInRequest(request, "Action Approve-All Completed");
-			sendStatusEmail(emails, status, "Your TimeSheet Status");
-		} else if (ajaxParam.equalsIgnoreCase("RejectAll")) {
-			log.info("-RejectAll-" + ajaxParam);
-			status = "Your approval request submitted for time sheet is rejected by your employer. Please edit and re submit accordingly. If you have any issues please contact your employer.";
-			String weeklyHrsSummaryIds = getStrAsRequestParameter("weeklyHrsSummaryIds", request);
-			emails = getSpringCtxDoTransactionBean().listUserEmailsByWeeklyIds(weeklyHrsSummaryIds);
-			String userIdArr[] = weeklyHrsSummaryIds.split(",");
-			for (int i = 0; i < userIdArr.length; ++i) {
-				getSpringCtxDoTransactionBean().approveOrRejectEmployeeTimeSheets(TimeSheetStatus.REJECTED.name(),
-						userIdArr[i]);
-			}
-			putAjaxStatusObjInRequest(request, "Action Reject-All Completed");
-			sendStatusEmail(emails, status, "Your TimeSheet Status");
-		}
-
-		forward = mapping.findForward("generalJSP4AJAXMsg");
-		return forward;
-	}
-
 	private void sendStatusEmail(List emails, String status, String subject) {
 		if(emails == null)
 		{
@@ -959,6 +930,7 @@ public class AdminFunctImplAction extends BaseAction {
 			
 			emails = getSpringCtxDoTransactionBean().listUserEmails(userId + "");
 			getSpringCtxDoTransactionBean().updateMonthlySummaryHours(params);
+			attachUserRateToTimeSheet(request.getParameter("weeklyHrsSummaryId"));
 			putAjaxStatusObjInRequest(request, status);
 			status = "Your approval request submitted for time sheet is now approved by your employer.";
 			sendStatusEmail(emails, status, "Your TimeSheet Status");
@@ -975,6 +947,7 @@ public class AdminFunctImplAction extends BaseAction {
 			
 			emails = getSpringCtxDoTransactionBean().listUserEmails(userId + "");
 			getSpringCtxDoTransactionBean().updateMonthlySummaryHours(params);
+			attachUserRateToTimeSheet(request.getParameter("weeklyHrsSummaryId"));
 			putAjaxStatusObjInRequest(request, status);
 			status = "Your approval request submitted for time sheet is rejected by your employer. Please edit and re submit accordingly. If you have any issues please contact your employer.";
 			sendStatusEmail(emails, status, "Your TimeSheet Status");
@@ -997,6 +970,64 @@ public class AdminFunctImplAction extends BaseAction {
 		return (forward);
 	}
 
+	public ActionForward approveOrRejectAllPendingTimeSheets(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ActionForward forward = new ActionForward();
+		log.info("-approveOrRejectPendingApprovals -");
+
+		String ajaxParam = request.getParameter("ajaxParam");
+		List emails ;
+		String status = "";
+		if (ajaxParam.equalsIgnoreCase("ApproveAll")) {
+			log.info("-ApproveAll-" + ajaxParam);
+			status = "Your approval request submitted for time sheet is now approved by your employer.";
+			String weeklyHrsSummaryIds = getStrAsRequestParameter("weeklyHrsSummaryIds", request);
+			emails = getSpringCtxDoTransactionBean().listUserEmailsByWeeklyIds(weeklyHrsSummaryIds);
+			String idArr[] = weeklyHrsSummaryIds.split(",");
+			for (int i = 0; i < idArr.length; ++i) {
+				getSpringCtxDoTransactionBean().approveOrRejectEmployeeTimeSheets(TimeSheetStatus.APPROVED.name(),
+						idArr[i]);
+			}
+			attachUserRateToTimeSheet(idArr);
+			putAjaxStatusObjInRequest(request, "Action Approve-All Completed");
+			sendStatusEmail(emails, status, "Your TimeSheet Status");
+		} else if (ajaxParam.equalsIgnoreCase("RejectAll")) {
+			log.info("-RejectAll-" + ajaxParam);
+			status = "Your approval request submitted for time sheet is rejected by your employer. Please edit and re submit accordingly. If you have any issues please contact your employer.";
+			String weeklyHrsSummaryIds = getStrAsRequestParameter("weeklyHrsSummaryIds", request);
+			emails = getSpringCtxDoTransactionBean().listUserEmailsByWeeklyIds(weeklyHrsSummaryIds);
+			String userIdArr[] = weeklyHrsSummaryIds.split(",");
+			for (int i = 0; i < userIdArr.length; ++i) {
+				getSpringCtxDoTransactionBean().approveOrRejectEmployeeTimeSheets(TimeSheetStatus.REJECTED.name(),
+						userIdArr[i]);
+			}
+			attachUserRateToTimeSheet(userIdArr);
+			putAjaxStatusObjInRequest(request, "Action Reject-All Completed");
+			sendStatusEmail(emails, status, "Your TimeSheet Status");
+		}
+
+		forward = mapping.findForward("generalJSP4AJAXMsg");
+		return forward;
+	}
+	private void attachUserRateToTimeSheet(String userIdArr[]){
+		for (int i = 0; i < userIdArr.length; ++i) {
+			attachUserRateToTimeSheet(userIdArr[i]);
+		}
+	}
+	private void attachUserRateToTimeSheet(String weeklyHrsSummaryId){
+		
+		// get business id, userid, clientid for weeklyhrs summry id
+		Map<String, Object> result = getSpringCtxDoTransactionBean().listSummaryHours(weeklyHrsSummaryId);
+		long businessId = (Long)result.get("businessId");
+		long userId = (Long)result.get("userId");
+		long clientId = (Long)result.get("clientId");
+		// get user rate based on userid, clientid, business id.
+		String rate = getSpringCtxDoTransactionBean().getRate(clientId, userId, businessId);
+		// if found -- update weekly hrs summry id
+		getSpringCtxDoTransactionBean().updateTimeSheetSummaryRate(weeklyHrsSummaryId, rate);		
+		// else ignore.
+		
+	}
 	public ActionForward totalHrsClaimed(ActionMapping mapping, ActionForm form, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		log.info("-totalHrsClaimed-");

@@ -1137,6 +1137,14 @@ public class DoTransaction {
 		int count = getNamedParameterJdbcTemplate().update(SQLQueries.UPDATE_MONTHLY_HRS_SUMMARY, sqlParamSource);
 	}
 
+	public Map<String, Object>  listSummaryHours(String id) {
+		Map<String, Object> result = getJdbcTemplate().queryForMap(SQLQueries.LIST_WEEKLY_SUMMARY_HRS, id);
+		return result;
+		
+	}
+
+	
+	
 	public void saveMonthlyHours(String regOverHrs[]) {
 
 		int i = regOverHrs.length;
@@ -1689,8 +1697,15 @@ public class DoTransaction {
 	public String getRate(long clientId, long userId, long businessId) {
 			return getJdbcTemplate().queryForObject(SQLQueries.GET_CURRENT_USER_RATE, new Object[]{userId, businessId, clientId}, String.class);
 	}
-
 	
+	public String getTimeSheetSpecificRate(String id) {
+		return getJdbcTemplate().queryForObject(SQLQueries.GET_TIME_SHEET_USER_RATE, new Object[]{id}, String.class);
+	}
+	
+	
+	public int updateTimeSheetSummaryRate(String id, String rate) {
+		return getJdbcTemplate().update(SQLQueries.UPDATE_TIMESHEET_SUMMARY_RATE, rate, id);
+	}
 	public int setRate(long clientId, long userId, long businessId, double rate) {
 		int recordEffectedCount  = -1;
 		int count = getJdbcTemplate().queryForInt(SQLQueries.GET_COUNT_CURRENT_USER_RATE, userId, businessId, clientId);

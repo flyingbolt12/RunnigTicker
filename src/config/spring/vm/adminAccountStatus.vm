@@ -1,0 +1,45 @@
+<html>
+
+<body link="#00FFFF" vlink="#FFFFFF" alink="#008080">
+
+<table border="0" width="100%" height="351" style="font-family: Tahoma; font-size: 10pt; color: #FFFFFF">
+	<tr>
+		<td bgcolor="#224F90">
+		<table border="0" width="100%" cellpadding="15" cellspacing="0" style="font-family: Tahoma; font-size: 10pt; color: #FFFFFF">
+			<tr>
+				<td width="100%" style="color: #FFFFFF" align="right"><b>ILCH & CCS - Password Reset Request Notification!</b></td>
+			</tr>
+		</table>
+		</td>
+	</tr>
+	<tr>
+		<td bgcolor="#946EA9" align="left" valign="top">
+		<table border="0" width="100%" height="100%" cellpadding="55" style="font-family: Tahoma; font-size: 10pt; color: #FFFFFF">
+			<tr>
+				<td width="100%" height="100%">
+				<b>Dear User,</b><BR><BR>
+				<div style="margin-left:5em">
+								
+					Your account status is changed to ${notificationBean.text}. Please contact us if you need any help.
+
+				</div>
+				<br><br>
+				Thank you.</td>
+			</tr>
+		</table>
+		</td>
+	</tr>
+	<tr>
+		<td bgcolor="#224F90">
+		<table border="0" width="100%" cellpadding="15" cellspacing="0">
+			<tr>
+				<td width="100%" style="color: #C0C0C0; font-size:8pt; font-family:Tahoma" align="center">
+				All Rights Reserved. A Product of AlliBilli.com</td>
+			</tr>
+		</table>
+		</td>
+	</tr>
+</table>
+
+</body>
+</html>

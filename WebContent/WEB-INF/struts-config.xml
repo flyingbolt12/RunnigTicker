@@ -244,8 +244,9 @@
 			scope="session" type="com.lch.struts.actions.superAdmin.SuperAdminFunctlImpl">
 			<forward name="showOutagePage" path="showOutagePageDef">
 		    </forward>
-		    
-		    <forward name="showDisableBusinessPage" path="showDisableBusinessPageDef">
+		    <forward name="showOutagePage" path="showOutagePageDef">
+		    </forward>
+		    <forward name="showInvitationEmailPage" path="showDisableBusinessPageDef">
 		    </forward>
 		    <forward name="saveOutageDetails" path="showOutagePageDef">
 		    </forward>

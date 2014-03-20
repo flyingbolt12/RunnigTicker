@@ -11,6 +11,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.validator.routines.EmailValidator;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -53,6 +54,12 @@ public class SuperAdminFunctlImpl extends BaseAction {
 		return mapping.findForward("showOutagePage");
 	}
 
+	public ActionForward showInvitationEmailPage(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		return mapping.findForward("showInvitationEmailPage");
+	}
+
 	public ActionForward removeOutage(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
@@ -79,6 +86,39 @@ public class SuperAdminFunctlImpl extends BaseAction {
 				.getAllBusinessList();
 		putObjInRequest("listAllBusiness", request, listAllBusiness);
 		return mapping.findForward("showDisableBusinessPage");
+	}
+
+	public ActionForward sendInvitationEmail(ActionMapping mapping,
+			ActionForm form, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		ActionForward forward = new ActionForward();
+		putAjaxStatusObjInRequest(request, "Email Sent");
+		forward = mapping.findForward("generalJSP4AJAXMsg");
+
+		String subject = "Your Employees & Time Sheets";
+		String userSub = request.getParameter("subject");
+		if (userSub != null && userSub.length() > 0)
+			subject = userSub;
+
+		String email = getStrAsRequestParameter("email", request);
+
+		if (EmailValidator.getInstance().isValid(email)) {
+
+			EmailDetails emailDetails = new EmailDetails();
+			ArrayList<String> l = new ArrayList<String>();
+			l.add(email);
+			emailDetails.setTo(l);
+			emailDetails.setSubject(subject);
+			VMInputBean bean = new VMInputBean();
+
+			String sb = getEmailTemplate(bean, VMConstants.VM_INVITATION_EMAIL);
+			emailDetails.setEmailContent(new StringBuffer(sb));
+
+			sendEmail(emailDetails);
+		} else {
+			putAjaxStatusObjInRequest(request, "In Valid Email");
+		}
+		return forward;
 	}
 
 	public ActionForward activateOrDeActivateBusiness(ActionMapping mapping,
