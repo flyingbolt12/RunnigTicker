@@ -241,9 +241,9 @@ public class BaseAction extends DispatchAction implements SQLQueries {
 		if(!ccEmail.equals(""))
 			emailDetails.setCc(cc);
 		emailDetails.setTo(to);
-		emailDetails.setSubject("Requet to upload your profile");
-		StringBuffer emailContent = new StringBuffer("Your Employer sent a requet to upload your profile in their ILCH system. Please login and upload the profile.");
-		emailDetails.setEmailContent(emailContent);
+		emailDetails.setSubject(subject);
+		
+		emailDetails.setEmailContent(new StringBuffer(content));
 		sendEmail(emailDetails);
 	}
 

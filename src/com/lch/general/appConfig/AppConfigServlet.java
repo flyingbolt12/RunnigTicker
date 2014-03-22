@@ -128,7 +128,7 @@ public class AppConfigServlet extends HttpServlet {
 				ConfirmRegistrationAction action = new ConfirmRegistrationAction();
 				action.createSuperAdmin(ctx);
 				//action.createDemoEmployer(ctx);
-				action.sendEmail("haigopi@gmail.com", "sridhar.thigulla@gmail.com", "ILCh - Automated Email", "Application is just bounced on RedHat Server. If this is not done by either of us, we need to look into : As some one is trying to hack the application");
+				action.sendEmail("haigopi@gmail.com", "sridhar.thigulla@gmail.com", "ILCH - Automated Email", "Application is just bounced at RunningTicker.com. If this is not done by either of us, we need to look into : As some one is trying to hack the application");
 				
 				// Set News
 				DoTransaction doTransaction = (DoTransaction) ctx.getBean("doTransaction");
