@@ -12,8 +12,8 @@
 			<td>
 				<p align="center">
 					<span
-						style="font-size: 10.0pt; font-family: Tahoma; font-weight: bold;">You
-						are signed out because you signed out yourself or your session is expired.</span>
+						style="font-size: 10.0pt; font-family: Tahoma; font-weight: bold;">
+						Your session is expired or you have been signed out.</span>
 				</p>
 				<p align="center">
 					<font size="2"><span style="font-family: Tahoma">
