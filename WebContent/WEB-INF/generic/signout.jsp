@@ -49,8 +49,7 @@
 				<p align="center">
 					<html:link
 						action="footerFunct.do?parameter=contactInformation&subject=Feedback">
-						<font face="Tahoma" size="2">Please report us your feed
-							back.</font>
+						<font face="Tahoma" size="2">Please do send us your feedback.</font>
 					</html:link>
 			</td>
 		</tr>
