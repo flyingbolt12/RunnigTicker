@@ -43,7 +43,7 @@
 		<td  class="i2Style">We have worked hard to ensure that the system is easy 
 		for all levels of employees to use and provides senior management and 
 		the business as a whole relevant and accurate data for reporting on an 
-		ongoing basis</td>
+		ongoing basis.</td>
 	</tr>
 	<tr>
 		<td rowspan="2" width="4">&nbsp;</td>
@@ -53,7 +53,7 @@
 	<tr>
 		<td width="30">&nbsp;</td>
 		<td  class="i2Style">Our team is dedicated to providing you with a system 
-		that is available 24/7 and 365 days a year</td>
+		that is available 24/7 and 365 days a year.</td>
 	</tr>
 	<tr>
 		<td rowspan="3" width="4">&nbsp;</td>
@@ -63,7 +63,7 @@
 	<tr>
 		<td width="30">&nbsp;</td>
 		<td  class="i2Style">The information is presented accurately and 
-		consistently for effective reporting, to save the business time</td>
+		consistently for effective reporting, to save the business time.</td>
 	</tr>
 	<tr>
 		<td colspan="2">
@@ -76,7 +76,7 @@
 		<td  class="i2Style">We are committed to providing you with reliable and 
 		valid data to suit your needs as a business. Another of our goals is to 
 		help and ensure you don’t get tied up with the tedious and timely task 
-		of time collection</td>
+		of time collection.</td>
 	</tr>
 	<tr>
 		<td colspan="2">
@@ -87,7 +87,7 @@
 		<td  class="i2Style">Security was and continues to be our focal point when 
 		designing and implementing this system. The data transmission and data 
 		storage is provided via one of the best encryption cloud storage systems 
-		currently available</td>
+		currently available.</td>
 	</tr>
 	<tr>
 		<td colspan="4">
