@@ -1695,7 +1695,15 @@ public class DoTransaction {
 
 
 	public String getRate(long clientId, long userId, long businessId) {
+		try{
 			return getJdbcTemplate().queryForObject(SQLQueries.GET_CURRENT_USER_RATE, new Object[]{userId, businessId, clientId}, String.class);
+		}
+		catch(EmptyResultDataAccessException e){
+			// SLF4J
+			log.error("No data found {} {}", e.getMessage(), e);
+		}
+		
+		return "0";
 	}
 	
 	public String getTimeSheetSpecificRate(String id) {
