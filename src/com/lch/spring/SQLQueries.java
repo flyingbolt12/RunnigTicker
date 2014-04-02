@@ -187,7 +187,7 @@ public interface SQLQueries {
 	static final String GET_COUNT_CURRENT_USER_RATE = "SELECT count(1) FROM userrate where userId=? and businessId=? and clientId=?";
 	static final String INSERT_USE_RATE = "INSERT INTO `userrate` (`userId`, `clientId`, `businessId`, `rate`) VALUES (?,?, ?, ?)";
 	static final String UPDATE_USER_RATE = "update userrate u set u.rate=? where u.userId=? and u.clientId=? and u.businessId=?";
-	static final String UPDATE_TIMESHEET_SUMMARY_RATE = "update weeklyhrssummary u set u.userrate=? where u.weeklyHrsSummaryId = ?";
+	static final String UPDATE_TIMESHEET_SUMMARY_RATE = "update weeklyhrssummary u set u.userRate=? where u.weeklyHrsSummaryId = ?";
 	
 	static final String APPROVE_OR_REJECT_EMPLOYEE_TIMESHEET = "UPDATE weeklyhrssummary set status=?, actionDate=? where weeklyHrsSummaryId=?";
 	static final String LIST_INVESTMENT_TYPES = "select * from bus_investmenttypeonemployee b";

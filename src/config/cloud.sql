@@ -313,6 +313,7 @@ CREATE TABLE `weeklyhrssummary` (
   `startWeekDate` varchar(45) NOT NULL DEFAULT '0',
   `endWeekDate` varchar(45) NOT NULL DEFAULT '0',
   `comments` text,
+  `userRate` decimal(10,0) DEFAULT NULL,
   PRIMARY KEY (`weeklyHrsSummaryId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
 
