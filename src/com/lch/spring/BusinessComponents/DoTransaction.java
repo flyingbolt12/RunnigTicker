@@ -1700,14 +1700,24 @@ public class DoTransaction {
 		}
 		catch(EmptyResultDataAccessException e){
 			// SLF4J
-			log.error("No data found {} {}", e.getMessage(), e);
+			log.warn("No data found {} {}", e.getMessage(), e);
 		}
 		
 		return "0";
 	}
 	
 	public String getTimeSheetSpecificRate(String id) {
-		return getJdbcTemplate().queryForObject(SQLQueries.GET_TIME_SHEET_USER_RATE, new Object[]{id}, String.class);
+		
+		try{
+			return getJdbcTemplate().queryForObject(SQLQueries.GET_TIME_SHEET_USER_RATE, new Object[]{id}, String.class);
+		}
+		catch(EmptyResultDataAccessException e){
+			// SLF4J
+			log.warn("No data found {} {}", e.getMessage(), e);
+		}
+		
+		return "0";
+		
 	}
 	
 	
