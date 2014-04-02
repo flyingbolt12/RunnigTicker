@@ -45,7 +45,11 @@ public class LogFilter implements Filter {
 		actionsToIgnore.add("membersDemo.jsp");
 		actionsToIgnore.add("adminRegistration.jsp");
 		actionsToIgnore.add("employeeRegistration.jsp");
+		actionsToIgnore.add("adminAndroidLogin.do");
+		actionsToIgnore.add("adminAndroidPendingApprovals.do");
 		actionsToIgnore.add("confirmDetails.do");
+		actionsToIgnore.add("adminAndroidLogin.do");
+		
 	}
 
 	@Override

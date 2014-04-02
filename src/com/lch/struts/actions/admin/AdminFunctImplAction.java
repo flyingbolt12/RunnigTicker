@@ -936,6 +936,7 @@ public class AdminFunctImplAction extends BaseAction {
 			sendStatusEmail(emails, status, "Your TimeSheet Status");
 			}
 			catch (Exception e) {
+				e.printStackTrace();
 				putAjaxStatusObjInRequest(request, "Action Failed");
 				sendStatusEmail(emails, status, "Error Proceesing TimeSheet");
 			}
