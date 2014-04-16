@@ -11,6 +11,11 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.lch.struts.actions.members.SaveHours;
+
 /**
  * @author Gopi
  * 
@@ -18,14 +23,16 @@ import java.util.Date;
  *         Window - Preferences - Java - Code Style - Code Templates
  */
 public class DateUtils {
+	private static Logger logger = LoggerFactory.getLogger(DateUtils.class);
+	
 	String[] weekdays = new DateFormatSymbols().getWeekdays();
 	String[] monthNames = new DateFormatSymbols().getMonths();
 	Calendar today = Calendar.getInstance();
 	Calendar customDay = Calendar.getInstance();
 	Calendar pastSundayCal = null;
-	int year = 0;
-	int month = 0;
-
+	private int year = 0;
+	private int month = 0;
+	Date weekEndingDate;
 	String String1stDayOfMonth;
 	Date weekBeginingDate;
 
@@ -124,6 +131,7 @@ public class DateUtils {
 			}
 		} else {
 			week.set(Calendar.DAY_OF_MONTH, totalDays);
+			logger.info("Last Day of Month {}", week.getTime());
 		}
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		String s = format.format(week.getTime());
@@ -141,7 +149,7 @@ public class DateUtils {
 		this.weekEndingDate = weekEndingDate;
 	}
 
-	Date weekEndingDate;
+	
 
 	public DateUtils(int year, int month) {
 		customDay.set(Calendar.YEAR, year);

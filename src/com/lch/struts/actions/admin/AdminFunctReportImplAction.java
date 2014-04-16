@@ -300,6 +300,7 @@ public class AdminFunctReportImplAction extends BaseAction
 		return (forward);
 
 	}
+	
 	/*
 	public ActionForward listStates(ActionMapping mapping,
 			ActionForm form, HttpServletRequest request,

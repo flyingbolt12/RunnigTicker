@@ -29,8 +29,10 @@ public class ResetBDayReminderJob extends QuartzJobBean implements Serializable 
 			ApplicationContext applicationContext = (ApplicationContext) schedulerContext.get("applicationContext");
 
 			BDayService service = (BDayService) applicationContext.getBean("bDayService");
-
-			service.resetStudentBDayReminder();
+			if(service!=null)
+				service.resetStudentBDayReminder();
+			else
+				logger.error("BDay Service Bean is null, Need attention");
 
 		} catch (SchedulerException e) {
 			e.printStackTrace();

@@ -75,6 +75,7 @@ public class UpdateUserSession {
 		String userRole = rs.getString("role");
 		userProfile.setApprovalStatus(rs.getString("approvalstatus"));
 		userProfile.setUserRole(userRole);
+		userProfile.setCategoryId(rs.getLong("categoryId"));
 		if (doTransaction != null) {
 			String employerEmail = doTransaction.getAdminEmail(userProfile.getBusinessId());
 			userProfile.setEmployerEmail(employerEmail);

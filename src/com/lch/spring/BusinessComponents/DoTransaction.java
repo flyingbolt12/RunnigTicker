@@ -43,6 +43,7 @@ import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.SqlParameter;
+import org.springframework.jdbc.core.SqlTypeValue;
 import org.springframework.jdbc.core.metadata.TableMetaDataProvider;
 import org.springframework.jdbc.core.metadata.TableMetaDataProviderFactory;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
@@ -78,6 +79,8 @@ import com.lch.general.enums.DOCTypes;
 import com.lch.general.enums.SubmissionFor;
 import com.lch.general.enums.TimeSheetStatus;
 import com.lch.general.enums.TimeSheetTypes;
+import com.lch.general.generalBeans.CategoriesAndEmployees;
+import com.lch.general.generalBeans.EmployeeAssociation;
 import com.lch.general.generalBeans.ImmigrationDetailsBean;
 import com.lch.general.generalBeans.UserProfile;
 import com.lch.general.genericUtils.BiWeeklyTimeSheetHours;
@@ -89,6 +92,8 @@ import com.lch.general.genericUtils.TimeSheetHours;
 import com.lch.general.genericUtils.WeekToWeekDates;
 import com.lch.general.genericUtils.WeeklyTimeSheetHours;
 import com.lch.spring.SQLQueries;
+import com.lch.spring.mapper.CatergoryEmployeeAssociationRowMapper;
+import com.lch.spring.mapper.EmployeeAssociationRowMapper;
 import com.lch.struts.formBeans.ContactBean;
 import com.lch.struts.formBeans.admin.AdminRegistrationBean;
 import com.lch.struts.formBeans.admin.AdminTimerBean;
@@ -207,17 +212,21 @@ public class DoTransaction {
 
 	public long insertUSERPERSONALDATA(AdminRegistrationBean adminRegistrationBean, UserProfile profile) {
 		long userId = -1;
+		long catId =0;
+		try{
+			catId = jdbcTemplate.queryForInt(SQLQueries.GET_SYSTEM_DEFAULT_CATEGORY_DETAILS, adminRegistrationBean.getBusinessId());
+		}catch(Exception e){
+		}
 		try {
-
 			log.info("Start Doing Transaction - User Personal Details");
 			USERPERSONALDATA userPersonalData = new USERPERSONALDATA();
 			BeanUtils.copyProperties(userPersonalData, adminRegistrationBean);
-
+			
 			DateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
 			Date date = (Date) formatter.parse(adminRegistrationBean.getDob());
 			Timestamp s = new Timestamp(date.getTime());
 			userPersonalData.setDobDate(s);
-
+			userPersonalData.setCategoryId(catId);
 			userId = insertUSERPERSONALDATA(userPersonalData);
 
 		} catch (IllegalAccessException e) {
@@ -253,11 +262,11 @@ public class DoTransaction {
 		return userId;
 	}
 
-	public long insertUSERPERSONALDATA(USERPERSONALDATA userPersonalData) {
+	public long insertUSERPERSONALDATA(USERPERSONALDATA userPersonalData ) {
 		long userId = -1;
 		try {
 			log.info("Start Doing Transaction - USERS PERSONAL ");
-
+			
 			KeyHolder keyHolder = new GeneratedKeyHolder();
 			SqlParameterSource parametersSource = new BeanPropertySqlParameterSource(userPersonalData);
 			getNamedParameterJdbcTemplate().update(SQLQueries.INSERTUSERPERSONALDATA, parametersSource, keyHolder);
@@ -680,6 +689,17 @@ public class DoTransaction {
 		return (getJdbcTemplate().queryForList(query, getObjectArray(l.size(), l)));
 	}
 
+	public List<Map<String, Object>> listMyCategories(UserProfile userProfile) {
+		try{
+			String query = SQLQueries.FETCH_BUSINESS_CATEGORIES;
+			ArrayList l = new ArrayList();
+			l.add(userProfile.getBusinessId());
+		return (getJdbcTemplate().queryForList(query, getObjectArray(l.size(), l)));
+		}
+		catch(Exception e){
+			return null;
+		}
+	}
 	public int approveUserByAdmin(long userId) {
 		int rcdUpdCnt = 0;
 		try {
@@ -1011,8 +1031,57 @@ public class DoTransaction {
 	public int deleteSupportingDoc(long idattacheddocs) throws Exception {
 		return getJdbcTemplate().update(SQLQueries.DELETE_SUPPORTING_DOC, new Object[]{idattacheddocs});
 	}
+	public Map<String, Object> getCategoryDetails(String id) {
+		String query = SQLQueries.GET_CATEGORY_DETAILS;
+		return (getJdbcTemplate().queryForMap(query, new Object[] { id }));
+	}
+	public int deleteCategory(long id) throws Exception {
+		log.info("deleteCategory");
+			SqlFunction sf = new SqlFunction(getJdbcTemplate().getDataSource(), "select deleteCategory(?) from dual");
+			SqlParameter param= new SqlParameter(Types.INTEGER, "inputId");
+			sf.declareParameter(param);
+			sf.compile();
+			return sf.run(id);
+	}
+	public int updateCategory(String name, String desc, long id) {
+		
+		Map<String, String> params = new HashMap<String, String>();
+		params.put("idcategories", String.valueOf(id));
+		params.put("name", name);
+		params.put("description", desc);
+		
+		log.info("{}", params);
+		int i = getNamedParameterJdbcTemplate().update(SQLQueries.UPDATE_BUSINESS_CATEGORIY, params);
+		
+		return i;
+	}
 	
+	public int addCategory(String name, String desc, long id) {
+		
+		Map<String, String> params = new HashMap<String, String>();
+		params.put("businessId", String.valueOf(id));
+		params.put("name", name);
+		params.put("description", desc);
+		log.info("{}", params);
+		int i = getNamedParameterJdbcTemplate().update(SQLQueries.ADD_BUSINESS_CATEGORIY, params);
+		
+		return i;
+	}
+
+	public int updateAssociations(String ids, String categoryId, long businessId) {
+		//ids = "'"+ids+"'";
+		log.info("updateAssociations {}", ids);
+			SqlFunction sf = new SqlFunction(getJdbcTemplate().getDataSource(), "select updateAsscoiations(?, ?, ?) from dual");
+			SqlParameter param= new SqlParameter(Types.VARCHAR, "ids");
+			SqlParameter param1= new SqlParameter(Types.VARCHAR, "catId");
+			SqlParameter param2= new SqlParameter(Types.VARCHAR, "busId");
+			sf.declareParameter(param);
+			sf.declareParameter(param1);
+			sf.declareParameter(param2);
+			sf.compile();
+			return sf.run(ids, categoryId, businessId);
 	
+	}
 	public String uploadSingleFileToDB(final FormFile item, int docType) throws Exception {
 		String docIds = "";
 
@@ -1145,14 +1214,14 @@ public class DoTransaction {
 
 	
 	
-	public void saveMonthlyHours(String regOverHrs[]) {
+	public void saveMonthlyHours(String regOverHrs[], long weeklyHrsSummaryId) {
 
 		int i = regOverHrs.length;
 		String[] weekDates = new String[2];
 		for (int j = 0; j < i; ++j) {
 			String toSave = regOverHrs[j];
 			if (toSave != null)
-				splitCheckTransact(toSave);
+				splitCheckTransact(toSave, weeklyHrsSummaryId);
 		}
 	}
 
@@ -1173,24 +1242,9 @@ public class DoTransaction {
 		}
 	}
 
-	public void commit() {
-		Connection con = null;
-		try {
-			log.info("Commiting the Transaction");
-			con = getJdbcTemplate().getDataSource().getConnection();
-			con.commit();
-		} catch (Exception e) {
-			log.error("Unable to Commit");
-		} finally {
-			try {
-				con.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-	}
+	public void commit() {}
 
-	public void splitCheckTransact(String a) {
+	public void splitCheckTransact(String a, long weeklyHrsSummaryId) {
 		String temp[] = a.split("__");
 
 		Date d1 = new Date();
@@ -1203,7 +1257,8 @@ public class DoTransaction {
 			e.printStackTrace();
 		}
 		getJdbcTemplate().update(SQLQueries.INSERTHRS,
-				new Object[] { temp[0], d1, d2, temp[3], temp[4], temp[5], temp[6], temp[7], temp[8], temp[9], temp[10], temp[11], temp[12], temp[13], temp[14], temp[15], temp[16], temp[17] });
+				//new Object[] { temp[0], d1, d2, temp[3], temp[4], temp[5], temp[6], temp[7], temp[8], temp[9], temp[10], temp[11], temp[12], temp[13], temp[14], temp[15], temp[16], temp[17] });
+				new Object[] { temp[0], d1, d2, temp[3], temp[4], temp[5], temp[6], temp[7], temp[8], temp[9], temp[10], temp[11], temp[12], temp[13], temp[14], d1.getMonth(), temp[16], temp[17], weeklyHrsSummaryId});
 	}
 
 	/*
@@ -1700,7 +1755,7 @@ public class DoTransaction {
 		}
 		catch(EmptyResultDataAccessException e){
 			// SLF4J
-			log.warn("No data found {} {}", e.getMessage(), e);
+			log.warn("No User rate set found {} {}", e.getMessage(), e);
 		}
 		
 		return "0";
@@ -2081,7 +2136,7 @@ public class DoTransaction {
 	public void updateResetedPassword(Map m) {
 		int i = getNamedParameterJdbcTemplate().update(SQLQueries.RESET_ACCOUNT_PASSWORD, m);
 	}
-
+	
 	public int updateResetForgotPassword(String password, String email) {
 		Object[] obj = new Object[] { password, email };
 		return getJdbcTemplate().update(SQLQueries.RESET_FORGOT_PASSWORD, obj);
@@ -2180,40 +2235,48 @@ public class DoTransaction {
 		BiWeeklyTimeSheetHours timeSheetHours = new BiWeeklyTimeSheetHours(databaseResult);
 		return timeSheetHours;
 	}
-	public boolean deleteMonthlySummaryHours(Map listQueryValues) {
+	public long deleteMonthlySummaryHours(Map listQueryValues) {
+
+		
+		try{
+			SqlParameterSource parametersSource = new MapSqlParameterSource(listQueryValues);
+			long id = getNamedParameterJdbcTemplate().queryForLong(SQLQueries.SELECT_MONTHLY_HRS_SUMMARY, parametersSource);
+			getNamedParameterJdbcTemplate().update(SQLQueries.DELETE_MONTHLY_HRS_SUMMARY, parametersSource);
+			return id;
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+		
+		return -1;
+		
+	}
+
+//	public boolean deleteWeeklyHoursByWeekStartDate(Map listQueryValues) {
+//		boolean bDeleted = true;
+//
+//		int count = getNamedParameterJdbcTemplate().update(SQLQueries.DELETE_WEEKLY_HRS_BY_WEEK_START_DATE, listQueryValues);
+//
+//		if (count < 0)
+//			bDeleted = false;
+//		return bDeleted;
+//	}
+
+	public boolean deleteWeeklyHours(Map listQueryValues, long id) {
 		boolean bDeleted = true;
 
-		int count = getNamedParameterJdbcTemplate().update(SQLQueries.DELETE_MONTHLY_HRS_SUMMARY, listQueryValues);
+		//int count = getNamedParameterJdbcTemplate().update(SQLQueries.DELETE_WEEKLY_HRS, listQueryValues);
+		int count = jdbcTemplate.update(SQLQueries.DELETE_WEEKLY_HRS, id);
 
 		if (count < 0)
 			bDeleted = false;
 		return bDeleted;
 	}
 
-	public boolean deleteWeeklyHoursByWeekStartDate(Map listQueryValues) {
+	public boolean deleteWeeklyHoursDays15(Map listQueryValues, long id) {
 		boolean bDeleted = true;
 
-		int count = getNamedParameterJdbcTemplate().update(SQLQueries.DELETE_WEEKLY_HRS_BY_WEEK_START_DATE, listQueryValues);
-
-		if (count < 0)
-			bDeleted = false;
-		return bDeleted;
-	}
-
-	public boolean deleteWeeklyHours(Map listQueryValues) {
-		boolean bDeleted = true;
-
-		int count = getNamedParameterJdbcTemplate().update(SQLQueries.DELETE_WEEKLY_HRS, listQueryValues);
-
-		if (count < 0)
-			bDeleted = false;
-		return bDeleted;
-	}
-
-	public boolean deleteWeeklyHoursDays15(Map listQueryValues) {
-		boolean bDeleted = true;
-
-		int count = getNamedParameterJdbcTemplate().update(SQLQueries.DELETE_WEEKLY_HRS_DAYS15, listQueryValues);
+		//int count = getNamedParameterJdbcTemplate().update(SQLQueries.DELETE_WEEKLY_HRS_DAYS15, listQueryValues);
+		int count = jdbcTemplate.update(SQLQueries.DELETE_WEEKLY_HRS, id);
 
 		if (count < 0)
 			bDeleted = false;
@@ -2270,19 +2333,24 @@ public class DoTransaction {
 	}
 	
 	
-	public boolean deleteWeeklyHoursByWeek(Map listQueryValues) {
+	public boolean deleteWeeklyHoursByWeek(Map listQueryValues, long id) {
 		boolean bDeleted = true;
 
-		int count = getNamedParameterJdbcTemplate().update(SQLQueries.DELETE_WEEKLY_HRS_BY_WEEK_START_DATE, listQueryValues);
-
+		//int count = getNamedParameterJdbcTemplate().update(SQLQueries.DELETE_WEEKLY_HRS_BY_WEEK_START_DATE, listQueryValues);
+		int count = jdbcTemplate.update(SQLQueries.DELETE_WEEKLY_HRS, id);
 		if (count < 0)
 			bDeleted = false;
 		return bDeleted;
 	}
 
-	public List getSummaryHrs(UserProfile profile, TimeSheetTypes type, String weekStartDate) {
-		return (jdbcTemplate.queryForList(SQLQueries.GET_SUMMARY_HRS, new Object[] { profile.getUserId(), profile.getBusinessId(), profile.getDu().getYear(), profile.getDu().getMonth(), type.name(),
-				weekStartDate }));
+	public List getSummaryHrs(UserProfile profile, TimeSheetTypes type, String weekStartDate) throws Exception{
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		Date s = sdf.parse(weekStartDate);
+		Calendar cal = Calendar.getInstance();
+		cal.setTimeInMillis(s.getTime());
+		Object[] params = { profile.getUserId(), profile.getBusinessId(), profile.getDu().getYear(), cal.get(Calendar.MONTH), type.name(), weekStartDate };
+		log.info("Params --> {}", params);
+		return (jdbcTemplate.queryForList(SQLQueries.GET_SUMMARY_HRS, params));
 	}
 
 	public Map<String, Object> getWeeklySummeryDetails(long weeklyHrsSummaryId) {
@@ -2389,7 +2457,22 @@ public class DoTransaction {
 		SqlParameterSource parametersSource = new BeanPropertySqlParameterSource(bean);
 		return getNamedParameterJdbcTemplate().update(SQLQueries.UPDATE_IMMIGRATION_DETAILS, parametersSource);
 	}
-
-	
-	
+	public List<CategoriesAndEmployees> getCategorySpecificEmployees( int month, int previousMonth, int year, int previousYear, long businessId) {
+		Object[] obj = { month, previousMonth, year, previousYear,  new Long(businessId) };
+		String query = SQLQueries.LIST_ALL_CATEGORY_TIMESEETS_AND_EMPLOYEES;
+		log.info("Business Id : {} Query : {}", businessId, query);
+		return jdbcTemplate.query(query, new CatergoryEmployeeAssociationRowMapper(), obj);
+	}	
+	public List<CategoriesAndEmployees> getCategorySpecificEmployeesSpecificToUser( int month, int previousMonth, int year, int previousYear, long businessId, String userId) {
+		Object[] obj = { month, previousMonth, year, previousYear,  new Long(businessId), userId };
+		String query = SQLQueries.LIST_ALL_CATEGORY_TIMESEETS_AND_EMPLOYEES_SPECIFIC_TO_USER;
+		log.info("Business Id : {} Query : {}", businessId, query);
+		return jdbcTemplate.query(query, new CatergoryEmployeeAssociationRowMapper(), obj);
+	}	
+	public List<EmployeeAssociation> getAllMyEmployees(long businessId) {
+		Object[] obj = { new Long(businessId) };
+		String query = SQLQueries.LIST_ALL_EMPLOYEES;
+		log.info("Business Id : {} Query : {}", businessId, query);
+		return jdbcTemplate.query(query, new EmployeeAssociationRowMapper(), obj);
+	}	
 }

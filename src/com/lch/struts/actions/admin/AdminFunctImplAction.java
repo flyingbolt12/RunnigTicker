@@ -28,6 +28,7 @@ import com.lch.general.email.EmailDetails;
 import com.lch.general.enums.AdminSearchFunction;
 import com.lch.general.enums.DOCTypes;
 import com.lch.general.enums.TimeSheetStatus;
+import com.lch.general.generalBeans.EmployeeAssociation;
 import com.lch.general.generalBeans.UserProfile;
 import com.lch.general.generalBeans.VMInputBean;
 import com.lch.general.genericUtils.EmailsReport;
@@ -57,6 +58,19 @@ public class AdminFunctImplAction extends BaseAction {
 		forward = mapping.findForward("manageMyAdmins");
 		return forward;
 	}
+	
+	public ActionForward manageMyCategories(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		ActionForward forward = new ActionForward();
+		log.info("-manageMyCategories-");
+		List listAllMyCategories = getSpringCtxDoTransactionBean().listMyCategories(getUserProfile(request));
+		putObjInRequest("listAllMyCategories", request, listAllMyCategories);
+		forward = mapping.findForward("manageMyCategories");
+		return forward;
+	}
+	
+	
+	
 	/**
 	 * 
 	 * @param mapping
@@ -226,6 +240,80 @@ public class AdminFunctImplAction extends BaseAction {
 		}
 	}
 	
+	public ActionForward deleteCategory(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+
+		// if Delete - Delete the Category.
+		
+		try{
+		long idcategories = getLongAsRequestParameter("idcategories", request);
+		int count = getSpringCtxDoTransactionBean().deleteCategory(idcategories);
+		putAjaxStatusObjInRequest(request, "Deleted");
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			putAjaxStatusObjInRequest(request, "Failed to Delete. Contact Support."); 
+		}
+		
+		return mapping.findForward("generalJSP4AJAXMsg");
+	}
+
+	public ActionForward updateCategory(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		try{
+		long idcategories = getLongAsRequestParameter("_idcategories", request);
+		String name = getStrAsRequestParameter("_name", request);
+		String desc = getStrAsRequestParameter("_desc", request);
+		getSpringCtxDoTransactionBean().updateCategory(name, desc,  idcategories);
+		putStatusObjInRequest(request, "Updated Successfully");
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			putStatusObjInRequest(request, "Failed to Update. Contact Support.");
+		}
+		return manageMyCategories(mapping, form, request, response);
+	}
+	
+	public ActionForward addCategory(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception
+	{
+		try {
+			String name = getStrAsRequestParameter("_name", request);
+			String desc = getStrAsRequestParameter("_desc", request);
+			getSpringCtxDoTransactionBean().addCategory(name, desc, getBusinessId(request));
+			putStatusObjInRequest(request, "Added Successfully");
+		} catch (Exception e) {
+			e.printStackTrace();
+			putStatusObjInRequest(request, "Failed to Add. Contact Support.");
+		}
+		return manageMyCategories(mapping, form, request, response);
+	}
+	public ActionForward updateAssociatoins(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception
+	{
+		String ids = getStrAsRequestParameter("ids", request);
+		int itn =ids.lastIndexOf(",");
+		log.info("Request recieved {}", ids);
+		if(itn!=-1){
+			ids = ids.substring(0,itn);
+			log.info("Processing {}", ids);
+		}
+		String categoryId = getStrAsRequestParameter("_idcategories", request);
+		getSpringCtxDoTransactionBean().updateAssociations(ids, categoryId, getBusinessId(request));
+		putStatusObjInRequest(request, "Updated Successfully.");
+		return getAllEmployeesForAssociation(mapping, form, request, response);
+	}
+
+	public ActionForward getAllEmployeesForAssociation(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+
+		List<EmployeeAssociation> all = getSpringCtxDoTransactionBean().getAllMyEmployees(getBusinessId(request));
+		putObjInRequest("allEmployees", request, all);
+		String idcategories = getStrAsRequestParameter("_idcategories", request);
+		Map<String, Object> map = getSpringCtxDoTransactionBean().getCategoryDetails(idcategories);
+		putObjInRequest("categoryDetails", request,  map);
+		putObjInRequest("idcategories", request, idcategories);
+		return mapping.findForward("associateEmplyees");
+		
+	}
 	public ActionForward updateUserStatus(ActionMapping mapping, ActionForm form, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		ActionForward forward = new ActionForward();
@@ -1624,4 +1712,6 @@ public class AdminFunctImplAction extends BaseAction {
 		
 		return mapping.findForward("status");
 	}
+	
+	
 }

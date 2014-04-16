@@ -1,18 +1,26 @@
 package com.lch.struts.actions.admin;
 
+import java.text.DateFormatSymbols;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.lch.POI.ExportToExcel;
+import com.lch.general.generalBeans.CategoriesAndEmployees;
 import com.lch.general.generalBeans.UserProfile;
+import com.lch.general.genericUtils.EmployeeTimeSheetsBasedOnTypes;
+import com.lch.general.genericUtils.MonthlyExcelReportHelpr;
 import com.lch.struts.actions.members.ReportsBase;
 import com.lch.struts.formBeans.DownloadedEmployeeBean;
 
@@ -20,12 +28,69 @@ public class AdminReportsImpl extends ReportsBase {
 
 	private static Logger log = LoggerFactory.getLogger(AdminFunctImplAction.class);
 
+	public ActionForward collectYearAndMonths(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+		ActionForward forward = new ActionForward();
+		forward = mapping.findForward("collectYearAndMonth");
+		return forward;
+	}
+
+	public ActionForward generateEmployeeMonthlyTimeSheetHours(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ActionForward forward = new ActionForward();
+
+		int month = getIntAsRequestParameter("month", request);
+		int year = getIntAsRequestParameter("year", request);
+
+		String monthName = new DateFormatSymbols().getMonths()[month];
+		String businessName = getUserProfile(request).getEmployerName();
+		String fileName = "Confidential_" + monthName + "_" + businessName + ".xlsx";
+
+		List<Map<String, Object>> listAllMyCategories = getSpringCtxDoTransactionBean().listMyCategories(getUserProfile(request));
+
+		if (listAllMyCategories == null) {
+			listAllMyCategories = new ArrayList<>();
+		}
+
+		int previousMonth = month;
+		int previousYear = year;
+		if (month - 1 < 0) {
+			previousMonth = 12;
+			previousYear = year - 1;
+		}
+		List<CategoriesAndEmployees> categoriesAndEmployeeTimeSheets = getSpringCtxDoTransactionBean().getCategorySpecificEmployees(month, previousMonth, year, previousYear, getBusinessId(request));
+
+		if (categoriesAndEmployeeTimeSheets.size() > 0) {
+			
+			MonthlyExcelReportHelpr helper = new MonthlyExcelReportHelpr(getSpringCtxDoTransactionBean());
+			Map<String, EmployeeTimeSheetsBasedOnTypes> independentEmployeeMonthlyTimeSheets = helper.startProcessing(categoriesAndEmployeeTimeSheets, previousMonth, year, getBusinessId(request));
+
+			log.info("Before Exporting to Excel {}", independentEmployeeMonthlyTimeSheets);
+
+			SXSSFWorkbook book = ExportToExcel.generateReport(listAllMyCategories, categoriesAndEmployeeTimeSheets, independentEmployeeMonthlyTimeSheets);
+
+			ServletOutputStream out1 = null;
+			response.setContentType("application/vnd.ms-excel");
+			response.setHeader("Content-disposition", "attachment;filename=" + fileName);
+			response.setHeader("Cache-Control", "cache");
+			response.addHeader("Cache-Control", "must-revalidate");
+			response.setHeader("Pragma", "public");
+			out1 = response.getOutputStream();
+
+			book.write(out1);
+		} else {
+			forward = mapping.findForward("collectYearAndMonth");
+			putStatusObjInRequest(request, "No Data Available");
+			return forward;
+		}
+		return null;
+	}
+
 	public ActionForward downloadCancelation(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ActionForward forward = new ActionForward();
 		forward = mapping.findForward("downloadCancelation");
 		return (forward);
 	}
-	
+
 	public ActionForward showAdminDownloadAllEmployeesSortOpetionPage(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ActionForward forward = new ActionForward();
 		forward = mapping.findForward("showAdminDownloadAllEmployeesSortOpetionPage");
@@ -89,31 +154,29 @@ public class AdminReportsImpl extends ReportsBase {
 			UserProfile userProfile = getUserProfile(request);
 			List<Map<String, Object>> listAllMyEmployeeStartingWith = getSpringCtxDoTransactionBean().downloadAllMyEmployeesList1(startingWith, endingWith, startingWithText, endingWithText,
 					userProfile.getBusinessId());
-			if(listAllMyEmployeeStartingWith.size() == 0)
-			{
+			if (listAllMyEmployeeStartingWith.size() == 0) {
 				return getStatusPage(mapping, request);
 			}
-			
+
 			processReports(listAllMyEmployeeStartingWith, response, jrxml);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return mapping.findForward("exception");
-		} 
+		}
 		return null;
 	}
 
 	public ActionForward downloadedEmployeeHistory(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		String jrxml =adminjrxmlPath+ "employeeHistory.jrxml";
+		String jrxml = adminjrxmlPath + "employeeHistory.jrxml";
 		UserProfile userProfile = getUserProfile(request);
 		long businessId = userProfile.getBusinessId();
 		long userId = getLongAsRequestParameter("userId", request);
 		List<Map<String, Object>> listEmployeeHistory = getSpringCtxDoTransactionBean().listEmployeeHistory(userId, businessId);
 		log.info("listEmployeeHistory --> " + listEmployeeHistory);
-		if(listEmployeeHistory.size() == 0)
-		{
+		if (listEmployeeHistory.size() == 0) {
 			return getStatusPage(mapping, request);
 		}
-		
+
 		try {
 			processReports(listEmployeeHistory, response, jrxml);
 		} catch (Exception e) {
@@ -130,7 +193,7 @@ public class AdminReportsImpl extends ReportsBase {
 			return mapping.findForward("downloadCancelation");
 		}
 		// Method Level Data
-		String jrxml = adminjrxmlPath+"allEmployees.jrxml";
+		String jrxml = adminjrxmlPath + "allEmployees.jrxml";
 		String orderby_1 = getStrAsRequestParameter("orderBy_1", request);
 		String orderby_2 = getStrAsRequestParameter("orderBy_2", request);
 		String orderby_3 = getStrAsRequestParameter("orderBy_3", request);
@@ -144,12 +207,10 @@ public class AdminReportsImpl extends ReportsBase {
 
 		List<Map<String, Object>> listAllMyEmployees = getSpringCtxDoTransactionBean().downloadAllEmployees(businessId, orderby_1, order, orderby_2, order, orderby_3, order);
 
-		if(listAllMyEmployees.size() == 0)
-		{
+		if (listAllMyEmployees.size() == 0) {
 			return getStatusPage(mapping, request);
 		}
-		
-		
+
 		try {
 			processReports(listAllMyEmployees, response, jrxml);
 		} catch (Exception e) {
@@ -162,44 +223,42 @@ public class AdminReportsImpl extends ReportsBase {
 
 	public ActionForward employeessubmittedHoursWeekly(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-		String jrxml = adminjrxmlPath+"employeeSubmittedHoursWeekly.jrxml";
+		String jrxml = adminjrxmlPath + "employeeSubmittedHoursWeekly.jrxml";
 
 		UserProfile userProfile = getUserProfile(request);
 		long businessId = userProfile.getBusinessId();
 		List<Map<String, Object>> listEmployeesubmittedHoursWeekly = getSpringCtxDoTransactionBean().listEmployeesubmittedHoursWeekly(businessId);
 		log.info("listEmployeesubmittedHoursWeekly --> " + listEmployeesubmittedHoursWeekly);
-		
-		if(listEmployeesubmittedHoursWeekly.size() == 0)
-		{
+
+		if (listEmployeesubmittedHoursWeekly.size() == 0) {
 			return getStatusPage(mapping, request);
 		}
-		
+
 		try {
 			processReports(listEmployeesubmittedHoursWeekly, response, jrxml);
 		}
 
 		catch (Exception e) {
 			e.printStackTrace();
-			return  mapping.findForward("exception");
+			return mapping.findForward("exception");
 		}
 		return null;
 	}
 
 	public ActionForward searchDownloadEmployeesSubmittedHoursMonthly(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-		String jrxml =adminjrxmlPath+ "searchEmployeeSubmittedHoursMonthly.jrxml";
+		String jrxml = adminjrxmlPath + "searchEmployeeSubmittedHoursMonthly.jrxml";
 		UserProfile userProfile = getUserProfile(request);
 		long businessId = userProfile.getBusinessId();
 		long userId = getLongAsRequestParameter("userId", request);
 		// long userId=userProfile.getUserId();
 		List<Map<String, Object>> listEmployeeDownloadMonthlyHrs = getSpringCtxDoTransactionBean().listEmployeeDownloadMonthlyHrs(userId, businessId);
 		log.info("listEmployeeDownloadMonthlyHrs --> " + listEmployeeDownloadMonthlyHrs);
-		
-		if(listEmployeeDownloadMonthlyHrs.size() == 0)
-		{
+
+		if (listEmployeeDownloadMonthlyHrs.size() == 0) {
 			return getStatusPage(mapping, request);
 		}
-		
+
 		try {
 			processReports(listEmployeeDownloadMonthlyHrs, response, jrxml);
 		} catch (Exception e) {
@@ -209,17 +268,15 @@ public class AdminReportsImpl extends ReportsBase {
 		return null;
 	}
 
-
 	public ActionForward downloadEmployeessubmittedHoursMonthly(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		String jrxml = adminjrxmlPath+"EmployeeSubmittedHoursMonthly.jrxml";
+		String jrxml = adminjrxmlPath + "EmployeeSubmittedHoursMonthly.jrxml";
 
 		UserProfile userProfile = getUserProfile(request);
 		long businessId = userProfile.getBusinessId();
 		List<Map<String, Object>> listEmployeesubmittedHoursMonthly = getSpringCtxDoTransactionBean().listEmployeesubmittedHoursMonthly(businessId);
 		log.info("listEmployeesubmittedHoursMonthly --> " + listEmployeesubmittedHoursMonthly);
-		
-		if(listEmployeesubmittedHoursMonthly.size() == 0)
-		{
+
+		if (listEmployeesubmittedHoursMonthly.size() == 0) {
 			return getStatusPage(mapping, request);
 		}
 		try {
@@ -228,9 +285,8 @@ public class AdminReportsImpl extends ReportsBase {
 
 		catch (Exception e) {
 			e.printStackTrace();
-			return  mapping.findForward("exception");
+			return mapping.findForward("exception");
 		}
-	
 
 		return null;
 	}

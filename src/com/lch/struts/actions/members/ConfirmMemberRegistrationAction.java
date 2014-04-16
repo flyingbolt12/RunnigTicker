@@ -223,7 +223,7 @@ public class ConfirmMemberRegistrationAction extends BaseAction {
 		return mapping.findForward("status");
 		
 	}
-	
+	int userNumber = 1;
 	public ActionForward createDemoMember(ActionMapping mapping,
 			ActionForm form, HttpServletRequest request,
 			HttpServletResponse response, GenericXmlApplicationContext ctx, String memberType, String memberId) throws Exception
@@ -266,7 +266,9 @@ public class ConfirmMemberRegistrationAction extends BaseAction {
 			if(memberType.equals(TimeSheetTypes.DAYS15.name())){
 				bean.setContactEmail(testMembers.get("days15.member"));
 			}
-				bean.setFirstName("First Name");
+				bean.setFirstName("User ");
+				bean.setLastName(userNumber + "");
+				++userNumber;
 				bean.setLogin(memberId);
 				putObjInSession("form", request,bean);
 				bean.setTimeSheetConfiguredTo(memberType);

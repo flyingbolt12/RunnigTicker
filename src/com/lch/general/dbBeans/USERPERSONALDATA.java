@@ -4,6 +4,14 @@ import java.sql.Timestamp;
 
 public class USERPERSONALDATA {
 	
+	public long getCategoryId() {
+		return categoryId;
+	}
+
+	public void setCategoryId(long categoryId) {
+		this.categoryId = categoryId;
+	}
+
 	private long iduserData = 0;
 	private String firstName = "";
 	private String lastName = "";
@@ -20,7 +28,8 @@ public class USERPERSONALDATA {
 	private String homeCountryAddressId = "";
 	private String gendar = "";
 	private String profilePath;
-
+	private long categoryId =0;
+	
 	public Timestamp getDobDate() {
 		return dobDate;
 	}

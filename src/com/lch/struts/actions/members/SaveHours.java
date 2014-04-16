@@ -73,6 +73,7 @@ public abstract class SaveHours extends BaseAction {
 			UserProfile userProfile = getUserProfile(request);
 			if (userProfile != null) {
 				DateUtils du = userProfile.getDu();
+				
 				log.debug("{}", du.getPastSundayCal().getTime());
 
 				// int noOfWeeks = du.getIntLastDayOfMonth() / 6;
@@ -313,12 +314,15 @@ public abstract class SaveHours extends BaseAction {
 				}
 				}
 
-				doTransaction.saveMonthlyHours(regOverHrs);
-
 				Map summary = new HashMap();
 				summary.put("userId", getUserProfile(request).getUserId());
 				summary.put("businessId", getUserProfile(request).getBusinessId());
-				summary.put("month", getUserProfile(request).getDu().getMonth());
+				
+				Date s = format.parse(startWeekDate);
+				Calendar cal = Calendar.getInstance();
+				cal.setTimeInMillis(s.getTime());
+				
+				summary.put("month",cal.get(Calendar.MONTH));
 				summary.put("year", getUserProfile(request).getDu().getYear());
 				summary.put("totalHrsSubmitted", ((String[]) map.get("MONTHLY_TOTAL"))[0]);
 				summary.put("status", "PENDING");
@@ -331,8 +335,12 @@ public abstract class SaveHours extends BaseAction {
 				summary.put("submissionFor", submissionFor);
 				summary.put("startWeekDate", startWeekDate);
 				summary.put("endWeekDate", weekEndingDate);
+				summary.put("categoryId", getUserProfile(request).getCategoryId());
 
 				long weeklyHrsSummaryId = doTransaction.saveMonthlySummaryHours(summary);
+				
+				doTransaction.saveMonthlyHours(regOverHrs, weeklyHrsSummaryId);
+				
 				putObjInRequest("weeklyHrsSummaryId", request, weeklyHrsSummaryId);
 				forward = mapping.findForward("addSupportingDocs");
 			} else {
@@ -373,30 +381,29 @@ public abstract class SaveHours extends BaseAction {
 		switch (type) {
 		case MONTHLY: {
 
-			bDeleted = doTransaction.deleteMonthlySummaryHours(mapQueryValues);
-			bDeleted = doTransaction.deleteWeeklyHours(mapQueryValues);
+			long id = doTransaction.deleteMonthlySummaryHours(mapQueryValues);
+			bDeleted = doTransaction.deleteWeeklyHours(mapQueryValues, id);
 
 			break;
 		}
 		case BIWEEKLY: {
 			mapQueryValues.put("weekStartDate", startWeekDate);
-			bDeleted = doTransaction.deleteMonthlySummaryHours(mapQueryValues);
-			bDeleted = doTransaction.deleteWeeklyHoursByWeek(mapQueryValues);
+			long id = doTransaction.deleteMonthlySummaryHours(mapQueryValues);
+			bDeleted = doTransaction.deleteWeeklyHoursByWeek(mapQueryValues, id);
 			break;
 		}
 		case WEEKLY: {
 
-			doTransaction.deleteMonthlySummaryHours(mapQueryValues);
-
+			long id  = doTransaction.deleteMonthlySummaryHours(mapQueryValues);
 			mapQueryValues.put("weekStartDate", weekSecondBeginDate);
-			doTransaction.deleteWeeklyHoursByWeek(mapQueryValues);
+			doTransaction.deleteWeeklyHoursByWeek(mapQueryValues, id);
 
 			break;
 
 		}
 		case DAYS15: {
-			doTransaction.deleteMonthlySummaryHours(mapQueryValues);
-			doTransaction.deleteWeeklyHoursDays15(mapQueryValues);
+			long id = doTransaction.deleteMonthlySummaryHours(mapQueryValues);
+			doTransaction.deleteWeeklyHoursDays15(mapQueryValues, id);
 			break;
 		}
 		}

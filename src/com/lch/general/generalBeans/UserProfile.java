@@ -29,18 +29,9 @@ public class UserProfile {
 	private String firstName = "";
 	//private boolean isBusinessEmailValidated = false;
 	private boolean isEmailValidated = false;
-	
-	public boolean isEmailValidated() {
-		return isEmailValidated;
-	}
-
-	public void setEmailValidated(boolean isEmailValidated) {
-		this.isEmailValidated = isEmailValidated;
-	}
-
+	private long categoryId = 0;
 	private DateUtils du = null;
 	private boolean loginStatus;
-	
 	private String employerEmail = "";
 	long personalDetailsId = 0;
 	private String currentClientName = "";
@@ -52,6 +43,24 @@ public class UserProfile {
 	private int approvalStatus = 2;
 	private String defaultTimeSheetValue = "8.0";
 	private String loginFailReason;
+	
+	public long getCategoryId() {
+		return categoryId;
+	}
+
+	public void setCategoryId(long categoryId) {
+		this.categoryId = categoryId;
+	}
+
+	public boolean isEmailValidated() {
+		return isEmailValidated;
+	}
+
+	public void setEmailValidated(boolean isEmailValidated) {
+		this.isEmailValidated = isEmailValidated;
+	}
+
+
 
 	public boolean isMember() {
 		if(userRole!=null && userRole.length() > 0 && userRole.equals(Roles.MEMBER.name()))

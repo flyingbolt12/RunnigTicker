@@ -11,9 +11,6 @@ import com.lch.general.genericUtils.DateUtils;
  * @author
  */
 public class BiWeeklyHrsSave extends SaveHours {
-
-	
-	
 	
 	public String makeString(String array[], int weekNum, DateUtils du,
 			String submissionType, UserProfile userProfile, String submissionFor) {

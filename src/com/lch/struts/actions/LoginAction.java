@@ -52,6 +52,13 @@ public class LoginAction extends BaseAction
 				if (userProfile.isSuperAdmin()) {
 					forward = mapping.findForward("superAdminFunctions");
 				} else if (userProfile.isAdmin() || userProfile.isChildAdmin()) {
+					Calendar cal = Calendar.getInstance();
+					int year = cal.get(1);
+					int month = cal.get(2);
+					log.info("Year : " + year + " Month : " + month);
+					DateUtils du = new DateUtils(year, month);
+					userProfile.setDu(du);
+					
 					forward = mapping.findForward("employeeRegistrationPendingApprovals");
 					List<ListOrderedMap> employeeRegistrationPendingApprovals = getSpringCtxDoTransactionBean().listEmployeeRegistrationPendingApprovals(userProfile);
 					List<Map> employeeTimesheetPendingApprovals = getSpringCtxDoTransactionBean().listEmployeeTimesheetPendingApprovals(getUserProfile(request));
