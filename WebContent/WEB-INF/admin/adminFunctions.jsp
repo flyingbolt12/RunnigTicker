@@ -123,6 +123,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a90329', end
   <h3 class="accordinaStyle">Employee Operations Area</h3>
   <div class="accContentBack">
     <div class="accordianContentStyle">
+    
    			<html:link styleClass="memberLinks" action="/adminFunctImpl.do?parameter=listAllEmployees">
    			<div class="squareAdmin" title="Displays the list of all your employees in a single page"><span class="spanStyle"><img src="images/time.png" ></span><span class="spanStyle">List all my employees</span></div>
 			</html:link>
@@ -183,7 +184,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a90329', end
 			
 		</div>
   </div>
-  <h3 class="accordinaStyle">Manage Approvals Area</h3>
+  <h3 class="accordinaStyle">Approvals Area</h3>
    <div class="accContentBack">
     <div class="accordianContentStyle">
 		
@@ -202,7 +203,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a90329', end
 		</div>
   </div>
   <%if(isAdmin) {%>
-  <h3 class="accordinaStyle">Manage Child Admins Area</h3>
+  <h3 class="accordinaStyle">Child Admins Area</h3>
    <div class="accContentBack">
     <div class="accordianContentStyle">
    			
@@ -217,7 +218,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a90329', end
 		</div>
   </div>
   <% } %>
-  <h3 class="accordinaStyle">Manage Timers &amp; Email Contents</h3>
+  <h3 class="accordinaStyle">Timers &amp; Email Contents</h3>
    <div class="accContentBack">
     <div class="accordianContentStyle" >
    			
@@ -239,6 +240,10 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a90329', end
   <div class="accContentBack">
    <div class="accordianContentStyle">
    			
+   			<html:link styleClass="memberLinks" action="/adminFunctImpl.do?parameter=manageMyCategories">
+   				<div class="squareAdmin" title="Manage Employee Categories"><span class="spanStyle"><img src="images/time.png" ></span><span class="spanStyle">Employee Categories</span></div>
+			</html:link>
+			
    			<html:link href="#" styleClass="memberLinks" onclick="resetPassword()">
 				<div class="squareAdmin" title="Reset Password"><span class="spanStyle"><img src="images/time.png" ></span><span class="spanStyle"> Reset My Password</span></div>
 			</html:link>
@@ -271,22 +276,26 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a90329', end
 				<div class="squareAdmin" title="Sends an email with comapny unique id to the listed emails(not neccessarily the employees)."><span class="spanStyle"><img src="images/time.png" ></span><span class="spanStyle">MyLogo ApplicationURL</span></div>
 			</html:link>
 			
-		 <form method="POST" action="adminFunctImpl.do">
-			<input type="hidden" name="parameter" value="resetPassword">
-		</form>
+			<form method="POST" action="adminFunctImpl.do">
+				<input type="hidden" name="parameter" value="resetPassword">
+			</form>
 		<form action="adminFunctImpl.do" method="POST"><input type="hidden" name="parameter" value="disableBusiness"></form> 
 		</div>
   </div>
-  <h3 class="accordinaStyle">Downloading Reports Area</h3>
+  <h3 class="accordinaStyle">Reports Area</h3>
    <div class="accContentBack">
     <div class="accordianContentStyle">
    			
 			<html:link styleClass="memberLinks" action="/downloadReports.do?parameter=showAdminDownloadAllEmployeesSortOpetionPage">
-				<div class="squareAdmin" title="A PDF will be downloaded having your employees list"><span class="spanStyle"><img src="images/time.png" ></span><span class="spanStyle">Download All Employees</span></div>
+				<div class="squareAdmin" title="A PDF will be downloaded having your employees list"><span class="spanStyle"><img src="images/pdf.png" ></span><span class="spanStyle">Download All Employees</span></div>
 			</html:link>
 						
 			<html:link styleClass="memberLinks" action="/adminFunctImpl.do?parameter=searchOptions&featureRequest=EMP_TIMESHEET">
-				<div class="squareAdmin" title="Helps you to download total working hours of employee."><span class="spanStyle"><img src="images/time.png" ></span><span class="spanStyle">Download an Employee TimeSheet History</span></div>
+				<div class="squareAdmin" title="Helps you to download total working hours of employee."><span class="spanStyle"><img src="images/pdf.png" ></span><span class="spanStyle">Download an Employee TimeSheet History</span></div>
+			</html:link>
+			
+			<html:link styleClass="memberLinks" action="/downloadReports.do?parameter=collectYearAndMonths">
+				<div class="squareAdmin" title="Helps you to download total working hours of employee."><span class="spanStyle"><img src="images/excel.png" ></span><span class="spanStyle">Generate Employee Monthly TimeSheet </span></div>
 			</html:link>
 			
 			</div>

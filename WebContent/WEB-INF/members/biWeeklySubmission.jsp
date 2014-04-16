@@ -66,7 +66,7 @@ function reload(pageTo)
 		document.forms[1].pageTo.value= pageTo;
 	document.forms[1].action = url;
 	document.forms[1].submit();
-	
+
 }
 
 function reCalculate()
@@ -119,8 +119,10 @@ function cancelHrs()
 function doValidate()
 { 
 	if(document.forms[0].MONTHLY_TOTAL.value == 0)
-		dhtmlx.confirm({ title: "Information", text:"Nothing chnaged to Submit"});
+		dhtmlx.confirm({ title: "Information", text:"Nothing changed to Submit"});
 	else if(textValueValidate()){
+		document.forms[0].months.disabled= false;
+		document.forms[0].years.disabled= false;
 		document.forms[0].submitTimeSheet.disabled=true;
   		document.forms[0].submit();
 	}
@@ -147,16 +149,20 @@ function doValidate()
 	<tr>
 		<td colspan="6" align="left" bgcolor="#C0C0C0" title="Click here to change the Employer"><html:link action="/genericForwardAction.do?forwardTo=members/updateMyClientOptions">Client Working For  <%=userProfile.getCurrentClientName()%></html:link></td>
 		<td colspan="6" align="right" bgcolor="#C0C0C0">  <html:link href="javascript:reload('previous')"> << Previous</html:link> | <html:link href="javascript:reload('next')">Next >></html:link>   &nbsp;&nbsp;&nbsp;
-		<html:select property="months" styleClass="TextBox" onchange="reload()">
+		<html:select property="months" styleClass="TextBox" onchange="reload()" styleId="monthsSelectBox" disabled="true">
 		<% String monthNames[]= du.getMonthNames(); 
+		
 		for(int i=0; i<monthNames.length-1;++i){
 			String select=((monthNames[i]).startsWith(du.getMonthName()))?("selected=\"selected\""):(""); 
+			
 		%>
 				<option value="<%=i %>" <%=select %>><%= monthNames[i]%></option>
 		<%} %>
 
 		</html:select>
-		<html:select property="years" styleClass="TextBox" onchange="reload()">
+		
+		
+		<html:select property="years" styleClass="TextBox" onchange="reload()" styleId="yearsSelectBox" disabled="true">
 <% int selectedYear = du.getYear(); int thisYear = Calendar.getInstance().get(Calendar.YEAR);  int year1=thisYear; int year2 = selectedYear;
 
 log("thisYear : "+thisYear);
@@ -175,7 +181,8 @@ if(selectedYear == thisYear)
 %>
 		<option value="<%=year1 %>" selected><%=year1 %></option>
 		<option value="<%=year2 %>" ><%= year2%></option>
-		</html:select></td>
+		</html:select>
+		</td>
 	</tr>
 	<tr>
 		<td bgcolor="#F8F8F8" colspan="3" width="151">&nbsp;</td>
@@ -415,7 +422,7 @@ for(int i=1; i<=noOfWeeks;++i) {
 		%>
 		<input type="hidden" value="<%=submitType %>" name="timeSheetMode">
 		
-		<p align="right">&nbsp;<input type="button" value=<%=submitType %>  onclick="doValidate()" id="submitTimeSheet" class="ButtonStyle">
+		<p align="right">&nbsp;<input type="button" value=<%=submitType %>  onclick="doValidate(); " id="submitTimeSheet" class="ButtonStyle">
 		<input type="reset" value="Reset" name="B2" class="ButtonStyle">
 		<input type="button" value="Cancel" name="B3" onclick="cancelHrs()" class="ButtonStyle"></td>
 		</tr>

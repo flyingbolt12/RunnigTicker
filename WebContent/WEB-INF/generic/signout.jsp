@@ -12,8 +12,8 @@
 			<td>
 				<p align="center">
 					<span
-						style="font-size: 10.0pt; font-family: Tahoma; font-weight: bold;">
-						Your session has expired or you have been signed out.</span>
+						style="font-size: 10.0pt; font-family: Tahoma; font-weight: bold;">You
+						are signed out because you signed out yourself or your session is expired.</span>
 				</p>
 				<p align="center">
 					<font size="2"><span style="font-family: Tahoma">
@@ -49,7 +49,8 @@
 				<p align="center">
 					<html:link
 						action="footerFunct.do?parameter=contactInformation&subject=Feedback">
-						<font face="Tahoma" size="2">Please do send us your feedback.</font>
+						<font face="Tahoma" size="2">Please report us your feed
+							back.</font>
 					</html:link>
 			</td>
 		</tr>

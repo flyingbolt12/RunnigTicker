@@ -150,8 +150,14 @@ function cancel_callback(box){
 <% UserProfile userProfile = (UserProfile) session.getAttribute("userProfile"); %>
 <div align="center">
 
-	<span>Time Sheets</span>
-	<hr />
+	 -- List of Time Sheets Submitted Recently --
+	<br>
+	
+	<table border="0" cellspacing="1" class="completeTable" style="width: 100%">
+	<tr><td align="right"><input type="button" value="Click Here To Refresh" class="spanStyle" onclick="alert('Upcoming Feature')"><input type="button" value="Enable Auto Refresh" class="spanStyle" onclick="alert('Upcoming Feature')"></td></tr>
+	</table>
+	
+	<hr/>
 	<br> <span id="message"></span>
 
 	<table border="0" cellspacing="1"  class="completeTable" id="approvalTable">

@@ -361,7 +361,13 @@
 
 			<forward name="manageMyAdmins" path="manageMyAdminsDef">
 			</forward>
-
+			
+			<forward name="manageMyCategories" path="manageMyCategoriesDef">
+			</forward>
+			
+			<forward name="associateEmplyees" path="associateEmplyeesDef">
+			</forward>
+			
 			<forward name="generalJSP4AJAXMsg" path="/WEB-INF/generic/generalJSP4AJAXMsg.jsp">
 			</forward>
 
@@ -673,6 +679,10 @@
 
 			<forward name="downloadCancelation" path="adminFunctionsDef">
 			</forward>
+			
+			<forward name="collectYearAndMonth" path="adminCollectYearAndMonthDef">
+			</forward>
+			
 		</action>
 
 		<action path="/downloadAFile" type="com.lch.struts.actions.DownloadAFile">

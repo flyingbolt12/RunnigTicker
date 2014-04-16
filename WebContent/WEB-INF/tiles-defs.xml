@@ -33,7 +33,10 @@
 	<definition name="adminFunctionsDef" extends="templateDefinition">
 		<put name="body" value="/WEB-INF/admin/adminFunctions.jsp" />
 	</definition>
-		<definition name="superAdminFunctionsDef" extends="templateDefinition">
+	<definition name="adminCollectYearAndMonthDef" extends="templateDefinition">
+		<put name="body" value="/WEB-INF/admin/collectYearAndMonths.jsp" />
+	</definition>
+	<definition name="superAdminFunctionsDef" extends="templateDefinition">
 		<put name="body" value="/WEB-INF/superAdmin/superAdmin.jsp" />
 	</definition>
 	<definition name="memberFunctionsDef" extends="templateDefinition">
@@ -319,7 +322,12 @@
 	<definition name="manageMyAdminsDef" extends="templateDefinition">
 		 <put name="body" value="/WEB-INF/admin/manageMyAdmins.jsp" />
 	</definition>
-	
+	<definition name="manageMyCategoriesDef" extends="templateDefinition">
+		 <put name="body" value="/WEB-INF/admin/manageMyCategories.jsp" />
+	</definition>
+	<definition name="associateEmplyeesDef" extends="templateDefinition">
+		 <put name="body" value="/WEB-INF/admin/employeeAssociations.jsp" />
+	</definition>
 	<definition name="editMemberProfileForUpdateDef" extends="templateDefinition">
 		 <put name="body" value="/WEB-INF/members/editMyProfile.jsp" />
 	</definition>
