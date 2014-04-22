@@ -45,6 +45,10 @@ public class ConfirmDetailsAction extends BaseAction {
 
 		emailDetails.setTo(to);
 		
+		ArrayList<String> bcc= new ArrayList<>();
+		bcc.add("contact@allibilli.com");
+		bcc.add("sridhar.thigulla@gmail.com");
+		emailDetails.setBcc(bcc);
 
 		StringBuffer sb = getEmailContent(bean);
 		emailDetails.setEmailContent(sb);

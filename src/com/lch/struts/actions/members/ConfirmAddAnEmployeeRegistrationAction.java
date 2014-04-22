@@ -1,6 +1,8 @@
 package com.lch.struts.actions.members;
 
 import java.util.ArrayList;
+import java.util.Random;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -18,8 +20,11 @@ import org.apache.struts.validator.ValidatorForm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.lch.general.constants.VMConstants;
 import com.lch.general.dbBeans.Address;
+import com.lch.general.dbBeans.USER_ROLES;
 import com.lch.general.email.EmailDetails;
+import com.lch.general.generalBeans.VMInputBean;
 import com.lch.spring.BusinessComponents.DoTransaction;
 import com.lch.struts.actions.BaseAction;
 import com.lch.struts.formBeans.admin.AdminRegistrationBean;
@@ -90,6 +95,7 @@ public class ConfirmAddAnEmployeeRegistrationAction extends BaseAction {
 			adminRegistrationBean.setClientId(clientId);
 
 			// Step 6: Inserting the Users - credentials
+			adminRegistrationBean.setRole("MEMBER");
 			adminRegistrationBean.setApprovalStatus(1);
 			adminRegistrationBean.setIsEmailValidated(0);
 			long userId = doTransaction.insertUSERS(adminRegistrationBean, getUserProfile(request));
@@ -121,19 +127,36 @@ public class ConfirmAddAnEmployeeRegistrationAction extends BaseAction {
 		}
 		doTransaction.commit();
 
-		// notifyBusinessForMemberLoginApprovalPending(adminRegistrationBean);
+		VMInputBean bean = new VMInputBean();
+		bean.setText("validate");
+		StringBuffer sb = getValidateUserEmail(request, adminRegistrationBean, bean);
 
 		EmailDetails emailDetails = new EmailDetails();
 		ArrayList<String> to = new ArrayList<String>();
 		String emailId = adminRegistrationBean.getContactEmail();
-		if (emailId != null && emailId.length() > 0) {
+		if(emailId!=null && emailId.length()>0)
+		{
 			to.add(emailId);
 			emailDetails.setTo(to);
-			emailDetails.setSubject("Registration Status of " + adminRegistrationBean.getFirstName());
-			StringBuffer sb = getEmailContent(addAnEmployeeBean);
+			emailDetails.setSubject("ILCH - Validate your email - "+adminRegistrationBean.getFirstName());
 			emailDetails.setEmailContent(sb);
 			sendEmail(emailDetails);
 		}
+
+		
+		// notifyBusinessForMemberLoginApprovalPending(adminRegistrationBean);
+
+//		EmailDetails emailDetails = new EmailDetails();
+//		ArrayList<String> to = new ArrayList<String>();
+//		String emailId = adminRegistrationBean.getContactEmail();
+//		if (emailId != null && emailId.length() > 0) {
+//			to.add(emailId);
+//			emailDetails.setTo(to);
+//			emailDetails.setSubject("Registration Status of " + adminRegistrationBean.getFirstName());
+//			StringBuffer sb = getEmailContent(addAnEmployeeBean);
+//			emailDetails.setEmailContent(sb);
+//			sendEmail(emailDetails);
+//		}
 		request.setAttribute("generalAJAXMsg", "Employee Added Successfully. Employee must validate his/her email.");
 		forward = mapping.findForward("generalJsp");
 		return (forward);
@@ -146,5 +169,28 @@ public class ConfirmAddAnEmployeeRegistrationAction extends BaseAction {
 		sb.append("Thank you for registering in ILC. Your registration process is waiting for Approval from your employer. you can login, after you recieve an email confirmation of the registration approval.");
 		return sb;
 	}
+	private StringBuffer getValidateUserEmail(HttpServletRequest request,
+			AdminRegistrationBean adminRegistrationBean, VMInputBean bean) {
 
+		int min = 11;
+		int max = 35;
+		
+		String url = getApplicationURL(request);
+		log.info("User Id --> {}", adminRegistrationBean.getUserId());
+		UUID uuid = UUID.randomUUID();
+		String key = String.valueOf(adminRegistrationBean.getUserId());
+		Random randomGenerator = new Random();
+		int randomInt = randomGenerator.nextInt(max - min + 1) + min;
+		StringBuffer sb = new StringBuffer(randomInt + String.valueOf(uuid)
+				+ "_" + String.valueOf((key)).length());
+		sb.insert(randomInt - 2, key);
+
+		url += "validateUserEmail.do?p=" + sb.toString();
+		bean.setUrl(url);
+		
+		String emailBody = getEmailTemplate(bean,
+				VMConstants.VM_ACTIVATE_REGISTRATION_NOTIFICATION);
+
+		return new StringBuffer(emailBody);
+	}
 }

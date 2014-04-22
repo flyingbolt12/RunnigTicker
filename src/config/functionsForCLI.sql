@@ -1,3 +1,4 @@
+
 DROP FUNCTION IF EXISTS `deleteCategory`;
 
 DELIMITER $$
@@ -12,6 +13,7 @@ BEGIN
 	return retval;
 END $$
 
+DELIMITER ;
 
 DROP FUNCTION IF EXISTS `updateAsscoiations` ;
 
@@ -28,6 +30,7 @@ BEGIN
 	return retval;
 END $$
 
+DELIMITER ;
 DROP FUNCTION IF EXISTS `disableBusiness`;
 
 DELIMITER $$
@@ -40,6 +43,7 @@ BEGIN
 	return countOfUsers;
 END $$
 
+DELIMITER ;
 DROP FUNCTION IF EXISTS `enableBusiness`;
 
 DELIMITER $$
@@ -52,6 +56,7 @@ BEGIN
 	return countOfUsers;
 END $$
 
+DELIMITER ;
 DROP FUNCTION IF EXISTS `makeAllUsersValid`;
 
 DELIMITER $$
@@ -60,7 +65,7 @@ DELIMITER $$
 CREATE  FUNCTION `makeAllUsersValid`() RETURNS int(11)
 BEGIN update users set isEmailValidated=1, approvalStatus=1; update lch_business set isValidated=1; return 0; END $$
 
-
+DELIMITER ;
 DROP FUNCTION IF EXISTS `deleteUsersAndHours`;
 
 DELIMITER $$
@@ -68,6 +73,7 @@ DELIMITER $$
 CREATE FUNCTION `deleteUsersAndHours`() RETURNS int(11)
 BEGIN delete FROM lch_business ; delete FROM users ; delete FROM userpersonaldata ; delete FROM weeklyhrs ; delete FROM weeklyhrssummary ; delete FROM userclientslist ; delete FROM addressinfo ; delete FROM attacheddocs ; return 0; END $$
 
+DELIMITER ;
 DROP FUNCTION IF EXISTS `enbleBusinessForTestingPurpose`;
 
 DELIMITER $$
