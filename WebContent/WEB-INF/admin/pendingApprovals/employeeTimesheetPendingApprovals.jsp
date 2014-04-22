@@ -154,7 +154,10 @@ function cancel_callback(box){
 	<br>
 	
 	<table border="0" cellspacing="1" class="completeTable" style="width: 100%">
-	<tr><td align="right"><input type="button" value="Click Here To Refresh" class="spanStyle" onclick="alert('Upcoming Feature')"><input type="button" value="Enable Auto Refresh" class="spanStyle" onclick="alert('Upcoming Feature')"></td></tr>
+	<tr><td align="right">
+		<input type="button" value="Click Here To Refresh" class="spanStyle" onclick="javascript:refresh()">
+		<input type="button" value="Enable Auto Refresh" class="spanStyle" onclick="javascript:startTimerRefresh(this)" id="startRefresh">
+		<input type="button" value="Disable Auto Refresh" class="spanStyle" onclick="javascript:stopTimerRefresh(this)" disabled="disabled" id ="stopRefresh"></td></tr>
 	</table>
 	
 	<hr/>
@@ -269,6 +272,9 @@ function cancel_callback(box){
 	<input name="parameter" value="approveOrRejectUserHrs" type="hidden"> <input name="userId" value="" type="hidden"> <input name="status" value="" type="hidden"> <input name="weeklyHrsSummaryId" value="" type="hidden">
 
 </form>
+<form action="adminFunctImpl.do?parameter=employeeTimesheetPendingApprovals" method="post" id="employeeTimesheetPendingApprovalsForm">
+</form>
+
 <script language="JavaScript">
 	function openNewWindow(url) {
 	    popupWin = window.open(url, 'Attached Documents', ', , , , , scrollbars, resizable, dependent, width=740, height=500, left=200, top=200');

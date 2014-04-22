@@ -17,6 +17,7 @@
 <script src="//code.jquery.com/jquery-1.9.1.js"></script>
 <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
 <script src="js/jquery.cookie.js"></script>
+<script type="text/javascript" src="js/jquery.timer.js"></script>
 
 <link href="css/lch.css" rel="stylesheet" type="text/css" />
 <link href="js/tiptip/tipTip.css" rel="stylesheet" type="text/css" />
@@ -73,7 +74,46 @@
     	
     });
 
-   
+    var timer;
+    var textUpdateTimer;
+    function refresh(){
+    	 document.getElementById("employeeTimesheetPendingApprovalsForm").submit();
+    } 
+    function stopTimerRefresh(obj){
+    	timer.stop();
+    	$(obj).attr("disabled", "disabled");
+    	$('#startRefresh').removeAttr("disabled"); 
+    	$('#startRefresh').prop('value', 'Enable Auto Refresh');
+    	$.cookie('autoStartTimer','N');
+    	textUpdateTimer.stop();
+    }
+    $(function() {
+    	if ($.cookie('autoStartTimer')!=null && $.cookie('autoStartTimer') == 'Y'){
+    		startTimerRefresh($('#startRefresh'));
+    	}
+    });
+    
+    function startTimerRefresh(obj){
+    	
+    	$.cookie('autoStartTimer','Y');
+    	updateButtonValue(obj);
+    	$('#stopRefresh').removeAttr("disabled"); 
+    	$(obj).attr("disabled", "disabled");
+    	$(obj).prop('value', 'Enable ');
+    	timer = $.timer(function() {
+    		refresh();
+    	}, 15000);
+    	
+    	timer.play();
+    } 
+
+    function updateButtonValue(obj){
+    	var count = 30;
+    	textUpdateTimer = $.timer(function() {
+    		$(obj).prop('value', 'Refreshing in '+ (--count) + ' Seconds');
+    	}, 1000);
+    	textUpdateTimer.play();
+    }
 </script>
 
 <script>

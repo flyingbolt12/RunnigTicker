@@ -82,6 +82,7 @@ public class SuperAdminFunctlImpl extends BaseAction {
 
 		// Business and business admin user both should set to approvalstatus to
 		// 2.
+		log.info(" -- showDisableBusinessPage --");
 		List<Map<String, Object>> listAllBusiness = getSpringCtxDoTransactionBean()
 				.getAllBusinessList();
 		putObjInRequest("listAllBusiness", request, listAllBusiness);

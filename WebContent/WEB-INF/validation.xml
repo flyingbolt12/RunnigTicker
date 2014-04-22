@@ -799,6 +799,10 @@
 
 
 		<form name="addAnEmployeeBean">
+			<field property="dob" depends="required, date">
+				<arg0 key="error.dob" />
+			</field>
+			
 			<field property="firstName" depends="required, maxlength">
 				<arg0 key="error.firstName" />
 				<arg1 key="${var:maxlength}" resource="false" />
@@ -952,7 +956,9 @@
 					<var-value>5</var-value>
 				</var>
 			</field>
-			<field property="listAddress[1].address1" depends="required, maxlength">
+			
+
+			<!-- <field property="listAddress[1].address1" depends="required, maxlength">
 				<arg0 key="error.homeCountry.listAddress[1].address1" />
 				<arg1 key="${var:maxlength}" resource="false" />
 				<var>
@@ -1107,14 +1113,14 @@
 					<var-name>minlength</var-name>
 					<var-value>5</var-value>
 				</var>
-			</field>
+			</field>  
 			<field property="startDate" depends="required,date">
 				<arg0 key="error.workStratDate" />
 				<var>
 					<var-name>datePattern</var-name>
 					<var-value>MM/dd/yyyy</var-value>
 				</var>
-			</field>
+			</field>  -->
 <!-- 			<field property="clientName" depends="mask"> -->
 <!-- 				<msg name="mask" key="error.mask.clientWorkingFor" /> -->
 <!-- 				<arg0 key="error.clientWorkingFor" /> -->

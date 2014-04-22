@@ -1226,20 +1226,20 @@ public class DoTransaction {
 	}
 
 	public void rollback() {
-		Connection con = null;
-		try {
-			log.info("Rollbacking the Transaction");
-			con = getJdbcTemplate().getDataSource().getConnection();
-			con.rollback();
-		} catch (Exception e) {
-			log.error("Unable to Rollback");
-		} finally {
-			try {
-				con.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
+//		Connection con = null;
+//		try {
+//			log.info("Rollbacking the Transaction");
+//			con = getJdbcTemplate().getDataSource().getConnection();
+//			con.rollback();
+//		} catch (Exception e) {
+//			log.error("Unable to Rollback");
+//		} finally {
+//			try {
+//				con.close();
+//			} catch (SQLException e) {
+//				e.printStackTrace();
+//			}
+//		}
 	}
 
 	public void commit() {}
@@ -1589,6 +1589,26 @@ public class DoTransaction {
 		return (getJdbcTemplate().queryForList(query, obj));
 	}
 
+	public Address getBusinessAddress(long businessId) {
+		Address businessAddress = jdbcTemplate.queryForObject(SQLQueries.BUSINESS_ADDRESS_BY_BUSINESS_ID, new RowMapper<Address>(){
+			@Override
+			public Address mapRow(ResultSet rs, int arg1) throws SQLException {
+				// TODO Auto-generated method stub
+				Address a = new Address();
+				a.setAddress1(rs.getString("address1"));
+				a.setAddress2(rs.getString("address2"));
+				a.setCity(rs.getString("city"));
+				a.setCountry(rs.getString("country"));
+				a.setState(rs.getString("state"));
+				a.setZip(rs.getString("zipcode"));
+				a.setLandMark(rs.getString("landMark"));
+				return a;
+			}
+		}, new Object[]{businessId});
+		
+		return businessAddress;
+	}
+	
 	public Map getEmployeeDetailsForUpdate(String userId, String businessId) {
 		Map m = new HashMap();
 		Map FETCH_EMPLOYEE_PERSONAL_ADDRESS = null;

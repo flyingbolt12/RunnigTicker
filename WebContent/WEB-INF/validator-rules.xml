@@ -413,6 +413,16 @@
                    msg=""
                    jsFunction="org.apache.commons.validator.javascript.validateUtilities"/>
 
+<!-- 		<validator name="address" -->
+<!-- 	       classname="com.lch.struts.validator.ILCHStrutsValidator" -->
+<!-- 	       method="validateAddress" -->
+<!-- 	        methodParams="java.lang.Object, -->
+<!--                        org.apache.commons.validator.ValidatorAction, -->
+<!--                        org.apache.commons.validator.Field, -->
+<!--                        org.apache.struts.action.ActionMessages, -->
+<!--                        org.apache.commons.validator.Validator, -->
+<!--                        javax.servlet.http.HttpServletRequest" -->
+<!-- 	       msg="errors.inavlidAddress"/> -->
     </global>
 
 </form-validation>

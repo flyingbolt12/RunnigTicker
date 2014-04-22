@@ -151,7 +151,8 @@
 				<td bgcolor="#CDCCCD"><input type="checkbox"  name="isSameAsBusinessAddress" onclick="personalAddressVisible(this)" value="Y" checked="checked"> Same as personal address</td>
 			</tr>
 			
-			<tr  id="result_tr" style="display:none"><td colspan="3">
+			<tr  id="result_tr" style="display:none">
+			<td colspan="3">
 			
 			<table border="0" cellspacing="1" style="font-family: Tahoma; font-size: 10pt" width="100%">
 			<tr>
