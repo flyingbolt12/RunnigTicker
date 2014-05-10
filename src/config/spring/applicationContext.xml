@@ -31,4 +31,10 @@
 		<!-- FOR CLOUDFOUNDRY USE -->
 		<import resource="/cloudFoundry/configuration.xml" />
 	</beans>
+	
+	<beans profile="STAGING">
+		<!-- FOR Staging USE -->
+		<import resource="/staging/configuration.xml" />
+	</beans>
+	
 </beans>
