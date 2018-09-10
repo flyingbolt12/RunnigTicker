@@ -278,7 +278,7 @@
 					<tr>
 						<td><b><font SIZE="2">»</font></b></td>
 						<td><html:link styleClass="HTMLLINK"
-								title="Recommend ILCH"
+								title="Recommend ILCH-CCS"
 								action="/adminFunctImpl.do?parameter=inviteOtherBusinessOptions">
 		Recommend us</html:link></td>
 					</tr>

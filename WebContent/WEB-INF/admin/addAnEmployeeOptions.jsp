@@ -83,17 +83,15 @@
 					</html:select></td>
 			</tr>
 
-			<tr>
-				<td>Email-Id<font color="#FF0000">*</font></td>
-				<td><html:messages id="err_name" property="contactEmail" >
-						<%
-							errMsg = err_name;
-						%>
-					</html:messages> <html:text property="contactEmail" styleClass="EmployeeTextBox" size="20" tabindex="6" onblur="verifyEmpEmail(this.value)" styleId="contactEmail"></html:text> <span id="usrEmailAvailabilityCheckMsg"></span><%=errMsg%> <%
- 	errMsg = "";
- %></td>
+<tr>
+				<td>Submit TimeSheets</td>
+				<td><html:select property="timeSheetConfiguredTo" styleClass="EmployeeTextBox" size="1" tabindex="1028">
+						<html:option value="MONTHLY"></html:option>
+						<html:option value="BIWEEKLY"></html:option>
+						<html:option value="DAYS15"></html:option>
+						<html:option value="WEEKLY"></html:option>
+					</html:select></td>
 			</tr>
-
 			<tr>
 				<td>Phone Number<font color="#FF0000">*</font>
 				</td>
@@ -195,9 +193,31 @@
 						<%
 							errMsg = err_name;
 						%>
-					</html:messages> <html:text property="listAddress[0].country" styleClass="EmployeeTextBox" size="20" tabindex="18"></html:text> <%=errMsg%> <%
- 	errMsg = "";
- %></td>
+					</html:messages> 
+					
+					
+					
+					<html:select property="listAddress[0].country" styleClass="EmployeeTextBox" tabindex="18">
+				<%
+				
+				GenericXmlApplicationContext ctx = null;
+				try {
+					ctx = (GenericXmlApplicationContext) application.getAttribute("ctx");
+				} catch (Exception e) {
+					
+				}
+				
+				DoTransaction doTransaction = (DoTransaction) ctx.getBean("doTransaction");
+				List<String> countires = (List<String>)doTransaction.listCountries();
+				
+				for (String country : countires)
+				{
+				%>
+				<html:option value="<%= country%>"></html:option>
+				<%} %>
+				</html:select>
+					
+				<%=errMsg%> <% 	errMsg = ""; %></td>
 			</tr>
 			<tr>
 				<td>Zip</td>
@@ -377,7 +397,7 @@
 				<td>
 				<html:messages id="err_name" property="startDate"><%errMsg = err_name;%></html:messages> 
 				<html:text property="startDate" styleClass="EmployeeTextBox" size="20" tabindex="12" styleId="start_date"></html:text> <img onmouseout="this.style.background=''" onmouseover="this.style.background='pink';" title="Date selector"
-					style="border: 1px solid green; cursor: pointer;" id="f_trigger_c" src="jscalendar-1.0/img.gif" /> <font size="2"><span style="font-family: Tahoma">MM/DD/YYYY</span></font><%=errMsg%> <%errMsg = "";%></td>
+					style="border: 1px solid green; cursor: pointer;" id="f_trigger_c1" src="jscalendar-1.0/img.gif" /> <font size="2"><span style="font-family: Tahoma">MM/DD/YYYY</span></font><%=errMsg%> <%errMsg = "";%></td>
 			</tr>
 				
 				</table>
@@ -399,7 +419,7 @@
 			<tr>
 				<td rowspan="4" class="odd"></td>
 
-				<td>User Id</td>
+				<td>User Email Id (Same is used as UserName)</td>
 				<td><html:messages id="err_name" property="login">
 						<%
 							errMsg = err_name;
@@ -450,7 +470,7 @@
 	Calendar.setup({
     inputField : "start_date",
     ifFormat : "%m/%e/%Y",
-    button : "f_trigger_c",
+    button : "f_trigger_c1",
     align : "Tl",
     singleClick : false
     });
@@ -466,12 +486,12 @@
 </script>
 <script>
 
-var isEmailValidated = false;
+var isEmailValidated = true;
 var isUserNameValidated = false;
 
 function validateAndSubmit(){
 	
-	if (isClientCheked && isPersonalAddressVisible){
+	if (isClientCheked && !isPersonalAddressVisible){
 		document.forms[0].submit();
 		return;
 	}
@@ -484,7 +504,7 @@ function validateAndSubmit(){
 		validateAddress(2, "country") ;
 	}
 	
-	if (!isPersonalAddressVisible){
+	if (isPersonalAddressVisible){
 		isToSubmit = validateAddress(1, "city")&& 
 		validateAddress(1, "address1")&& 
 		validateAddress(1, "state")&& 
@@ -537,7 +557,7 @@ function validateAddress(addNo, filedName){
     		return true;
     	else{
     		verifyUserId(document.getElementById("login").value);
-    		verifyEmpEmail(document.getElementById("contactEmail").value);
+    		//verifyEmpEmail(document.getElementById("contactEmail").value);
     		return true;
     	}
     }
@@ -564,7 +584,7 @@ document.getElementById("contactEmail").value="";
 		    };
 		    var obj = {
 		    id : "usrAvailabilityCheckMsg",
-		    url : "employeeRegistration.do?parameter=checkUserNameAvailability",
+		    url : "employeeRegistration.do?parameter=checkUserNameAndEmailAvailability",
 		    params : params,
 		    responseHandler : handleEmpResponse
 		    };

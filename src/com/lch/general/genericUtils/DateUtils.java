@@ -77,8 +77,9 @@ public class DateUtils {
 		return (Calendar)customDay.clone();
 	}
 
-	public void setCustomDay(Calendar customDay) {
-		this.customDay = customDay;
+	public void setCustomDay(Calendar _customDay) {
+		customDay = _customDay;
+		logger.info("Custom Day Set to : {}", customDay.getTime());
 	}
 
 	private void determinePastSunday() {
@@ -216,6 +217,7 @@ public class DateUtils {
 	}
 
 	public String getMonthName() {
+		// logger.info("Custom Day {}", customDay.getTime());
 		String monthName = monthNames[customDay.get(Calendar.MONTH)];
 		monthName = monthName.substring(0, 3);
 		return monthName;

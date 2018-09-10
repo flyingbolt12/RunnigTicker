@@ -1,3 +1,6 @@
+<!-- Parralox for home animation-->
+<script type="text/javascript" src="js/parralox/modernizr.custom.28468.js"></script>
+
 <style>
 .HTMLLINKREGITER {
 	text-decoration: none;
@@ -81,14 +84,14 @@
 		</td>
 	</tr>
 	<tr height="100%" class="homeTd">
-		<td width="25%" height="100%" align="center"><a class="roundDiv" href="genericForwardAction.do?forwardTo=admin/registration/adminRegistration.jsp" title="Employer" /> 
+		<td width="25%" height="100%" align="center"><a class="roundDiv" href="genericForwardAction.do?forwardTo=admin/registration/adminRegistration.jsp" title="Register as an Employer" /> 
 		<br>
 		<img alt="" src="images/employer.png" border="0px"><br>
 			Sign up as an employer </a></td>
 
 		<td width="50%" align="center"><%@ include file="/WEB-INF/members/membersLogin.jsp"%></td>
 
-		<td width="25%" align="center"><a class="roundDiv1" href="genericForwardAction.do?forwardTo=members/registration/employeeRegistration.jsp" title="Employer" /> 
+		<td width="25%" align="center"><a class="roundDiv1" href="genericForwardAction.do?forwardTo=members/registration/employeeRegistration.jsp" title="Regiter as an Employee. Requires your employer code." /> 
 		<br><img alt="" style="cursor: pointer" src="images/employee.png" border="0px"><br>
 			Sign up as an employee </a></td>
 	</tr>

@@ -246,6 +246,10 @@
 		    </forward>
 		    <forward name="showDisableBusinessPage" path="showDisableBusinessPageDef">
 		    </forward>
+		    <forward name="showListEmployersPage" path="showListEmployersPageDef">
+		    </forward>
+		    <forward name="showBusinessUsersPage" path="showBusinessUsersPageDef">
+		    </forward>
 		    <forward name="showInvitationEmailPage" path="showInvitationEmailPageDef">
 		    </forward>
 		    <forward name="saveOutageDetails" path="showOutagePageDef">
@@ -271,13 +275,43 @@
 			</forward>
 			
 		</action>
-				    		
+		
+		<action name="notifyEmployeesBean" parameter="parameter" path="/notifyEmployeesByCategory" input="showNotifyGroupOfEmployeesbyCategoryDef"
+			scope="request" type="com.lch.struts.actions.admin.AdminFunctImplAction" validate="true">
+		    <forward name="adminFunctions" path="adminFunctionsDef">
+			</forward>
+		</action>
+		
+		<action parameter="parameter" path="/radialListing"
+			scope="request" type="com.lch.struts.actions.JsonActionHandler">
+		    <forward name="generalJSP4AJAXMsg" path="/WEB-INF/generic/generalJSP4AJAXMsg.jsp" />
+		</action>
+		
+		
 		<action name="searchOptions" parameter="parameter" path="/adminFunctImpl" 
 			scope="session" type="com.lch.struts.actions.admin.AdminFunctImplAction">
 			
 		    <forward name="accSettings" path="/genericForwardAction.do?forwardTo=admin/adminAccountSettings">
 		    </forward>
 
+			<forward name="first15DaysOfMonthDef" path="first15DaysOfMonthDef">
+			</forward>
+
+			<forward name="second15DaysOfMonthDef" path="second15DaysOfMonthDef">
+			</forward>
+
+			<forward name="completeMonthDef" path="completeMonthDef">
+			</forward>
+
+			<forward name="biWeeklyDef" path="biWeeklyDef">
+			</forward>
+
+			<forward name="weeklyDef" path="weeklyDef">
+			</forward>
+
+		    <forward name="completeMonthDef" path="completeMonthDef">
+			</forward>
+			
 			<forward name="generalJsp" path="generalJspDef">
 			</forward>
 
@@ -290,6 +324,9 @@
 			<forward name="listAllEmployees" path="listAllEmployeesDef">
 			</forward>
 
+			<forward name="radialListing" path="radialListingDef">
+			</forward>
+			
 			<forward name="calculateThisMonthRevenue" path="calculateThisMonthRevenueDef">
 			</forward>
 
@@ -303,6 +340,9 @@
 			</forward>
 			
 			<forward name="showLogoSettingsPage" path="showLogoSettingsPageDef">
+			</forward>
+			
+			<forward name="showSettingsPage" path="showSettingsPageDef">
 			</forward>
 			
 			<forward name="adminHelp" path="adminHelpDef">
@@ -323,6 +363,12 @@
 			<forward name="makeGenericEmail" path="makeGenericEmailDef">
 			</forward>
 
+			<forward name="sendGenericEmailToSingleEmployee" path="sendGenericEmailToSingleEmployeeDef">
+			</forward>
+			
+			<forward name="browseUploads" path="browseUploadsDef">
+			</forward>
+			
 			<forward name="showManageTimers" path="showManageTimersDef">
 			</forward>
 
@@ -362,6 +408,9 @@
 			<forward name="manageMyAdmins" path="manageMyAdminsDef">
 			</forward>
 			
+			<forward name="manageMyUploads" path="manageMyUploadsDef">
+			</forward>
+			
 			<forward name="manageMyCategories" path="manageMyCategoriesDef">
 			</forward>
 			
@@ -371,6 +420,9 @@
 			<forward name="generalJSP4AJAXMsg" path="/WEB-INF/generic/generalJSP4AJAXMsg.jsp">
 			</forward>
 
+			<forward name="downloadAllFiles" path="/downloadAFile.do?action=allAttachments">
+		    </forward>
+		    
 			<forward name="investedAmountOnEmployee" path="investedAmountOnEmployeeDef">
 			</forward>
 
@@ -394,6 +446,10 @@
 			
 			<forward name="showInvoice" path="/WEB-INF/admin/showInvoice.jsp">
 			</forward>
+			
+			<forward name="showNotifyGroupOfEmployeesbyCategory" path="showNotifyGroupOfEmployeesbyCategoryDef">
+			</forward>
+			
 		</action>
 
 		<action name="adminRegistrationBean" input="confirmBusinessDef"
@@ -602,6 +658,9 @@
 			<forward name="memberFunctions" path="memberFunctionsDef">
 			</forward>
 
+			<forward name="addSupportingDocs" path="addSupportingDocsDef">
+			</forward>
+			
 			<forward name="collectYearAndMonth" path="collectYearAndMonthDef">
 			</forward>
 

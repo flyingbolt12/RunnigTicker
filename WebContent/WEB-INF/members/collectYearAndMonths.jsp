@@ -1,3 +1,4 @@
+<%@page import="com.lch.general.enums.TimeSheetTypes"%>
 <style>
 .EmployeeTextBox {
 	font-family: Tahoma;
@@ -42,13 +43,37 @@
 
 <%@page import="java.util.Calendar"%>
 <script type="text/javascript">
-
+var Y="Y";
+var N="N";
+var isToEnterOnlyMonthlyHrs = "Y";
+function boxC(){
+	
+	var box = dhtmlx.modalbox({ 
+		title:"Enter only total monthly hours?", 
+		text:"<div id='form_in_box'><div><span class='dhtmlx_button'><input type='button' value='Yes' onclick='save_callback(Y,this)' style='width:120px;'><input type='button' value='No' onclick='save_callback(N,this)' style='width:120px;'></span></label></div></div>",
+		width:"300px"
+	});
+	//timeout is necessary only in IE
+	setTimeout(function(){
+		//box.getElementsByTagName("input")[0].focus();	
+	},1);
+	
+	return;
+}
+function save_callback(data, form)
+{
+	dhtmlx.modalbox.hide(form);
+	isToEnterOnlyMonthlyHrs = data;
+	reload();	
+	
+}
 function reload()
 {
 
 	var url = "memberFunctImpl.do";
 	document.forms[1].month.value= document.forms[0].months.value;
 	document.forms[1].year.value= document.forms[0].years.value;
+	document.forms[1].isToEnterOnlyMonthlyHrs.value=isToEnterOnlyMonthlyHrs;
 	document.forms[1].action = url;
 	document.forms[1].submit();
 	
@@ -108,7 +133,11 @@ function cancel()
 	</tr>
 	<tr>
 		<td height="23" align="right">
+		<% if(userProfile.getTimeSheetConfiguredTo().equals(TimeSheetTypes.MONTHLY.name())) {%>
+			<input type="button" value="Submit" class="ButtonStyle" onclick="boxC()" id="timeSheetSubmit">
+			<%} else { %>
 			<input type="button" value="Submit" class="ButtonStyle" onclick="reload()" id="timeSheetSubmit">
+			<%} %>
 			<input type="button" value="Cancel" class="ButtonStyle" onclick="cancel()" id="timeSheetSubmitCancel">
 		</td>
 	</tr>
@@ -117,6 +146,7 @@ function cancel()
 <form name="reloadForm" action="" method="post">
 <input type="hidden" value="" name="month">
 <input type="hidden" value="" name="year">
+<input type="hidden" value="" name="isToEnterOnlyMonthlyHrs">
 <input type="hidden" value="<%= request.getAttribute("methodName")%>" name="parameter">
 </form>
 

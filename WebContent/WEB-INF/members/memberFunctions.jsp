@@ -108,6 +108,9 @@
 			<html:link styleClass="memberLinks" action="memberFunctImpl.do?parameter=showUpdateImmigrationDetailsPage"><div class = "square" title="Update your immigration details">
 				<span class="spanStyle"><img src="images/time.png" ></span><span  class="spanStyle">Update Immigration Details</span>
 			</div></html:link>
+			<html:link styleClass="memberLinks" action="memberFunctImpl.do?parameter=attachOtherDocs"><div class = "square" title="Attach Files">
+				<span class="spanStyle"><img src="images/time.png" ></span><span  class="spanStyle">Attach Other Documents</span>
+			</div></html:link>
 		</div>			
 <form action="genericForwardAction.do" method="post">
 <input type="hidden" name="forwardTo" value="members/changeEmployer">

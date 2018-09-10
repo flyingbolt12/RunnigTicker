@@ -60,9 +60,9 @@ public class MonthlyExcelReportHelpr {
 					typeofTimeSheet.categoryId = timeSheet.getCategoryId();
 				}
 			}
-			log.info("{}. New Time Sheet found for UserId : {} - and it is Processed", i, userId);
+			log.info("{}. New Time Sheet found for UserId : {} - and it is Processed", i, userId+" : "+timeSheet.getEmployeeName());
 		}
-		log.info("Total aggregated users and their time sheets {}", independentEmployees.size());
+		log.info("Total number of aggregated users {} and their time sheets processed", independentEmployees.size());
 
 		Set<Entry<String, EmployeeTimeSheetsBasedOnTypes>> set = independentEmployees.entrySet();
 		for (Entry<String, EmployeeTimeSheetsBasedOnTypes> entry : set) {
@@ -146,7 +146,7 @@ public class MonthlyExcelReportHelpr {
 			}
 		}
 
-		HashMap<String, Object> map = new HashMap<>();
+		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("monthBegin", monthBegin);
 		map.put("monthEnd", monthEnd);
 		map.put("endObj", endObj);
@@ -155,7 +155,7 @@ public class MonthlyExcelReportHelpr {
 		return map;
 	}
 
-	Map<String, EmployeeTimeSheetsBasedOnTypes> previousMonthTimeSheets = new HashMap<>();
+	Map<String, EmployeeTimeSheetsBasedOnTypes> previousMonthTimeSheets = new HashMap<String, EmployeeTimeSheetsBasedOnTypes>();
 
 	private double previousMonthLastWeekTotalHoursRealtedToRequestMonth(List<CategoriesAndEmployees> timeSheets, int month, int year, long businessId, String userId, TimeSheetSubmissionType submissionType){
 		double totalHrs = 0.00d;

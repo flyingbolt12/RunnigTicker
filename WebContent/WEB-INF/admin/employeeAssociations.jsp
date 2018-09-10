@@ -106,9 +106,13 @@ String catName = (String)((Map)request.getAttribute("categoryDetails")).get("nam
 		</td>
 	</tr>
 	</table>
-	<input type="button" value="Save Changes" class="ButtonStyle" onclick="saveChanges()"><input type="button" value="Cancel" class="ButtonStyle" >
+	<input type="button" value="Save Changes" class="ButtonStyle" onclick="saveChanges()">
+	<input type="button" value="Go Back" class="ButtonStyle" onclick="goToBackPage()" >
 	<input type="hidden" name="ids" value=""/>
 	<input type="hidden" name="_idcategories" value="<%= categoryId%>"/>
+	</form>
+	
+	<form action="adminFunctImpl.do?parameter=manageMyCategories" method="post" name="goBack">
 	</form>
 </div>
 
@@ -116,6 +120,11 @@ String catName = (String)((Map)request.getAttribute("categoryDetails")).get("nam
 <script language="JavaScript" type="text/javascript">
 
 var NS4 = (navigator.appName == "Netscape" && parseInt(navigator.appVersion) < 5);
+
+
+function goToBackPage() {
+	document.getElementsByName("goBack")[0].submit();
+}	
 
 function saveChanges(){
 	var ids = "";

@@ -20,6 +20,7 @@ import org.apache.struts.action.ActionMessages;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.lch.general.enums.TimeSheetStatus;
 import com.lch.general.enums.TimeSheetTypes;
 import com.lch.general.generalBeans.UserProfile;
 import com.lch.general.genericUtils.DateUtils;
@@ -59,6 +60,10 @@ public abstract class SaveHours extends BaseAction {
 		ActionErrors errors = new ActionErrors();
 		ActionForward forward = new ActionForward(); // return value
 
+		String totalMonthlyHrs = request.getParameter("totalMonthlyHrs");
+		log.info("totalMonthlyHrs : {}", totalMonthlyHrs);
+		
+		
 		try {
 			// for the sake of file uploading - see file jupload.default.config
 			long userId = getLoginUsers_UserId(request);
@@ -85,6 +90,10 @@ public abstract class SaveHours extends BaseAction {
 				hashMap.putAll(map);
 				Iterator it = hashMap.entrySet().iterator();
 				int i = 0;
+				
+				if(totalMonthlyHrs!=null && !totalMonthlyHrs.equals("") && totalMonthlyHrs.length() > 0){
+					log.info("User wants to submit total monthly hours instead of all hours");
+					} else {
 				while (it.hasNext()) {
 					Map.Entry pairs = (Map.Entry) it.next();
 					String key = (String) pairs.getKey();
@@ -185,11 +194,14 @@ public abstract class SaveHours extends BaseAction {
 					}
 
 				}
+				}
 
 				String regularSubmissionType = "REGULAR";
 				String overTimeSubmissionType = "OVERTIME";
 				String holidaySubmissionType = "HOLIDAY";
-
+				
+				
+				
 				String regualrWeekString1 = makeString(regularWeek1, 1, du, regularSubmissionType, userProfile, submissionFor);
 				String regualrWeekString2 = makeString(regularWeek2, 2, du, regularSubmissionType, userProfile, submissionFor);
 				String regualrWeekString3 = makeString(regularWeek3, 3, du, regularSubmissionType, userProfile, submissionFor);
@@ -241,12 +253,19 @@ public abstract class SaveHours extends BaseAction {
 
 				String startWeekDate = du.getWeekBeginingDate(1, du);
 
-				bTimeSheetUpdate = (request.getParameter("timeSheetMode") != null && request.getParameter("timeSheetMode").equals("Update")) ? Boolean.TRUE : Boolean.FALSE;
+				String timeSheetMode = request.getParameter("timeSheetMode");
+				String currentTimeSheetStatus = request.getParameter("currentTimeSheetStatus");
+				if(timeSheetMode != null && (timeSheetMode.startsWith("Update") || timeSheetMode.startsWith("saveAsDraft") || (currentTimeSheetStatus!=null && currentTimeSheetStatus.equalsIgnoreCase(TimeSheetStatus.SAVEDASDRAFT.getRep())))){
+					bTimeSheetUpdate = Boolean.TRUE;
+				} else{
+					bTimeSheetUpdate = Boolean.FALSE;
+				}
+				//bTimeSheetUpdate = (timeSheetMode != null && timeSheetMode.startsWith("Update")) ? Boolean.TRUE : Boolean.FALSE;
 
 				TimeSheetTypes types = TimeSheetTypes.valueOf(getUserProfile(request).getTimeSheetConfiguredTo());
 
 				String weekEndingDate = "";
-
+				String saveAsDraft = (timeSheetMode.startsWith("saveAsDraft")?"YES":"NO");
 				SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 				Date date = format.parse(startWeekDate);
 				switch (types) {
@@ -325,23 +344,52 @@ public abstract class SaveHours extends BaseAction {
 				summary.put("month",cal.get(Calendar.MONTH));
 				summary.put("year", getUserProfile(request).getDu().getYear());
 				summary.put("totalHrsSubmitted", ((String[]) map.get("MONTHLY_TOTAL"))[0]);
-				summary.put("status", "PENDING");
 				summary.put("totalRegularHrs", ((String[]) map.get("REGULARWEEK_MONTHLY_TOTAL"))[0]);
 				summary.put("totalOvertimeHrs", ((String[]) map.get("OVERTIMEWEEK_MONTHLY_TOTAL"))[0]);
 				summary.put("totalHolidayHrs", ((String[]) map.get("HOLIDAYWEEK_MONTHLY_TOTAL"))[0]);
+				
+				//summary.put("status", "PENDING");
+				
+				if(totalMonthlyHrs!=null && !totalMonthlyHrs.equals("") && totalMonthlyHrs.length() > 0){
+					summary.put("totalHrsSubmitted", totalMonthlyHrs);
+					summary.put("hasOnlyMonthlyHours", 1);
+					
+					summary.put("totalRegularHrs", "0");
+					summary.put("totalOvertimeHrs", "0");
+					summary.put("totalHolidayHrs", "0");
+					
+				} else {
+					summary.put("hasOnlyMonthlyHours", 0);
+				}
+				
 				summary.put("submittedDate", Calendar.getInstance().getTime());
 				summary.put("clientId", getUserProfile(request).getClientId());
 				summary.put("submissionConfiguredTo", types.name());
 				summary.put("submissionFor", submissionFor);
 				summary.put("startWeekDate", startWeekDate);
 				summary.put("endWeekDate", weekEndingDate);
+				
 				summary.put("categoryId", getUserProfile(request).getCategoryId());
+				//summary.put("savedAsDraft", saveAsDraft);
 
+				if(saveAsDraft.equals("NO"))
+					summary.put("status", TimeSheetStatus.PENDING.name());
+				else
+					summary.put("status", TimeSheetStatus.SAVEDASDRAFT.name());
+				
 				long weeklyHrsSummaryId = doTransaction.saveMonthlySummaryHours(summary);
 				
 				doTransaction.saveMonthlyHours(regOverHrs, weeklyHrsSummaryId);
 				
 				putObjInRequest("weeklyHrsSummaryId", request, weeklyHrsSummaryId);
+				putObjInRequest("savedAsDraft", request, saveAsDraft);
+				
+				// for messaging in file upload page - addSupportingDocs.jsp
+				if(saveAsDraft.equals("NO"))
+					putObjInRequest("isTimeSheetSubmitted", request, "yes");
+				else
+					putObjInRequest("saveAsDraft", request, "YES");
+				
 				forward = mapping.findForward("addSupportingDocs");
 			} else {
 				ActionErrors messages = new ActionErrors();
@@ -355,8 +403,9 @@ public abstract class SaveHours extends BaseAction {
 			e.printStackTrace();
 			// Report the error using the appropriate name and ID.
 			errors.add("name", new ActionMessage("id"));
+			putObjInRequest("hasErrorSubmitTimeSheet", request, "yes");
 		}
-		putObjInRequest("isTimeSheetSubmitted", request, "yes");
+		
 		return (forward);
 
 	}

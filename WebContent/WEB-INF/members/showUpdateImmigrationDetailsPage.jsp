@@ -136,10 +136,12 @@
 	<tr>
 		<td  bgcolor="#F4F4F4" colspan="2"></td>
 		<td   colspan="1" bgcolor="#F4F4F4">
-		<p><font size="1"> <input type="submit" value="Add or Update"
-			name="update" class="ButtonStyle" tabindex="10"></font> <font
-			size="1"> <input type="submit" value="Cancel "  onclick="redirectOnClickCancel()" name="cancel"
-			class="ButtonStyle" tabindex="10"></font>
+		<p>
+			<font size="1"> 
+				<input type="submit" value="Add or Update" name="update" class="ButtonStyle" tabindex="10">
+				<input type="submit" value="Cancel " onclick="redirectOnClickCancel()" name="cancel" class="ButtonStyle" tabindex="10">
+				<input type="button" value="Attach Files" onclick="attachFiles()" name="attachFilesBtn" class="ButtonStyle" tabindex="11">
+			</font>
 		</td>
 	</tr>
 </table>
@@ -177,5 +179,27 @@
     function redirectOnClickCancel(){
     	document.forms[0].parameter.value="onClickingCancel";
     }
-    
+    function attachFiles() {
+    	var x = document.forms[0].passportExpiryDate.value; 
+    	if (x == null || x == "") {
+    		boxC();
+    		//alert("Are you Sure, You just want to attach the files with out filling the form?");
+        }
+    	
+    }
+    function boxC(){
+    	
+    	dhtmlx.confirm({title:"Are you Sure?", 
+			ok:"Yes", cancel:"No",
+			text:"You just want to attach the files with out filling the form?",
+			callback: function(result){
+				if(result) {
+    				document.forms[0].parameter.value="attachImmigrationDocs";
+    				document.forms[0].submit();
+    			} else { return false;}
+			}
+	});
+    	
+    }
+  
 </script>

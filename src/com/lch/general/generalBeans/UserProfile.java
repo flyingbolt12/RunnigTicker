@@ -6,6 +6,8 @@
  */
 package com.lch.general.generalBeans;
 
+import java.util.Calendar;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -43,7 +45,16 @@ public class UserProfile {
 	private int approvalStatus = 2;
 	private String defaultTimeSheetValue = "8.0";
 	private String loginFailReason;
+	private boolean hideSkipNotifyEmployerButton = true;
 	
+	public boolean isHideSkipNotifyEmployerButton() {
+		return hideSkipNotifyEmployerButton;
+	}
+
+	public void setHideSkipNotifyEmployerButton(boolean hideSkipNotifyEmployerButton) {
+		this.hideSkipNotifyEmployerButton = hideSkipNotifyEmployerButton;
+	}
+
 	public long getCategoryId() {
 		return categoryId;
 	}
@@ -52,6 +63,9 @@ public class UserProfile {
 		this.categoryId = categoryId;
 	}
 
+	public String getFileAccessPath() {
+		return ("/data"+getEmployerName() +"_"+ getBusinessId());
+	}
 	public boolean isEmailValidated() {
 		return isEmailValidated;
 	}
@@ -92,6 +106,9 @@ public class UserProfile {
 			return false;
 	}
 
+	public boolean isAdminTypeUser(){
+		return isAdmin() && isChildAdmin();
+	}
 	
 	public int getApprovalStatus() {
 		return approvalStatus;
@@ -224,6 +241,9 @@ public class UserProfile {
 		this.du = du;
 	}
 
+	public void resetDu() {
+		this.du = new DateUtils(Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH));
+	}
 
 	/**
 	 * 

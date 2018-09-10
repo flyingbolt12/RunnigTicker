@@ -7,7 +7,7 @@
 		<td bgcolor="#224F90">
 		<table border="0" width="100%" cellpadding="15" cellspacing="0" style="font-family: Tahoma; font-size: 10pt; color: #FFFFFF">
 			<tr>
-				<td width="100%" style="color: #FFFFFF" align="right"><b>${notificationBean.name} had a recommendation to you about ILCH&CCS Software Application.</b></td>
+				<td width="100%" style="color: #FFFFFF" align="right"><b>${notificationBean.name} had a recommendation to you about RunningTicker  Software Application.</b></td>
 			</tr>
 		</table>
 		</td>
@@ -20,7 +20,7 @@
 				<b>!!Bingo!!</b><BR><BR>
 				<div style="margin-left:5em">
 
-					<font size="2" color="#FFFF00">Let me introduce about ILCH & CCS. Helping hands are purer than saying lips!! <BR> </font>
+					<font size="2" color="#FFFF00">Let me introduce about RunningTicker . Helping hands are purer than saying lips!! <BR> </font>
 					
 					<p>
 					<BR>

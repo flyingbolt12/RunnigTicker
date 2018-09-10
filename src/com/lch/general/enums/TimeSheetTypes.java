@@ -5,5 +5,7 @@ public enum TimeSheetTypes {
 	WEEKLY,
 	BIWEEKLY,
 	MONTHLY,
-	DAYS15
+	DAYS15,
+	FIRST, 
+	SECOND
 }

@@ -52,39 +52,39 @@
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="54" splitType="Stretch">
+		<band height="69" splitType="Stretch">
 			<staticText>
-				<reportElement uuid="8e6342d0-21cd-44d9-be7f-20b236d006a0" style="SubTitle" x="6" y="34" width="108" height="17"/>
+				<reportElement uuid="8e6342d0-21cd-44d9-be7f-20b236d006a0" style="SubTitle" x="6" y="45" width="108" height="17"/>
 				<textElement textAlignment="Center">
 					<font fontName="Times New Roman" size="10" pdfFontName="Times-Roman"/>
 				</textElement>
 				<text><![CDATA[Confidential Information]]></text>
 			</staticText>
-			<image>
-				<reportElement uuid="2f290570-aa1f-47b4-ae40-8735cd655e2c" x="723" y="23" width="80" height="25"/>
-				<imageExpression><![CDATA["http://www.runningticker.com/images/report/ilchTop.jpg"]]></imageExpression>
-			</image>
 			<staticText>
-				<reportElement uuid="a288555d-ddd7-44c6-949a-a4a41cdfbc02" x="220" y="23" width="372" height="28" forecolor="#003333"/>
+				<reportElement uuid="a288555d-ddd7-44c6-949a-a4a41cdfbc02" x="220" y="34" width="372" height="28" forecolor="#003333"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Tahoma" size="20" isBold="true" isItalic="false" isUnderline="false"/>
 				</textElement>
 				<text><![CDATA[List of all Active Employees]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="d37cb3d3-81c0-4d00-8a56-57e5b39a9bd5" style="Column header" x="288" y="4" width="240" height="15" forecolor="#736343"/>
+				<reportElement uuid="d37cb3d3-81c0-4d00-8a56-57e5b39a9bd5" style="Column header" x="288" y="19" width="240" height="15" forecolor="#736343"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="10" isBold="false"/>
+					<font size="8" isBold="false"/>
 				</textElement>
-				<text><![CDATA[Internet Labor Hours & Communication Systems]]></text>
+				<text><![CDATA[Internet Labor Claiming Hours & Communication Systems]]></text>
 			</staticText>
+			<image>
+				<reportElement uuid="d2740306-db77-4a16-b0c4-b51e5dacdfd7" x="331" y="6" width="154" height="28"/>
+				<imageExpression><![CDATA["http://www.runningticker.com/images/report/rtbottom.png"]]></imageExpression>
+			</image>
 		</band>
 	</title>
 	<pageHeader>
 		<band splitType="Stretch"/>
 	</pageHeader>
 	<columnHeader>
-		<band height="30" splitType="Stretch">
+		<band height="28" splitType="Stretch">
 			<frame>
 				<reportElement uuid="2b98a43b-41c5-4c8b-901b-2726ed49ca43" mode="Opaque" x="0" y="6" width="802" height="18" forecolor="#D0B48E" backcolor="#F2EBDF"/>
 				<staticText>
@@ -146,9 +146,9 @@
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="27" splitType="Stretch">
+		<band height="31" splitType="Stretch">
 			<frame>
-				<reportElement uuid="b245a764-fdb3-4421-824e-9e3a85cea6f3" style="Row" mode="Opaque" x="0" y="0" width="802" height="15"/>
+				<reportElement uuid="b245a764-fdb3-4421-824e-9e3a85cea6f3" style="Row" mode="Opaque" x="0" y="4" width="802" height="15"/>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 					<reportElement uuid="13a35745-49c1-4c57-8fe3-abac3f9862db" style="Detail" x="0" y="0" width="114" height="15"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
@@ -185,14 +185,14 @@
 					<textFieldExpression><![CDATA[$F{recentHrs}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-					<reportElement uuid="1ebf86a2-3a2b-4494-925f-c26d1ac3be5b" style="Detail" x="643" y="0" width="119" height="15"/>
+					<reportElement uuid="1ebf86a2-3a2b-4494-925f-c26d1ac3be5b" style="Detail" x="643" y="0" width="118" height="15"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font size="10" isBold="false"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{personalAddress}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-					<reportElement uuid="9e4451ca-3eec-4abd-9900-2e9a6dfe1e3c" style="Detail" x="762" y="0" width="36" height="15"/>
+					<reportElement uuid="9e4451ca-3eec-4abd-9900-2e9a6dfe1e3c" style="Detail" x="762" y="0" width="35" height="15"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font size="10" isBold="false"/>
 					</textElement>
@@ -236,10 +236,6 @@
 					</textElement>
 					<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
 				</textField>
-				<image>
-					<reportElement uuid="9445002f-b655-43c8-a6d7-64623769e04f" x="346" y="9" width="110" height="16"/>
-					<imageExpression><![CDATA["http://www.runningticker.com/images/report/rtbottom.png"]]></imageExpression>
-				</image>
 			</frame>
 		</band>
 	</pageFooter>

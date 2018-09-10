@@ -61,6 +61,8 @@ public class SearchOptions extends CommonValidatorForm
 	private FormFile attachement ;
 	private String emailConent;
 
+	private String result = "TRUE";
+
 	public void reset(ActionMapping mapping, HttpServletRequest request) {
 		zipCode = null;
 		email="";
@@ -74,6 +76,14 @@ public class SearchOptions extends CommonValidatorForm
 		submit=null;
 	}
 
+	
+	public String getResult() {
+		return result;
+	}
+	
+	public void setResult(String result) {
+		this.result = result;
+	}
 	
 	public List<String> getCityList2Display() {
 		return cityList2Display;

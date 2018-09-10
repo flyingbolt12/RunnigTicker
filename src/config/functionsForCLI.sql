@@ -5,12 +5,21 @@ DELIMITER $$
 
 CREATE FUNCTION `deleteCategory`(inputId INT) RETURNS int(11)
 BEGIN
-	DECLARE retval INT;
-	SELECT count(1) INTO retval from userpersonaldata where categoryId=inputId;
-	update userpersonaldata set categoryId=0 where categoryId=inputId;
-	update weeklyhrssummary set categoryId=0 where categoryId=inputId;
-	delete from categories where idcategories=inputId;
-	return retval;
+DECLARE retval INT;
+DECLARE sysdefaultcatId INT;
+DECLARE busId INT;
+
+SELECT count(1) INTO retval from userpersonaldata where categoryId=inputId;
+SELECT idcategories into sysdefaultcatId FROM categories c where businessId = ( SELECT businessId FROM categories c where idcategories=inputId) and name ='SystemDefault';
+SELECT businessId into busId FROM categories c where idcategories=inputId;
+
+update userpersonaldata set categoryId=sysdefaultcatId where categoryId=inputId;
+update weeklyhrssummary set categoryId=sysdefaultcatId where categoryId=inputId;
+update weeklyhrssummary set categoryId=sysdefaultcatId where categoryId=0 and businessId = busId;
+update userpersonaldata up, users u set up.categoryId=sysdefaultcatId where categoryId=0 and iduserData = u.personalDetailsId and u.businessId = busId and u.role = 'MEMBER';
+
+delete from categories where idcategories=inputId;
+return retval;
 END $$
 
 DELIMITER ;
@@ -80,14 +89,13 @@ DELIMITER $$
 
 CREATE FUNCTION `enbleBusinessForTestingPurpose`() RETURNS int(11)
 BEGIN
-	update users set approvalStatus=1 where iduser=129;
-	update users set isEmailValidated=1 where iduser=129;
-	update users set isEmailValidated=1 where iduser=130;
-	update users set isEmailValidated=1 where iduser=131;
-	update users set isEmailValidated=1 where iduser=132;
-	update users set isEmailValidated=1 where iduser=133;
-	update lch_business set isValidated=1 where businessId=5; 
-	return 1; 
+update users set approvalStatus=1 where login='employer';
+update users set isEmailValidated=1 where login='employer';
+update users set isEmailValidated=1 where login='employeeWeekly';
+update users set isEmailValidated=1 where login='employeeMonthly';
+update users set isEmailValidated=1 where login='employeeBiWeekly';
+update users set isEmailValidated=1 where login='employeeDays15';
+update lch_business set isValidated=1 where businessName='AlliBilli';	return 1; 
 END $$
 
 DELIMITER ;

@@ -34,19 +34,11 @@ public class ConfirmRegistrationForAdmin extends BaseAction {
 			ActionForward forward = new ActionForward();
 			log.info("Creating a Child Admin");
 			CreateAnotherAdminBean adminRegistrationBean = (CreateAnotherAdminBean) form;
+			adminRegistrationBean.setLogin(adminRegistrationBean.getContactEmail());
 			adminRegistrationBean.setRole(Roles.CHILDADMIN.name());
 			DoTransaction doTransaction = getSpringCtxDoTransactionBean();
 			String password;
 			try{
-			Address address = adminRegistrationBean.getListAddress(0);
-			long businessAddressId = doTransaction.insertADDRESSINFO(address);
-			log.info("Business AddressId got :" + businessAddressId);
-			adminRegistrationBean.setBusinessAddressId(businessAddressId);
-
-			address = adminRegistrationBean.getListAddress(1);
-			long personalAddressId = doTransaction.insertADDRESSINFO(address);
-			log.info("Personal AddressId got :" + personalAddressId);
-			adminRegistrationBean.setPersonalAddressId(personalAddressId);
 			
 			long businessId= getUserProfile(request).getBusinessId();
 			log.info(" businessId --> "+businessId);

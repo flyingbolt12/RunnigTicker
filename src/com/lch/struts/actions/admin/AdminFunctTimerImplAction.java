@@ -146,6 +146,7 @@ public class AdminFunctTimerImplAction extends BaseAction {
 		}
 		else
 		{
+			putObj4generalAJAXMsg(request, "None Created. Create one now!");
 			forward = mapping.findForward("generalJSP4AJAXMsg");			
 		}
 		
@@ -279,7 +280,7 @@ public class AdminFunctTimerImplAction extends BaseAction {
 			}
 
 		} catch (Exception e) {
-			putStatusObjInRequest(request, "<p align=\"center\"><b>Unable to create timer...Check whther you entered correct details or not<b></p>");
+			putStatusObjInRequest(request, "<p align=\"center\"><b>Unable to create timer...Check whether you entered correct details or not<b></p>");
 			return forward;
 		}
 

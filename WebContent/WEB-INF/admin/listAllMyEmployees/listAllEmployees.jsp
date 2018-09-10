@@ -59,6 +59,7 @@ function processResponse(id, str, userId, action, email){
 function processPasswdRestResponse(id, str, userId, action, email){
 	document.getElementById(id).innerHTML = str;
 }
+
 </script>
 <%
 	String order = (String) request.getAttribute("order");
@@ -73,6 +74,7 @@ function processPasswdRestResponse(id, str, userId, action, email){
 %>
 
 <%
+	int count = 0;
 	String feature = (String) session
 			.getAttribute(AdminSearchFunction.featureRequest.name());
 
@@ -93,6 +95,12 @@ function processPasswdRestResponse(id, str, userId, action, email){
 		header = "Set Billing Rate";
 	if (feature != null && feature.equals(AdminSearchFunction.IMMIGRATION_DETAILS.name()))
 		header = "Immigration Details";
+	if (feature != null && feature.equals(AdminSearchFunction.REGENERATE_VALIDATION_EMAIL.name()))
+		header = "Regenerate Registration Validation Email";
+	if (feature != null && feature.equals(AdminSearchFunction.SEND_EMAIL_TO_EMPLOYEE.name()))
+		header = "Send Email";
+	
+	
 	
 	
 
@@ -147,6 +155,8 @@ function processPasswdRestResponse(id, str, userId, action, email){
 				if(iduserrate!=null){
 					isRateDetailsAvailable = true;
 				}
+				
+				String selenuimSakeId = "btn_"+userId;
 		%>
 		<tr>
 			<td rowspan="3" class="listEmployeesTdBody"><bean:write name="listAllMyEmployeesId" property="iduser"></bean:write></td>
@@ -168,20 +178,26 @@ function processPasswdRestResponse(id, str, userId, action, email){
 			</span> <%
  	}
  		} else if (feature != null && feature.equals(AdminSearchFunction.EMP_UPDATE.name())) {
- %> <span id="updateBtn_<%=userId%>"><input type="button" value="Send Update Profile Request" class="ButtonStyle" onclick="sendUpdateRequest(<%=userId%>)" > </span><%
- 	} else if (feature != null && feature.equals(AdminSearchFunction.EMP_PASSWORD_RESET.name())) {
+ %> <span id="updateBtn_<%=userId%>"><input type="button" id="<%= selenuimSakeId %>" value="Update Profile Request" class="ButtonStyle" onclick="sendUpdateRequest(<%=userId%>)" > </span><%
+ 	} else if (feature != null && feature.equals(AdminSearchFunction.REGENERATE_VALIDATION_EMAIL.name())) {
+ 			ajaxAction = "adminFunctImpl.do?parameter=regenerateValidationEmail";
+ %> <span id="span_<%=userId%>"> <input type="button" id="btn_<%=userId %>" value="Regenerate Validation Email" class="ButtonStyle" onclick="regenerateValidationEmail('<%=userId%>', 'span_<%=userId%>')">			</span> <%
+ 	} else if (feature != null && feature.equals(AdminSearchFunction.SEND_EMAIL_TO_EMPLOYEE.name())) {
+			ajaxAction = "adminFunctImpl.do?parameter=showSendGenericEmailToSingleEmployee";
+%> <span id="span_<%=userId%>"> <input type="button" id="btn_<%=userId %>" value="Send Email" class="ButtonStyle" onclick="sendGenericEmailToSingleEmployee('<%=userId%>', '<%=ajaxAction%>')">			</span> <%
+	} else if (feature != null && feature.equals(AdminSearchFunction.EMP_PASSWORD_RESET.name())) {
  			ajaxAction = "adminFunctImpl.do?parameter=resetPasswordByAdmin";
- %> <span id="span_<%=userId%>"> <input type="button" id="btn_<%=userId %>" value="Reset" class="ButtonStyle" onclick="raiseRequestWithParamsAndProcessFunction('span_<%=userId%>','<%=ajaxAction%>',<%=userId%>,1,'<%=contactEmail%>', processPasswdRestResponse)">			</span> <%
+ %> <span id="span_<%=userId%>"> <input type="button" id="btn_<%=userId %>" value="Regenerate " class="ButtonStyle" onclick="raiseRequestWithParamsAndProcessFunction('span_<%=userId%>','<%=ajaxAction%>',<%=userId%>,1,'<%=contactEmail%>', processPasswdRestResponse)">			</span> <%
  	} else if (feature != null && feature.equals(AdminSearchFunction.LIST_TIMESHEETS_FOR_ADMIN.name())) {
- %> <span id="span_<%=userId%>"> <input type="button" value="List Time Sheets" class="ButtonStyle" onclick="listTimeSheets('<%=userId%>')">			</span> <%
+ %> <span id="span_<%=userId%>"> <input type="button" id="<%= selenuimSakeId %>" value="List Time Sheets" class="ButtonStyle" onclick="listTimeSheets('<%=userId%>')">			</span> <%
  	} else if (feature != null && feature.equals(AdminSearchFunction.EMP_TIMESHEET.name())) {
- %> <span id="span_<%=userId%>"> <input type="button" value="Download Time Sheets" class="ButtonStyle" onclick="downloadTimeSheets('<%=userId%>')">	</span> <%
+ %> <span id="span_<%=userId%>"> <input type="button" id="<%= selenuimSakeId %>" value="Download Time Sheets" class="ButtonStyle" onclick="downloadTimeSheets('<%=userId%>')">	</span> <%
  	} else if(feature != null && feature.equals(AdminSearchFunction.SET_EMPLOYEE_RATE.name())) { %>
  	<% if(isRateDetailsAvailable) { %> <a href="javascript:showUserRate(<%= rate.toString() %>)" style="text-decoration: none">Click to See Billing Rate!</a> <BR><%} %>
- 	<span id="span_<%=userId%>"> <input type="button" value="Set Rate" class="ButtonStyle" onclick="setRate('<%=employeeName%>','<%= clientName%>','<%=userId%>','<%=clientId%>')">			</span>
+ 	<span id="span_<%=userId%>"> <input type="button" id="<%= selenuimSakeId %>" value="Set Rate" class="ButtonStyle" onclick="setRate('<%=employeeName%>','<%= clientName%>','<%=userId%>','<%=clientId%>')">			</span>
  	 <%} else if(feature != null && feature.equals(AdminSearchFunction.IMMIGRATION_DETAILS.name())){ %>
  	 <% if(isImmigrationDetalsAvalable) { %> Details Already Available! <a href="memberFunctImpl.do?parameter=showUpdateImmigrationDetailsPage&isFromAdmin=true&userId=<%=userId %>" style="text-decoration: none">Click here to see.</a> <BR> <%} %>
- 	 <span id="span_<%=userId%>"> <input type="button" value="Send Update ImmigrationDetails Request" class="ButtonStyle" onclick="sendImmigrationUpdateRequest(<%=userId%>)">			</span>
+ 	 <span id="span_<%=userId%>"> <input type="button" id="<%= selenuimSakeId %>" value="Update ImmigrationDetails Request" class="ButtonStyle" onclick="sendImmigrationUpdateRequest(<%=userId%>)">			</span>
  	 <%
  	 } else { %> 
  	<bean:write name="listAllMyEmployeesId" property="cleintAddress"></bean:write> <%
@@ -243,6 +259,37 @@ function processPasswdRestResponse(id, str, userId, action, email){
 </form>
 <script lang="javascript">
 
+function regenrateRegistrationEmailValidationHandler(obj, response){
+	//document.getElementById(id).innerHTML = str;
+	   removeAjaxImg(obj.id);
+	 if (response != null)
+		    response = response.replace("disableSubmitRequired", "");
+	 document.getElementById(obj.id).innerHTML = "Done!";
+	    if (response.indexOf("alreadyValidated")!=-1){
+	    	dhtmlx.message({type:"alert-error", expire:10000, text:"User Already Validated his/her email. So New Email is not Generated." });	
+	    }
+	    if (response.indexOf("invalidEmail")!=-1){
+	    	dhtmlx.message({type:"alert-error", expire:10000, text:"Invalid Email." });	
+	    }
+	    
+}
+
+
+function regenerateValidationEmail(userId, ajaxId)
+{
+	dhtmlx.message({type:"error", expire:6000, text:"Wait, Processing..." });
+	  var params = {
+	    		    ajaxParam : userId
+	    	    };
+	    	    var obj = {
+	    	    id : ajaxId,
+	    	    url : "adminFunctImpl.do?parameter=regenerateValidationEmail",
+	    	    params : params,
+	    	    responseHandler : regenrateRegistrationEmailValidationHandler
+	    	    };
+	    	    sendAjaxRequest(obj);
+}
+
 function sendUpdateRequest(userId)
 {
 	  var params = {
@@ -286,6 +333,12 @@ function listTimeSheets(userId)
 function downloadTimeSheets(userId)
 {
 	document.forms[1].userId.value = userId;
+	document.forms[1].submit();
+};
+function sendGenericEmailToSingleEmployee(userId, ajaxAction)
+{
+	document.forms[1].userId.value = userId;
+	document.forms[1].action = ajaxAction;
 	document.forms[1].submit();
 };
 

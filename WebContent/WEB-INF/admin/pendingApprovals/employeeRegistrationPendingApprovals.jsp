@@ -184,7 +184,8 @@ function approveOrReject(x,userId)
 		<tr>
 			<td nowrap="nowrap" colspan="10" bgcolor="#808080">
 				<p align="right">
-					<input type="button" value="Approve All" id="approveAll" class="ApproveRejectButtonStyle" onclick="approveOrRejectAll('ApproveAll')"> <input type="button" value="Reject All" id="rejectAll" class="ApproveRejectButtonStyle" onclick="approveOrRejectAll('RejectAll')">
+					<input type="button" value="Approve Selected" id="approveAll" class="ApproveRejectButtonStyle" onclick="approveOrRejectAll('Approve Selected')">
+					<input type="button" value="Reject Selected" id="rejectAll" class="ApproveRejectButtonStyle" onclick="approveOrRejectAll('Reject Selected')">
 			</td>
 			<span id="approveOrRejectAllSpan"></span>
 		</tr>

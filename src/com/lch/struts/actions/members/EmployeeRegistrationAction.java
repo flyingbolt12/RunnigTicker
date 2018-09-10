@@ -116,6 +116,74 @@ public class EmployeeRegistrationAction extends BaseAction {
 		return mapping.findForward("generalJSP4AJAXMsg");
 	}
 
+	public ActionForward checkUserNameAndEmailAvailability(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String userEmail = request.getParameter("ajaxParam");
+		String ajaxMsg = "";
+		int usrCount = 0;
+
+		if (userEmail == null) {
+			putObjInRequest("generalAJAXMsg", request, "Invalid Email");
+			putObjInRequest("disableSubmitRequired", request, "disableSubmitRequired");
+		}
+		else if (userEmail.length() == 0) {
+			putObjInRequest("generalAJAXMsg", request, "Invalid Email");
+			putObjInRequest("disableSubmitRequired", request, "disableSubmitRequired");
+		} else {
+			try {
+				if (!EmailValidator.getInstance().isValid(userEmail)){
+					putObjInRequest("generalAJAXMsg", request, "Invalid Email");
+					putObjInRequest("disableSubmitRequired", request, "disableSubmitRequired");
+					return mapping.findForward("generalJSP4AJAXMsg");
+				}
+				usrCount = getSpringCtxDoTransactionBean().checkUsrEmailAvailablity(userEmail);
+				log.info("No Of Users available for with this Email - " + usrCount);
+				boolean valid = EmailValidator.getInstance().isValid(userEmail);
+				if (usrCount == 0 && valid) {
+					ajaxMsg = "";
+					putObjInRequest("generalAJAXMsg", request, ajaxMsg);
+				} else {
+					ajaxMsg = "Already choosen email by some one else";
+					putObjInRequest("generalAJAXMsg", request, ajaxMsg);
+					putObjInRequest("disableSubmitRequired", request, "disableSubmitRequired");
+				}
+
+			} catch (Exception e) {
+				e.printStackTrace();
+				putObjInRequest("generalAJAXMsg", request, "Unable to Identify. Please proceed next");
+			}
+		}
+		
+		
+		String userName = request.getParameter("ajaxParam");
+		
+		//String ajaxMsg = "";
+		//int usrCount = 0;
+		try {
+			if(userName == null || userName.trim().length() == 0)
+			{
+				putObjInRequest("generalAJAXMsg", request, "Invalid UserName");
+				putObjInRequest("disableSubmitRequired", request, "disableSubmitRequired");
+				return mapping.findForward("generalJSP4AJAXMsg");
+			}
+			usrCount = getSpringCtxDoTransactionBean().checkUsrAvailablity(userName);
+			log.info("No of Users available for with this User Name - " + usrCount);
+			if (usrCount == 0) {
+				ajaxMsg += "";
+				putObjInRequest("generalAJAXMsg", request, ajaxMsg);
+			} else {
+				ajaxMsg += " and this UserName is not available";
+				putObjInRequest("generalAJAXMsg", request, ajaxMsg);
+				putObjInRequest("disableSubmitRequired", request, "disableSubmitRequired");
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			putObjInRequest("generalAJAXMsg", request, "Unable to Identify. Please Contact Us");
+		}
+
+		return mapping.findForward("generalJSP4AJAXMsg");
+		
+	}
 	public ActionForward srartRegistration(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		log.info("Employee Registration Process Starting");
 		String cancel = request.getParameter("cancel");

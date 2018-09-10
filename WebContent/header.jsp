@@ -40,6 +40,15 @@
 	,
 </div>
 <div style="float: right;">
+
+
+<%
+		if (userProfile != null && userProfile.isLoginStatus()) {
+	%>
+<html:link href="javascript:setPrivacyMode()" styleClass="headerLinks" styleId="privaceModeOnOff"
+		title="ShortCut : CTRL + ALT"> Privacy Mode : OFF</html:link>
+		|
+		<%} %>
 	<%
 		if (userProfile == null
 				|| (userProfile != null && !userProfile.isLoginStatus())) {
@@ -68,7 +77,7 @@
 	<%		if (userProfile != null && userProfile.isLoginStatus()) {	%>
 	
 	|<html:link action="/signoutAction.do" styleClass="headerLinks">
-		<font color="#CCFF00">Signout</font>
+		<font color="#CCFF00"> Signout</font>
 	</html:link>
 	<%		}	%>
 

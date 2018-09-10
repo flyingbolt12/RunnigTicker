@@ -10,5 +10,5 @@ public class EmailConstants
 	public static final String ATTACHMENT = "attachment";
 	public static final String REPLYTO = "replyTo";
 	public static final String FROM = "from";
-	public final static String FROM_EMAIL = "contact@allibilli.com";
+	public final static String FROM_EMAIL = "support@RunningTicker.com";
 }

@@ -7,6 +7,8 @@
 package com.lch.struts.actions;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,13 +16,21 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.Set;
 import java.util.UUID;
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.beanutils.BeanUtils;
+import org.apache.struts.action.ActionForward;
+import org.apache.struts.action.ActionMapping;
 import org.apache.struts.actions.DispatchAction;
 import org.apache.velocity.app.VelocityEngine;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.map.ObjectWriter;
 import org.quartz.Scheduler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,7 +38,12 @@ import org.springframework.context.support.GenericXmlApplicationContext;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.ui.velocity.VelocityEngineUtils;
 
+import au.com.bytecode.opencsv.CSVWriter;
+import cn.bluejoe.elfinder.localfs.LocalFsVolume;
+
+import com.lch.SpringContext;
 import com.lch.general.constants.VMConstants;
+import com.lch.general.dbBeans.USERPERSONALDATA;
 import com.lch.general.email.EmailConstants;
 import com.lch.general.email.EmailDetails;
 import com.lch.general.email.EmailUtil;
@@ -38,6 +53,7 @@ import com.lch.general.generalBeans.VMInputBean;
 import com.lch.general.genericUtils.BuildExceptionTrace;
 import com.lch.spring.SQLQueries;
 import com.lch.spring.BusinessComponents.DoTransaction;
+import com.lch.struts.actions.admin.AdminSettings;
 
 /**
  * @author Gopi
@@ -51,8 +67,9 @@ public class BaseAction extends DispatchAction implements SQLQueries {
 	protected GenericXmlApplicationContext _ctx = null;
 	private static String appPath = null;
 	private static String appPathOneUp = null;
-	protected String url ="";
-	public enum LOGTYPE{
+	protected String url = "";
+
+	public enum LOGTYPE {
 		EMAIL
 	}
 
@@ -107,7 +124,9 @@ public class BaseAction extends DispatchAction implements SQLQueries {
 	public void putStatusObjInRequest(HttpServletRequest request, Object obj) {
 		request.setAttribute("status", obj);
 	}
-
+	public void putShowStatusObjInRequest(HttpServletRequest request, Object obj) {
+		request.setAttribute("showStatus", obj);
+	}
 	public void putObj4generalAJAXMsg(HttpServletRequest request, Object obj) {
 		request.setAttribute("generalAJAXMsg", obj);
 	}
@@ -119,7 +138,11 @@ public class BaseAction extends DispatchAction implements SQLQueries {
 	public Object getObjFrmRequest(String objName, HttpServletRequest request) {
 		return request.getAttribute(objName);
 	}
-
+	protected void setIdsIntoRequest(HttpServletRequest request){
+		UserProfile userProfile = getUserProfile(request);
+		putObjInRequest("userId", request, userProfile.getUserId());
+		putObjInRequest("businessId", request, userProfile.getBusinessId());
+	}
 	public String getStrAsRequestParameter(String objName, HttpServletRequest request) {
 		return request.getParameter(objName);
 	}
@@ -131,6 +154,26 @@ public class BaseAction extends DispatchAction implements SQLQueries {
 			return 0;
 		}
 	}
+
+	protected void loadAdminSettings(UserProfile loginStatus){
+		List<Map<String, Object>> settings = getSpringCtxDoTransactionBean().getAdminSettings(loginStatus.getBusinessId());
+		
+		for(Map<String, Object> map : settings)
+		{
+			String key = "name";
+			String value="value";
+			if(map.get(key).equals(AdminSettings.TIMSHEETCONFIGURATION.name())) {
+				log.info("Default Time Sheet Value set to {}", (String)map.get(value));
+				loginStatus.setDefaultTimeSheetValue((String)map.get(value));
+			}
+			
+			if(map.get(key).equals(AdminSettings.HIDE_NOTIFY_EMPLOYER_BUTTON.name())) {
+				log.info("Default Hide Skip Notify Employer Button {}", (String)map.get(value));
+				loginStatus.setHideSkipNotifyEmployerButton((Boolean.parseBoolean((String)map.get(value))));
+			}
+		}
+	}
+	
 	public Date getSQLDateAsRequestParameter(String objName, HttpServletRequest request) {
 		try {
 			return Date.valueOf(request.getParameter(objName));
@@ -138,6 +181,7 @@ public class BaseAction extends DispatchAction implements SQLQueries {
 			return null;
 		}
 	}
+
 	public long getLongAsRequestParameter(String objName, HttpServletRequest request) {
 		try {
 			return Long.parseLong(request.getParameter(objName));
@@ -147,6 +191,17 @@ public class BaseAction extends DispatchAction implements SQLQueries {
 			return 0;
 		}
 	}
+
+	public long getLongUserIdAsRequestParameter(HttpServletRequest request) {
+		try {
+			return Long.parseLong(request.getParameter("userId"));
+		} catch (NumberFormatException e) {
+			return 0;
+		} catch (NullPointerException e) {
+			return 0;
+		}
+	}
+	
 	public double getDoubleAsRequestParameter(String objName, HttpServletRequest request) {
 		try {
 			return Double.parseDouble(request.getParameter(objName));
@@ -157,6 +212,13 @@ public class BaseAction extends DispatchAction implements SQLQueries {
 		}
 	}
 
+	public boolean isEmployer(HttpServletRequest request) {
+		return getUserProfile(request).isAdmin();
+	}
+	public String getJson(Object obj) throws Exception {
+		ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+		return ow.writeValueAsString(obj);
+	}
 	public UserProfile getUserProfile(HttpServletRequest request) {
 		UserProfile userProfile = (UserProfile) getSession(request).getAttribute("userProfile");
 		if (userProfile != null) {
@@ -183,13 +245,14 @@ public class BaseAction extends DispatchAction implements SQLQueries {
 	 * }
 	 */
 
-	protected HashMap<String, Object> getEmailMap(String subject, Object to, Object cc, Object bcc, String emailBody, String replyTo, String from) {
+	protected HashMap<String, Object> getEmailMap(String subject, Object to, Object cc, Object bcc, String emailBody, String replyTo,
+			String from) {
 		HashMap<String, Object> myMap = new HashMap<String, Object>();
 
 		if (subject != null)
 			myMap.put("subject", subject);
 		else
-			myMap.put(subject, "From ILCH");
+			myMap.put(subject, "From RunningTicker ");
 
 		myMap.put(EmailConstants.TO, to);
 		myMap.put(EmailConstants.BCC, bcc);
@@ -201,13 +264,14 @@ public class BaseAction extends DispatchAction implements SQLQueries {
 		return myMap;
 	}
 
-	protected HashMap<String, Object> getEmailMap(String subject, Object to, Object cc, Object bcc, String emailBody, String replyTo, String from, File attachment) {
+	protected HashMap<String, Object> getEmailMap(String subject, Object to, Object cc, Object bcc, String emailBody, String replyTo,
+			String from, File attachment) {
 		HashMap<String, Object> myMap = new HashMap<String, Object>();
 
 		if (subject != null)
 			myMap.put("subject", subject);
 		else
-			myMap.put(subject, "From ILCH");
+			myMap.put(subject, "From RunningTicker ");
 
 		myMap.put(EmailConstants.TO, to);
 		myMap.put(EmailConstants.BCC, bcc);
@@ -232,47 +296,44 @@ public class BaseAction extends DispatchAction implements SQLQueries {
 	 */
 
 	public void sendEmail(String toEmail, String ccEmail, String subject, String content) {
-		
+
 		ArrayList<String> to = new ArrayList<String>();
 		to.add(toEmail);
 		ArrayList<String> cc = new ArrayList<String>();
 		cc.add(ccEmail);
 		EmailDetails emailDetails = new EmailDetails();
-		if(!ccEmail.equals(""))
+		if (!ccEmail.equals(""))
 			emailDetails.setCc(cc);
 		emailDetails.setTo(to);
 		emailDetails.setSubject(subject);
-		
+
 		emailDetails.setEmailContent(new StringBuffer(content));
 		sendEmail(emailDetails);
 	}
 
-	
-	
-	private void logEmail(EmailDetails emailDetails)
-	{
-		StringBuffer buffer = new StringBuffer("From : ").append(emailDetails.getFrom()).append(" Subject :").append(emailDetails.getSubject());
-		getSpringCtxDoTransactionBean().insertLog(buffer.toString(),LOGTYPE.EMAIL.name());
-		
+	private void logEmail(EmailDetails emailDetails) {
+		StringBuffer buffer = new StringBuffer("From : ").append(emailDetails.getFrom()).append(" Subject :")
+				.append(emailDetails.getSubject());
+		getSpringCtxDoTransactionBean().insertLog(buffer.toString(), LOGTYPE.EMAIL.name());
+
 		// Set News
 		List<String> news = getSpringCtxDoTransactionBean().listNews();
-		if(getServlet()!=null)
-		getServlet().getServletConfig().getServletContext().setAttribute("news", news);
+		if (getServlet() != null)
+			getServlet().getServletConfig().getServletContext().setAttribute("news", news);
 	}
 
-	
 	public void sendEmail(EmailDetails emailDetails) {
 		logEmail(emailDetails);
 		// String emailBody = getEmailBody(bean, VM_SEND_EMAIL_NOTIFICATION);
 		HashMap<String, Object> myMap = null;
 		try {
 			if (emailDetails.getAttachment() == null) {
-				myMap = getEmailMap(emailDetails.getSubject(), emailDetails.getTo(), emailDetails.getCc(), emailDetails.getBcc(), emailDetails.getEmailContent().toString(), emailDetails.getFrom(),
-						emailDetails.getFrom());
-			}
-			else {
-				myMap = getEmailMap(emailDetails.getSubject(), emailDetails.getTo(), emailDetails.getCc(), emailDetails.getBcc(), emailDetails.getEmailContent().toString(), emailDetails.getFrom(),
-						emailDetails.getFrom(), emailDetails.getAttachment());
+				myMap = getEmailMap(emailDetails.getSubject(), emailDetails.getTo(), emailDetails.getCc(), emailDetails.getBcc(),
+						emailDetails.getEmailContent().toString(), emailDetails.getReplyTo(), emailDetails.getFrom());
+			} else {
+				myMap = getEmailMap(emailDetails.getSubject(), emailDetails.getTo(), emailDetails.getCc(), emailDetails.getBcc(),
+						emailDetails.getEmailContent().toString(), emailDetails.getReplyTo(), emailDetails.getFrom(),
+						emailDetails.getAttachment());
 			}
 			if (myMap != null)
 				getSpringCtxEmailBean().sendEmailWithMultipleRecipants(myMap);
@@ -288,8 +349,8 @@ public class BaseAction extends DispatchAction implements SQLQueries {
 		logEmail(emailDetails);
 		// String emailBody = getEmailBody(bean, VM_SEND_EMAIL_NOTIFICATION);
 		try {
-			HashMap<String, Object> myMap = getEmailMap(emailDetails.getSubject(), emailDetails.getTo(), emailDetails.getCc(), emailDetails.getBcc(), emailDetails.getEmailContent().toString(),
-					emailDetails.getFrom(), emailDetails.getFrom());
+			HashMap<String, Object> myMap = getEmailMap(emailDetails.getSubject(), emailDetails.getTo(), emailDetails.getCc(),
+					emailDetails.getBcc(), emailDetails.getEmailContent().toString(), emailDetails.getFrom(), emailDetails.getFrom());
 			u.sendEmailWithMultipleRecipants(myMap);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -351,7 +412,7 @@ public class BaseAction extends DispatchAction implements SQLQueries {
 		if (appPath != null)
 			return appPath;
 		appPath = getServlet().getServletContext().getRealPath(".");
-		log.info("Application Context Path {}",appPath);
+		log.info("Application Context Path {}", appPath);
 		return appPath;
 	}
 
@@ -368,7 +429,7 @@ public class BaseAction extends DispatchAction implements SQLQueries {
 		String appName = rPath.substring(1, rPath.length());
 		log.info("Application Name {}", appName);
 		appPathOneUp = appPathOneUp.substring(0, appPathOneUp.indexOf(appName));
-		log.info("App Path Set to One folder Up {}",appPathOneUp);
+		log.info("App Path Set to One folder Up {}", appPathOneUp);
 		return appPathOneUp;
 	}
 
@@ -403,14 +464,17 @@ public class BaseAction extends DispatchAction implements SQLQueries {
 		String serverName = request.getServerName(); // hostname.com
 		int serverPort = request.getServerPort(); // 80
 		String contextPath = request.getContextPath(); // /mywebapp
-		String url="";
-		if(serverPort!=0)
+		String url = "";
+		if (serverPort != 0)
 			url = scheme + "://" + serverName + ":" + serverPort + contextPath + "/";
 		else
 			url = scheme + "://" + serverName + contextPath + "/";
 		return url;
 	}
 
+	protected Object getServletSpringContextBean(String id){
+		  return SpringContext.getBean(id);
+	}
 	
 	protected VelocityEngine getVMEngine() {
 		return (VelocityEngine) getSpringCTX().getBean("velocityEngine");
@@ -435,12 +499,12 @@ public class BaseAction extends DispatchAction implements SQLQueries {
 		int min = 11;
 		int max = 35;
 		VMInputBean bean = new VMInputBean();
-		Map<String,Object> personalData = doTransaction.getUserDetailsByUserId(userId);
-		Map<String,Object> clientData = doTransaction.getClientDetails(userId);
-		String clientName = (String)clientData.get("clientName");
-		String firstName = (String)personalData.get("firstName");
-		String middleName = (String)personalData.get("middleName");
-		String contactEmail = (String)personalData.get("contactEmail");
+		Map<String, Object> personalData = doTransaction.getUserDetailsByUserId(userId);
+		Map<String, Object> clientData = doTransaction.getClientDetails(userId);
+		String clientName = (String) clientData.get("clientName");
+		String firstName = (String) personalData.get("firstName");
+		String middleName = (String) personalData.get("middleName");
+		String contactEmail = (String) personalData.get("contactEmail");
 		bean.setName(firstName);
 		bean.setClientName(clientName);
 		bean.setMiddleName(middleName);
@@ -448,17 +512,96 @@ public class BaseAction extends DispatchAction implements SQLQueries {
 		UUID uuid = UUID.randomUUID();
 		Random randomGenerator = new Random();
 		int randomInt = randomGenerator.nextInt(max - min + 1) + min;
-		StringBuffer sb = new StringBuffer(randomInt + String.valueOf(uuid)
-				+ "_" + String.valueOf((userId)).length());
+		StringBuffer sb = new StringBuffer(randomInt + String.valueOf(uuid) + "_" + String.valueOf((userId)).length());
 		sb.insert(randomInt - 2, userId);
 
-		url = getApplicationContextPath(request)+"adminEmailApproval.do?p=" + sb.toString();
+		url = getApplicationContextPath(request) + "adminEmailApproval.do?p=" + sb.toString();
 		bean.setUrl(url);
 		bean.setText("The following employee registration is in pending state. Click below button to approve. Alternatively, you can approve or reject upon logging into the application as well. You can also approve all pending list at a time with single click.");
 		String body = getEmailTemplate(bean, VMConstants.VM_PENDING_APPROVAL);
-		//StringBuffer sb = new StringBuffer();
-		//sb.append("An Employee registration approval is pending");
-		//sb.append("To Approve your users, please login into ILC, go to admin functional area and click on Pending Approvals.");
+		// StringBuffer sb = new StringBuffer();
+		// sb.append("An Employee registration approval is pending");
+		// sb.append("To Approve your users, please login into ILC, go to admin functional area and click on Pending Approvals.");
 		return new StringBuffer(body);
+	}
+
+	/*
+	 * SELECT * FROM weeklyhrssummary w; select * from users; SELECT * FROM
+	 * userrate u; SELECT * FROM timercontents t; SELECT * FROM lch_business l;
+	 * SELECT * FROM docsforsupporting d; SELECT * FROM categories c; SELECT *
+	 * FROM attacheddocs a;
+	 * 
+	 * -- relation SELECT * FROM userpersonaldata u; SELECT * FROM
+	 * userclientslist u; SELECT * FROM scheduledtimers s; SELECT * FROM
+	 * immigrationdetails i; SELECT * FROM addressinfo a;
+	 */
+	public void downloadBusinessData(long businessId, HttpServletResponse response) throws Exception {
+
+		ServletOutputStream out = response.getOutputStream();
+		OutputStreamWriter writer = new OutputStreamWriter(out);
+		response.setContentType("text/csv");
+		response.setHeader("Content-Disposition", "attachment; filename= BusinessData.csv");
+		String[] tableNames = { "users", "userrate", "weeklyhrssummary", "timercontents", "lch_business", "docsforsupporting",
+				"categories", "attacheddocs" };
+		Map<String, String> tabelsAndQuires = new HashMap<String, String>();
+		tabelsAndQuires.put("userpersonaldata", "select up.* from userpersonaldata up, users u where iduserData = u.personalDetailsId and u.businessId = ");
+		tabelsAndQuires.put("userclientslist", "SELECT uc.* FROM userclientslist uc , users u where uc.clientId = u.clientId and u.businessId = ");
+		tabelsAndQuires.put("scheduledtimers", "SELECT us.* FROM scheduledtimers us, users u where us.userId = u.iduser and u.businessId = ");
+		tabelsAndQuires.put("immigrationdetails", "SELECT i.* FROM immigrationdetails i, users u where i.userId = u.iduser and u.businessId = ");
+		tabelsAndQuires.put("addressinfo", "SELECT a.* FROM users us, addressinfo a inner join userpersonaldata u on (a.idAddressInfo=u.clientAddressId OR a.idAddressInfo=u.myAddressId OR a.idAddressInfo = u.homeCountryAddressId) where us.personalDetailsId = u.iduserData and us.businessId = ");
+
+
+		CSVWriter csvw = new CSVWriter(writer, '\t', CSVWriter.NO_QUOTE_CHARACTER);
+		
+		try{
+			
+			for (String tableName : tableNames) {
+				csvw.writeNext(new String[] { "==============" + tableName + "==============" });
+				try {
+					String query = "select * from " + tableName + " where businessId=" + businessId;
+					getSpringCtxDoTransactionBean().executeDownloadSQL(query, csvw);
+				} catch (Exception e) {
+					e.printStackTrace();
+				} 
+			}
+			Set<String> keys = tabelsAndQuires.keySet(); 
+			for (String key : keys) {
+				csvw.writeNext(new String[] { "==============" + key + "==============" });
+				try {
+					String query= tabelsAndQuires.get(key);
+					query = query + businessId;
+					getSpringCtxDoTransactionBean().executeDownloadSQL(query, csvw);
+				}catch (Exception e) {
+					e.printStackTrace();
+				} 
+			}
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				csvw.close();
+				out.flush();
+				out.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		
+	}
+
+	public void convertMaptoUsers(USERPERSONALDATA user, Map<String, Object> userDetails) throws Exception{
+		
+		BeanUtils.copyProperties(user, userDetails);
+	}
+	protected ActionForward forwardToExceptionPage(ActionMapping mapping, HttpServletRequest request, Throwable e)
+	{
+		e.printStackTrace();
+		//generalAJAXMsg
+		String HTML = "<B> An error occured </b>. Please contact Support. </b> <br>Error Message : " + e.getMessage();
+		putAjaxStatusObjInRequest(request, HTML);
+		return mapping.findForward("/exception");
 	}	
 }

@@ -4,6 +4,7 @@
 	<definition name="templateDefinition" path="/layout.jsp">
 		<put name="title" value="title.jsp" />
 		<put name="news" value="news.jsp" />
+		<put name="breadCrumb" value="breadCrumb.jsp" />
 		<put name="header" value="header.jsp" />
 		<put name="body" value="body.jsp" />
 		<put name="websiteInfo" value="websiteInfo.jsp" />
@@ -60,6 +61,9 @@
 	<definition name="listAllEmployeesDef" extends="templateDefinition">
 		<put name="body" value="/WEB-INF/admin/listAllMyEmployees/listAllEmployees.jsp" />
 	</definition>
+	<definition name="radialListingDef" extends="templateDefinition">
+		<put name="body" value="/WEB-INF/admin/radialListing.jsp" />
+	</definition>
 	<definition name="calculateThisMonthRevenueDef" extends="templateDefinition">
 		<put name="body" value="/WEB-INF/admin/calculateThisMonthRevenue.jsp" />
 	</definition>
@@ -75,11 +79,29 @@
 	<definition name="showLogoSettingsPageDef" extends="templateDefinition">
 		<put name="body" value="/WEB-INF/admin/showLogoSettingsPage.jsp" />
 	</definition>
+	<definition name="showSettingsPageDef" extends="templateDefinition">
+		<put name="body" value="/WEB-INF/admin/showSettingsPage.jsp" />
+	</definition>
 	<definition name="makeGenericEmailDef" extends="templateDefinition">
 		<put name="body" value="/WEB-INF/admin/emailProcess/sendGenericEmail.jsp" />
 	</definition>
+	<definition name="showNotifyGroupOfEmployeesbyCategoryDef" extends="templateDefinition">
+		<put name="body" value="/WEB-INF/admin/emailProcess/showNotifyGroupOfEmployeesbyCategory.jsp" />
+	</definition>
+	<definition name="sendGenericEmailToSingleEmployeeDef" extends="templateDefinition">
+		<put name="body" value="/WEB-INF/admin/emailProcess/sendGenericEmailToSingleEmployee.jsp" />
+	</definition>
+	<definition name="browseUploadsDef" extends="templateDefinition">
+		<put name="body" value="/WEB-INF/admin/browseUploads.jsp" />
+	</definition>
 	<definition name="showDisableBusinessPageDef" extends="templateDefinition">
 		<put name="body" value="/WEB-INF/superAdmin/showDisableBusinessPage.jsp" />
+	</definition>
+	<definition name="showListEmployersPageDef" extends="templateDefinition">
+		<put name="body" value="/WEB-INF/superAdmin/showListEmployersPage.jsp" />
+	</definition>
+	<definition name="showBusinessUsersPageDef" extends="templateDefinition">
+		<put name="body" value="/WEB-INF/superAdmin/showBusinessUsersPage.jsp" />
 	</definition>
 	<definition name="showOutagePageDef" extends="templateDefinition">
 		<put name="body" value="/WEB-INF/superAdmin/showOutagePage.jsp" />
@@ -322,6 +344,9 @@
 	<definition name="manageMyAdminsDef" extends="templateDefinition">
 		 <put name="body" value="/WEB-INF/admin/manageMyAdmins.jsp" />
 	</definition>
+	<definition name="manageMyUploadsDef" extends="templateDefinition">
+		 <put name="body" value="/WEB-INF/admin/manageMyUploads.jsp" />
+	</definition>	
 	<definition name="manageMyCategoriesDef" extends="templateDefinition">
 		 <put name="body" value="/WEB-INF/admin/manageMyCategories.jsp" />
 	</definition>

@@ -7,7 +7,7 @@
 		<td bgcolor="#224F90">
 		<table border="0" width="100%" cellpadding="15" cellspacing="0" style="font-family: Tahoma; font-size: 10pt; color: #FFFFFF">
 			<tr>
-				<td width="100%" style="color: #FFFFFF" align="right"><b>ILCH & CCS - Disable Business Notification!</b></td>
+				<td width="100%" style="color: #FFFFFF" align="right"><b>RunningTicker  - Disable Business Notification!</b></td>
 			</tr>
 		</table>
 		</td>
@@ -20,7 +20,7 @@
 				<b>Dear User,</b><BR><BR>
 				<div style="margin-left:5em">
 								
-					You have a change in your account status in ILCH & CCS. Current Status : ${notificationBean.text}.
+					You have a change in your account status in RunningTicker . Current Status : ${notificationBean.text}.
 					Please contact us to activate if not active using our contact us form.
 
 				</div>

@@ -39,7 +39,8 @@
 			<tr>
 				<td align="left" width="20%"></td>
 				<td nowrap="nowrap"><span class="spanStyle">Client Working For</span> </td>
-				<td><html:text property="clientName" styleClass="EmployeeTextBox" size="20" tabindex="5" styleId="clientName"></html:text> <input type="checkbox" onclick="hideClient(this)" name="isSameAsBusinessAddress" value="Y"> Check if, Your Employer is your Client or When no Client</td>
+				<td><html:text property="clientName" styleClass="EmployeeTextBox" size="20" tabindex="5" styleId="clientName"></html:text> 
+				<input type="checkbox" onclick="hideClient(this)" name="isSameAsBusinessAddress" value="Y"> Check if, Your Employer is your Client or When no Client</td>
 			</tr>
 			<tr>
 				<td colspan="3" width="100%">
@@ -115,11 +116,11 @@
 
 			<tr>
 				<td rowspan="3"></td>
-				<td><span class="spanStyle">User Id</span></td>
+				<td><span class="spanStyle">User Email Id (Same is used as UserName)</span></td>
 				<td><html:text property="login" styleClass="EmployeeTextBox" styleId="userName" size="20" tabindex="18" onblur="verifyUserId(this.value)"></html:text> <span id="usrAvailabilityCheckMsg"></span></td>
 			</tr>
 			<tr>
-				<td>Password</td>
+				<td> &nbsp;&nbsp;Password</td>
 				<td><html:password property="password" styleClass="EmployeeTextBox" size="20" tabindex="19"></html:password> <span id="pwdErr"></span></td>
 			</tr>
 			<tr>
@@ -163,7 +164,35 @@
 	    }
     }
 
-	
+
+    function verifyEmpEmail(email) {
+	    var params = {
+		    ajaxParam : email
+	    };
+	    var obj = {
+	    id : "usrEmailAvailabilityCheckMsg",
+	    url : "employeeRegistration.do?parameter=checkUserEmailAvailability",
+	    params : params,
+	    responseHandler : handleEmpEmailResponse
+	    };
+	    sendAjaxRequest(obj);
+    }
+    function handleEmpEmailResponse(obj, response) {
+	    removeAjaxImg(obj.id);
+	    
+	    if (response.indexOf("disableSubmitRequired") == -1) {
+		    document.getElementById("cNextEmp").disabled = false;
+		    document.getElementById("cNextEmp").className = 'ButtonStyle';
+	    } else {
+		    document.getElementById("cNextEmp").disabled = true;
+		    document.getElementById("cNextEmp").className = 'ButtonStyleDisabled';
+	    }
+	    if (response != null)
+		    response = response.replace("disableSubmitRequired", "");
+	    placeAjaxMessage(obj.id, response);
+	    
+    }
+    
     function verifyEmpId(text) {
 	    var params = {
 		    ajaxParam : text
@@ -172,22 +201,22 @@
 	    id : "ajaxMsg",
 	    url : "employeeRegistration.do?parameter=getEmployerName",
 	    params : params,
-	    responseHandler : handleEmpResponse
+	    responseHandler : handleEmpNameResponse
 	    };
 	    sendAjaxRequest(obj);
 	    
-	    var userName = document.getElementById('userName').value;
-	    if(userName.value!=null && userName.length > 0)
-	    	verifyUserId(userName);
-	    
+	    //var userName = document.getElementById('userName').value;
+	   // if(userName.value!=null && userName.length > 0)
+	    	//verifyUserId(userName);
     }
     function verifyUserId(text) {
+    	//verifyEmpEmail(text);
 	    var params = {
 		    ajaxParam : text
 	    };
 	    var obj = {
 	    id : "usrAvailabilityCheckMsg",
-	    url : "employeeRegistration.do?parameter=checkUserNameAvailability",
+	    url : "employeeRegistration.do?parameter=checkUserNameAndEmailAvailability",
 	    params : params,
 	    responseHandler : handleEmpResponse
 	    };
@@ -196,7 +225,8 @@
     var isUserValid = false;
     var isEmployerValid = false;
     var employerName;
-    function handleEmpResponse(obj, response) {
+    
+    function handleEmpNameResponse(obj, response) {
 	    removeAjaxImg(obj.id);
 	    
 	    if (response.indexOf("disableSubmitRequired") == -1) {
@@ -220,6 +250,31 @@
 	    employerName = response;
 	    placeAjaxMessage(obj.id, response);
     }
+    
+    function handleEmpResponse(obj, response) {
+	    removeAjaxImg(obj.id);
+	    
+	    if (response.indexOf("disableSubmitRequired") == -1) {
+		    if (obj.id == "usrAvailabilityCheckMsg") {
+			    isEmployerValid = true;
+		    } else {
+			    isUserValid = true;
+		    }
+		    if (isUserValid && isEmployerValid) {
+			    document.getElementById("cNextEmp").disabled = false;
+			    document.getElementById("cNextEmp").className = 'ButtonStyle';
+		    }
+	    } else {
+		    
+		    document.getElementById("cNextEmp").disabled = true;
+		    document.getElementById("cNextEmp").className = 'ButtonStyleDisabled';
+	    }
+	    if (response != null)
+		    response = response.replace("disableSubmitRequired", "");
+	    
+	    placeAjaxMessage(obj.id, response);
+    }
+    
     if (!document.getElementById("cNextEmp").disabled) {
     	document.getElementById("cNextEmp").className = 'ButtonStyle';
     }

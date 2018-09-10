@@ -1,3 +1,4 @@
+<%@page import="com.lch.general.dbBeans.USERPERSONALDATA"%>
 <%@page import="com.lch.general.generalBeans.UserProfile"%>
 <%@page import="java.util.Map"%>
 <%@page import="com.lch.general.enums.TimeSheetStatus"%>
@@ -13,7 +14,6 @@
 -->
 </style>
 <script>
-
 function approveOrRejectAll(xAction)
 {
 	elements = document.getElementsByTagName('input');
@@ -130,33 +130,29 @@ function updateAndSubmitForm(userId,month,year,action,submissionFor,weeklyHrsSum
 </script>
 <div align="center" >
 
-<% UserProfile userProfile = (UserProfile) session.getAttribute("userProfile"); %>
-<span>Approved/Rejected Time Sheets</span>
+<% UserProfile userProfile = (UserProfile) session.getAttribute("userProfile"); 
+USERPERSONALDATA user = (USERPERSONALDATA )request.getAttribute("USERPERSONALDATA"); 
+
+%>
+<span> History of all Approved & Rejected TimeSheets for <b><%= user.getFirstName() + ", " + user.getLastName() %> </b></span>
 <hr/> <br>
 
 	<table border="0" cellspacing="1" class="completeTable" width="100%">
 		<tr>
-			<td class="tdHeader"> Name </td>
-			<td class="tdHeader"> Client working for</td>
+<!-- 			<td class="tdHeader"> Name </td> -->
+			<td class="tdHeader"> Client Worked For</td>
 			<td class="tdHeader"> Time Sheet Type</td>
 			<td class="tdHeader"> Total Hrs - RH/OT/HH : Start - End Weeks</td>
 			<td class="tdHeader"> Status</td>
 			<td class="tdHeader"> Attached Docs</td>
 			<td class="tdHeader"> Action</td>
-			<% if(userProfile.isAdmin()) {%>
+			<% if(userProfile.isAdmin()) { %>
 			<td  class="approvalsTdHeader" width="150px">Invoice</td>
 			<%} %>
+			<td class="tdHeader">Look Insight</td>
 		</tr>
 <logic:iterate id="listTimeSheetsForAdmin" name="timeSheetsForAdminList">
-		<tr>
-			<td class="tdData"><bean:write name="listTimeSheetsForAdmin" property="firstName"/>&nbsp;<bean:write name="listTimeSheetsForAdmin" property="middleName"/>&nbsp;<bean:write name="listTimeSheetsForAdmin" property="lastName"/></td>
-			<td class="tdData"><bean:write name="listTimeSheetsForAdmin" property="clientWorkingFor"/></td>
-			<td class="tdData"><bean:write name="listTimeSheetsForAdmin" property="timeSheetConfiguredTo"/></td>
-			<td class="tdData"><bean:write name="listTimeSheetsForAdmin" property="submittedHrs"/>&nbsp;-&nbsp;<bean:write name="listTimeSheetsForAdmin" property="totalRegularHrs"/>/<bean:write name="listTimeSheetsForAdmin" property="totalOvertimeHrs"/>/<bean:write name="listTimeSheetsForAdmin" property="totalHolidayHrs"/> : <bean:write name="listTimeSheetsForAdmin" property="startWeekDate"/>&nbsp;-&nbsp;<bean:write name="listTimeSheetsForAdmin" property="endWeekDate"/></td>
-			<td class="tdData"><span
-				id='statusSpan<bean:write name="listTimeSheetsForAdmin" property="weeklyHrsSummaryId"/>'><bean:write name="listTimeSheetsForAdmin" property="status"/></span></td>
-			<td class="tdData">
-			<% String id = (String)((Map)listTimeSheetsForAdmin).get("supportingDocIds");
+	<% String id = (String)((Map)listTimeSheetsForAdmin).get("supportingDocIds");
 			String status = (String)((Map)listTimeSheetsForAdmin).get("status");
 			String name = (String)((Map)listTimeSheetsForAdmin).get("firstName");
 			String clientWorkingFor = (String)((Map)listTimeSheetsForAdmin).get("clientWorkingFor");
@@ -166,7 +162,27 @@ function updateAndSubmitForm(userId,month,year,action,submissionFor,weeklyHrsSum
 			String year = ((Map)listTimeSheetsForAdmin).get("year").toString();
 			String submissionFor = (String)((Map)listTimeSheetsForAdmin).get("submissionFor");
 			String clientId = (Long) ((Map) listTimeSheetsForAdmin).get("clientId") + "";
+			String endWeekDate = (String) ((Map) listTimeSheetsForAdmin).get("endWeekDate");
+			String startWeekDate = (String) ((Map) listTimeSheetsForAdmin).get("startWeekDate");
+			Boolean hasOnlyMonthlyHours = ((((Integer) ((Map) listTimeSheetsForAdmin).get("hasOnlyMonthlyHours")) == 1) ? true : false);%>
 			
+		<tr>
+<%-- 			<td class="tdData"><bean:write name="listTimeSheetsForAdmin" property="firstName"/>&nbsp;<bean:write name="listTimeSheetsForAdmin" property="middleName"/>&nbsp;<bean:write name="listTimeSheetsForAdmin" property="lastName"/></td> --%>
+			<td class="tdData"><bean:write name="listTimeSheetsForAdmin" property="clientWorkingFor"/></td>
+			<td class="tdData"><bean:write name="listTimeSheetsForAdmin" property="timeSheetConfiguredTo"/></td>
+
+<%
+			if(hasOnlyMonthlyHours == false){
+			%>
+			<td class="tdData"><bean:write name="listTimeSheetsForAdmin" property="submittedHrs"/>&nbsp;-&nbsp;<bean:write name="listTimeSheetsForAdmin" property="totalRegularHrs"/>/<bean:write name="listTimeSheetsForAdmin" property="totalOvertimeHrs"/>/<bean:write name="listTimeSheetsForAdmin" property="totalHolidayHrs"/> : <bean:write name="listTimeSheetsForAdmin" property="startWeekDate"/>&nbsp;-&nbsp;<bean:write name="listTimeSheetsForAdmin" property="endWeekDate"/></td>
+<%} else {%>
+			<td class="tdData"><bean:write name="listTimeSheetsForAdmin" property="submittedHrs"/>&nbsp;-&nbsp;<bean:write name="listTimeSheetsForAdmin" property="totalRegularHrs"/>/-/- : <bean:write name="listTimeSheetsForAdmin" property="startWeekDate"/>&nbsp;-&nbsp;<bean:write name="listTimeSheetsForAdmin" property="endWeekDate"/></td>
+<%} %>
+			<td class="tdData"><span
+				id='statusSpan<bean:write name="listTimeSheetsForAdmin" property="weeklyHrsSummaryId"/>'><bean:write name="listTimeSheetsForAdmin" property="status"/></span></td>
+			<td class="tdData">
+		
+			<%
 			if(!id.equals("0")){
 			%>
 			<a href=javascript:openNewWindow('downloadAFile.do?id=<bean:write name="listTimeSheetsForAdmin" property="weeklyHrsSummaryId"/>&action=timeSheets')>Click</a>
@@ -182,7 +198,7 @@ function updateAndSubmitForm(userId,month,year,action,submissionFor,weeklyHrsSum
 			 	<% if(userProfile.isAdmin()) {%>
 				<td  class="tdDataForAlts"><span id="invoice_<%= weeklyHrsSummaryId%>"><a href="javascript:loadInvoiceDetails(<%= weeklyHrsSummaryId%>, <%=clientId%>, <%=userId%>)">Load Invoice</a></span></td>
 			<%} %>
-			
+			<td class="tdData"><input type="button" value="Look Inside" name="lookInside" class="ButtonStyle" onclick="lookInside(this.value,'<%= userId%>','<%= month%>','<%= year%>','<%= submissionFor%>','<%= weeklyHrsSummaryId%>','<%= name%>','<%= clientWorkingFor%>', '<%= startWeekDate%>', '<%= endWeekDate%>')"></td>			
 		</tr>
 </logic:iterate>
 		<tr>
@@ -192,19 +208,48 @@ function updateAndSubmitForm(userId,month,year,action,submissionFor,weeklyHrsSum
 	</table>
 </div>
 
-<form action="adminFunctImpl.do" method="post">
-<input name="parameter" value="approveOrRejectUserHrs" type="hidden">
-<input name="userId" value="" type="hidden">
-<input name="status" value="" type="hidden">
-<input name="weeklyHrsSummaryId" value="" type="hidden">
 
+<form action="adminFunctImpl.do" method="post" name="commonUseForm">
+	<input name="parameter" value="approveOrRejectUserHrs" type="hidden">
+	<input name="userId" value="" type="hidden"> 
+	<input name="status" value="" type="hidden">
+	<input name="submissionFor" value="" type="hidden"> 
+	<input name="month" value="" type="hidden">  
+	<input name="year" value="" type="hidden">
+	<input name="weeklyHrsSummaryId" value="" type="hidden">
+	<input name="clientName" value="" type="hidden">
+	<input name="startWeekdate" value="" type="hidden">
+	<input name="endWeekdate" value="" type="hidden">
+	<input name="forAdmin" value="YES" type="hidden">
 </form>
+
+<!-- <form action="adminFunctImpl.do" method="post"> -->
+<!-- <input name="parameter" value="approveOrRejectUserHrs" type="hidden"> -->
+<!-- <input name="userId" value="" type="hidden"> -->
+<!-- <input name="status" value="" type="hidden"> -->
+<!-- <input name="weeklyHrsSummaryId" value="" type="hidden"> -->
+<!-- </form> -->
+
 
 <script language="JavaScript">
  function openNewWindow(url) {
  popupWin = window.open(url, 'Downloading ...', ', , , , , scrollbars, resizable, dependent, width=740, height=500, left=200, top=200');
  }
 
+ function lookInside(x,userId,month,year,submissionFor,weeklyHrsSummaryId, name, client, startWeekdate, endWeekdate){
+
+	 var form = document.getElementsByName("commonUseForm")[0];
+	 form.parameter.value = "loadTimeSheetForAdmin";
+	 form.userId.value = userId;
+	 form.weeklyHrsSummaryId.value = weeklyHrsSummaryId;
+	 form.submissionFor.value = submissionFor;
+	 form.month.value = month;
+	 form.year.value = year;
+	 form.clientName.value = client;
+	 form.startWeekdate.value = startWeekdate;
+	 form.endWeekdate.value = endWeekdate;
+	 form.submit();
+}
  function loadInvoiceDetails(weeklyHrsSummaryId, clientId, userId){
  	
  	 var params = {
@@ -231,3 +276,4 @@ function updateAndSubmitForm(userId,month,year,action,submissionFor,weeklyHrsSum
     
  }
  </script>
+ 

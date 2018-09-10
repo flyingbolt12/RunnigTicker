@@ -2,7 +2,8 @@ package com.lch.struts.actions.admin;
 
 public enum AdminSettings {
 
-	TIMSHEETCONFIGURATION("8.0");
+	TIMSHEETCONFIGURATION("8.0"),
+	HIDE_NOTIFY_EMPLOYER_BUTTON("TRUE");
 
 	private String defaultValue;
 

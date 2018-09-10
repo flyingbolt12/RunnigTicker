@@ -6,5 +6,7 @@ public enum DOCTypes {
 	BusinessProfile,
 	TimeSheetSupportingDoc,
 	BusinessLogo,
-	TimerAttachement
+	TimerAttachement,
+	Immigration,
+	Other
 }

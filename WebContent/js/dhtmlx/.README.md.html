@@ -1,0 +1,674 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Strict//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Z:\Work\ilch\WebContent\js\dhtmlx\.README.md.html</title>
+
+
+<style type="text/css">
+body {
+	color: #333;
+	font: 13px/1.4 Helvetica,arial,freesans,clean,sans-serif;
+}
+
+.markdown-body {
+    border: 1px solid #CACACA;
+    padding: 30px;
+    font-size: 15px;
+    line-height: 1.7;
+    word-wrap: break-word;
+}
+.markdown-body > *:first-child {
+    margin-top: 0 !important;
+}
+.markdown-body > *:last-child {
+    margin-bottom: 0 !important;
+}
+.markdown-body a.absent {
+    color: #C00;
+}
+.markdown-body a.anchor {
+    bottom: 0;
+    cursor: pointer;
+    display: block;
+    left: 0;
+    margin-left: -30px;
+    padding-left: 30px;
+    padding-right: 6px;
+    position: absolute;
+    top: 0;
+}
+.markdown-body a.anchor:focus {
+    outline: medium none;
+}
+.markdown-body h1, .markdown-body h2, .markdown-body h3, .markdown-body h4, .markdown-body h5, .markdown-body h6 {
+    cursor: text;
+    font-weight: bold;
+    line-height: 1.7;
+    margin: 1em 0 15px;
+    padding: 0;
+    position: relative;
+}
+
+.markdown-body h1 .octicon-link, .markdown-body h2 .octicon-link, .markdown-body h3 .octicon-link, .markdown-body h4 .octicon-link, .markdown-body h5 .octicon-link, .markdown-body h6 .octicon-link {
+    color: #000;
+    display: none;
+}
+.markdown-body h1:hover a.anchor, .markdown-body h2:hover a.anchor, .markdown-body h3:hover a.anchor, .markdown-body h4:hover a.anchor, .markdown-body h5:hover a.anchor, .markdown-body h6:hover a.anchor {
+    line-height: 1;
+    margin-left: -22px;
+    padding-left: 0;
+    text-decoration: none;
+    top: 15%;
+}
+.markdown-body h1:hover a.anchor .octicon-link, .markdown-body h2:hover a.anchor .octicon-link, .markdown-body h3:hover a.anchor .octicon-link, .markdown-body h4:hover a.anchor .octicon-link, .markdown-body h5:hover a.anchor .octicon-link, .markdown-body h6:hover a.anchor .octicon-link {
+    display: inline-block;
+}
+.markdown-body h1 tt, .markdown-body h1 code, .markdown-body h2 tt, .markdown-body h2 code, .markdown-body h3 tt, .markdown-body h3 code, .markdown-body h4 tt, .markdown-body h4 code, .markdown-body h5 tt, .markdown-body h5 code, .markdown-body h6 tt, .markdown-body h6 code {
+    font-size: inherit;
+}
+.markdown-body h1 {
+    border-bottom: 1px solid #DDD;
+    font-size: 2.5em;
+}
+.markdown-body h2 {
+    border-bottom: 1px solid #EEE;
+    font-size: 2em;
+}
+.markdown-body h3 {
+    font-size: 1.5em;
+}
+.markdown-body h4 {
+    font-size: 1.2em;
+}
+.markdown-body h5 {
+    font-size: 1em;
+}
+.markdown-body h6 {
+    color: #777;
+    font-size: 1em;
+}
+.markdown-body p, .markdown-body blockquote, .markdown-body ul, .markdown-body ol, .markdown-body dl, .markdown-body table, .markdown-body pre {
+    margin: 15px 0;
+}
+.markdown-body ul, .markdown-body ol {
+    padding-left: 30px;
+}
+.markdown-body ul.no-list, .markdown-body ol.no-list {
+    list-style-type: none;
+    padding: 0;
+}
+.markdown-body ul ul, .markdown-body ul ol, .markdown-body ol ol, .markdown-body ol ul {
+    margin-bottom: 0;
+    margin-top: 0;
+}
+.markdown-body dl {
+    padding: 0;
+}
+.markdown-body dl dt {
+    font-size: 14px;
+    font-style: italic;
+    font-weight: bold;
+    margin-top: 15px;
+    padding: 0;
+}
+.markdown-body dl dd {
+    margin-bottom: 15px;
+    padding: 0 15px;
+}
+.markdown-body blockquote {
+    border-left: 4px solid #DDD;
+    color: #777;
+    padding: 0 15px;
+}
+.markdown-body blockquote > *:first-child {
+    margin-top: 0;
+}
+.markdown-body blockquote > *:last-child {
+    margin-bottom: 0;
+}
+.markdown-body table {
+    display: block;
+    overflow: auto;
+    width: 100%;
+    border-collapse: collapse;
+}
+.markdown-body table th {
+    font-weight: bold;
+}
+.markdown-body table th, .markdown-body table td {
+    border: 1px solid #DDD;
+    padding: 6px 13px;
+}
+.markdown-body table tr {
+    background-color: #FFF;
+    border-top: 1px solid #CCC;
+}
+.markdown-body table tr:nth-child(2n) {
+    background-color: #F8F8F8;
+}
+.markdown-body img {
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -o-box-sizing: border-box;
+    box-sizing: border-box;
+    max-width: 100%;
+    border: 0px;
+}
+.markdown-body span.frame {
+    display: block;
+    overflow: hidden;
+}
+.markdown-body span.frame > span {
+    border: 1px solid #DDD;
+    display: block;
+    float: left;
+    margin: 13px 0 0;
+    overflow: hidden;
+    padding: 7px;
+    width: auto;
+}
+.markdown-body span.frame span img {
+    display: block;
+    float: left;
+}
+.markdown-body span.frame span span {
+    clear: both;
+    color: #333;
+    display: block;
+    padding: 5px 0 0;
+}
+.markdown-body span.align-center {
+    clear: both;
+    display: block;
+    overflow: hidden;
+}
+.markdown-body span.align-center > span {
+    display: block;
+    margin: 13px auto 0;
+    overflow: hidden;
+    text-align: center;
+}
+.markdown-body span.align-center span img {
+    margin: 0 auto;
+    text-align: center;
+}
+.markdown-body span.align-right {
+    clear: both;
+    display: block;
+    overflow: hidden;
+}
+.markdown-body span.align-right > span {
+    display: block;
+    margin: 13px 0 0;
+    overflow: hidden;
+    text-align: right;
+}
+.markdown-body span.align-right span img {
+    margin: 0;
+    text-align: right;
+}
+.markdown-body span.float-left {
+    display: block;
+    float: left;
+    margin-right: 13px;
+    overflow: hidden;
+}
+.markdown-body span.float-left span {
+    margin: 13px 0 0;
+}
+.markdown-body span.float-right {
+    display: block;
+    float: right;
+    margin-left: 13px;
+    overflow: hidden;
+}
+.markdown-body span.float-right > span {
+    display: block;
+    margin: 13px auto 0;
+    overflow: hidden;
+    text-align: right;
+}
+.markdown-body code, .markdown-body tt {
+    background-color: #F8F8F8;
+    border: 1px solid #DDD;
+    border-radius: 3px;
+    margin: 0 2px;
+    padding: 0 5px;
+}
+.markdown-body code {
+    white-space: nowrap;
+}
+.markdown-body pre > code {
+    border: medium none;
+    margin: 0;
+    padding: 0;
+    white-space: pre;
+}
+.markdown-body .highlight pre, .markdown-body pre {
+    background-color: #F8F8F8;
+    border: 1px solid #DDD;
+    border-radius: 3px;
+    font-size: 13px;
+    line-height: 19px;
+    overflow: auto;
+    padding: 6px 10px;
+}
+.markdown-body pre code, .markdown-body pre tt {
+    border: medium none;
+    margin: 0;
+    padding: 0;
+    word-wrap: normal;
+}
+
+pre, code, tt {
+    font-family: Consolas,"Liberation Mono",Courier,monospace;
+    font-size: 12px;
+}
+
+.highlight {
+    background: #FFF;
+}
+.highlight .k,
+.highlight .o,
+.highlight .cp,
+.highlight .cs,
+.highlight .gs,
+.highlight .gu,
+.highlight .kc,
+.highlight .kd,
+.highlight .kn,
+.highlight .kp,
+.highlight .kr,
+.highlight .kt,
+.highlight .nc,
+.highlight .ne,
+.highlight .nf,
+.highlight .ow {
+    font-weight: bold;
+}
+.highlight .gd,
+.highlight .gd .x,
+.highlight .gi,
+.highlight .gi .x,
+.type-csharp .highlight .nf,
+.type-csharp .highlight .nn {
+    color: #000;
+}
+.highlight .c,
+.highlight .cm,
+.highlight .c1 {
+    color: #998;
+    font-style: italic;
+}
+.highlight .err {
+    background-color: #E3D2D2;
+    color: #A61717;
+}
+.highlight .cp,
+.highlight .cs {
+    color: #999;
+}
+.highlight .cs,
+.highlight .ge {
+    font-style: italic;
+}
+.highlight .gd {
+    background-color: #FDD;
+}
+.highlight .gd .x {
+    background-color: #FAA;
+}
+.highlight .gr,
+.highlight .gt {
+    color: #A00;
+}
+.highlight .gh {
+    color: #999;
+}
+.highlight .gi {
+    background-color: #DFD;
+}
+.highlight .gi .x {
+    background-color: #AFA;
+}
+.highlight .go {
+    color: #888;
+}
+.highlight .gp,
+.highlight .nn {
+    color: #555;
+}
+.highlight .gu,
+.highlight .ni {
+    color: #800080;
+}
+.highlight .kt {
+    color: #458;
+}
+.highlight .m {
+    color: #099;
+}
+.highlight .s {
+    color: #D14;
+}
+.highlight .n {
+    color: #333;
+}
+.highlight .na,
+.highlight .no,
+.highlight .nv,
+.highlight .vc,
+.highlight .vg,
+.highlight .vi {
+    color: #008080;
+}
+.highlight .nb {
+    color: #0086B3;
+}
+.highlight .nc {
+    color: #458;
+}
+.highlight .ne,
+.highlight .nf {
+    color: #900;
+}
+.highlight .nt {
+    color: #000080;
+}
+.highlight .w {
+    color: #BBB;
+}
+.highlight .mf,
+.highlight .mh,
+.highlight .mi,
+.highlight .mo {
+    color: #099;
+}
+.highlight .sb,
+.highlight .sc,
+.highlight .sd,
+.highlight .s2,
+.highlight .se,
+.highlight .sh,
+.highlight .si,
+.highlight .sx,
+.highlight .s1 {
+    color: #D14;
+}
+.highlight .sr {
+    color: #009926;
+}
+.highlight .ss {
+    color: #990073;
+}
+.highlight .bp {
+    color: #999;
+}
+.highlight .il {
+    color: #099;
+}
+.highlight .gc {
+    background-color: #EAF2F5;
+    color: #999;
+}
+.type-csharp .highlight .k,
+.type-csharp .highlight .kt {
+    color: #00F;
+}
+.type-csharp .highlight .nf {
+    font-weight: normal;
+}
+.type-csharp .highlight .nc {
+    color: #2B91AF;
+}
+.type-csharp .highlight .s,
+.type-csharp .highlight .sc {
+    color: #A31515;
+}
+
+</style>
+
+
+<script type="text/javascript">
+
+function getDocumentScrollTop() 
+{
+   var res = document.body.scrollTop || document.documentElement.scrollTop || window.pageYOffset || 0;
+   // alert(res);
+   return res;
+}
+
+function setDocumentScrollTop(ypos) 
+{
+	window.scrollTo(0, ypos);
+}
+
+</script>
+
+
+</head>
+<body class="markdown-body">
+<h1> <a id="user-content-jsmessage" class="anchor" href="..md.html#jsmessage" aria-hidden="true"><span class="octicon octicon-link"></span></a>jsMessage</h1> 
+<p>Custom notifications, alerts, confirmations</p> 
+<p>This library was extracted from code of <a href="http://dhtmlx.com/docs/products/dhtmlxSuite/index.shtml?message">DHTMLX suite</a>.</p> 
+<ul> 
+ <li>Library can be used under terms of <a href="http://en.wikipedia.org/wiki/MIT_License">MIT license</a> (basically <strong>free</strong>).</li> 
+ <li>Only <strong>4kb</strong> gzipped, without external dependencies.</li> 
+ <li>Works in FF, Chrome, Safari (including iPhone), Opera, IE7+</li> 
+</ul> 
+<p>Live samples can be checked at <a href="http://dhtmlx.github.com/message/">http://dhtmlx.github.com/message/</a></p> 
+<h2> <a id="user-content-supported-message-types" class="anchor" href="..md.html#supported-message-types" aria-hidden="true"><span class="octicon octicon-link"></span></a>Supported message types</h2> 
+<p>jsMessage offers 4 variations at your disposal:</p> 
+<ul> 
+ <li>alert</li> 
+ <li>confirm</li> 
+ <li>notification ( message )</li> 
+ <li>modalbox</li> 
+</ul> 
+<h2> <a id="user-content-how-to-use" class="anchor" href="..md.html#how-to-use" aria-hidden="true"><span class="octicon octicon-link"></span></a>How to use</h2> 
+<p>The type (subtype) of the message window is specified through the parameter type. The default value is &quot;message&quot;.</p> 
+<div class="highlight highlight-javascript">
+ <pre>    dhtmlx.message({ 
+        type<span class="pl-k">:</span><span class="pl-s1"><span class="pl-pds">&quot;</span>confirm-warning<span class="pl-pds">&quot;</span></span>, 
+        text<span class="pl-k">:</span><span class="pl-s1"><span class="pl-pds">&quot;</span>Are you sure you want to do it?<span class="pl-pds">&quot;</span></span>
+    })</pre>
+</div> 
+<p>or, you can use separate methods</p> 
+<div class="highlight highlight-javascript">
+ <pre>    dhtmlx.<span class="pl-s3">confirm</span>({
+        title<span class="pl-k">:</span><span class="pl-s1"><span class="pl-pds">&quot;</span>Confirm<span class="pl-pds">&quot;</span></span>,
+        text<span class="pl-k">:</span><span class="pl-s1"><span class="pl-pds">&quot;</span>Continue?<span class="pl-pds">&quot;</span></span>
+    });
+    <span class="pl-c">//or</span>
+    dhtmlx.<span class="pl-s3">alert</span>({
+        title<span class="pl-k">:</span><span class="pl-s1"><span class="pl-pds">&quot;</span>Alert<span class="pl-pds">&quot;</span></span>,
+        type<span class="pl-k">:</span><span class="pl-s1"><span class="pl-pds">&quot;</span>alert-error<span class="pl-pds">&quot;</span></span>,
+        text<span class="pl-k">:</span><span class="pl-s1"><span class="pl-pds">&quot;</span>You can do this<span class="pl-pds">&quot;</span></span>
+    });
+    <span class="pl-c">//or</span>
+    dhtmlx.modalbox({
+        title<span class="pl-k">:</span><span class="pl-s1"><span class="pl-pds">&quot;</span>Settings<span class="pl-pds">&quot;</span></span>,
+        text<span class="pl-k">:</span><span class="pl-s1"><span class="pl-pds">&quot;</span>Abstract popup<span class="pl-pds">&quot;</span></span>
+    }); </pre>
+</div> 
+<h2> <a id="user-content-styling" class="anchor" href="..md.html#styling" aria-hidden="true"><span class="octicon octicon-link"></span></a>Styling</h2> 
+<p>For any type of the message window you can define a custom style to achieve the desired look. Generally, the appropriate css class is specified through the parameter type: you define a css class and set the parameter to its name.</p> 
+<div class="highlight highlight-html">
+ <pre><span class="pl-s2">    &lt;<span class="pl-ent">style</span> <span class="pl-e">type</span>=<span class="pl-s1"><span class="pl-pds">&quot;</span>text/css<span class="pl-pds">&quot;</span></span>&gt;</span>
+<span class="pl-s2">        <span class="pl-e">.dhtmlx-myCss</span>{</span>
+<span class="pl-s2">            <span class="pl-mp"><span class="pl-s3">font-weight</span></span>:<span class="pl-sc">bold</span> <span class="pl-k">!important</span>;</span>
+<span class="pl-s2">            <span class="pl-mp"><span class="pl-s3">color</span></span>:<span class="pl-sc">white</span> <span class="pl-k">!important</span>;</span>
+<span class="pl-s2">            <span class="pl-mp"><span class="pl-s3">background-color</span></span>:<span class="pl-sc">red</span> <span class="pl-k">!important</span>;</span>
+<span class="pl-s2">        }</span>
+<span class="pl-s2">    &lt;/<span class="pl-ent">style</span>&gt;</span>
+<span class="pl-s2">    &lt;<span class="pl-ent">script</span>&gt;</span>
+<span class="pl-s2">        dhtmlx.message({ type<span class="pl-k">:</span><span class="pl-s1"><span class="pl-pds">&quot;</span>myCss<span class="pl-pds">&quot;</span></span>, text<span class="pl-k">:</span><span class="pl-s1"><span class="pl-pds">&quot;</span>some text<span class="pl-pds">&quot;</span></span> });</span>
+<span class="pl-s2">    &lt;/<span class="pl-ent">script</span>&gt;</span></pre>
+</div> 
+<h2> <a id="user-content-options" class="anchor" href="..md.html#options" aria-hidden="true"><span class="octicon octicon-link"></span></a>Options</h2> 
+<h3> <a id="user-content-alert" class="anchor" href="..md.html#alert" aria-hidden="true"><span class="octicon octicon-link"></span></a>Alert</h3> 
+<ul> 
+ <li>title - (string) the text of the header (by default, 'Alert').</li> 
+ <li>type - the subtype of the window or a custom css class. The default value for the window - 'alert'.</li> 
+ <li>text - (string) the text of the window body.</li> 
+ <li>ok - (string) the text of the 'Ok' button.</li> 
+ <li>callback - (function) the function called on button click</li> 
+ <li>position - for now support only one value &quot;top&quot;, any other value will result in center align</li> 
+ <li>width - width of the modal box ( samples &quot;100px&quot;, &quot;50%&quot;)</li> 
+ <li>height - height of the modal box </li> 
+</ul> 
+<p><strong>Full form</strong></p> 
+<div class="highlight highlight-javascript">
+ <pre>    dhtmlx.message({
+            title<span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">&quot;</span>Close<span class="pl-pds">&quot;</span></span>,
+                    type<span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">&quot;</span>alert<span class="pl-pds">&quot;</span></span>,
+            text<span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">&quot;</span>You can't close this window!<span class="pl-pds">&quot;</span></span>,
+            <span class="pl-en">callback</span>: <span class="pl-st">function</span>() {dhtmlx.<span class="pl-s3">alert</span>(<span class="pl-s1"><span class="pl-pds">&quot;</span>Test alert<span class="pl-pds">&quot;</span></span>);}
+    })
+<span class="pl-c">//or</span>
+    dhtmlx.<span class="pl-s3">alert</span>({
+            text<span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">&quot;</span>Download is completed.<span class="pl-pds">&quot;</span></span>,
+            <span class="pl-en">callback</span>: <span class="pl-st">function</span>() {dhtmlx.<span class="pl-s3">alert</span>(<span class="pl-s1"><span class="pl-pds">&quot;</span>Test alert<span class="pl-pds">&quot;</span></span>);}
+    })</pre>
+</div> 
+<p><strong>Short form</strong></p> 
+<div class="highlight highlight-javascript">
+ <pre>    dhtmlx.<span class="pl-s3">alert</span>(<span class="pl-s1"><span class="pl-pds">&quot;</span>someText<span class="pl-pds">&quot;</span></span>);</pre>
+</div> 
+<p>Both alert and confirm blocks keyboard input while active. Pressing SPACE or ENTER will close message with positive result. Pressing ESC will close message with negative result. (you can use dhtmlx.message.keyboard = false; to disable this behavior)</p> 
+<h3> <a id="user-content-confirm" class="anchor" href="..md.html#confirm" aria-hidden="true"><span class="octicon octicon-link"></span></a>Confirm</h3> 
+<ul> 
+ <li>title - (string) the text of the header (by default, 'Alert').</li> 
+ <li>type - the subtype of the window or a custom css class</li> 
+ <li>text - (string) the text of the window body.</li> 
+ <li>ok - (string) the text of the 'Ok' button.</li> 
+ <li>cancel - (string) the text of the 'Cancel' button.</li> 
+ <li>callback - (function) the function called on button click. Receives 'true' or 'false' as the parameter (subject to the clicked button).</li> 
+ <li>position - for now support only one value &quot;top&quot;, any other value will result in center align</li> 
+ <li>width - width of the modal box ( samples &quot;100px&quot;, &quot;50%&quot;)</li> 
+ <li>height - height of the modal box </li> 
+</ul> 
+<p><strong>Full form</strong></p> 
+<div class="highlight highlight-javascript">
+ <pre>    dhtmlx.message({
+        type<span class="pl-k">:</span><span class="pl-s1"><span class="pl-pds">&quot;</span>confirm<span class="pl-pds">&quot;</span></span>,
+        text<span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">&quot;</span>Continue?<span class="pl-pds">&quot;</span></span>,
+        <span class="pl-en">callback</span>: <span class="pl-st">function</span>() {dhtmlx.<span class="pl-s3">confirm</span>(<span class="pl-s1"><span class="pl-pds">&quot;</span>Test confirm<span class="pl-pds">&quot;</span></span>);}
+    });
+<span class="pl-c">//or</span>
+    dhtmlx.<span class="pl-s3">confirm</span>({
+        title<span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">&quot;</span>Close<span class="pl-pds">&quot;</span></span>,
+                type<span class="pl-k">:</span><span class="pl-s1"><span class="pl-pds">&quot;</span>confirm-warning<span class="pl-pds">&quot;</span></span>,
+        text<span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">&quot;</span>Are you sure you want to do it?<span class="pl-pds">&quot;</span></span>,
+        <span class="pl-en">callback</span>: <span class="pl-st">function</span>() {dhtmlx.<span class="pl-s3">confirm</span>(<span class="pl-s1"><span class="pl-pds">&quot;</span>Test confirm<span class="pl-pds">&quot;</span></span>);}
+    });</pre>
+</div> 
+<p><strong>Short form</strong></p> 
+<div class="highlight highlight-javascript">
+ <pre>    dhtmlx.<span class="pl-s3">confirm</span>(<span class="pl-s1"><span class="pl-pds">&quot;</span>ConfirmText<span class="pl-pds">&quot;</span></span>);</pre>
+</div> 
+<h3> <a id="user-content-modalbox" class="anchor" href="..md.html#modalbox" aria-hidden="true"><span class="octicon octicon-link"></span></a>ModalBox</h3> 
+<ul> 
+ <li>title - (string) the text of the header (by default, 'Alert').</li> 
+ <li>type - the subtype of the window or a custom css class</li> 
+ <li>text - (string) the text of the window body.</li> 
+ <li>ok - (string) the text of the 'Ok' button.</li> 
+ <li>cancel - (string) the text of the 'Cancel' button.</li> 
+ <li>callback - (function) the function called on button click. Receives 'true' or 'false' as the parameter (subject to the clicked button).</li> 
+ <li>buttons - array of labels, each one will be converted to the button ( much like multi-button confirm ). Callback function will receive index of pressed button ( 0 - for first button, 1 - for second button and etc. )</li> 
+ <li>position - for now support only one value &quot;top&quot;, any other value will result in center align</li> 
+ <li>width - width of the modal box ( samples &quot;100px&quot;, &quot;50%&quot;)</li> 
+ <li>height - height of the modal box </li> 
+ <li>content - can be used instead of text, defines html element (or its ID) which will be shown inside of a popup</li> 
+</ul> 
+<p><strong>Examples</strong></p> 
+<div class="highlight highlight-javascript">
+ <pre>    dhtmlx.modalbox({
+        title<span class="pl-k">:</span><span class="pl-s1"><span class="pl-pds">&quot;</span>Settings<span class="pl-pds">&quot;</span></span>
+        text<span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">&quot;</span> ... html code here... <span class="pl-pds">&quot;</span></span>,
+        buttons<span class="pl-k">:</span>[<span class="pl-s1"><span class="pl-pds">&quot;</span>Save<span class="pl-pds">&quot;</span></span>, <span class="pl-s1"><span class="pl-pds">&quot;</span>Defaults<span class="pl-pds">&quot;</span></span>, <span class="pl-s1"><span class="pl-pds">&quot;</span>Cancel<span class="pl-pds">&quot;</span></span>],
+        callback<span class="pl-k">:</span>process_result
+    });</pre>
+</div> 
+<p>function returns the html container of the box which can be used for some actions</p> 
+<div class="highlight highlight-javascript">
+ <pre>    <span class="pl-s">var</span> box <span class="pl-k">=</span> dhtmlx.modalbox(...);
+    box.<span class="pl-s3">getElementsByTagName</span>(<span class="pl-s1"><span class="pl-pds">&quot;</span>input<span class="pl-pds">&quot;</span></span>)[<span class="pl-c1">0</span>].<span class="pl-s3">focus</span>();
+    ...
+    dhtmlx.modalbox.hide(box); <span class="pl-c">//hide popup  </span></pre>
+</div> 
+<h4> <a id="user-content-closing-modal-box" class="anchor" href="..md.html#closing-modal-box" aria-hidden="true"><span class="octicon octicon-link"></span></a>Closing modal box</h4> 
+<p>There are 3 way to close modal box </p> 
+<ul> 
+ <li>call dhtmlx.modalbox.hide(box) - where &quot;box&quot; is result of dhtmlx.modalbox command</li> 
+ <li>call dhtmlx.modalbox.hide(node) - where node - any html node in the box (allows to create &quot;close&quot; links easily)</li> 
+ <li>click on any button, which was defined through &quot;buttons&quot; property</li> 
+</ul> 
+<div class="highlight highlight-javascript">
+ <pre>    <span class="pl-s">var</span> box <span class="pl-k">=</span> dhtmlx.modalbox({
+        text<span class="pl-k">:</span><span class="pl-s1"><span class="pl-pds">&quot;</span>&lt;a href='#' onclick='dhtmlx.modalbox.hide(this)'&gt;Click to close&lt;a&gt;<span class="pl-pds">&quot;</span></span>
+    });</pre>
+</div> 
+<h4> <a id="user-content-custom-buttons" class="anchor" href="..md.html#custom-buttons" aria-hidden="true"><span class="octicon octicon-link"></span></a>Custom buttons</h4> 
+<p>You can place a custom button in the popup, which is styled exactly as default message buttons. To do so you need to place the next html snippet</p> 
+<div class="highlight highlight-javascript">
+ <pre>    <span class="pl-s">var</span> box <span class="pl-k">=</span> dhtmlx.modalbox({
+        text<span class="pl-k">:</span><span class="pl-s1"><span class="pl-pds">&quot;</span>&lt;span class='dhtmlx_button'&gt;&lt;input type='button' value='Press me'&gt;&lt;/span&gt;<span class="pl-pds">&quot;</span></span>
+    });</pre>
+</div> 
+<h4> <a id="user-content-content-reusage" class="anchor" href="..md.html#content-reusage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Content reusage</h4> 
+<p>Instead of setting html text you can place any html container on the page in the modalbox</p> 
+<div class="highlight highlight-html">
+ <pre>    &lt;<span class="pl-ent">div</span> <span class="pl-e">id</span>=<span class="pl-s1"><span class="pl-pds">'</span>mycontent<span class="pl-pds">'</span></span>&gt;Some form here &lt;/<span class="pl-ent">div</span>&gt;</pre>
+</div> 
+<div class="highlight highlight-javascript">
+ <pre>    <span class="pl-s">var</span> box <span class="pl-k">=</span> dhtmlx.modalbox(content<span class="pl-k">:</span><span class="pl-s1"><span class="pl-pds">&quot;</span>mycontent<span class="pl-pds">&quot;</span></span>);</pre>
+</div> 
+<p>after box will be closed, you can reopen it by </p> 
+<div class="highlight highlight-javascript">
+ <pre>    dhtmlx.modalbox(box);</pre>
+</div> 
+<h3> <a id="user-content-notification-message" class="anchor" href="..md.html#notification-message" aria-hidden="true"><span class="octicon octicon-link"></span></a>Notification (message)</h3> 
+<ul> 
+ <li>type - the subtype of the window or a custom css class. The default value for the window - 'alert'.</li> 
+ <li>text - (string) the text of the window body.</li> 
+ <li>expire - the time after passing which the window disappears (in milliseconds). You can use negative value (-1) to make notice persistent. </li> 
+</ul> 
+<p><strong>Full form</strong></p> 
+<div class="highlight highlight-javascript">
+ <pre>    dhtmlx.message({
+        text<span class="pl-k">:</span><span class="pl-s1"><span class="pl-pds">&quot;</span>An error has occured.&lt;br /&gt; Please, see the log file!<span class="pl-pds">&quot;</span></span>,
+        expire<span class="pl-k">:</span><span class="pl-c1">1000</span>, You can use negative value (<span class="pl-k">-</span><span class="pl-c1">1</span>) to make notice persistent. 
+        type<span class="pl-k">:</span><span class="pl-s1"><span class="pl-pds">&quot;</span>customCss<span class="pl-pds">&quot;</span></span> <span class="pl-c">// 'customCss' - css class</span>
+    });</pre>
+</div> 
+<p><strong>Short form</strong></p> 
+<div class="highlight highlight-javascript">
+ <pre>    dhtmlx.message(<span class="pl-s1"><span class="pl-pds">&quot;</span>Your data has been successfully saved!<span class="pl-pds">&quot;</span></span>);</pre>
+</div> 
+<h2> <a id="user-content-extra-configuration" class="anchor" href="..md.html#extra-configuration" aria-hidden="true"><span class="octicon octicon-link"></span></a>Extra configuration</h2> 
+<p>Default delay of notifications can be set as</p> 
+<div class="highlight highlight-javascript">
+ <pre>    dhtmlx.message.expire <span class="pl-k">=</span> <span class="pl-c1">4000</span>; <span class="pl-c">//time in milliseconds</span>
+    t.position <span class="pl-k">=</span> <span class="pl-s1"><span class="pl-pds">&quot;</span>top<span class="pl-pds">&quot;</span></span>; </pre>
+</div> 
+<p>Default position of notices can be set as</p> 
+<div class="highlight highlight-javascript">
+ <pre>    dhtmlx.message.position <span class="pl-k">=</span> <span class="pl-s1"><span class="pl-pds">&quot;</span>top<span class="pl-pds">&quot;</span></span>;     <span class="pl-c">// possible values &quot;top&quot; or &quot;bottom&quot;</span></pre>
+</div> 
+<p>Interaction with alert and confirm from keyboard can be disabled by </p> 
+<div class="highlight highlight-javascript">
+ <pre>    dhtmlx.message.keyboard <span class="pl-k">=</span> <span class="pl-c1">false</span>;     <span class="pl-c">// possible values &quot;top&quot; or &quot;bottom&quot;</span></pre>
+</div> 
+<h3> <a id="user-content-alert-subtypes" class="anchor" href="..md.html#alert-subtypes" aria-hidden="true"><span class="octicon octicon-link"></span></a>Alert subtypes</h3> 
+<p>For all kinds of messages, there are alert variations, which can be used for more important notifications</p> 
+<div class="highlight highlight-javascript">
+ <pre>    dhtmlx.message({ type<span class="pl-k">:</span><span class="pl-s1"><span class="pl-pds">&quot;</span>error<span class="pl-pds">&quot;</span></span>, <span class="pl-s1"><span class="pl-pds">&quot;</span>Critical error!<span class="pl-pds">&quot;</span></span>});
+    <span class="pl-c">//or</span>
+    dhtmlx.message({ type<span class="pl-k">:</span><span class="pl-s1"><span class="pl-pds">&quot;</span>alert-error<span class="pl-pds">&quot;</span></span>, <span class="pl-s1"><span class="pl-pds">&quot;</span>Critical error!<span class="pl-pds">&quot;</span></span>});
+    <span class="pl-c">//or</span>
+    dhtmlx.message({ type<span class="pl-k">:</span><span class="pl-s1"><span class="pl-pds">&quot;</span>confirm-error<span class="pl-pds">&quot;</span></span>, <span class="pl-s1"><span class="pl-pds">&quot;</span>Confirm self-destruction!<span class="pl-pds">&quot;</span></span>});</pre>
+</div>
+</body>
+</html>

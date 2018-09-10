@@ -16,6 +16,7 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.lch.general.BreadCrumb;
 import com.lch.general.generalBeans.UserProfile;
 
 public class LogFilter implements Filter {
@@ -43,13 +44,14 @@ public class LogFilter implements Filter {
 		actionsToIgnore.add("aboutUs.jsp");
 		actionsToIgnore.add("demo.jsp");
 		actionsToIgnore.add("membersDemo.jsp");
+		actionsToIgnore.add("getTestEmployerBusinessId.jsp");
 		actionsToIgnore.add("adminRegistration.jsp");
 		actionsToIgnore.add("employeeRegistration.jsp");
 		actionsToIgnore.add("adminAndroidLogin.do");
 		actionsToIgnore.add("adminAndroidPendingApprovals.do");
 		actionsToIgnore.add("confirmDetails.do");
 		actionsToIgnore.add("adminAndroidLogin.do");
-		
+
 	}
 
 	@Override
@@ -58,8 +60,7 @@ public class LogFilter implements Filter {
 	}
 
 	@Override
-	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException,
-			ServletException {
+	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 
 		HttpSession session = ((HttpServletRequest) request).getSession();
 		String url = ((HttpServletRequest) request).getRequestURL().toString();
@@ -67,23 +68,35 @@ public class LogFilter implements Filter {
 		ServletContext context = config.getServletContext();
 		boolean isToFilter = Boolean.FALSE;
 		// log.info("Checking the Sign in of User...");
-		
-			UserProfile userProfile = (UserProfile) session.getAttribute("userProfile");
-			if (userProfile == null) {
-				for (String action : actionsToIgnore) {
-					if (url.endsWith(action) || url.indexOf(action)!=-1 || (queryString!=null && queryString.indexOf(action)!= -1)) {
-						isToFilter = Boolean.TRUE;
-						break;
-					}
+
+		UserProfile userProfile = (UserProfile) session.getAttribute("userProfile");
+		if (userProfile == null) {
+			for (String action : actionsToIgnore) {
+				if (url.endsWith(action) || url.indexOf(action) != -1 || (queryString != null && queryString.indexOf(action) != -1)) {
+					isToFilter = Boolean.TRUE;
+					break;
 				}
-				if (isToFilter) {
-					chain.doFilter(request, response);
-				} else {
-					context.getRequestDispatcher(SIGNOUTACTION_PATH).forward(request, response);
-				}
-			} else {
-				chain.doFilter(request, response);
 			}
+			if (isToFilter) {
+				chain.doFilter(request, response);
+				manageBreadCrumb(session, (HttpServletRequest) request);
+			} else {
+				context.getRequestDispatcher(SIGNOUTACTION_PATH).forward(request, response);
+			}
+		} else {
+			chain.doFilter(request, response);
+			manageBreadCrumb(session, (HttpServletRequest) request);
+		}
+	}
+
+	private void manageBreadCrumb(HttpSession session, HttpServletRequest req) {
+		BreadCrumb bc = (BreadCrumb) session.getAttribute("breadCrumb");
+		if (bc == null) {
+			session.setAttribute("breadCrumb", new BreadCrumb());
+		} else {
+			log.info("{} - {}", req.getRequestURL().toString(), req.getQueryString());
+			bc.addAction(req.getRequestURL().toString(), req.getQueryString(), req.getRequestURI());
+		}
 	}
 
 	@Override

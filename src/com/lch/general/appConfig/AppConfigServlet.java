@@ -57,13 +57,20 @@ public class AppConfigServlet extends HttpServlet {
 				profile = config.getInitParameter("spring.profiles.active");
 
 			log.info("Spring Profile found : {}", profile);
-			ctx = new GenericXmlApplicationContext();
-			ctx.getEnvironment().setActiveProfiles(profile);
-			ctx.load(CONFIGPATH);
-			ctx.refresh();
-			config.getServletContext().setAttribute("ctx", ctx);
-			log.info("Spring context loaded successfully and now auto configuring jobs one by one...");
-
+			log.info("Now trying load the context from : {}", CONFIGPATH);
+			try{
+				ctx = new GenericXmlApplicationContext();
+				ctx.getEnvironment().setActiveProfiles(profile);
+				ctx.load(CONFIGPATH);
+				ctx.refresh();
+				config.getServletContext().setAttribute("ctx", ctx);
+				log.info("Spring context loaded successfully and now auto configuring jobs one by one...");
+			}
+			catch(Exception e ){
+				log.error("Error Loading the Context", e);
+				e.printStackTrace();
+			}
+			
 			Scheduler scheduler = (Scheduler) ctx.getBean("ilchScheduler");
 
 			JobKey jobKey = new JobKey("Bday" + "_Job", "NotificationGroup");
@@ -128,7 +135,9 @@ public class AppConfigServlet extends HttpServlet {
 				ConfirmRegistrationAction action = new ConfirmRegistrationAction();
 				action.createSuperAdmin(ctx);
 				//action.createDemoEmployer(ctx);
-				action.sendEmail("haigopi@gmail.com", "sridhar.thigulla@gmail.com", "ILCH - Automated Email", "Application is just bounced at RunningTicker.com. If this is not done by either of us, we need to look into : As some one is trying to hack the application");
+				
+				if(!profile.equals("DEV"))
+					action.sendEmail("haigopi@gmail.com", "sridhar.thigulla@gmail.com", "RunningTicker - Application Bounced", "Application is just bounced at RunningTicker.com. If this is not done by either of us, we need to look into .");
 				
 				// Set News
 				DoTransaction doTransaction = (DoTransaction) ctx.getBean("doTransaction");

@@ -20,7 +20,7 @@ public class SignOutAction extends BaseAction
 		ActionForward forward = new ActionForward();
 		forward = mapping.findForward("forwardTo");
 		request.getSession().removeAttribute("userProfile");
-		request.getSession().invalidate();
+//		request.getSession().invalidate();
 		putObjInRequest("signedout", request, "1");
 		return forward;
 	}

@@ -86,7 +86,9 @@
 
 		</logic:iterate>
 			<tr>
-				<td  colspan="5" align="right"><input type="button" value="Add Category" class="ButtonStyle" onclick="addCategory()">
+				<td  colspan="5" align="right">
+				<input type="button" value="Add Category" class="ButtonStyle" onclick="addCategory()">
+				<input type="button" value="Go Back" class="ButtonStyle" onclick="goToAdminFunctionsPage()">
 				</td>
 			</tr>
 	</table>
@@ -116,9 +118,13 @@
 <input type = "hidden" name="_idcategories" id="_idcategories">
 </form>
 
+<form action="genericForwardAction.do?forwardTo=admin/adminFunctions.jsp" method="post" name="goToAdminFunctions">
+</form>
 <script>
 
-
+function goToAdminFunctionsPage() {
+	document.getElementsByName("goToAdminFunctions")[0].submit();
+}
 function confirmlink(titleHead, msg, id) {
 
 	dhtmlx.confirm({ title: titleHead, text:msg, ok:"Yes", cancel:"No", callback:function(result){ 
@@ -192,7 +198,7 @@ function editCategory(id, name, description) {
 	        	$("#_desc").val($("#desc").val());
 	        	$("#_parameter").val("updateCategory");
 	        	$("#_idcategories").val(id);
-				alert($("#_name").val());
+				//($("#_name").val());
 				
 	        	$(this).dialog("close");
 	        	

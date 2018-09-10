@@ -5,7 +5,7 @@
 	<property name="src" location="src" />
 	<property name="build" location="build" />
 	<property name="dist" location="builds" />
-	<property name="env.CATALINA_HOME" location="X:\Program Files (x86)\Apache Software Foundation\Tomcat 6.0" />
+	<property name="env.CATALINA_HOME" location="E:\apache-tomcat-7.0.90-windows-x64\apache-tomcat-7.0.90" />
 
 	<description>
 	        ILCH BUILD 

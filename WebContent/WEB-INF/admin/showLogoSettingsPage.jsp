@@ -1,4 +1,5 @@
 
+<%@page import="com.lch.general.generalBeans.UserProfile"%>
 <%@ taglib uri="http://struts.apache.org/tags-html" prefix="html"%>
 <%@ taglib uri="http://struts.apache.org/tags-bean" prefix="bean"%>
 <style>
@@ -14,6 +15,18 @@
                    }
 
 </style>
+<%
+						UserProfile userProfile = (UserProfile) session.getAttribute("userProfile");
+%>
+<script>
+
+function showMyAppURL() {
+	dhtmlx.message({type:"error", expire:6000, text:"Did you see the prompt? Copy that URL." });
+	window.prompt("Press Ctrl+C, Enter", "http://www.RunningTicker.com?businessId=<%= userProfile.getBusinessId()%>");
+}
+
+</script>
+
 <div align="center">
 <html:form action="/adminFunctImpl.do"
 	enctype="multipart/form-data">
@@ -36,6 +49,12 @@
    			<html:link styleClass="memberLinks" onclick="confirmlink()" href="#">
 				<div class="squareAdmin" title="Updates your Logo"><span class="spanStyle"><img src="images/time.png" ></span><span class="spanStyle">Restore To Default Logo</span></div>
 			</html:link>
+			
+			
+			<html:link styleId="sendlink" href="#" styleClass="memberLinks" onclick="showMyAppURL()">
+				<div class="squareAdmin" title="Sends an email with comapny unique id to the listed emails(not neccessarily the employees)."><span class="spanStyle"><img style="max-width: 32; max-height: 32" src="images/time.png" ></span><span class="spanStyle">MyLogo ApplicationURL</span></div>
+			</html:link>
+			
 			</div>
 			</td>
 		</tr>

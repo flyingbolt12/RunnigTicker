@@ -1,11 +1,15 @@
 package com.lch.struts.actions.admin;
 
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,16 +25,19 @@ import org.apache.struts.upload.FormFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.lch.general.constants.GeneralConstants;
 import com.lch.general.constants.VMConstants;
 import com.lch.general.dbBeans.LCH_BUSINESS;
-import com.lch.general.email.EmailConstants;
+import com.lch.general.dbBeans.USERPERSONALDATA;
 import com.lch.general.email.EmailDetails;
 import com.lch.general.enums.AdminSearchFunction;
 import com.lch.general.enums.DOCTypes;
 import com.lch.general.enums.TimeSheetStatus;
+import com.lch.general.enums.TimeSheetTypes;
 import com.lch.general.generalBeans.EmployeeAssociation;
 import com.lch.general.generalBeans.UserProfile;
 import com.lch.general.generalBeans.VMInputBean;
+import com.lch.general.genericUtils.DateUtils;
 import com.lch.general.genericUtils.EmailsReport;
 import com.lch.general.genericUtils.FormFile2File;
 import com.lch.general.genericUtils.GeneratePassword;
@@ -44,7 +51,6 @@ import com.lch.struts.formBeans.SearchOptions;
  * @author
  * @param
  */
-@SuppressWarnings({ "rawtypes", "unchecked" })
 public class AdminFunctImplAction extends BaseAction {
 
 	private static Logger log = LoggerFactory.getLogger(AdminFunctImplAction.class);
@@ -59,17 +65,72 @@ public class AdminFunctImplAction extends BaseAction {
 		return forward;
 	}
 	
+	public ActionForward manageMyUploads(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		ActionForward forward = new ActionForward();
+		log.info("-manageMyAdmins-");
+		//List listAllMyAdmins = getSpringCtxDoTransactionBean().listMyAdmins(getUserProfile(request));
+		//putObjInRequest("listAllMyAdmins", request, listAllMyAdmins);
+		
+		forward = mapping.findForward("manageMyUploads");
+		return forward;
+	}
+	
+	public ActionForward downloadDoBackUpData(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		ActionForward forward = new ActionForward();
+		log.info("-downloadDoBackUpData-");
+		
+		
+		long busId = getBusinessId(request);
+		//PrintWriter writer = response.getWriter();
+		downloadBusinessData(busId, response);
+		//writer.append("CSV content");
+		
+	
+		return null;
+	}
+	
 	public ActionForward manageMyCategories(ActionMapping mapping, ActionForm form, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		ActionForward forward = new ActionForward();
 		log.info("-manageMyCategories-");
-		List listAllMyCategories = getSpringCtxDoTransactionBean().listMyCategories(getUserProfile(request));
+		List listAllMyCategories = getSpringCtxDoTransactionBean().listCategories(getUserProfile(request));
 		putObjInRequest("listAllMyCategories", request, listAllMyCategories);
 		forward = mapping.findForward("manageMyCategories");
 		return forward;
 	}
 	
-	
+	public ActionForward quickSearch(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		ActionForward forward = new ActionForward();
+		log.info("-quickSearch-");
+		forward = mapping.findForward("generalJSP4AJAXMsg");
+		String param = request.getParameter("term");
+		
+		List<Map<String, Object>> employees = getSpringCtxDoTransactionBean().listMylistEmployeeNames(param,getUserProfile(request).getBusinessId());
+		
+		StringBuilder builder = null;
+		log.info("Input Query : {} -- Results : {}", param, employees.size());
+		if(employees.size() == 0){
+			builder = new StringBuilder();
+			builder.append("[{\"label\":\"").append("None Found").append("\", \"value\" :\"").append("None Found").append("\"}]");
+		} else {
+			builder = new StringBuilder("[");
+			for(Map<String, Object> employee : employees){
+				builder.append("{\"label\":\"").append(employee.get("fName")).append(employee.get("lName")).append("\", \"value\" :\"").append(employee.get("userId")).append("\"}");
+				builder.append(",");
+			}
+			String result = builder.toString();
+			if(result.length() > 1)
+				result = result.substring(0, result.lastIndexOf(","));
+			builder = new StringBuilder(result).append("]");
+		}
+		
+		log.info(builder.toString());
+		putAjaxStatusObjInRequest(request, builder.toString());
+		return forward;
+	}
 	
 	/**
 	 * 
@@ -109,21 +170,28 @@ public class AdminFunctImplAction extends BaseAction {
 		forward = mapping.findForward("generalJSP4AJAXMsg");
 
 		String email = getStrAsRequestParameter("email", request);
+		if(email ==null){
+			email = getSpringCtxDoTransactionBean().getUserEmail(userId);
+		}
 		EmailDetails emailDetails = new EmailDetails();
 		ArrayList l = new ArrayList();
 		l.add(email);
 		emailDetails.setTo(l);
 		VMInputBean bean = new VMInputBean();
 		bean.setText(status);
-		emailDetails.setSubject("ILCH & CCS : Your Account Status Changed");
+		emailDetails.setSubject("RunningTicker  : Your Account Status Changed");
 		String sb = getEmailTemplate(bean, VMConstants.VM_ACTIVATE_DEACTIVATE);
 		emailDetails.setEmailContent(new StringBuffer(sb));
-		sendEmail(emailDetails);
+		if(email!=null){
+			sendEmail(emailDetails);
+		} else {
+			log.error("Invalid Email Found");
+		}
 
 		return forward;
 	}
 	
-
+	
 	public ActionForward loadInvoiceDetails(ActionMapping mapping, ActionForm form, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		log.info("-loadInvoiceDetails-");
@@ -134,20 +202,31 @@ public class AdminFunctImplAction extends BaseAction {
 		long businessId = getUserProfile(request).getBusinessId();
 		String loadFrom = getStrAsRequestParameter("loadFromUserRateTable", request); 
 		DoTransaction doTransaction = getSpringCtxDoTransactionBean();
+		double rate = 0.0d;
 		try{
-			double rate = 0.0d;
+			
 			if(loadFrom!=null)
 				rate = Double.parseDouble(doTransaction.getRate(clientId, userId, businessId));
 			else
 				rate = Double.parseDouble(doTransaction.getTimeSheetSpecificRate(weeklyHrsSummaryId+""));
+		}
+		catch(Exception e){
+			log.info("Error getting the rate : {}", e.getMessage());
+		}
+		try{
 			Map<String, Object> m = doTransaction.getWeeklySummeryDetails(weeklyHrsSummaryId);
 			double totalRegularHrs = (Double)m.get("totalRegularHrs");
 			double totalOvertimeHrs = (Double)m.get("totalOvertimeHrs");
 			double totalHolidayHrs = (Double)m.get("totalHolidayHrs");
+			double totalHrsSubmitted = (Double)m.get("totalHrsSubmitted");
+			// ERROR - FIX Later
+			boolean hasOnlyMonthlyHours = ((Integer)m.get("hasOnlyMonthlyHours")).intValue() != 0;
 			
 			putObjInRequest("RH", request, totalRegularHrs);
 			putObjInRequest("OH", request, totalOvertimeHrs);
 			putObjInRequest("HH", request, totalHolidayHrs);
+			putObjInRequest("TH", request, totalHrsSubmitted);
+			putObjInRequest("hasOnlyMonthlyHours", request, hasOnlyMonthlyHours);
 			putObjInRequest("RATE", request, rate);
 		}
 		catch(Exception e)
@@ -203,10 +282,9 @@ public class AdminFunctImplAction extends BaseAction {
 				"Notified, keeping you in CC. <BR> Note that, you still need to approve your employee inorder to provide a login facility to upload a profile, if he/she is not yet approved.");
 
 		int userId = getIntAsRequestParameter("userId", request);
-		String businessEmail = getUserProfile(request).getEmployerEmail();
 		String userEmail = getSpringCtxDoTransactionBean().getUserEmail(userId);
 		VMInputBean bean = new VMInputBean();
-		bean.setText("Your Employer sent a request to upload your profile in their ILCH system. Please login and upload the profile.");
+		bean.setText("Your Employer sent a request to upload your profile in their RunningTicker  system. Please login and upload the profile.");
 		EmailDetails emailDetails = new EmailDetails();
 		ArrayList<String> to = new ArrayList<String>();
 		to.add(userEmail);
@@ -214,6 +292,7 @@ public class AdminFunctImplAction extends BaseAction {
 		emailDetails.setSubject("Request to upload your profile");
 		String sb = getEmailTemplate(bean, VMConstants.VM_RESUME_UPLOAD_NOTIFY);
 		emailDetails.setEmailContent(new StringBuffer(sb));
+		emailDetails.setReplyTo(getUserProfile(request).getEmployerEmail());
 		sendEmail(emailDetails);
 		return mapping.findForward("ajaxStatus");
 	}
@@ -383,8 +462,8 @@ public class AdminFunctImplAction extends BaseAction {
 		String successStatus = "Congratulation, You was granted the access to login and submit time sheets online by your employer";
 		String rejectStatus = "You have to register again as your request of registration was denied by your employer. Contact your employer for more information.";
 		String status = "";
-		if (ajaxParam.equalsIgnoreCase("ApproveAll")
-				|| ajaxParam.equalsIgnoreCase("RejectAll")) {
+		if (ajaxParam.equalsIgnoreCase("Approve Selected")
+				|| ajaxParam.equalsIgnoreCase("Reject Selected")) {
 
 			String userIds = getStrAsRequestParameter("userId", request);
 			log.info("Action To {} Users {}", ajaxParam, userIds);
@@ -392,7 +471,7 @@ public class AdminFunctImplAction extends BaseAction {
 			String action = "";
 			String result = "Action " + ajaxParam + " Completed";
 
-			if (ajaxParam.equalsIgnoreCase("ApproveAll")) {
+			if (ajaxParam.equalsIgnoreCase("Approve Selected")) {
 				status = successStatus;
 				action = TimeSheetStatus.APPROVED.name();
 			} else {
@@ -631,6 +710,94 @@ public class AdminFunctImplAction extends BaseAction {
 		return (forward);
 	}
 
+	public ActionForward radialListing(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		ActionForward forward = new ActionForward();
+		
+		if(isEmployer(request))
+		{
+			forward = mapping.findForward("radialListing");
+			return (forward);
+		}
+		else {
+			putAjaxStatusObjInRequest(request, "Don't Fish us! We are your friends.");
+			forward = mapping.findForward("status");
+			return (forward);
+		}
+	}
+	
+	public ActionForward listAllEmployeeAttachments(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		ActionForward forward = new ActionForward();
+		
+		if(isEmployer(request))
+		{
+			String json = getJson(getSpringCtxDoTransactionBean().listAttachedDocsForUser(getBusinessId(request), getLongAsRequestParameter("userId", request)));
+			log.info("{}  - {}",json, getLongAsRequestParameter("userId", request));
+			putAjaxStatusObjInRequest(request, json);
+		}
+		else {
+			putAjaxStatusObjInRequest(request, "Don't Fish us! We are your friends.");
+		}
+		
+		forward = mapping.findForward("generalJSP4AJAXMsg");
+		return (forward);
+	}
+	
+	public ActionForward downloadAllEmployeeAttachments(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		ActionForward forward = new ActionForward();
+		
+		if(isEmployer(request))
+		{
+			String sIds = "";
+			List<Map<String, Object>> list=  getSpringCtxDoTransactionBean().listAttachedDocsForUser(getBusinessId(request), getLongAsRequestParameter("userId", request));
+			for(Map<String, Object> map:list) {
+				sIds += map.get("idattacheddocs").toString()+",";
+			}
+			if(sIds.length() > 0)
+				sIds = sIds.substring(0, sIds.length()-1);
+			log.info(sIds);
+			putObjInRequest("sIds", request, sIds);
+			forward = mapping.findForward("downloadAllFiles");
+			return (forward);
+			
+		}
+		else {
+			putAjaxStatusObjInRequest(request, "Don't Fish us! We are your friends.");
+			forward = mapping.findForward("generalJSP4AJAXMsg");
+			return (forward);
+		}
+		
+		
+	}
+
+	
+	public ActionForward browseUploads(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		log.info("-browseUploads-");
+	
+		ActionForward forward = new ActionForward();
+		forward = mapping.findForward("browseUploads");
+		
+		List<Map<String, Object>> emps = getSpringCtxDoTransactionBean().getAllEmployeesForBrowseUploads(getBusinessId(request));
+		
+		String json = getJson(emps);
+
+		request.setAttribute("emps", json);
+		System.out.println(json);
+		if(getLongAsRequestParameter("userId", request) != 0) {
+			
+			
+			// request Single User
+		}
+		else
+		{
+			//request all users
+		}
+		return (forward);
+	}
+	
 	public ActionForward seeEmployeeHistory(ActionMapping mapping, ActionForm form, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		ActionForward forward = new ActionForward();
@@ -772,7 +939,31 @@ public class AdminFunctImplAction extends BaseAction {
 		forward = mapping.findForward("generalJsp");
 		return (forward);
 	}
+	public ActionForward sendMyBusinessUniqueIdentificationNumberToEmployee(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
+		log.info("-viewMyUniqueNumber-");
+		
+		ActionForward forward = new ActionForward();
+		//String email = getUserProfile(request).getEmployerEmail();
+		String displayEmail = "";
+		long userId = getLongAsRequestParameter("ajaxParam", request);
+		String email = getSpringCtxDoTransactionBean().getUserEmail(userId);
 
+		long businessId = getUserProfile(request).getBusinessId();
+		EmailDetails emailDetails = new EmailDetails();
+		VMInputBean bean = new VMInputBean();
+		bean.setText(String.valueOf(businessId));
+		ArrayList l = new ArrayList();
+		l.add(email);
+		emailDetails.setTo(l);
+		emailDetails.setSubject("Business ID");
+		String sb = getEmailTemplate(bean, VMConstants.VM_BUSINESS_ID_MAIL);
+		emailDetails.setEmailContent(new StringBuffer(sb));
+		sendEmail(emailDetails);
+		putAjaxStatusObjInRequest(request, "Email Sent To :" + displayEmail);
+		forward = mapping.findForward("generalJsp");
+		return (forward);
+	}
 	public ActionForward showTimerCreationPage(ActionMapping mapping, ActionForm form, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		
@@ -804,6 +995,121 @@ public class AdminFunctImplAction extends BaseAction {
 		ActionForward forward = new ActionForward();
 		forward = mapping.findForward("showLogoSettingsPage");
 		return (forward);
+	}
+	
+	public ActionForward showSettingsPage(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		
+		ActionForward forward = new ActionForward();
+		forward = mapping.findForward("showSettingsPage");
+		return (forward);
+	}
+	public ActionForward showTimeSheetConfiguration(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		log.info("-Admin Account Settings-");
+		
+		ActionForward forward = new ActionForward();
+		forward = mapping.findForward("showTimeSheetConfigurationPage");
+		log.info("-showTimeSheetConfiguration-");
+		List<Map<String, Object>> adminSettings= getSpringCtxDoTransactionBean().getAdminSettings(getUserProfile(request).getBusinessId());
+		
+		Map timeSheetConfig = new HashMap<String, String>();
+		boolean isKeyFound = false;
+		for(Map map : adminSettings)
+		{
+			if (map.containsValue(AdminSettings.TIMSHEETCONFIGURATION.name()))
+			{
+				isKeyFound = true;
+				timeSheetConfig.put(AdminSettings.TIMSHEETCONFIGURATION.name(), map.get("value"));
+				break;
+			}
+		}
+		
+		if(!isKeyFound)
+		{
+			getSpringCtxDoTransactionBean().createTimeSheetConfiguration(getUserProfile(request).getBusinessId(), AdminSettings.TIMSHEETCONFIGURATION.name(), AdminSettings.TIMSHEETCONFIGURATION.getDefautValue());
+			timeSheetConfig.put(AdminSettings.TIMSHEETCONFIGURATION.name(), AdminSettings.TIMSHEETCONFIGURATION.getDefautValue());
+		}
+		putObjInRequest("adminSettings", request, timeSheetConfig);
+		return (forward);
+	}
+	
+	public ActionForward updateTimeSheetConfiguration(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		log.info("-updateTimeSheetConfiguration -");
+		
+		ActionForward forward = new ActionForward();
+		forward = mapping.findForward("adminFunctions");
+		
+		String name = request.getParameter("name");
+		String value= request.getParameter("timeSheetConfigValue");
+		
+		long i = getSpringCtxDoTransactionBean().updateAdminSettings(getUserProfile(request).getBusinessId(), name, value);
+		
+		putObjInRequest("isAdminSettingsUpdated", request, "yes");
+		
+		if(i > 0)
+			putObjInRequest("status", request, "TimeSheet Configuration Updated Sucessfully");
+		else
+			putObjInRequest("status", request, "Failed to Update TimeSheet Configuration");
+		return (forward);
+	}
+	
+	
+	public void insertAdminSetting(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+			HttpServletResponse response, AdminSettings ads, String settingValue){
+		
+		List<Map<String, Object>> adminSettings= getSpringCtxDoTransactionBean().getAdminSettings(getUserProfile(request).getBusinessId());
+		
+		//Map timeSheetConfig = new HashMap<String, String>();
+		boolean isKeyFound = false;
+		for(Map map : adminSettings)
+		{
+			if (map.containsValue(ads.name()))
+			{
+				isKeyFound = true;
+				break;
+			}
+		}
+		
+		if(!isKeyFound)
+		{
+			// Insert
+			getSpringCtxDoTransactionBean().insertAdminSetting(getUserProfile(request).getBusinessId(), ads.name(), settingValue);
+		}
+		else{
+			// Update
+			getSpringCtxDoTransactionBean().updateAdminSettings(getUserProfile(request).getBusinessId(), ads.name(), settingValue);
+		}
+		loadAdminSettings(getUserProfile(request));
+		putShowStatusObjInRequest(request, "Success!");
+	}
+	public ActionForward showSkipNotifyEmployerButton(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		// Get Yes or No
+		// Save the config
+		// Retrive and Show as per configuarytin in addSupportingDoc.jsp after Time Sheet Submission doen
+		log.info("-showSkipNotifyEmployerButton-");
+		try{
+		String val = request.getParameter("result");
+		if(val!=null) {
+			insertAdminSetting(mapping, form, request, response, AdminSettings.HIDE_NOTIFY_EMPLOYER_BUTTON, val);
+		}
+		else{
+			putShowStatusObjInRequest(request, "Failed! Contact Support.");
+		}
+		}
+		catch(Exception e )
+		{
+			putShowStatusObjInRequest(request, "Failed! Contact Support.");
+		}
+		
+		ActionForward forward = new ActionForward();
+		forward = mapping.findForward("adminFunctions");
+
+		
+		return (forward);
+		
 	}
 	public ActionForward restoreLogo(ActionMapping mapping, ActionForm form, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
@@ -872,6 +1178,20 @@ public class AdminFunctImplAction extends BaseAction {
 		
 		ActionForward forward = new ActionForward();
 		forward = mapping.findForward("makeGenericEmail");
+		return (forward);
+
+	}
+	
+	public ActionForward showNotifyGroupOfEmployeesbyCategory(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		log.info("-showNotifyGroupOfEmployeesbyCategory-");
+		// List Categories
+		List listAllMyCategories = getSpringCtxDoTransactionBean().listCategories(getUserProfile(request));
+		putObjInSession("listAllMyCategories", request, listAllMyCategories);
+		
+		ActionForward forward = new ActionForward();
+		forward = mapping.findForward("showNotifyGroupOfEmployeesbyCategory");
+		
 		return (forward);
 
 	}
@@ -980,9 +1300,14 @@ public class AdminFunctImplAction extends BaseAction {
 		
 		ActionForward forward = new ActionForward();
 
-		List<Map> employeeTimesheetPendingApprovals = getSpringCtxDoTransactionBean()
-				.listEmployeeTimesheetsForAdmin(getUserProfile(request), request.getParameter("userId"));
+		List<Map> employeeTimesheetPendingApprovals = getSpringCtxDoTransactionBean().listEmployeeTimesheetsForAdmin(getUserProfile(request), request.getParameter("userId"));
+		
+		Map<String, Object> userDetails = getSpringCtxDoTransactionBean().getUserDetailsByUserId(getLongAsRequestParameter("userId", request));
+		USERPERSONALDATA user = new USERPERSONALDATA();
+		convertMaptoUsers(user, userDetails);
+
 		putObjInRequest("timeSheetsForAdminList", request, employeeTimesheetPendingApprovals);
+		putObjInRequest("USERPERSONALDATA", request, user);
 
 		forward = mapping.findForward("listTimeSheetsForAdmin");
 		return (forward);
@@ -1067,8 +1392,8 @@ public class AdminFunctImplAction extends BaseAction {
 		String ajaxParam = request.getParameter("ajaxParam");
 		List emails ;
 		String status = "";
-		if (ajaxParam.equalsIgnoreCase("ApproveAll")) {
-			log.info("-ApproveAll-" + ajaxParam);
+		if (ajaxParam.equalsIgnoreCase("Approve Selected")) {
+			log.info("-Approve Selected-" + ajaxParam);
 			status = "Your approval request submitted for time sheet is now approved by your employer.";
 			String weeklyHrsSummaryIds = getStrAsRequestParameter("weeklyHrsSummaryIds", request);
 			emails = getSpringCtxDoTransactionBean().listUserEmailsByWeeklyIds(weeklyHrsSummaryIds);
@@ -1080,8 +1405,8 @@ public class AdminFunctImplAction extends BaseAction {
 			attachUserRateToTimeSheet(idArr);
 			putAjaxStatusObjInRequest(request, "Action Approve-All Completed");
 			sendStatusEmail(emails, status, "Your TimeSheet Status");
-		} else if (ajaxParam.equalsIgnoreCase("RejectAll")) {
-			log.info("-RejectAll-" + ajaxParam);
+		} else if (ajaxParam.equalsIgnoreCase("Reject Selected")) {
+			log.info("-Reject Selected-" + ajaxParam);
 			status = "Your approval request submitted for time sheet is rejected by your employer. Please edit and re submit accordingly. If you have any issues please contact your employer.";
 			String weeklyHrsSummaryIds = getStrAsRequestParameter("weeklyHrsSummaryIds", request);
 			emails = getSpringCtxDoTransactionBean().listUserEmailsByWeeklyIds(weeklyHrsSummaryIds);
@@ -1229,58 +1554,9 @@ public class AdminFunctImplAction extends BaseAction {
 		return (forward);
 	}
 
-	public ActionForward showTimeSheetConfiguration(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-			HttpServletResponse response) throws Exception {
-		log.info("-Admin Account Settings-");
-		
-		ActionForward forward = new ActionForward();
-		forward = mapping.findForward("showTimeSheetConfigurationPage");
-		log.info("-showTimeSheetConfiguration-");
-		List<Map<String, Object>> adminSettings= getSpringCtxDoTransactionBean().getAdminSettings(getUserProfile(request).getBusinessId());
-		
-		Map timeSheetConfig = new HashMap<String, String>();
-		boolean isKeyFound = false;
-		for(Map map : adminSettings)
-		{
-			if (map.containsValue(AdminSettings.TIMSHEETCONFIGURATION.name()))
-			{
-				isKeyFound = true;
-				timeSheetConfig.put(AdminSettings.TIMSHEETCONFIGURATION.name(), map.get("value"));
-				break;
-			}
-		}
-		
-		if(!isKeyFound)
-		{
-			getSpringCtxDoTransactionBean().createTimeSheetConfiguration(getUserProfile(request).getBusinessId(), AdminSettings.TIMSHEETCONFIGURATION.name(), AdminSettings.TIMSHEETCONFIGURATION.getDefautValue());
-			timeSheetConfig.put(AdminSettings.TIMSHEETCONFIGURATION.name(), AdminSettings.TIMSHEETCONFIGURATION.getDefautValue());
-		}
-		putObjInRequest("adminSettings", request, timeSheetConfig);
-		return (forward);
-	}
-	
-	public ActionForward updateTimeSheetConfiguration(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-			HttpServletResponse response) throws Exception {
-		log.info("-updateTimeSheetConfiguration -");
-		
-		ActionForward forward = new ActionForward();
-		forward = mapping.findForward("adminFunctions");
-		
-		String name = request.getParameter("name");
-		String value= request.getParameter("timeSheetConfigValue");
-		
-		long i = getSpringCtxDoTransactionBean().updateAdminSettings(getUserProfile(request).getBusinessId(), name, value);
-		
-		putObjInRequest("isAdminSettingsUpdated", request, "yes");
-		
-		if(i > 0)
-			putObjInRequest("status", request, "TimeSheet Configuration Updated Sucessfully");
-		else
-			putObjInRequest("status", request, "Failed to Update TimeSheet Configuration");
-		return (forward);
-	}
 	
 	
+
 	
 	public ActionForward disableBusiness(ActionMapping mapping, ActionForm form, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
@@ -1332,6 +1608,229 @@ public class AdminFunctImplAction extends BaseAction {
 		return (forward);
 	}
 
+	public ActionForward showSendGenericEmailToSingleEmployee(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		log.info("-sendAnInstantEmail-");
+		
+		ActionForward forward = new ActionForward();
+		String displayname = getSpringCtxDoTransactionBean().getUserDisplayName(getLongAsRequestParameter("userId", request));
+		putObjInRequest("displayName", request, displayname);
+		forward = mapping.findForward("sendGenericEmailToSingleEmployee");
+		return (forward);
+	}
+
+	
+	
+	public ActionForward regenerateValidationEmail(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		log.info("-regenerateValidationEmail-");
+
+		ActionForward forward = new ActionForward();
+		forward = mapping.findForward("generalJSP4AJAXMsg");
+
+		long usrId = getLongAsRequestParameter("ajaxParam", request);
+		String usrEmail = getSpringCtxDoTransactionBean().getUserEmail(usrId);
+		String status = getSpringCtxDoTransactionBean().getEmilVerificationStatus(usrId);
+
+		if (!status.equals("1")) {
+			List<String> to = new ArrayList<String>();
+
+			VMInputBean bean = new VMInputBean();
+			bean.setText("validate");
+		
+			EmailDetails emailDetails = new EmailDetails();
+			if(usrEmail!=null && usrEmail.length()>0 && EmailValidator.getInstance().isValid(usrEmail))
+			{
+				StringBuffer sb = getValidateUserEmail(request, usrId, bean);
+				to.add(usrEmail);
+				emailDetails.setTo(to);
+				emailDetails.setSubject("RunningTicker  - Validate your email ");
+				emailDetails.setEmailContent(sb);
+				sendEmail(emailDetails);
+				putAjaxStatusObjInRequest(request, "Notified");
+			}
+			else{
+				putAjaxStatusObjInRequest(request, "invalidEmail");
+			}
+			
+		} else {
+			putAjaxStatusObjInRequest(request, "alreadyValidated");
+		}
+		return (forward);
+	}
+	private StringBuffer getValidateUserEmail(HttpServletRequest request,
+			long userId, VMInputBean bean) {
+
+		int min = 11;
+		int max = 35;
+		
+		String url = getApplicationURL(request);
+		log.info("User Id --> {}", userId);
+		UUID uuid = UUID.randomUUID();
+		String key = String.valueOf(userId);
+		Random randomGenerator = new Random();
+		int randomInt = randomGenerator.nextInt(max - min + 1) + min;
+		StringBuffer sb = new StringBuffer(randomInt + String.valueOf(uuid)
+				+ "_" + String.valueOf((key)).length());
+		sb.insert(randomInt - 2, key);
+
+		url += "validateUserEmail.do?p=" + sb.toString();
+		bean.setUrl(url);
+		
+		String emailBody = getEmailTemplate(bean,
+				VMConstants.VM_ACTIVATE_REGISTRATION_NOTIFICATION);
+
+		return new StringBuffer(emailBody);
+	}
+	public ActionForward sendGenericEmailToSingleEmployee(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		log.info("-sendAnInstantEmail-");
+		
+		ActionForward forward = new ActionForward();
+		String displayname = getSpringCtxDoTransactionBean().getUserDisplayName(getLongAsRequestParameter("userId", request));
+		String contactEmail = getSpringCtxDoTransactionBean().getUserEmail(getLongAsRequestParameter("userId", request));
+		
+
+		log.info("-sendGenericEmailToSingleEmployee-");
+		
+		forward = mapping.findForward("adminFunctions");
+		long businessId = getUserProfile(request).getBusinessId();
+		NotifyEmployeesBean bean = (NotifyEmployeesBean)form;
+		if(bean.getEmailContent()==null || bean.getEmailContent().trim().length() == 0)
+		{
+			putStatusObjInRequest(request, "Email Content was not found. No Employees were notified.");
+		}
+		else if(bean.getSubject()==null || bean.getSubject().trim().length() == 0)
+		{
+			putStatusObjInRequest(request, "Email Subject was not found. No Employees were notified.");
+		}
+		else
+		{
+			String msg = "Employee(s) Notified as requested";
+			List<String> to = new ArrayList<String>();
+			List<String> valid = new ArrayList<String>();
+			List<String> invalid = new ArrayList<String>();
+			EmailDetails emailDetails = new EmailDetails();
+
+			to.clear();
+			if(EmailValidator.getInstance().isValid(contactEmail))
+			{
+				to.add(contactEmail);
+				valid.add(contactEmail);
+			}
+			else
+			{
+				invalid.add(contactEmail);
+			}
+			
+			VMInputBean vmbean = new VMInputBean();
+			vmbean.setText(bean.getEmailContent());
+			emailDetails.setSubject(bean.getSubject());
+			String sb = getEmailTemplate(vmbean, VMConstants.VM_NOTIFY_EMPLOYEES);
+			emailDetails.setEmailContent(new StringBuffer(sb));
+			emailDetails.setTo(to);
+			log.info("Size of file attached {} , 2MB : {}", bean.getAttachement().getFileSize() , 1024*1024*2);
+			if(bean.getAttachement()!=null && bean.getAttachement().getFileSize() > 0 && bean.getAttachement().getFileSize() < 1024*1024*2)
+			{
+				log.info("Size of file attached {}", bean.getAttachement());
+				emailDetails.setAttachment(FormFile2File.convertToFile(bean.getAttachement()));
+			}
+
+			emailDetails.setReplyTo(getUserProfile(request).getEmployerEmail());
+			sendEmail(emailDetails);	
+		
+			if(bean.getAttachement()!=null && bean.getAttachement().getFileSize() > 0 && bean.getAttachement().getFileSize() < 1024*1024*2)
+			{
+				msg = msg + " with file attachement";
+			}
+			else
+			{
+				msg = msg + " with no file attachement";
+			}
+			sendReportToEmployer(getUserProfile(request),valid,invalid, bean.getSubject(),bean.getAttachement());
+			putStatusObjInRequest(request, msg);
+			putObjInRequest("isNotified", request, "yes");
+		}
+		
+		return (forward);
+		
+	}
+	
+	public ActionForward notifyGroupOfEmployeesbyCategory(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		log.info("-sendAnInstantEmail-");
+		
+		ActionForward forward = new ActionForward();
+		forward = mapping.findForward("adminFunctions");
+		long businessId = getUserProfile(request).getBusinessId();
+		NotifyEmployeesBean bean = (NotifyEmployeesBean)form;
+		if(bean.getEmailContent()==null || bean.getEmailContent().trim().length() == 0)
+		{
+			putStatusObjInRequest(request, "Email Content was not found. No Employees were notified.");
+		}
+		else if(bean.getSubject()==null || bean.getSubject().trim().length() == 0)
+		{
+			putStatusObjInRequest(request, "Email Subject was not found. No Employees were notified.");
+		}
+		else
+		{
+			String msg = "Employee(s) Notified as requested";
+			List<String> to = new ArrayList<String>();
+			List<String> valid = new ArrayList<String>();
+			List<String> invalid = new ArrayList<String>();
+			EmailDetails emailDetails = new EmailDetails();
+			List<Map<String, String>> listAllMyEmployees;
+			
+			listAllMyEmployees = getSpringCtxDoTransactionBean().listEmailsByEmpCategory(businessId, bean.getEmployeeType());
+			
+			String emailStr;
+			for(Map<String, String> email : listAllMyEmployees)
+			{
+				to.clear();
+				emailStr = email.get("contactEmail");
+				if(EmailValidator.getInstance().isValid(emailStr))
+				{
+					to.add(emailStr);
+					valid.add(emailStr);
+				}
+				else
+				{
+					invalid.add(emailStr);
+				}
+				
+				VMInputBean vmbean = new VMInputBean();
+				vmbean.setText(bean.getEmailContent());
+				emailDetails.setSubject(bean.getSubject());
+				String sb = getEmailTemplate(vmbean, VMConstants.VM_NOTIFY_EMPLOYEES);
+				emailDetails.setEmailContent(new StringBuffer(sb));
+				emailDetails.setTo(to);
+				log.info("Size of file attached {} , 2MB : {}", bean.getAttachement().getFileSize() , 1024*1024*2);
+				if(bean.getAttachement()!=null && bean.getAttachement().getFileSize() > 0 && bean.getAttachement().getFileSize() < 1024*1024*2)
+				{
+					log.info("Size of file attached {}", bean.getAttachement());
+					emailDetails.setAttachment(FormFile2File.convertToFile(bean.getAttachement()));
+				}
+	
+				emailDetails.setReplyTo(getUserProfile(request).getEmployerEmail());
+				sendEmail(emailDetails);	
+			}
+			
+			if(bean.getAttachement()!=null && bean.getAttachement().getFileSize() > 0 && bean.getAttachement().getFileSize() < 1024*1024*2)
+			{
+				msg = msg + " with file attachement";
+			}
+			else
+			{
+				msg = msg + " with no file attachement";
+			}
+			sendReportToEmployer(getUserProfile(request),valid,invalid, bean.getSubject(),bean.getAttachement());
+			putStatusObjInRequest(request, msg);
+			putObjInRequest("isNotified", request, "yes");
+		}
+		
+		return (forward);
+	}
+	
 	public ActionForward sendGenericEmailToEmployees(ActionMapping mapping, ActionForm form, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		log.info("-sendAnInstantEmail-");
@@ -1350,7 +1849,7 @@ public class AdminFunctImplAction extends BaseAction {
 		}
 		else
 		{
-			String msg = "Employees Notified as requested";
+			String msg = "Employee(s) Notified as requested";
 			List<String> to = new ArrayList<String>();
 			List<String> valid = new ArrayList<String>();
 			List<String> invalid = new ArrayList<String>();
@@ -1393,7 +1892,7 @@ public class AdminFunctImplAction extends BaseAction {
 					emailDetails.setAttachment(FormFile2File.convertToFile(bean.getAttachement()));
 				}
 	
-				emailDetails.setFrom(getUserProfile(request).getEmployerEmail());
+				emailDetails.setReplyTo(getUserProfile(request).getEmployerEmail());
 				sendEmail(emailDetails);	
 			}
 			
@@ -1444,7 +1943,7 @@ public class AdminFunctImplAction extends BaseAction {
 			log.info("Size of file attached {}", attachment);
 			emailDetails.setAttachment(FormFile2File.convertToFile(attachment));
 		}
-		emailDetails.setFrom(profile.getEmployerEmail());
+		emailDetails.setReplyTo(profile.getEmployerEmail());
 		sendEmail(emailDetails);
 	}
 	
@@ -1471,7 +1970,7 @@ public class AdminFunctImplAction extends BaseAction {
 		String sb = getEmailTemplate(bean, VMConstants.VM_BUSINESS_ID_TOALL);
 		emailDetails.setEmailContent(new StringBuffer(sb));
 		emailDetails.setBcc(bcc);
-		emailDetails.setFrom(getUserProfile(request).getEmployerEmail());
+		emailDetails.setReplyTo(getUserProfile(request).getEmployerEmail());
 		sendEmail(emailDetails);
 		putStatusObjInRequest(request, "All Your Employees Notified Successfully");
 		putObjInRequest("isNotified", request, "yes");
@@ -1501,7 +2000,7 @@ public class AdminFunctImplAction extends BaseAction {
 		String sb = getEmailTemplate(bean, VMConstants.VM_REQUEST_TO_UPDATE_PROFILE);
 		emailDetails.setEmailContent(new StringBuffer(sb));
 		emailDetails.setBcc(bcc);
-		emailDetails.setFrom(getUserProfile(request).getEmployerEmail());
+		emailDetails.setReplyTo(getUserProfile(request).getEmployerEmail());
 		sendEmail(emailDetails);
 		putStatusObjInRequest(request, "All Your Employees Notified Successfully");
 		putObjInRequest("isNotified", request, "yes");
@@ -1533,7 +2032,7 @@ public class AdminFunctImplAction extends BaseAction {
 		String sb = getEmailTemplate(bean, VMConstants.VM_REQUEST_TO_UPDATE_IMMIGRATION_DETAILS);
 		emailDetails.setEmailContent(new StringBuffer(sb));
 		emailDetails.setBcc(bcc);
-		emailDetails.setFrom(getUserProfile(request).getEmployerEmail());
+		emailDetails.setReplyTo(getUserProfile(request).getEmployerEmail());
 		sendEmail(emailDetails);
 		putStatusObjInRequest(request, "All Your Employees Notified Successfully");
 		putObjInRequest("isNotified", request, "yes");
@@ -1559,7 +2058,7 @@ public class AdminFunctImplAction extends BaseAction {
 		String sb = getEmailTemplate(bean, VMConstants.VM_REQUEST_TO_UPDATE_PROFILE);
 		emailDetails.setEmailContent(new StringBuffer(sb));
 		emailDetails.setTo(bcc);
-		emailDetails.setFrom(getUserProfile(request).getEmployerEmail());
+		emailDetails.setReplyTo(getUserProfile(request).getEmployerEmail());
 		sendEmail(emailDetails);
 		putAjaxStatusObjInRequest(request, "Notified");
 		return (forward);
@@ -1585,7 +2084,7 @@ public class AdminFunctImplAction extends BaseAction {
 		String sb = getEmailTemplate(bean, VMConstants.VM_REQUEST_TO_UPDATE_IMMIGRATION_DETAILS);
 		emailDetails.setEmailContent(new StringBuffer(sb));
 		emailDetails.setTo(bcc);
-		emailDetails.setFrom(getUserProfile(request).getEmployerEmail());
+		emailDetails.setReplyTo(getUserProfile(request).getEmployerEmail());
 		sendEmail(emailDetails);
 		putAjaxStatusObjInRequest(request, "Notified");
 		return (forward);
@@ -1652,11 +2151,11 @@ public class AdminFunctImplAction extends BaseAction {
 		VMInputBean vmbean = new VMInputBean();
 		vmbean.setText(password);
 		EmailDetails emailDetails = new EmailDetails();
-		emailDetails.setSubject("Your ILCH & CCS Password");
+		emailDetails.setSubject("Your RunningTicker  Password");
 		String content = getEmailTemplate(vmbean,VMConstants.VM_PASSWORD_RESET_EMPLOYEE);
 		emailDetails.setEmailContent(new StringBuffer(content));
 		emailDetails.setTo(to);
-		emailDetails.setFrom(getUserProfile(request).getEmployerEmail());
+		emailDetails.setReplyTo(getUserProfile(request).getEmployerEmail());
 		sendEmail(emailDetails);
 		putAjaxStatusObjInRequest(request,"Done!");
 		
@@ -1690,17 +2189,17 @@ public class AdminFunctImplAction extends BaseAction {
 			String content = getEmailTemplate(bean, VMConstants.VM_BUSINESS_ID_TOALL);
 			emailDetails.setEmailContent(new StringBuffer(content));
 			emailDetails.setBcc(validList);
-			emailDetails.setFrom(getUserProfile(request).getEmployerEmail());
+			emailDetails.setReplyTo(getUserProfile(request).getEmployerEmail());
 			sendEmail(emailDetails);
 			
+			emailDetails = new EmailDetails();
 			bean.setText(sb.toString());
 			emailDetails.setSubject("ILCH - Status Report of Business Code Notification");
 			String buffer = getEmailTemplate(bean,VMConstants.VM_GENERIC_EMAIL);
 			emailDetails.setEmailContent(new StringBuffer(buffer));
-			List<String> bcc = new ArrayList<String>();
-			bcc.add(getUserProfile(request).getEmployerEmail());
-			emailDetails.setFrom(EmailConstants.FROM_EMAIL);
-			emailDetails.setTo(bcc);
+			List<String> to = new ArrayList<String>();
+			to.add(getUserProfile(request).getEmployerEmail());
+			emailDetails.setTo(to);
 			sendEmail(emailDetails);
 			
 			putStatusObjInRequest(request, "Processed, Please check your email for report, Please add this email to your safer list if you found in SPAM.");
@@ -1713,5 +2212,141 @@ public class AdminFunctImplAction extends BaseAction {
 		return mapping.findForward("status");
 	}
 	
+	public ActionForward reloadWeeklyHrsSubmission(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+		ActionForward forward = new ActionForward();
+		forward = mapping.findForward("weeklyDef");
+		getUserProfile(request).resetDu();
+		int month = getIntAsRequestParameter("month", request);
+		int year = getIntAsRequestParameter("year", request);
+		putObjInRequest("year", request, year);
+		putObjInRequest("month", request, month);
+		Calendar custom = Calendar.getInstance();
+
+		if (month >= 0 && year != 0) {
+			custom.set(Calendar.MONTH, month);
+			custom.set(Calendar.YEAR, year);
+			custom.set(Calendar.DAY_OF_MONTH, 1);
+			getUserProfile(request).getDu().setCustomDay(custom);
+		}
+		Date date = new SimpleDateFormat("yyyy-MM-d").parse(request.getParameter("endWeekdate"));
+		Calendar cal = Calendar.getInstance();
+		cal.setTimeInMillis(date.getTime());
+		getUserProfile(request).getDu().setPastSundayCal(cal);
+		log.info(request.getParameter("forAdmin"));
+		return forward;
+	}
+	
+	public ActionForward reloadMonthlyHrsSubmission(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+		log.info("reloadMonthlyHrsSubmission - Strat working");
+		UserProfile userProfile = getUserProfile(request);
+		userProfile.resetDu();
+		ActionForward forward = mapping.findForward(GeneralConstants.MONTHLY);
+		Calendar customDay = Calendar.getInstance();
+		int month = customDay.get(Calendar.MONTH);
+		int year = customDay.get(Calendar.YEAR);
+
+		try {
+			month = getIntAsRequestParameter("month", request);
+			year = getIntAsRequestParameter("year", request);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			return forwardToExceptionPage(mapping, request, e);
+		}
+
+		DateUtils du = new DateUtils(year, month);
+		userProfile.setDu(du);
+		log.info(request.getParameter("forAdmin"));
+		return forward;
+	}
+	
+	public ActionForward reload15DaysHrsSubmissionFromTimeSheetPage(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ActionForward forward = null;
+
+		log.info("reload15DaysHrsSubmissionFromTimeSheetPage - Strat working");
+		int month = getIntAsRequestParameter("month", request);
+		int year = getIntAsRequestParameter("year", request);
+		Calendar custom = Calendar.getInstance();
+		
+		DateUtils du = null;
+		
+		if (month >= 0 && year != 0) {
+			du = new DateUtils(year, month);
+			custom.set(Calendar.MONTH, month);
+			custom.set(Calendar.YEAR, year);
+			
+			Date date = new SimpleDateFormat("yyyy-MM-d").parse(request.getParameter("startWeekdate"));
+			Calendar cal = Calendar.getInstance();
+			cal.setTimeInMillis(date.getTime());
+			
+			custom.set(Calendar.DAY_OF_MONTH,
+					cal.get(Calendar.DAY_OF_MONTH));
+			du.setCustomDay(custom);
+			//getUserProfile(request).getDu().setCustomDay(custom);
+		}
+		//du.setPastSundayCal(custom);
+		getUserProfile(request).setDu(du);
+		
+		if (request.getParameter("submissionFor").equals(TimeSheetTypes.FIRST.name()))
+		{
+			forward = mapping.findForward(GeneralConstants.FIRST_15_DAYS_OF_MONTH);
+		}
+		else
+		{
+			forward = mapping.findForward(GeneralConstants.SECOND_15_DAYS_OF_MONTH);
+		}
+		log.info(request.getParameter("forAdmin"));
+		return forward;
+	}
+	public ActionForward reloadBiWeeklyHrsSubmission(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+		ActionForward forward = mapping.findForward("biWeeklyDef");
+		getUserProfile(request).resetDu();
+		int month = getIntAsRequestParameter("month", request);
+		int year = getIntAsRequestParameter("year", request);
+		putObjInRequest("year", request, year);
+		putObjInRequest("month", request, month);
+		Calendar custom = Calendar.getInstance();
+
+		if (month >= 0 && year != 0) {
+			custom.set(Calendar.MONTH, month);
+			custom.set(Calendar.YEAR, year);
+			
+			Date date = new SimpleDateFormat("yyyy-MM-d").parse(request.getParameter("startWeekdate"));
+			Calendar cal = Calendar.getInstance();
+			cal.setTimeInMillis(date.getTime());
+			
+			custom.set(Calendar.DAY_OF_MONTH,
+					cal.get(Calendar.DAY_OF_MONTH));
+			getUserProfile(request).getDu().setCustomDay(custom);
+		}
+		
+		log.info(request.getParameter("forAdmin"));
+		
+		getUserProfile(request).getDu().setPastSundayCal(custom);
+		return forward;
+	}
+	public ActionForward loadTimeSheetForAdmin(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		TimeSheetTypes types = TimeSheetTypes.valueOf(getStrAsRequestParameter("submissionFor", request));
+		switch (types) {
+		case BIWEEKLY: {
+			return reloadBiWeeklyHrsSubmission(mapping, form, request, response);
+		}
+		case WEEKLY: {
+			return reloadWeeklyHrsSubmission(mapping, form, request, response);
+		}
+		case MONTHLY: {
+			return reloadMonthlyHrsSubmission(mapping, form, request, response);
+		}
+		case DAYS15:
+		case FIRST:
+		case SECOND: {
+			return reload15DaysHrsSubmissionFromTimeSheetPage(mapping, form, request, response);
+		}
+		}
+		return null;
+	}
 	
 }

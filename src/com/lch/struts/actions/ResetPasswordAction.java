@@ -34,7 +34,7 @@ public class ResetPasswordAction extends BaseAction {
 		m.put("userId",Long.toString( getUserProfile(request).getUserId()));
 		m.put("businessId",Long.toString( getUserProfile(request).getBusinessId()));
 		m.put("password", password);
-		log.info("map :"+m);
+		// log.info("map :"+m);
 		getSpringCtxDoTransactionBean().updateResetedPassword(m);
 		log.info("Password Updated");
 		putObjInRequest("passwordUpdated", request, "yes");

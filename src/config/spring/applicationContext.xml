@@ -19,6 +19,7 @@
 
 	<beans profile="DEV">
 		<!-- FOR LOCAL USE -->
+		
 		<import resource="dev/configuration.xml" />
 	</beans>
 	

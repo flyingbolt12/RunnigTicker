@@ -24,7 +24,7 @@
 	<tr>
 		<td height="20" width="60%">
 			<p align="left" class="HTMLFOOTERLINK">&copy; All Rights
-				Reserved. A Product of AlliBilli Inc., Made in USA.</p>
+				Reserved. A Product of <a href='https://allibillillc.herokuapp.com/' class="HTMLFOOTERLINK">AlliBilli Software Solutions </a>., Made in USA.</p>
 		</td>
 		<td height="20" width="40%">
 			<p align="right">

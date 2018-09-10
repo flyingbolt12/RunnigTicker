@@ -78,7 +78,7 @@ public class AdminEmailApproval extends BaseAction{
 
 		EmailDetails emailDetails = new EmailDetails();
 		emailDetails.setBcc(emails);
-		emailDetails.setSubject("Your ILCH Approval Status");
+		emailDetails.setSubject("Your RunningTicker  Approval Status");
 		String sb = getEmailTemplate(bean, VMConstants.VM_APPROVAL_STATUS);
 		emailDetails.setEmailContent(new StringBuffer(sb));
 		sendEmail(emailDetails);

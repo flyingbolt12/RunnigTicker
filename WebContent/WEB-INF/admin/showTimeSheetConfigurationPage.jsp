@@ -24,7 +24,7 @@ function cancelTrigger()
 %>
 
 	action = "adminFunctImpl.do";
-	document.forms[0].parameter.value="cancelResetPassword";
+	document.forms[0].parameter.value="cancelRequest";
 <%
 	} else {
 %>

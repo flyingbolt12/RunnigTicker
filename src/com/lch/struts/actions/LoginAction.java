@@ -1,5 +1,6 @@
 package com.lch.struts.actions;
 
+import java.io.File;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
@@ -17,7 +18,12 @@ import org.apache.struts.action.ActionMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import cn.bluejoe.elfinder.impl.StaticFsServiceFactory;
+import cn.bluejoe.elfinder.localfs.LocalFsVolume;
+import cn.bluejoe.elfinder.service.FsServiceFactory;
+
 import com.lch.general.constants.GeneralConstants;
+import com.lch.general.enums.TimeSheetStatus;
 import com.lch.general.enums.TimeSheetTypes;
 import com.lch.general.generalBeans.UserProfile;
 import com.lch.general.genericUtils.DateUtils;
@@ -33,7 +39,7 @@ public class LoginAction extends BaseAction
 
 {
 	private static final Logger log = LoggerFactory.getLogger(LoginAction.class);
-
+	
 	public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		ActionErrors errors = new ActionErrors();
@@ -45,9 +51,11 @@ public class LoginAction extends BaseAction
 		try {
 			LoginCheck loginCheck = (LoginCheck) getSpringCTX().getBean("loginCheck");
 			UserProfile userProfile = loginCheck.isLogin(login);
+			
 			HttpSession session = request.getSession();
 			session.setAttribute("userProfile", userProfile);
 			// ADMINS OR CHILDADMINS
+			
 			if (userProfile.isLoginStatus()) {
 				if (userProfile.isSuperAdmin()) {
 					forward = mapping.findForward("superAdminFunctions");
@@ -58,6 +66,14 @@ public class LoginAction extends BaseAction
 					log.info("Year : " + year + " Month : " + month);
 					DateUtils du = new DateUtils(year, month);
 					userProfile.setDu(du);
+					
+					// Set Attachments Path
+//					LocalFsVolume localFsVolume = (LocalFsVolume)getServletSpringContextBean("localFsVolume");
+//					localFsVolume.setRootDir(new File(localFsVolume.getDefaultDir() + "/"+userProfile.getEmployerName()+"_"+userProfile.getBusinessId()+"/"));
+//					
+//					LocalFsVolume localFsVolumeRead = (LocalFsVolume)getServletSpringContextBean("localFsVolumeRead");
+//					localFsVolumeRead.setRootDir(new File(localFsVolume.getDefaultDir() + "/"+userProfile.getEmployerName()+"_"+userProfile.getBusinessId()+"_shared/"));
+					
 					
 					forward = mapping.findForward("employeeRegistrationPendingApprovals");
 					List<ListOrderedMap> employeeRegistrationPendingApprovals = getSpringCtxDoTransactionBean().listEmployeeRegistrationPendingApprovals(userProfile);
@@ -132,9 +148,8 @@ public class LoginAction extends BaseAction
 		if (l.size() > 0) {
 			forward = mapping.findForward("memberFunctions");
 		} else {
-
+			figureoutTimeSheetStatus(l, request);
 			if (userProfile.getClientId() != 0) {
-
 				getSpringCtxDoTransactionBean().updateRequiredDetails(userProfile);
 				forward = mapping.findForward(GeneralConstants.WEEKLY);
 			} else {
@@ -148,6 +163,18 @@ public class LoginAction extends BaseAction
 
 	}
 
+	private void figureoutTimeSheetStatus(List l,  HttpServletRequest request){
+		if (l.size() <= 0){
+			putObjInRequest("timSheetStatus", request, TimeSheetStatus.NOTSUBMITTED);
+		}
+		else
+		{
+			Map<String, Object> m = (Map<String, Object>) l.get(0);
+			String status = (String) m.get("status");
+			putObjInRequest("timSheetStatus", request, TimeSheetStatus.valueOf(status));
+		}
+	}
+	
 	private ActionForward biWeekly(UserProfile userProfile, HttpServletRequest request, ActionForward forward, ActionMapping mapping) {
 
 		List l = getSpringCtxDoTransactionBean().listSubmittedHrs(userProfile, TimeSheetTypes.BIWEEKLY);
@@ -155,7 +182,7 @@ public class LoginAction extends BaseAction
 		if (l.size() > 0) {
 			forward = mapping.findForward("memberFunctions");
 		} else {
-
+			figureoutTimeSheetStatus(l, request);
 			if (userProfile.getClientId() != 0) {
 				getSpringCtxDoTransactionBean().updateRequiredDetails(userProfile);
 				forward = mapping.findForward(GeneralConstants.BIWEEKLY);
@@ -173,11 +200,11 @@ public class LoginAction extends BaseAction
 	private ActionForward monthly(UserProfile userProfile, HttpServletRequest request, ActionForward forward, ActionMapping mapping) {
 
 		List l = getSpringCtxDoTransactionBean().listSubmittedHrs(userProfile, TimeSheetTypes.MONTHLY);
-
+		
 		if (l.size() > 0) {
 			forward = mapping.findForward("memberFunctions");
 		} else {
-
+			figureoutTimeSheetStatus(l, request);
 			if (userProfile.getClientId() != 0) {
 
 				getSpringCtxDoTransactionBean().updateRequiredDetails(userProfile);
@@ -200,6 +227,7 @@ public class LoginAction extends BaseAction
 
 		// No Submissions made yet
 		if (l.size() == 0) {
+			putObjInRequest("timSheetStatus", request, TimeSheetStatus.NOTSUBMITTED);
 			if (Calendar.getInstance().get(Calendar.DAY_OF_MONTH) <= 15)
 				forward = mapping.findForward(GeneralConstants.FIRST_15_DAYS_OF_MONTH);
 			else
@@ -210,21 +238,37 @@ public class LoginAction extends BaseAction
 		else if (l.size() == 2) {
 			forward = mapping.findForward("memberFunctions");
 		} else if (nAvailableRows == 1) {
-			Map<String, Object> m = (Map<String, Object>) l.get(0);
-			String status = (String) m.get("status");
-			String submissionType = (String) m.get("submissionFor");
-
+			
+			String status = null;
+			String submissionType = null;
+			
+			
+				Map<String, Object> m = (Map<String, Object>) l.get(0);
+				status = (String) m.get("status");
+				submissionType = (String) m.get("submissionFor");
+				
+			
 			if (status != null && submissionType != null) {
 				if (status.equalsIgnoreCase("PENDING") || status.equalsIgnoreCase("APPROVED")) {
 					bSubmit = true;
-
+					putObjInRequest("timSheetStatus", request, TimeSheetStatus.NOTSUBMITTED);
 					if (submissionType.equalsIgnoreCase("FIRST")) {
 						forward = mapping.findForward(GeneralConstants.SECOND_15_DAYS_OF_MONTH);
 					} else {
 						forward = mapping.findForward(GeneralConstants.FIRST_15_DAYS_OF_MONTH);
 					}
 				} else if (status.equalsIgnoreCase("REJECTED")) {
+					putObjInRequest("timSheetStatus", request, TimeSheetStatus.valueOf(status));
 					bSubmit = false;
+					if (submissionType.equalsIgnoreCase("FIRST")) {
+						forward = mapping.findForward(GeneralConstants.FIRST_15_DAYS_OF_MONTH);
+					} else {
+						forward = mapping.findForward(GeneralConstants.SECOND_15_DAYS_OF_MONTH);
+					}
+				}
+				else if (status.equalsIgnoreCase(TimeSheetStatus.SAVEDASDRAFT.name())) {
+					putObjInRequest("timSheetStatus", request, TimeSheetStatus.valueOf(status));
+					bSubmit = true;
 					if (submissionType.equalsIgnoreCase("FIRST")) {
 						forward = mapping.findForward(GeneralConstants.FIRST_15_DAYS_OF_MONTH);
 					} else {

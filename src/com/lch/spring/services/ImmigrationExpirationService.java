@@ -34,12 +34,12 @@ public class ImmigrationExpirationService extends BaseAction {
 		_ctx = appContext;
 		logger.info("Start Notifying about to expire immigration details");
 		List<Map<String, Object>> employers = doTransaction.getAllBusinessList();
-		List<Map<String, Object>> visaExpiresList = new ArrayList<>();
-		List<Map<String, Object>> passportExpiresList = new ArrayList<>();
+		List<Map<String, Object>> visaExpiresList = new ArrayList<Map<String, Object>>();
+		List<Map<String, Object>> passportExpiresList = new ArrayList<Map<String, Object>>();
 		logger.info("No of employer found {}", employers.size());
 		for (Map<String, Object> employer : employers){
 			try{
-				long businessId = (long)employer.get("businessId");
+				long businessId = new Long(employer.get("businessId").toString()).longValue();
 				logger.info("Employer Business Id found to process {}", businessId);
 				List<Map<String, Object>> listAllMyEmployees = doTransaction.getAllMyEmployeesWithImmigrationDetails(businessId);
 				logger.info("No of employees found for this business {}", listAllMyEmployees.size());
@@ -135,9 +135,6 @@ public class ImmigrationExpirationService extends BaseAction {
 			}
 		}
 
-		
-
-		
 		
 	
 		

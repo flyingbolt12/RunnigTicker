@@ -1,0 +1,955 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Strict//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Z:\Work\ilch\WebContent\js\jstree\.README.md.html</title>
+
+
+<style type="text/css">
+body {
+	color: #333;
+	font: 13px/1.4 Helvetica,arial,freesans,clean,sans-serif;
+}
+
+.markdown-body {
+    border: 1px solid #CACACA;
+    padding: 30px;
+    font-size: 15px;
+    line-height: 1.7;
+    word-wrap: break-word;
+}
+.markdown-body > *:first-child {
+    margin-top: 0 !important;
+}
+.markdown-body > *:last-child {
+    margin-bottom: 0 !important;
+}
+.markdown-body a.absent {
+    color: #C00;
+}
+.markdown-body a.anchor {
+    bottom: 0;
+    cursor: pointer;
+    display: block;
+    left: 0;
+    margin-left: -30px;
+    padding-left: 30px;
+    padding-right: 6px;
+    position: absolute;
+    top: 0;
+}
+.markdown-body a.anchor:focus {
+    outline: medium none;
+}
+.markdown-body h1, .markdown-body h2, .markdown-body h3, .markdown-body h4, .markdown-body h5, .markdown-body h6 {
+    cursor: text;
+    font-weight: bold;
+    line-height: 1.7;
+    margin: 1em 0 15px;
+    padding: 0;
+    position: relative;
+}
+
+.markdown-body h1 .octicon-link, .markdown-body h2 .octicon-link, .markdown-body h3 .octicon-link, .markdown-body h4 .octicon-link, .markdown-body h5 .octicon-link, .markdown-body h6 .octicon-link {
+    color: #000;
+    display: none;
+}
+.markdown-body h1:hover a.anchor, .markdown-body h2:hover a.anchor, .markdown-body h3:hover a.anchor, .markdown-body h4:hover a.anchor, .markdown-body h5:hover a.anchor, .markdown-body h6:hover a.anchor {
+    line-height: 1;
+    margin-left: -22px;
+    padding-left: 0;
+    text-decoration: none;
+    top: 15%;
+}
+.markdown-body h1:hover a.anchor .octicon-link, .markdown-body h2:hover a.anchor .octicon-link, .markdown-body h3:hover a.anchor .octicon-link, .markdown-body h4:hover a.anchor .octicon-link, .markdown-body h5:hover a.anchor .octicon-link, .markdown-body h6:hover a.anchor .octicon-link {
+    display: inline-block;
+}
+.markdown-body h1 tt, .markdown-body h1 code, .markdown-body h2 tt, .markdown-body h2 code, .markdown-body h3 tt, .markdown-body h3 code, .markdown-body h4 tt, .markdown-body h4 code, .markdown-body h5 tt, .markdown-body h5 code, .markdown-body h6 tt, .markdown-body h6 code {
+    font-size: inherit;
+}
+.markdown-body h1 {
+    border-bottom: 1px solid #DDD;
+    font-size: 2.5em;
+}
+.markdown-body h2 {
+    border-bottom: 1px solid #EEE;
+    font-size: 2em;
+}
+.markdown-body h3 {
+    font-size: 1.5em;
+}
+.markdown-body h4 {
+    font-size: 1.2em;
+}
+.markdown-body h5 {
+    font-size: 1em;
+}
+.markdown-body h6 {
+    color: #777;
+    font-size: 1em;
+}
+.markdown-body p, .markdown-body blockquote, .markdown-body ul, .markdown-body ol, .markdown-body dl, .markdown-body table, .markdown-body pre {
+    margin: 15px 0;
+}
+.markdown-body ul, .markdown-body ol {
+    padding-left: 30px;
+}
+.markdown-body ul.no-list, .markdown-body ol.no-list {
+    list-style-type: none;
+    padding: 0;
+}
+.markdown-body ul ul, .markdown-body ul ol, .markdown-body ol ol, .markdown-body ol ul {
+    margin-bottom: 0;
+    margin-top: 0;
+}
+.markdown-body dl {
+    padding: 0;
+}
+.markdown-body dl dt {
+    font-size: 14px;
+    font-style: italic;
+    font-weight: bold;
+    margin-top: 15px;
+    padding: 0;
+}
+.markdown-body dl dd {
+    margin-bottom: 15px;
+    padding: 0 15px;
+}
+.markdown-body blockquote {
+    border-left: 4px solid #DDD;
+    color: #777;
+    padding: 0 15px;
+}
+.markdown-body blockquote > *:first-child {
+    margin-top: 0;
+}
+.markdown-body blockquote > *:last-child {
+    margin-bottom: 0;
+}
+.markdown-body table {
+    display: block;
+    overflow: auto;
+    width: 100%;
+    border-collapse: collapse;
+}
+.markdown-body table th {
+    font-weight: bold;
+}
+.markdown-body table th, .markdown-body table td {
+    border: 1px solid #DDD;
+    padding: 6px 13px;
+}
+.markdown-body table tr {
+    background-color: #FFF;
+    border-top: 1px solid #CCC;
+}
+.markdown-body table tr:nth-child(2n) {
+    background-color: #F8F8F8;
+}
+.markdown-body img {
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -o-box-sizing: border-box;
+    box-sizing: border-box;
+    max-width: 100%;
+    border: 0px;
+}
+.markdown-body span.frame {
+    display: block;
+    overflow: hidden;
+}
+.markdown-body span.frame > span {
+    border: 1px solid #DDD;
+    display: block;
+    float: left;
+    margin: 13px 0 0;
+    overflow: hidden;
+    padding: 7px;
+    width: auto;
+}
+.markdown-body span.frame span img {
+    display: block;
+    float: left;
+}
+.markdown-body span.frame span span {
+    clear: both;
+    color: #333;
+    display: block;
+    padding: 5px 0 0;
+}
+.markdown-body span.align-center {
+    clear: both;
+    display: block;
+    overflow: hidden;
+}
+.markdown-body span.align-center > span {
+    display: block;
+    margin: 13px auto 0;
+    overflow: hidden;
+    text-align: center;
+}
+.markdown-body span.align-center span img {
+    margin: 0 auto;
+    text-align: center;
+}
+.markdown-body span.align-right {
+    clear: both;
+    display: block;
+    overflow: hidden;
+}
+.markdown-body span.align-right > span {
+    display: block;
+    margin: 13px 0 0;
+    overflow: hidden;
+    text-align: right;
+}
+.markdown-body span.align-right span img {
+    margin: 0;
+    text-align: right;
+}
+.markdown-body span.float-left {
+    display: block;
+    float: left;
+    margin-right: 13px;
+    overflow: hidden;
+}
+.markdown-body span.float-left span {
+    margin: 13px 0 0;
+}
+.markdown-body span.float-right {
+    display: block;
+    float: right;
+    margin-left: 13px;
+    overflow: hidden;
+}
+.markdown-body span.float-right > span {
+    display: block;
+    margin: 13px auto 0;
+    overflow: hidden;
+    text-align: right;
+}
+.markdown-body code, .markdown-body tt {
+    background-color: #F8F8F8;
+    border: 1px solid #DDD;
+    border-radius: 3px;
+    margin: 0 2px;
+    padding: 0 5px;
+}
+.markdown-body code {
+    white-space: nowrap;
+}
+.markdown-body pre > code {
+    border: medium none;
+    margin: 0;
+    padding: 0;
+    white-space: pre;
+}
+.markdown-body .highlight pre, .markdown-body pre {
+    background-color: #F8F8F8;
+    border: 1px solid #DDD;
+    border-radius: 3px;
+    font-size: 13px;
+    line-height: 19px;
+    overflow: auto;
+    padding: 6px 10px;
+}
+.markdown-body pre code, .markdown-body pre tt {
+    border: medium none;
+    margin: 0;
+    padding: 0;
+    word-wrap: normal;
+}
+
+pre, code, tt {
+    font-family: Consolas,"Liberation Mono",Courier,monospace;
+    font-size: 12px;
+}
+
+.highlight {
+    background: #FFF;
+}
+.highlight .k,
+.highlight .o,
+.highlight .cp,
+.highlight .cs,
+.highlight .gs,
+.highlight .gu,
+.highlight .kc,
+.highlight .kd,
+.highlight .kn,
+.highlight .kp,
+.highlight .kr,
+.highlight .kt,
+.highlight .nc,
+.highlight .ne,
+.highlight .nf,
+.highlight .ow {
+    font-weight: bold;
+}
+.highlight .gd,
+.highlight .gd .x,
+.highlight .gi,
+.highlight .gi .x,
+.type-csharp .highlight .nf,
+.type-csharp .highlight .nn {
+    color: #000;
+}
+.highlight .c,
+.highlight .cm,
+.highlight .c1 {
+    color: #998;
+    font-style: italic;
+}
+.highlight .err {
+    background-color: #E3D2D2;
+    color: #A61717;
+}
+.highlight .cp,
+.highlight .cs {
+    color: #999;
+}
+.highlight .cs,
+.highlight .ge {
+    font-style: italic;
+}
+.highlight .gd {
+    background-color: #FDD;
+}
+.highlight .gd .x {
+    background-color: #FAA;
+}
+.highlight .gr,
+.highlight .gt {
+    color: #A00;
+}
+.highlight .gh {
+    color: #999;
+}
+.highlight .gi {
+    background-color: #DFD;
+}
+.highlight .gi .x {
+    background-color: #AFA;
+}
+.highlight .go {
+    color: #888;
+}
+.highlight .gp,
+.highlight .nn {
+    color: #555;
+}
+.highlight .gu,
+.highlight .ni {
+    color: #800080;
+}
+.highlight .kt {
+    color: #458;
+}
+.highlight .m {
+    color: #099;
+}
+.highlight .s {
+    color: #D14;
+}
+.highlight .n {
+    color: #333;
+}
+.highlight .na,
+.highlight .no,
+.highlight .nv,
+.highlight .vc,
+.highlight .vg,
+.highlight .vi {
+    color: #008080;
+}
+.highlight .nb {
+    color: #0086B3;
+}
+.highlight .nc {
+    color: #458;
+}
+.highlight .ne,
+.highlight .nf {
+    color: #900;
+}
+.highlight .nt {
+    color: #000080;
+}
+.highlight .w {
+    color: #BBB;
+}
+.highlight .mf,
+.highlight .mh,
+.highlight .mi,
+.highlight .mo {
+    color: #099;
+}
+.highlight .sb,
+.highlight .sc,
+.highlight .sd,
+.highlight .s2,
+.highlight .se,
+.highlight .sh,
+.highlight .si,
+.highlight .sx,
+.highlight .s1 {
+    color: #D14;
+}
+.highlight .sr {
+    color: #009926;
+}
+.highlight .ss {
+    color: #990073;
+}
+.highlight .bp {
+    color: #999;
+}
+.highlight .il {
+    color: #099;
+}
+.highlight .gc {
+    background-color: #EAF2F5;
+    color: #999;
+}
+.type-csharp .highlight .k,
+.type-csharp .highlight .kt {
+    color: #00F;
+}
+.type-csharp .highlight .nf {
+    font-weight: normal;
+}
+.type-csharp .highlight .nc {
+    color: #2B91AF;
+}
+.type-csharp .highlight .s,
+.type-csharp .highlight .sc {
+    color: #A31515;
+}
+
+</style>
+
+
+<script type="text/javascript">
+
+function getDocumentScrollTop() 
+{
+   var res = document.body.scrollTop || document.documentElement.scrollTop || window.pageYOffset || 0;
+   // alert(res);
+   return res;
+}
+
+function setDocumentScrollTop(ypos) 
+{
+	window.scrollTo(0, ypos);
+}
+
+</script>
+
+
+</head>
+<body class="markdown-body">
+<h1> <a id="user-content-jstree" class="anchor" href="..md.html#jstree" aria-hidden="true"><span class="octicon octicon-link"></span></a>jstree</h1> 
+<p><a href="http://www.jstree.com/">jsTree</a> is jquery plugin, that provides interactive trees. It is absolutely free, <a href="https://github.com/vakata/jstree">open source</a> and distributed under the MIT license. </p> 
+<p>jsTree is easily extendable, themable and configurable, it supports HTML &amp; JSON data sources, AJAX &amp; async callback loading.</p> 
+<p>jsTree functions properly in either box-model (content-box or border-box), can be loaded as an AMD module, and has a built in mobile theme for responsive design, that can easily be customized. It uses jQuery's event system, so binding callbacks on various events in the tree is familiar and easy.</p> 
+<p>You also get:</p> 
+<ul> 
+ <li>drag &amp; drop support</li> 
+ <li>keyboard navigation</li> 
+ <li>inline edit, create and delete</li> 
+ <li>tri-state checkboxes</li> 
+ <li>fuzzy searching</li> 
+ <li>customizable node types</li> 
+</ul> 
+<p><em>Aside from this readme you can find a lot more info on <a href="http://www.jstree.com">jstree.com</a> &amp; <a href="https://groups.google.com/forum/#!forum/jstree">the discussion group</a></em>.</p> 
+<hr /> 
+<ul> 
+ <li> <a href="..md.html#getting-started">Getting Started</a> 
+  <ul> 
+   <li><a href="..md.html#include-all-neccessary-files">Include all neccessary files</a></li> 
+   <li><a href="..md.html#populating-a-tree-using-html">Populating a tree using HTML</a></li> 
+   <li> <a href="..md.html#populating-a-tree-using-an-array-or-json">Populating a tree using an array (or JSON)</a> 
+    <ul> 
+     <li><a href="..md.html#the-required-json-format">The required JSON format</a></li> 
+    </ul> </li> 
+   <li><a href="..md.html#populating-the-tree-using-ajax">Populating the tree using AJAX</a></li> 
+   <li><a href="..md.html#populating-the-tree-using-ajax-and-lazy-loading-nodes">Populating the tree using AJAX and lazy loading nodes</a></li> 
+   <li><a href="..md.html#populating-the-tree-using-a-callback-function">Populating the tree using a callback function</a></li> 
+  </ul> </li> 
+ <li><a href="..md.html#working-with-events">Working with events</a></li> 
+ <li><a href="..md.html#interacting-with-the-tree-using-the-api">Interacting with the tree using the API</a></li> 
+ <li><a href="..md.html#more-on-configuration">More on configuration</a></li> 
+ <li> <a href="..md.html#plugins">Plugins</a> 
+  <ul> 
+   <li><a href="..md.html#checkbox">checkbox</a></li> 
+   <li><a href="..md.html#contextmenu">contextmenu</a></li> 
+   <li><a href="..md.html#dnd">dnd</a></li> 
+   <li><a href="..md.html#search">search</a></li> 
+   <li><a href="..md.html#sort">sort</a></li> 
+   <li><a href="..md.html#state">state</a></li> 
+   <li><a href="..md.html#types">types</a></li> 
+   <li><a href="..md.html#unique">unique</a></li> 
+   <li><a href="..md.html#wholerow">wholerow</a></li> 
+   <li><a href="..md.html#more-plugins">More plugins</a></li> 
+  </ul> </li> 
+ <li><a href="..md.html#license--contributing">License &amp; Contributing</a></li> 
+</ul> 
+<hr /> 
+<h2> <a id="user-content-getting-started" class="anchor" href="..md.html#getting-started" aria-hidden="true"><span class="octicon octicon-link"></span></a>Getting Started</h2> 
+<h3> <a id="user-content-include-all-neccessary-files" class="anchor" href="..md.html#include-all-neccessary-files" aria-hidden="true"><span class="octicon octicon-link"></span></a>Include all neccessary files</h3> 
+<p>To get started you need 3 things in your page:</p> 
+<ol> 
+ <li>jQuery (anything above 1.9.1 will work)</li> 
+ <li>A jstree theme (there is only one theme supplied by default) </li> 
+ <li>The jstree source file </li> 
+</ol> 
+<div class="highlight highlight-html">
+ <pre>&lt;<span class="pl-ent">script</span> <span class="pl-e">src</span>=<span class="pl-s1"><span class="pl-pds">&quot;</span>//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.min.js<span class="pl-pds">&quot;</span></span>&gt;&lt;/<span class="pl-ent">script</span>&gt;
+
+&lt;<span class="pl-ent">link</span> <span class="pl-e">rel</span>=<span class="pl-s1"><span class="pl-pds">&quot;</span>stylesheet<span class="pl-pds">&quot;</span></span> <span class="pl-e">href</span>=<span class="pl-s1"><span class="pl-pds">&quot;</span>//cdnjs.cloudflare.com/ajax/libs/jstree/3.0.9/themes/default/style.min.css<span class="pl-pds">&quot;</span></span> /&gt;
+&lt;<span class="pl-ent">script</span> <span class="pl-e">src</span>=<span class="pl-s1"><span class="pl-pds">&quot;</span>//cdnjs.cloudflare.com/ajax/libs/jstree/3.0.9/jstree.min.js<span class="pl-pds">&quot;</span></span>&gt;&lt;/<span class="pl-ent">script</span>&gt;</pre>
+</div> 
+<p><em>If you decide to host jstree yourself - the files are located in the <code>dist</code> folder. You can safely ignore the <code>dist/libs</code> folder.</em></p> 
+<hr /> 
+<h3> <a id="user-content-populating-a-tree-using-html" class="anchor" href="..md.html#populating-a-tree-using-html" aria-hidden="true"><span class="octicon octicon-link"></span></a>Populating a tree using HTML</h3> 
+<p>Now we are all set to create a tree, inline HTML is the easiest option (suitable for menus). All you need to do is select a node (using a jQuery selector) and invoke the <code>.jstree()</code> function to let jstree know you want to render a tree inside the selected node.</p> 
+<div class="highlight highlight-html">
+ <pre>&lt;<span class="pl-ent">div</span> <span class="pl-e">id</span>=<span class="pl-s1"><span class="pl-pds">&quot;</span>container<span class="pl-pds">&quot;</span></span>&gt;
+  &lt;<span class="pl-ent">ul</span>&gt;
+    &lt;<span class="pl-ent">li</span>&gt;Root node
+      &lt;<span class="pl-ent">ul</span>&gt;
+        &lt;<span class="pl-ent">li</span>&gt;Child node 1&lt;/<span class="pl-ent">li</span>&gt;
+        &lt;<span class="pl-ent">li</span>&gt;Child node 2&lt;/<span class="pl-ent">li</span>&gt;
+      &lt;/<span class="pl-ent">ul</span>&gt;
+    &lt;/<span class="pl-ent">li</span>&gt;
+  &lt;/<span class="pl-ent">ul</span>&gt;
+&lt;/<span class="pl-ent">div</span>&gt;
+<span class="pl-s2">&lt;<span class="pl-ent">script</span>&gt;</span>
+<span class="pl-s2">$(<span class="pl-st">function</span>() {</span>
+<span class="pl-s2">  $(<span class="pl-s1"><span class="pl-pds">'</span>#container<span class="pl-pds">'</span></span>).jstree();</span>
+<span class="pl-s2">});</span>
+<span class="pl-s2">&lt;/<span class="pl-ent">script</span>&gt;</span></pre>
+</div> 
+<p><a href="http://jsfiddle.net/vakata/2kwkh2uL/">view result</a></p> 
+<p><em>You can add a few options when rendering a node using a data-attribute (note the quotes):</em></p> 
+<div class="highlight highlight-html">
+ <pre>&lt;<span class="pl-ent">li</span> <span class="pl-e">data-jstree</span>=<span class="pl-s1"><span class="pl-pds">'</span>{ &quot;selected&quot; : true, &quot;opened&quot; : true }<span class="pl-pds">'</span></span>&gt;Root node ...</pre>
+</div> 
+<hr /> 
+<h3> <a id="user-content-populating-a-tree-using-an-array-or-json" class="anchor" href="..md.html#populating-a-tree-using-an-array-or-json" aria-hidden="true"><span class="octicon octicon-link"></span></a>Populating a tree using an array (or JSON)</h3> 
+<p>Building trees from HTML is easy, but it is not very flexible, inline JS data is a better option:</p> 
+<div class="highlight highlight-html">
+ <pre>&lt;<span class="pl-ent">div</span> <span class="pl-e">id</span>=<span class="pl-s1"><span class="pl-pds">&quot;</span>container<span class="pl-pds">&quot;</span></span>&gt;&lt;/<span class="pl-ent">div</span>&gt;
+<span class="pl-s2">&lt;<span class="pl-ent">script</span>&gt;</span>
+<span class="pl-s2">$(<span class="pl-st">function</span>() {</span>
+<span class="pl-s2">  $(<span class="pl-s1"><span class="pl-pds">'</span>#container<span class="pl-pds">'</span></span>).jstree({</span>
+<span class="pl-s2">    <span class="pl-s1"><span class="pl-pds">'</span>core<span class="pl-pds">'</span></span> <span class="pl-k">:</span> {</span>
+<span class="pl-s2">      <span class="pl-s1"><span class="pl-pds">'</span>data<span class="pl-pds">'</span></span> <span class="pl-k">:</span> [</span>
+<span class="pl-s2">        { <span class="pl-s1"><span class="pl-pds">&quot;</span>text<span class="pl-pds">&quot;</span></span> <span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">&quot;</span>Root node<span class="pl-pds">&quot;</span></span>, <span class="pl-s1"><span class="pl-pds">&quot;</span>children<span class="pl-pds">&quot;</span></span> <span class="pl-k">:</span> [</span>
+<span class="pl-s2">            { <span class="pl-s1"><span class="pl-pds">&quot;</span>text<span class="pl-pds">&quot;</span></span> <span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">&quot;</span>Child node 1<span class="pl-pds">&quot;</span></span> },</span>
+<span class="pl-s2">            { <span class="pl-s1"><span class="pl-pds">&quot;</span>text<span class="pl-pds">&quot;</span></span> <span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">&quot;</span>Child node 2<span class="pl-pds">&quot;</span></span> }</span>
+<span class="pl-s2">          ]</span>
+<span class="pl-s2">        }</span>
+<span class="pl-s2">      ]</span>
+<span class="pl-s2">    }</span>
+<span class="pl-s2">  });</span>
+<span class="pl-s2">});</span>
+<span class="pl-s2">&lt;/<span class="pl-ent">script</span>&gt;</span></pre>
+</div> 
+<p><a href="http://jsfiddle.net/vakata/2kwkh2uL/1/">view result</a></p> 
+<p>Unlike the previous simple HTML example, this time the <code>.jstree()</code> function accepts a config object.</p> 
+<p>For now it is important to note that jstree will try to parse any data you specify in the <code>core.data</code> key and use it to create a tree. As seen in the previous example, if this key is missing jstree will try to parse the inline HTML of the container.</p> 
+<h4> <a id="user-content-the-required-json-format" class="anchor" href="..md.html#the-required-json-format" aria-hidden="true"><span class="octicon octicon-link"></span></a>The required JSON format</h4> 
+<p>The data you use must be in a specific format, each branch of the tree is represented by an object, which must at least have a <code>text</code> key. The <code>children</code> key can be used to add children to the branch, it should be an array of objects. </p> 
+<p><em>Keep in mind, you can use a simple string instead of an object if all you need is node with the given text, the above data can be written as:</em></p> 
+<div class="highlight highlight-js">
+ <pre>[ { <span class="pl-s1"><span class="pl-pds">&quot;</span>text<span class="pl-pds">&quot;</span></span> <span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">&quot;</span>Root node<span class="pl-pds">&quot;</span></span>, <span class="pl-s1"><span class="pl-pds">&quot;</span>children<span class="pl-pds">&quot;</span></span> <span class="pl-k">:</span> [ <span class="pl-s1"><span class="pl-pds">&quot;</span>Child node 1<span class="pl-pds">&quot;</span></span>, <span class="pl-s1"><span class="pl-pds">&quot;</span>Child node 2<span class="pl-pds">&quot;</span></span> ] } ]</pre>
+</div> 
+<p>There are other available options for each node, only set them if you need them like:</p> 
+<ul> 
+ <li> <code>id</code> - makes if possible to identify a node later (will also be used as a DOM ID of the <code>LI</code> node). <em>Make sure you do not repeat the same ID in a tree instance (that would defeat its purpose of being a unique identifier and may cause problems for jstree)</em>.</li> 
+ <li> <code>icon</code> - a string which will be used for the node's icon - this can either be a path to a file, or a className (or list of classNames), which you can style in your CSS (font icons also work).</li> 
+ <li> <code>data</code> - this can be anything you want - it is metadata you want attached to the node - you willbe able to access and modify it any time later - it has no effect on the visuals of the node.</li> 
+ <li> <code>state</code> - and object specifyng a few options about the node: 
+  <ul> 
+   <li> <code>selected</code> - if the node should be initially selected</li> 
+   <li> <code>opened</code> - if the node should be initially opened</li> 
+   <li> <code>disabled</code> - if the node should be disabled</li> 
+   <li> <code>checked</code> - <strong>checkbox plugin specific</strong> - if the node should be checked (only used when <code>tie_to_selection</code> is <code>false</code>, which you should only do if you really know what you are doing)</li> 
+   <li> <code>undetermined</code> - <strong>checkbox plugin specific</strong> - if the node should be rendered in undetermined state (only used with lazy loading and when the node is not yet loaded, otherwise this state is automatically calculated).</li> 
+  </ul> </li> 
+ <li> <code>type</code> - <strong>types plugin specific</strong> - the type of the nodes (should be defined in the types config), if not set <code>&quot;default&quot;</code> is assumed.</li> 
+ <li> <code>li_attr</code> - object of values which will be used to add HTML attributes on the resulting <code>LI</code> DOM node.</li> 
+ <li> <code>a_attr</code> - object of values which will be used to add HTML attributes on the resulting <code>A</code> node.</li> 
+</ul> 
+<p>Here is a new demo with some of those properties set:</p> 
+<div class="highlight highlight-html">
+ <pre>&lt;<span class="pl-ent">div</span> <span class="pl-e">id</span>=<span class="pl-s1"><span class="pl-pds">&quot;</span>container<span class="pl-pds">&quot;</span></span>&gt;&lt;/<span class="pl-ent">div</span>&gt;
+<span class="pl-s2">&lt;<span class="pl-ent">script</span>&gt;</span>
+<span class="pl-s2">$(<span class="pl-st">function</span>() {</span>
+<span class="pl-s2">  $(<span class="pl-s1"><span class="pl-pds">'</span>#container<span class="pl-pds">'</span></span>).jstree({</span>
+<span class="pl-s2">    <span class="pl-s1"><span class="pl-pds">'</span>core<span class="pl-pds">'</span></span> <span class="pl-k">:</span> {</span>
+<span class="pl-s2">      <span class="pl-s1"><span class="pl-pds">'</span>data<span class="pl-pds">'</span></span> <span class="pl-k">:</span> [</span>
+<span class="pl-s2">          { </span>
+<span class="pl-s2">              <span class="pl-s1"><span class="pl-pds">&quot;</span>text<span class="pl-pds">&quot;</span></span> <span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">&quot;</span>Root node<span class="pl-pds">&quot;</span></span>, </span>
+<span class="pl-s2">              <span class="pl-s1"><span class="pl-pds">&quot;</span>state<span class="pl-pds">&quot;</span></span> <span class="pl-k">:</span> {<span class="pl-s1"><span class="pl-pds">&quot;</span>opened<span class="pl-pds">&quot;</span></span> <span class="pl-k">:</span> <span class="pl-c1">true</span> }, </span>
+<span class="pl-s2">              <span class="pl-s1"><span class="pl-pds">&quot;</span>children<span class="pl-pds">&quot;</span></span> <span class="pl-k">:</span> [</span>
+<span class="pl-s2">                  { </span>
+<span class="pl-s2">                    <span class="pl-s1"><span class="pl-pds">&quot;</span>text<span class="pl-pds">&quot;</span></span> <span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">&quot;</span>Child node 1<span class="pl-pds">&quot;</span></span>, </span>
+<span class="pl-s2">                    <span class="pl-s1"><span class="pl-pds">&quot;</span>state<span class="pl-pds">&quot;</span></span> <span class="pl-k">:</span> { <span class="pl-s1"><span class="pl-pds">&quot;</span>selected<span class="pl-pds">&quot;</span></span> <span class="pl-k">:</span> <span class="pl-c1">true</span> },</span>
+<span class="pl-s2">                    <span class="pl-s1"><span class="pl-pds">&quot;</span>icon<span class="pl-pds">&quot;</span></span> <span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">&quot;</span>glyphicon glyphicon-flash<span class="pl-pds">&quot;</span></span></span>
+<span class="pl-s2">                  },</span>
+<span class="pl-s2">                  { <span class="pl-s1"><span class="pl-pds">&quot;</span>text<span class="pl-pds">&quot;</span></span> <span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">&quot;</span>Child node 2<span class="pl-pds">&quot;</span></span>, <span class="pl-s1"><span class="pl-pds">&quot;</span>state<span class="pl-pds">&quot;</span></span> <span class="pl-k">:</span> { <span class="pl-s1"><span class="pl-pds">&quot;</span>disabled<span class="pl-pds">&quot;</span></span> <span class="pl-k">:</span> <span class="pl-c1">true</span> } }</span>
+<span class="pl-s2">              ]</span>
+<span class="pl-s2">        }</span>
+<span class="pl-s2">      ]</span>
+<span class="pl-s2">    }</span>
+<span class="pl-s2">  });</span>
+<span class="pl-s2">});</span>
+<span class="pl-s2">&lt;/<span class="pl-ent">script</span>&gt;</span></pre>
+</div> 
+<p><a href="http://jsfiddle.net/vakata/2kwkh2uL/11/">view result</a></p> 
+<hr /> 
+<h3> <a id="user-content-populating-the-tree-using-ajax" class="anchor" href="..md.html#populating-the-tree-using-ajax" aria-hidden="true"><span class="octicon octicon-link"></span></a>Populating the tree using AJAX</h3> 
+<p>Building off of the previous example, let's see how to have jstree make AJAX requests for you.</p> 
+<div class="highlight highlight-html">
+ <pre>&lt;<span class="pl-ent">div</span> <span class="pl-e">id</span>=<span class="pl-s1"><span class="pl-pds">&quot;</span>container<span class="pl-pds">&quot;</span></span>&gt;&lt;/<span class="pl-ent">div</span>&gt;
+<span class="pl-s2">&lt;<span class="pl-ent">script</span>&gt;</span>
+<span class="pl-s2">$(<span class="pl-st">function</span>() {</span>
+<span class="pl-s2">  $(<span class="pl-s1"><span class="pl-pds">'</span>#container<span class="pl-pds">'</span></span>).jstree({</span>
+<span class="pl-s2">    <span class="pl-s1"><span class="pl-pds">'</span>core<span class="pl-pds">'</span></span> <span class="pl-k">:</span> {</span>
+<span class="pl-s2">      <span class="pl-s1"><span class="pl-pds">'</span>data<span class="pl-pds">'</span></span> <span class="pl-k">:</span> {</span>
+<span class="pl-s2">        <span class="pl-s1"><span class="pl-pds">&quot;</span>url<span class="pl-pds">&quot;</span></span> <span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">&quot;</span>//www.jstree.com/fiddle/<span class="pl-pds">&quot;</span></span>,</span>
+<span class="pl-s2">        <span class="pl-s1"><span class="pl-pds">&quot;</span>dataType<span class="pl-pds">&quot;</span></span> <span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">&quot;</span>json<span class="pl-pds">&quot;</span></span> <span class="pl-c">// needed only if you do not supply JSON headers</span></span>
+<span class="pl-s2">      }</span>
+<span class="pl-s2">    }</span>
+<span class="pl-s2">  });</span>
+<span class="pl-s2">});</span>
+<span class="pl-s2">&lt;/<span class="pl-ent">script</span>&gt;</span></pre>
+</div> 
+<p>The server response is:</p> 
+<div class="highlight highlight-json">
+ <pre>[{
+  <span class="pl-s1"><span class="pl-pds">&quot;</span>id<span class="pl-pds">&quot;</span></span>:<span class="pl-c1">1</span>,<span class="pl-s1"><span class="pl-pds">&quot;</span>text<span class="pl-pds">&quot;</span></span>:<span class="pl-s1"><span class="pl-pds">&quot;</span>Root node<span class="pl-pds">&quot;</span></span>,<span class="pl-s1"><span class="pl-pds">&quot;</span>children<span class="pl-pds">&quot;</span></span>:[
+    {<span class="pl-s1"><span class="pl-pds">&quot;</span>id<span class="pl-pds">&quot;</span></span>:<span class="pl-c1">2</span>,<span class="pl-s1"><span class="pl-pds">&quot;</span>text<span class="pl-pds">&quot;</span></span>:<span class="pl-s1"><span class="pl-pds">&quot;</span>Child node 1<span class="pl-pds">&quot;</span></span>},
+    {<span class="pl-s1"><span class="pl-pds">&quot;</span>id<span class="pl-pds">&quot;</span></span>:<span class="pl-c1">3</span>,<span class="pl-s1"><span class="pl-pds">&quot;</span>text<span class="pl-pds">&quot;</span></span>:<span class="pl-s1"><span class="pl-pds">&quot;</span>Child node 2<span class="pl-pds">&quot;</span></span>}
+  ]
+}]</pre>
+</div> 
+<p><a href="http://jsfiddle.net/vakata/2kwkh2uL/4/">view result</a></p> 
+<p>Instead of a JS array, you can set <code>core.data</code> to a <a href="http://api.jquery.com/jQuery.ajax/">jQuery AJAX config</a> jsTree will hit that URL, and provided you return properly formatted JSON it will be displayed. </p> 
+<p><em>If you cannot provide proper JSON headers, set <code>core.data.dataType</code> to <code>&quot;json&quot;</code>.</em></p> 
+<p>The ids in the server response make it possible to identify nodes later (which we will see in the next few demos), but they are not required. </p> 
+<p><strong>WHEN USING IDS MAKE SURE THEY ARE UNIQUE INSIDE A PARTICULAR TREE</strong></p> 
+<hr /> 
+<h3> <a id="user-content-populating-the-tree-using-ajax-and-lazy-loading-nodes" class="anchor" href="..md.html#populating-the-tree-using-ajax-and-lazy-loading-nodes" aria-hidden="true"><span class="octicon octicon-link"></span></a>Populating the tree using AJAX and lazy loading nodes</h3> 
+<p>Lazy loading means nodes will be loaded then they are needed. Imagine you have a huge amount of nodes you want to show, but loading them with a single request is way too much traffic. Lazy loading makes it possible to load nodes on the fly - jstree will perform AJAX requests as the user browses the tree.</p> 
+<p>Here we take our previous example, and lazy load the &quot;Child node 1&quot; node.</p> 
+<div class="highlight highlight-html">
+ <pre>&lt;<span class="pl-ent">div</span> <span class="pl-e">id</span>=<span class="pl-s1"><span class="pl-pds">&quot;</span>container<span class="pl-pds">&quot;</span></span>&gt;&lt;/<span class="pl-ent">div</span>&gt;
+<span class="pl-s2">&lt;<span class="pl-ent">script</span>&gt;</span>
+<span class="pl-s2">$(<span class="pl-st">function</span>() {</span>
+<span class="pl-s2">  $(<span class="pl-s1"><span class="pl-pds">'</span>#container<span class="pl-pds">'</span></span>).jstree({</span>
+<span class="pl-s2">    <span class="pl-s1"><span class="pl-pds">'</span>core<span class="pl-pds">'</span></span> <span class="pl-k">:</span> {</span>
+<span class="pl-s2">      <span class="pl-s1"><span class="pl-pds">'</span>data<span class="pl-pds">'</span></span> <span class="pl-k">:</span> {</span>
+<span class="pl-s2">        <span class="pl-s1"><span class="pl-pds">&quot;</span>url<span class="pl-pds">&quot;</span></span> <span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">&quot;</span>//www.jstree.com/fiddle/?lazy<span class="pl-pds">&quot;</span></span>,</span>
+<span class="pl-s2">        <span class="pl-s1"><span class="pl-pds">&quot;</span><span class="pl-en">data</span><span class="pl-pds">&quot;</span></span> : <span class="pl-st">function</span> (<span class="pl-vpf">node</span>) {</span>
+<span class="pl-s2">          <span class="pl-k">return</span> { <span class="pl-s1"><span class="pl-pds">&quot;</span>id<span class="pl-pds">&quot;</span></span> <span class="pl-k">:</span> node.<span class="pl-sc">id</span> };</span>
+<span class="pl-s2">        }</span>
+<span class="pl-s2">      }</span>
+<span class="pl-s2">    }</span>
+<span class="pl-s2">  });</span>
+<span class="pl-s2">});</span>
+<span class="pl-s2">&lt;/<span class="pl-ent">script</span>&gt;</span></pre>
+</div> 
+<p>The initial server response is:</p> 
+<div class="highlight highlight-json">
+ <pre>[{
+  <span class="pl-s1"><span class="pl-pds">&quot;</span>id<span class="pl-pds">&quot;</span></span>:<span class="pl-c1">1</span>,<span class="pl-s1"><span class="pl-pds">&quot;</span>text<span class="pl-pds">&quot;</span></span>:<span class="pl-s1"><span class="pl-pds">&quot;</span>Root node<span class="pl-pds">&quot;</span></span>,<span class="pl-s1"><span class="pl-pds">&quot;</span>children<span class="pl-pds">&quot;</span></span>:[
+    {<span class="pl-s1"><span class="pl-pds">&quot;</span>id<span class="pl-pds">&quot;</span></span>:<span class="pl-c1">2</span>,<span class="pl-s1"><span class="pl-pds">&quot;</span>text<span class="pl-pds">&quot;</span></span>:<span class="pl-s1"><span class="pl-pds">&quot;</span>Child node 1<span class="pl-pds">&quot;</span></span>,<span class="pl-s1"><span class="pl-pds">&quot;</span>children<span class="pl-pds">&quot;</span></span>:<span class="pl-c1">true</span>},
+    {<span class="pl-s1"><span class="pl-pds">&quot;</span>id<span class="pl-pds">&quot;</span></span>:<span class="pl-c1">3</span>,<span class="pl-s1"><span class="pl-pds">&quot;</span>text<span class="pl-pds">&quot;</span></span>:<span class="pl-s1"><span class="pl-pds">&quot;</span>Child node 2<span class="pl-pds">&quot;</span></span>}
+  ]
+}]</pre>
+</div> 
+<p><a href="http://jsfiddle.net/vakata/2kwkh2uL/5/">view result</a></p> 
+<p>Now to focus on what is different. First off the <code>&quot;data&quot;</code> config option of the data object. If you check with jQuery, it is supposed to be a string or an object. But jstree makes it possible to set a function.</p> 
+<p>Each time jstree needs to make an AJAX call this function will be called and will receive a single parameter - the node that is being loaded. The return value of this function will be used as the actual <code>&quot;data&quot;</code> of the AJAX call. To understand better open up the demo and see the requests go off in the console.</p> 
+<p>You will notice that the first request goes off to: <code>http://www.jstree.com/fiddle?lazy&amp;id=#</code> <code>#</code> is the special ID that the function receives when jstree needs to load the root nodes.</p> 
+<p>Now go ahead and open the root node - two children will be shown, but no request will be made - that is because we loaded those children along with the first request. </p> 
+<p>Onto the next difference - &quot;Child node 1&quot; appears closed - that is because in the data we supplied <code>true</code> as the <code>&quot;children&quot;</code> property of this node (you can see it in the server response). This special value indicated to jstree, that it has to lazy load the &quot;Child node 1&quot; node.</p> 
+<p>Proceed and open this node - you will see a next request fire off to: <code>http://www.jstree.com/fiddle?lazy&amp;id=2</code> ID is set to <code>2</code> because the node being loaded has an ID of <code>2</code>, and we have configured jstree to send the node ID along with the AJAX request (the <code>data</code> function).</p> 
+<p>The server response is:</p> 
+<div class="highlight highlight-json">
+ <pre>[<span class="pl-s1"><span class="pl-pds">&quot;</span>Child node 3<span class="pl-pds">&quot;</span></span>,<span class="pl-s1"><span class="pl-pds">&quot;</span>Child node 4<span class="pl-pds">&quot;</span></span>]</pre>
+</div> 
+<p><em>You can also set <code>&quot;url&quot;</code> to a function and it works exactly as with <code>&quot;data&quot;</code> - each time a request has to be made, jstree will invoke your function and the request will go off to whatever you return in this function. This is useful when dealing with URLs like: <code>http://example.com/get_children/1</code>.</em></p> 
+<h3> <a id="user-content-populating-the-tree-using-a-callback-function" class="anchor" href="..md.html#populating-the-tree-using-a-callback-function" aria-hidden="true"><span class="octicon octicon-link"></span></a>Populating the tree using a callback function</h3> 
+<p>Sometimes you may not want jsTree to make AJAX calls for you - you might want to make them yourself, or use some other method of puplating the tree. In that case you can use a callback function.</p> 
+<div class="highlight highlight-html">
+ <pre>&lt;<span class="pl-ent">div</span> <span class="pl-e">id</span>=<span class="pl-s1"><span class="pl-pds">&quot;</span>container<span class="pl-pds">&quot;</span></span>&gt;&lt;/<span class="pl-ent">div</span>&gt;
+<span class="pl-s2">&lt;<span class="pl-ent">script</span>&gt;</span>
+<span class="pl-s2">$(<span class="pl-st">function</span>() {</span>
+<span class="pl-s2">  $(<span class="pl-s1"><span class="pl-pds">'</span>#container<span class="pl-pds">'</span></span>).jstree({</span>
+<span class="pl-s2">    <span class="pl-s1"><span class="pl-pds">'</span>core<span class="pl-pds">'</span></span> <span class="pl-k">:</span> {</span>
+<span class="pl-s2">      <span class="pl-s1"><span class="pl-pds">'</span><span class="pl-en">data</span><span class="pl-pds">'</span></span> : <span class="pl-st">function</span> (<span class="pl-vpf">node</span>, <span class="pl-vpf">cb</span>) {</span>
+<span class="pl-s2">        <span class="pl-k">if</span>(node.<span class="pl-sc">id</span> <span class="pl-k">===</span> <span class="pl-s1"><span class="pl-pds">&quot;</span>#<span class="pl-pds">&quot;</span></span>) {</span>
+<span class="pl-s2">          cb([{<span class="pl-s1"><span class="pl-pds">&quot;</span>text<span class="pl-pds">&quot;</span></span> <span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">&quot;</span>Root<span class="pl-pds">&quot;</span></span>, <span class="pl-s1"><span class="pl-pds">&quot;</span>id<span class="pl-pds">&quot;</span></span> <span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">&quot;</span>1<span class="pl-pds">&quot;</span></span>, <span class="pl-s1"><span class="pl-pds">&quot;</span>children<span class="pl-pds">&quot;</span></span> <span class="pl-k">:</span> <span class="pl-c1">true</span>}]);</span>
+<span class="pl-s2">        }</span>
+<span class="pl-s2">        <span class="pl-k">else</span> {</span>
+<span class="pl-s2">          cb([<span class="pl-s1"><span class="pl-pds">&quot;</span>Child<span class="pl-pds">&quot;</span></span>]);</span>
+<span class="pl-s2">        }</span>
+<span class="pl-s2">      }</span>
+<span class="pl-s2">    }</span>
+<span class="pl-s2">  });</span>
+<span class="pl-s2">});</span>
+<span class="pl-s2">&lt;/<span class="pl-ent">script</span>&gt;</span></pre>
+</div> 
+<p><a href="http://jsfiddle.net/vakata/2kwkh2uL/13/">view result</a></p> 
+<p>As you can see your function will receive two arguments - the node whose children need to be loaded and a callback function to call with the data once you have it. The data follows the same familiar JSON format and lazy loading works just as with AJAX (as you can see in the above example).</p> 
+<hr /> 
+<h2> <a id="user-content-working-with-events" class="anchor" href="..md.html#working-with-events" aria-hidden="true"><span class="octicon octicon-link"></span></a>Working with events</h2> 
+<p>jstree provides a lot of events to let you know something happened with the tree. The events are the same regardless of how you populate the tree. Let's use the most basic event <code>changed</code> - it fires when selection on the tree changes:</p> 
+<div class="highlight highlight-html">
+ <pre>&lt;<span class="pl-ent">div</span> <span class="pl-e">id</span>=<span class="pl-s1"><span class="pl-pds">&quot;</span>container<span class="pl-pds">&quot;</span></span>&gt;&lt;/<span class="pl-ent">div</span>&gt;
+<span class="pl-s2">&lt;<span class="pl-ent">script</span>&gt;</span>
+<span class="pl-s2">$(<span class="pl-st">function</span>() {</span>
+<span class="pl-s2">  $(<span class="pl-s1"><span class="pl-pds">'</span>#container<span class="pl-pds">'</span></span>).jstree({</span>
+<span class="pl-s2">    <span class="pl-s1"><span class="pl-pds">'</span>core<span class="pl-pds">'</span></span> <span class="pl-k">:</span> {</span>
+<span class="pl-s2">      <span class="pl-s1"><span class="pl-pds">'</span>data<span class="pl-pds">'</span></span> <span class="pl-k">:</span> [</span>
+<span class="pl-s2">        {<span class="pl-s1"><span class="pl-pds">&quot;</span>id<span class="pl-pds">&quot;</span></span> <span class="pl-k">:</span> <span class="pl-c1">1</span>, <span class="pl-s1"><span class="pl-pds">&quot;</span>text<span class="pl-pds">&quot;</span></span> <span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">&quot;</span>Node 1<span class="pl-pds">&quot;</span></span>},</span>
+<span class="pl-s2">        {<span class="pl-s1"><span class="pl-pds">&quot;</span>id<span class="pl-pds">&quot;</span></span> <span class="pl-k">:</span> <span class="pl-c1">2</span>, <span class="pl-s1"><span class="pl-pds">&quot;</span>text<span class="pl-pds">&quot;</span></span> <span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">&quot;</span>Node 2<span class="pl-pds">&quot;</span></span>},</span>
+<span class="pl-s2">      ]</span>
+<span class="pl-s2">    }</span>
+<span class="pl-s2">  });</span>
+<span class="pl-s2">  $(<span class="pl-s1"><span class="pl-pds">'</span>#container<span class="pl-pds">'</span></span>).on(<span class="pl-s1"><span class="pl-pds">&quot;</span>changed.jstree<span class="pl-pds">&quot;</span></span>, <span class="pl-st">function</span> (<span class="pl-vpf">e</span>, <span class="pl-vpf">data</span>) {</span>
+<span class="pl-s2">    <span class="pl-en">console</span><span class="pl-s3">.log</span>(<span class="pl-s1"><span class="pl-pds">&quot;</span>The selected nodes are:<span class="pl-pds">&quot;</span></span>);</span>
+<span class="pl-s2">    <span class="pl-en">console</span><span class="pl-s3">.log</span>(data.<span class="pl-sc">selected</span>);</span>
+<span class="pl-s2">  });</span>
+<span class="pl-s2">});</span>
+<span class="pl-s2">&lt;/<span class="pl-ent">script</span>&gt;</span></pre>
+</div> 
+<p><a href="http://jsfiddle.net/vakata/2kwkh2uL/6/">view result</a></p> 
+<p>All jstree events fire in a special <code>&quot;.jstree&quot;</code> namespace - this is why we listen for <code>&quot;changed.jstree&quot;</code>. The handler itself receives one additional parameter - it will be populated with all you need to know about the event that happened. In this case <code>data.selected</code> is an array of selected node IDs (please note, that if you have not specified IDs they will be autogenerated).</p> 
+<p>Let's extend this a bit and log out the text of the node instead of the ID.</p> 
+<div class="highlight highlight-js">
+ <pre>$(<span class="pl-s1"><span class="pl-pds">'</span>#container<span class="pl-pds">'</span></span>).on(<span class="pl-s1"><span class="pl-pds">&quot;</span>changed.jstree<span class="pl-pds">&quot;</span></span>, <span class="pl-st">function</span> (<span class="pl-vpf">e</span>, <span class="pl-vpf">data</span>) {
+  <span class="pl-en">console</span><span class="pl-s3">.log</span>(data.instance.get_selected(<span class="pl-c1">true</span>)[<span class="pl-c1">0</span>].<span class="pl-sc">text</span>);
+  <span class="pl-en">console</span><span class="pl-s3">.log</span>(data.instance.get_node(data.<span class="pl-sc">selected</span>[<span class="pl-c1">0</span>]).<span class="pl-sc">text</span>);
+});</pre>
+</div> 
+<p>The two rows above achieve exactly the same thing - get the text of the first selected node.</p> 
+<p>In the <code>data</code> argument object you will always get an <code>instance</code> key - that is a reference to the tree instance, so that you can easily invoke methods.</p> 
+<p><strong>All available functions and events are documented in the API docs</strong></p> 
+<hr /> 
+<h2> <a id="user-content-interacting-with-the-tree-using-the-api" class="anchor" href="..md.html#interacting-with-the-tree-using-the-api" aria-hidden="true"><span class="octicon octicon-link"></span></a>Interacting with the tree using the API</h2> 
+<p>We scratcched the surface on interacting with the tree in the previous example. Let's move on to obtaining an instance and calling a method on this instance:</p> 
+<div class="highlight highlight-html">
+ <pre>&lt;<span class="pl-ent">button</span>&gt;Select node 1&lt;/<span class="pl-ent">button</span>&gt;
+&lt;<span class="pl-ent">div</span> <span class="pl-e">id</span>=<span class="pl-s1"><span class="pl-pds">&quot;</span>container<span class="pl-pds">&quot;</span></span>&gt;&lt;/<span class="pl-ent">div</span>&gt;
+<span class="pl-s2">&lt;<span class="pl-ent">script</span>&gt;</span>
+<span class="pl-s2">$(<span class="pl-st">function</span>() {</span>
+<span class="pl-s2">  $(<span class="pl-s1"><span class="pl-pds">'</span>#container<span class="pl-pds">'</span></span>).jstree({</span>
+<span class="pl-s2">    <span class="pl-s1"><span class="pl-pds">'</span>core<span class="pl-pds">'</span></span> <span class="pl-k">:</span> {</span>
+<span class="pl-s2">      <span class="pl-s1"><span class="pl-pds">'</span>data<span class="pl-pds">'</span></span> <span class="pl-k">:</span> [</span>
+<span class="pl-s2">        {<span class="pl-s1"><span class="pl-pds">&quot;</span>id<span class="pl-pds">&quot;</span></span> <span class="pl-k">:</span> <span class="pl-c1">1</span>, <span class="pl-s1"><span class="pl-pds">&quot;</span>text<span class="pl-pds">&quot;</span></span> <span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">&quot;</span>Node 1<span class="pl-pds">&quot;</span></span>},</span>
+<span class="pl-s2">        {<span class="pl-s1"><span class="pl-pds">&quot;</span>id<span class="pl-pds">&quot;</span></span> <span class="pl-k">:</span> <span class="pl-c1">2</span>, <span class="pl-s1"><span class="pl-pds">&quot;</span>text<span class="pl-pds">&quot;</span></span> <span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">&quot;</span>Node 2<span class="pl-pds">&quot;</span></span>},</span>
+<span class="pl-s2">      ]</span>
+<span class="pl-s2">    }</span>
+<span class="pl-s2">  });</span>
+<span class="pl-s2">  $(<span class="pl-s1"><span class="pl-pds">'</span>button<span class="pl-pds">'</span></span>).on(<span class="pl-s1"><span class="pl-pds">&quot;</span>click<span class="pl-pds">&quot;</span></span>, <span class="pl-st">function</span> () {</span>
+<span class="pl-s2">    <span class="pl-s">var</span> instance <span class="pl-k">=</span> $(<span class="pl-s1"><span class="pl-pds">'</span>#container<span class="pl-pds">'</span></span>).jstree(<span class="pl-c1">true</span>); </span>
+<span class="pl-s2">    instance.deselect_all();</span>
+<span class="pl-s2">    instance.select_node(<span class="pl-s1"><span class="pl-pds">'</span>1<span class="pl-pds">'</span></span>);</span>
+<span class="pl-s2">  });</span>
+<span class="pl-s2">});</span>
+<span class="pl-s2">&lt;/<span class="pl-ent">script</span>&gt;</span></pre>
+</div> 
+<p><a href="http://jsfiddle.net/vakata/2kwkh2uL/7/">view result</a></p> 
+<p>The above example shows how to obtain a reference to a jstree instance (again with a selector, but this time instead of a config, we pass a boolean <code>true</code>), and call a couple of methods - the latter one is selecting a node by its ID.</p> 
+<p>Methods can also be invoked like this:</p> 
+<div class="highlight highlight-js">
+ <pre>$(<span class="pl-s1"><span class="pl-pds">'</span>#container<span class="pl-pds">'</span></span>).jstree(<span class="pl-s1"><span class="pl-pds">&quot;</span>select_node<span class="pl-pds">&quot;</span></span>, <span class="pl-s1"><span class="pl-pds">&quot;</span>1<span class="pl-pds">&quot;</span></span>);</pre>
+</div> 
+<p><strong>All available functions and events are documented in the API docs</strong></p> 
+<h2> <a id="user-content-more-on-configuration" class="anchor" href="..md.html#more-on-configuration" aria-hidden="true"><span class="octicon octicon-link"></span></a>More on configuration</h2> 
+<p>We already covered the config object in general (when we specified inline &amp; AJAX data sources).</p> 
+<div class="highlight highlight-js">
+ <pre>$(<span class="pl-s1"><span class="pl-pds">&quot;</span>#tree<span class="pl-pds">&quot;</span></span>).jstree({ <span class="pl-c">/* config object goes here */</span> });</pre>
+</div> 
+<p>Each key in the config object corresponds to a plugin, and the value of that key is the configuration for that plugin. There are also two special keys <code>&quot;core&quot;</code> and <code>&quot;plugins&quot;</code>:</p> 
+<ul> 
+ <li> <code>&quot;core&quot;</code> stores the core configuration options</li> 
+ <li> <code>&quot;plugins&quot;</code> is an array of plugin names (strings) you want active on the instance </li> 
+</ul> 
+<p>When configuring you only need to set values that you want to be different from the defaults.</p> 
+<p><strong>All config options and defaults are documented in the API docs</strong></p> 
+<div class="highlight highlight-js">
+ <pre>$(<span class="pl-s1"><span class="pl-pds">&quot;</span>#tree<span class="pl-pds">&quot;</span></span>).jstree({
+  <span class="pl-s1"><span class="pl-pds">&quot;</span>core<span class="pl-pds">&quot;</span></span> <span class="pl-k">:</span> { <span class="pl-c">// core options go here</span>
+    <span class="pl-s1"><span class="pl-pds">&quot;</span>multiple<span class="pl-pds">&quot;</span></span> <span class="pl-k">:</span> <span class="pl-c1">false</span>, <span class="pl-c">// no multiselection</span>
+    <span class="pl-s1"><span class="pl-pds">&quot;</span>themes<span class="pl-pds">&quot;</span></span> <span class="pl-k">:</span> {
+      <span class="pl-s1"><span class="pl-pds">&quot;</span>dots<span class="pl-pds">&quot;</span></span> <span class="pl-k">:</span> <span class="pl-c1">false</span> <span class="pl-c">// no connecting dots between dots</span>
+    }
+  },
+  <span class="pl-s1"><span class="pl-pds">&quot;</span>plugins<span class="pl-pds">&quot;</span></span> <span class="pl-k">:</span> [<span class="pl-s1"><span class="pl-pds">&quot;</span>state<span class="pl-pds">&quot;</span></span>] <span class="pl-c">// activate the state plugin on this instance</span>
+});</pre>
+</div> 
+<p><a href="http://jsfiddle.net/vakata/2kwkh2uL/8/">view result</a></p> 
+<p>We will cover all plugins further down.</p> 
+<p><strong>Keep in mind by default all modifications to the structure are prevented - that means drag'n'drop, create, rename, delete will not work unless you enable them.</strong></p> 
+<div class="highlight highlight-js">
+ <pre>$(<span class="pl-s1"><span class="pl-pds">&quot;</span>#tree<span class="pl-pds">&quot;</span></span>).jstree({
+  <span class="pl-s1"><span class="pl-pds">&quot;</span>core<span class="pl-pds">&quot;</span></span> <span class="pl-k">:</span> {
+    <span class="pl-s1"><span class="pl-pds">&quot;</span>check_callback<span class="pl-pds">&quot;</span></span> <span class="pl-k">:</span> <span class="pl-c1">true</span>, <span class="pl-c">// enable all modifications</span>
+  },
+  <span class="pl-s1"><span class="pl-pds">&quot;</span>plugins<span class="pl-pds">&quot;</span></span> <span class="pl-k">:</span> [<span class="pl-s1"><span class="pl-pds">&quot;</span>dnd<span class="pl-pds">&quot;</span></span>,<span class="pl-s1"><span class="pl-pds">&quot;</span>contextmenu<span class="pl-pds">&quot;</span></span>]
+});</pre>
+</div> 
+<p><a href="http://jsfiddle.net/vakata/2kwkh2uL/9/">view result</a></p> 
+<p><code>&quot;core.check_callback&quot;</code> can also be set to a function, that will be invoked every time a modification is about to happen (or when jstree needs to check if a modification is possible). If you return <code>true</code> the operation will be allowed, a value of <code>false</code> means it will not be allowed.</p> 
+<div class="highlight highlight-js">
+ <pre>$(<span class="pl-s1"><span class="pl-pds">&quot;</span>#tree<span class="pl-pds">&quot;</span></span>).jstree({
+  <span class="pl-s1"><span class="pl-pds">&quot;</span>core<span class="pl-pds">&quot;</span></span> <span class="pl-k">:</span> {
+    <span class="pl-s1"><span class="pl-pds">&quot;</span><span class="pl-en">check_callback</span><span class="pl-pds">&quot;</span></span> : <span class="pl-st">function</span> (<span class="pl-vpf">operation</span>, <span class="pl-vpf">node</span>, <span class="pl-vpf">parent</span>, <span class="pl-vpf">position</span>, <span class="pl-vpf">more</span>) {
+      <span class="pl-k">if</span>(operation <span class="pl-k">===</span> <span class="pl-s1"><span class="pl-pds">&quot;</span>copy_node<span class="pl-pds">&quot;</span></span> <span class="pl-k">||</span> operation <span class="pl-k">===</span> <span class="pl-s1"><span class="pl-pds">&quot;</span>move_node<span class="pl-pds">&quot;</span></span>) {
+        <span class="pl-k">if</span>(parent.<span class="pl-sc">id</span> <span class="pl-k">===</span> <span class="pl-s1"><span class="pl-pds">&quot;</span>#<span class="pl-pds">&quot;</span></span>) {
+          <span class="pl-k">return</span> <span class="pl-c1">false</span>; <span class="pl-c">// prevent moving a child above or below the root</span>
+        }
+      },
+      <span class="pl-k">return</span> <span class="pl-c1">true</span>; <span class="pl-c">// allow everything else</span>
+    }
+  },
+  <span class="pl-s1"><span class="pl-pds">&quot;</span>plugins<span class="pl-pds">&quot;</span></span> <span class="pl-k">:</span> [<span class="pl-s1"><span class="pl-pds">&quot;</span>dnd<span class="pl-pds">&quot;</span></span>,<span class="pl-s1"><span class="pl-pds">&quot;</span>contextmenu<span class="pl-pds">&quot;</span></span>]
+});</pre>
+</div> 
+<p><a href="http://jsfiddle.net/vakata/2kwkh2uL/10/">view result</a></p> 
+<p>The <code>more</code> parameter you receive contains other information related to the check being performed. </p> 
+<p><strong>For example</strong>: <code>move_node</code> &amp; <code>copy_node</code> checks will fire repeatedly while the user drags a node, if the check was triggered by the <code>dnd</code> plugin <code>more</code> will contain a <code>dnd</code> key, which will be set to <code>true</code>. You can check for <code>more.dnd</code> and only perform a certain action if <code>dnd</code> triggered the check. If you only want to perform an operation when a node is really about to be dropped check for <code>more.core</code>.</p> 
+<h2> <a id="user-content-plugins" class="anchor" href="..md.html#plugins" aria-hidden="true"><span class="octicon octicon-link"></span></a>Plugins</h2> 
+<p>jsTree comes with a few plugin bundled, but they will only modify your tree if you activate them using the <code>&quot;plugins&quot;</code> config option. Here is a brief description of each plugin. You can read more on the available config options for each plugin in the API docs.</p> 
+<h3> <a id="user-content-checkbox" class="anchor" href="..md.html#checkbox" aria-hidden="true"><span class="octicon octicon-link"></span></a>checkbox</h3> 
+<p>Renders a checkbox icon in front of each node, making multiselection easy. It also has a &quot;tri-state&quot; option, meaning a node with some of its children checked will get a &quot;square&quot; icon.</p> 
+<div class="highlight highlight-js">
+ <pre>$(<span class="pl-s1"><span class="pl-pds">&quot;</span>#tree<span class="pl-pds">&quot;</span></span>).jstree({
+  <span class="pl-s1"><span class="pl-pds">&quot;</span>plugins<span class="pl-pds">&quot;</span></span> <span class="pl-k">:</span> [<span class="pl-s1"><span class="pl-pds">&quot;</span>checkbox<span class="pl-pds">&quot;</span></span>]
+});</pre>
+</div> 
+<p><a href="http://jsfiddle.net/vakata/2kwkh2uL/14/">view result</a></p> 
+<h3> <a id="user-content-contextmenu" class="anchor" href="..md.html#contextmenu" aria-hidden="true"><span class="octicon octicon-link"></span></a>contextmenu</h3> 
+<p>Makes it possible to right click nodes and shows a list of configurable actions in a menu.</p> 
+<div class="highlight highlight-js">
+ <pre>$(<span class="pl-s1"><span class="pl-pds">&quot;</span>#tree<span class="pl-pds">&quot;</span></span>).jstree({
+  <span class="pl-s1"><span class="pl-pds">&quot;</span>core<span class="pl-pds">&quot;</span></span> <span class="pl-k">:</span> { <span class="pl-s1"><span class="pl-pds">&quot;</span>check_callback<span class="pl-pds">&quot;</span></span> <span class="pl-k">:</span> <span class="pl-c1">true</span> }, <span class="pl-c">// so that modifying operations work</span>
+  <span class="pl-s1"><span class="pl-pds">&quot;</span>plugins<span class="pl-pds">&quot;</span></span> <span class="pl-k">:</span> [<span class="pl-s1"><span class="pl-pds">&quot;</span>contextmenu<span class="pl-pds">&quot;</span></span>]
+});</pre>
+</div> 
+<p><a href="http://jsfiddle.net/vakata/2kwkh2uL/16/">view result</a></p> 
+<h3> <a id="user-content-dnd" class="anchor" href="..md.html#dnd" aria-hidden="true"><span class="octicon octicon-link"></span></a>dnd</h3> 
+<p>Makes it possible to drag and drop tree nodes and rearrange the tree.</p> 
+<div class="highlight highlight-js">
+ <pre>$(<span class="pl-s1"><span class="pl-pds">&quot;</span>#tree<span class="pl-pds">&quot;</span></span>).jstree({
+  <span class="pl-s1"><span class="pl-pds">&quot;</span>core<span class="pl-pds">&quot;</span></span> <span class="pl-k">:</span> { <span class="pl-s1"><span class="pl-pds">&quot;</span>check_callback<span class="pl-pds">&quot;</span></span> <span class="pl-k">:</span> <span class="pl-c1">true</span> }, <span class="pl-c">// so that operations work</span>
+  <span class="pl-s1"><span class="pl-pds">&quot;</span>plugins<span class="pl-pds">&quot;</span></span> <span class="pl-k">:</span> [<span class="pl-s1"><span class="pl-pds">&quot;</span>dnd<span class="pl-pds">&quot;</span></span>]
+});</pre>
+</div> 
+<p><a href="http://jsfiddle.net/vakata/2kwkh2uL/17/">view result</a></p> 
+<h3> <a id="user-content-search" class="anchor" href="..md.html#search" aria-hidden="true"><span class="octicon octicon-link"></span></a>search</h3> 
+<p>Adds the possibility to search for items in the tree and show only matching nodes. It also has AJAX / callback hooks, so that search will work on lazy loaded trees too.</p> 
+<div class="highlight highlight-html">
+ <pre>&lt;<span class="pl-ent">form</span> <span class="pl-e">id</span>=<span class="pl-s1"><span class="pl-pds">&quot;</span>s<span class="pl-pds">&quot;</span></span>&gt;
+  &lt;<span class="pl-ent">input</span> <span class="pl-e">type</span>=<span class="pl-s1"><span class="pl-pds">&quot;</span>search<span class="pl-pds">&quot;</span></span> <span class="pl-e">id</span>=<span class="pl-s1"><span class="pl-pds">&quot;</span>q<span class="pl-pds">&quot;</span></span> /&gt;
+  &lt;<span class="pl-ent">button</span> <span class="pl-e">type</span>=<span class="pl-s1"><span class="pl-pds">&quot;</span>submit<span class="pl-pds">&quot;</span></span>&gt;Search&lt;/<span class="pl-ent">button</span>&gt;
+&lt;/<span class="pl-ent">form</span>&gt;
+<span class="pl-s2">&lt;<span class="pl-ent">script</span>&gt;</span>
+<span class="pl-s2">$(<span class="pl-s1"><span class="pl-pds">&quot;</span>#container<span class="pl-pds">&quot;</span></span>).jstree({</span>
+<span class="pl-s2">  <span class="pl-s1"><span class="pl-pds">&quot;</span>plugins<span class="pl-pds">&quot;</span></span> <span class="pl-k">:</span> [<span class="pl-s1"><span class="pl-pds">&quot;</span>search<span class="pl-pds">&quot;</span></span>]</span>
+<span class="pl-s2">});</span>
+<span class="pl-s2">$(<span class="pl-s1"><span class="pl-pds">&quot;</span>#s<span class="pl-pds">&quot;</span></span>).<span class="pl-s3">submit</span>(<span class="pl-st">function</span>(<span class="pl-vpf">e</span>) {</span>
+<span class="pl-s2">  e.preventDefault();</span>
+<span class="pl-s2">  $(<span class="pl-s1"><span class="pl-pds">&quot;</span>container<span class="pl-pds">&quot;</span></span>).jstree(<span class="pl-c1">true</span>).<span class="pl-s3">search</span>($(<span class="pl-s1"><span class="pl-pds">&quot;</span>#q<span class="pl-pds">&quot;</span></span>).val());</span>
+<span class="pl-s2">});</span>
+<span class="pl-s2">&lt;/<span class="pl-ent">script</span>&gt;</span></pre>
+</div> 
+<p><a href="http://jsfiddle.net/vakata/2kwkh2uL/18/">view result</a></p> 
+<h3> <a id="user-content-sort" class="anchor" href="..md.html#sort" aria-hidden="true"><span class="octicon octicon-link"></span></a>sort</h3> 
+<p>Automatically arranges all sibling nodes according to a comparison config option function, which defaults to alphabetical order.</p> 
+<div class="highlight highlight-js">
+ <pre>$(<span class="pl-s1"><span class="pl-pds">&quot;</span>#tree<span class="pl-pds">&quot;</span></span>).jstree({
+  <span class="pl-s1"><span class="pl-pds">&quot;</span>plugins<span class="pl-pds">&quot;</span></span> <span class="pl-k">:</span> [<span class="pl-s1"><span class="pl-pds">&quot;</span>sort<span class="pl-pds">&quot;</span></span>]
+});</pre>
+</div> 
+<p><a href="http://jsfiddle.net/vakata/2kwkh2uL/19/">view result</a></p> 
+<h3> <a id="user-content-state" class="anchor" href="..md.html#state" aria-hidden="true"><span class="octicon octicon-link"></span></a>state</h3> 
+<p>Saves all opened and selected nodes in the user's browser, so when returning to the same tree the previous state will be restored.</p> 
+<div class="highlight highlight-js">
+ <pre>$(<span class="pl-s1"><span class="pl-pds">&quot;</span>#tree<span class="pl-pds">&quot;</span></span>).jstree({
+  <span class="pl-c">// the key is important if you have multiple trees in the same domain</span>
+  <span class="pl-s1"><span class="pl-pds">&quot;</span>state<span class="pl-pds">&quot;</span></span> <span class="pl-k">:</span> { <span class="pl-s1"><span class="pl-pds">&quot;</span>key<span class="pl-pds">&quot;</span></span> <span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">&quot;</span>state_demo<span class="pl-pds">&quot;</span></span> },
+  <span class="pl-s1"><span class="pl-pds">&quot;</span>plugins<span class="pl-pds">&quot;</span></span> <span class="pl-k">:</span> [<span class="pl-s1"><span class="pl-pds">&quot;</span>state<span class="pl-pds">&quot;</span></span>]
+});</pre>
+</div> 
+<p><a href="http://jsfiddle.net/vakata/2kwkh2uL/20/">view result</a></p> 
+<h3> <a id="user-content-types" class="anchor" href="..md.html#types" aria-hidden="true"><span class="octicon octicon-link"></span></a>types</h3> 
+<p>Makes it possible to add a &quot;type&quot; for a node, which means to easily control nesting rules and icon for groups of nodes instead of individually. To set a node type add a type property to the node structure.</p> 
+<div class="highlight highlight-js">
+ <pre>$(<span class="pl-s1"><span class="pl-pds">&quot;</span>#tree<span class="pl-pds">&quot;</span></span>).jstree({
+  <span class="pl-s1"><span class="pl-pds">&quot;</span>types<span class="pl-pds">&quot;</span></span> <span class="pl-k">:</span> {
+    <span class="pl-s1"><span class="pl-pds">&quot;</span>default<span class="pl-pds">&quot;</span></span> <span class="pl-k">:</span> {
+      <span class="pl-s1"><span class="pl-pds">&quot;</span>icon<span class="pl-pds">&quot;</span></span> <span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">&quot;</span>glyphicon glyphicon-flash<span class="pl-pds">&quot;</span></span>
+    },
+    <span class="pl-s1"><span class="pl-pds">&quot;</span>demo<span class="pl-pds">&quot;</span></span> <span class="pl-k">:</span> {
+      <span class="pl-s1"><span class="pl-pds">&quot;</span>icon<span class="pl-pds">&quot;</span></span> <span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">&quot;</span>glyphicon glyphicon-ok<span class="pl-pds">&quot;</span></span>
+    }
+  },
+  <span class="pl-s1"><span class="pl-pds">&quot;</span>plugins<span class="pl-pds">&quot;</span></span> <span class="pl-k">:</span> [<span class="pl-s1"><span class="pl-pds">&quot;</span>types<span class="pl-pds">&quot;</span></span>]
+});</pre>
+</div> 
+<p><a href="http://jsfiddle.net/vakata/2kwkh2uL/21/">view result</a></p> 
+<h3> <a id="user-content-unique" class="anchor" href="..md.html#unique" aria-hidden="true"><span class="octicon octicon-link"></span></a>unique</h3> 
+<p>Enforces that no nodes with the same name can coexist as siblings - prevents renaming and moving nodes to a parent, which already contains a node with the same name.</p> 
+<div class="highlight highlight-js">
+ <pre>$(<span class="pl-s1"><span class="pl-pds">&quot;</span>#tree<span class="pl-pds">&quot;</span></span>).jstree({
+  <span class="pl-s1"><span class="pl-pds">&quot;</span>plugins<span class="pl-pds">&quot;</span></span> <span class="pl-k">:</span> [<span class="pl-s1"><span class="pl-pds">&quot;</span>unique<span class="pl-pds">&quot;</span></span>]
+});</pre>
+</div> 
+<p><a href="http://jsfiddle.net/vakata/2kwkh2uL/22/">view result</a></p> 
+<h3> <a id="user-content-wholerow" class="anchor" href="..md.html#wholerow" aria-hidden="true"><span class="octicon octicon-link"></span></a>wholerow</h3> 
+<p>Makes each node appear block level which makes selection easier. May cause slow down for large trees in old browsers.</p> 
+<div class="highlight highlight-js">
+ <pre>$(<span class="pl-s1"><span class="pl-pds">&quot;</span>#tree<span class="pl-pds">&quot;</span></span>).jstree({
+  <span class="pl-s1"><span class="pl-pds">&quot;</span>plugins<span class="pl-pds">&quot;</span></span> <span class="pl-k">:</span> [<span class="pl-s1"><span class="pl-pds">&quot;</span>wholerow<span class="pl-pds">&quot;</span></span>]
+});</pre>
+</div> 
+<p><a href="http://jsfiddle.net/vakata/2kwkh2uL/23/">view result</a></p> 
+<h3> <a id="user-content-more-plugins" class="anchor" href="..md.html#more-plugins" aria-hidden="true"><span class="octicon octicon-link"></span></a>More plugins</h3> 
+<p>If you create your own plugin (or download a 3rd party one) you must include its source on the page and list its name in the <code>&quot;plugins&quot;</code> config array.</p> 
+<div class="highlight highlight-js">
+ <pre><span class="pl-c">// conditional select</span>
+(<span class="pl-st">function</span> (<span class="pl-vpf">$</span>, <span class="pl-vpf">undefined</span>) {
+  <span class="pl-s1"><span class="pl-pds">&quot;</span>use strict<span class="pl-pds">&quot;</span></span>;
+  <span class="pl-s3">$.jstree.defaults</span>.<span class="pl-en">conditionalselect</span> <span class="pl-k">=</span> <span class="pl-st">function</span> () { <span class="pl-k">return</span> <span class="pl-c1">true</span>; };
+  <span class="pl-s3">$.jstree.plugins</span>.<span class="pl-en">conditionalselect</span> <span class="pl-k">=</span> <span class="pl-st">function</span> (<span class="pl-vpf">options</span>, <span class="pl-vpf">parent</span>) {
+    <span class="pl-s3">this</span>.<span class="pl-en">activate_node</span> <span class="pl-k">=</span> <span class="pl-st">function</span> (<span class="pl-vpf">obj</span>, <span class="pl-vpf">e</span>) {
+      <span class="pl-k">if</span>(<span class="pl-v">this</span>.settings.conditionalselect.<span class="pl-s3">call</span>(<span class="pl-v">this</span>, <span class="pl-v">this</span>.get_node(obj))) {
+        parent.activate_node.<span class="pl-s3">call</span>(<span class="pl-v">this</span>, obj, e);
+      }
+    };
+  };
+})(jQuery);
+$(<span class="pl-s1"><span class="pl-pds">&quot;</span>#tree<span class="pl-pds">&quot;</span></span>).jstree({
+  <span class="pl-s1"><span class="pl-pds">&quot;</span><span class="pl-en">conditionalselect</span><span class="pl-pds">&quot;</span></span> : <span class="pl-st">function</span> (<span class="pl-vpf">node</span>) {
+    <span class="pl-k">return</span> node.<span class="pl-sc">text</span> <span class="pl-k">===</span> <span class="pl-s1"><span class="pl-pds">&quot;</span>Root node<span class="pl-pds">&quot;</span></span> <span class="pl-k">?</span> false <span class="pl-k">:</span> <span class="pl-c1">true</span>;
+  },
+  <span class="pl-s1"><span class="pl-pds">&quot;</span>plugins<span class="pl-pds">&quot;</span></span> <span class="pl-k">:</span> [<span class="pl-s1"><span class="pl-pds">&quot;</span>conditionalselect<span class="pl-pds">&quot;</span></span>]
+});</pre>
+</div> 
+<p><a href="http://jsfiddle.net/vakata/2kwkh2uL/24/">view result</a></p> 
+<p>As seen here when creating a plugin you can define a default config, add your own functions to jstree, or override existing ones while maintaining the ability to call the overridden function.</p> 
+<h2> <a id="user-content-license--contributing" class="anchor" href="..md.html#license--contributing" aria-hidden="true"><span class="octicon octicon-link"></span></a>License &amp; Contributing</h2> 
+<p><em>Please do NOT edit files in the &quot;dist&quot; subdirectory as they are generated via grunt. You'll find source code in the &quot;src&quot; subdirectory!</em></p> 
+<p>If you want to you can always <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&amp;business=paypal@vakata.com&amp;currency_code=USD&amp;amount=&amp;return=http://jstree.com/donation&amp;item_name=Buy+me+a+coffee+for+jsTree">donate a small amount</a> to help the development of jstree.</p> 
+<p>Copyright (c) 2014 Ivan Bozhanov (<a href="http://vakata.com">http://vakata.com</a>) </p> 
+<p>Licensed under the <a href="http://www.opensource.org/licenses/mit-license.php">MIT license</a>.</p>
+</body>
+</html>

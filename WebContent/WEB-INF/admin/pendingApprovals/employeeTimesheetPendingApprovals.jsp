@@ -139,7 +139,7 @@ function cancel_callback(box){
     }
     function updateAndSubmitForm(userId, month, year, action, submissionFor, weeklyHrsSummaryId, comments) {
 	    actiontoTake = document.forms[0].action;
-	    actiontoTake += '?parameter=' + document.forms[0].parameter.value + '&userId=' + userId + '&status=' + action + '&weeklyHrsSummaryId='
+	    actiontoTake += '?parameter=approveOrRejectUserHrs&userId=' + userId + '&status=' + action + '&weeklyHrsSummaryId='
 	            + weeklyHrsSummaryId + '&comments=' + comments;
 	    removeCheckBox = "selectAllCheckBox" + weeklyHrsSummaryId;
 	    var topRootDiv = document.getElementById("selectAllCheckBoxSpn" + weeklyHrsSummaryId);
@@ -176,6 +176,7 @@ function cancel_callback(box){
 			<% if(userProfile.isAdmin()) {%>
 			<td  class="approvalsTdHeader" width="150px">Invoice</td>
 			<%} %>
+			<td  class="approvalsTdHeader">Look Insight</td>
 		</tr>
 		<%
 			int count = 0;
@@ -183,24 +184,22 @@ function cancel_callback(box){
 		<logic:iterate id="employeeTimesheetPendingApprovalsId" name="employeeTimesheetPendingApprovals">
 
 			<%
-				String userId = String
-							.valueOf(((Long) ((Map) employeeTimesheetPendingApprovalsId)
-									.get("userId")));
-					String month = String
-							.valueOf(((Long) ((Map) employeeTimesheetPendingApprovalsId)
-									.get("month")));
-					String year = String
-							.valueOf(((Long) ((Map) employeeTimesheetPendingApprovalsId)
-									.get("year")));
-					String submissionFor = (String) ((Map) employeeTimesheetPendingApprovalsId)
-							.get("submissionFor");
-					String weeklyHrsSummaryId = String
-							.valueOf(((Long) ((Map) employeeTimesheetPendingApprovalsId)
-									.get("weeklyHrsSummaryId")));
-					String firstName = (String) ((Map) employeeTimesheetPendingApprovalsId)
-							.get("firstName");
+					String userId = String.valueOf(((Long) ((Map) employeeTimesheetPendingApprovalsId).get("userId")));
+					String month = String.valueOf(((Long) ((Map) employeeTimesheetPendingApprovalsId).get("month")));
+					String year = String.valueOf(((Long) ((Map) employeeTimesheetPendingApprovalsId).get("year")));
+					String submissionFor = (String) ((Map) employeeTimesheetPendingApprovalsId).get("submissionFor");
+					String weeklyHrsSummaryId = String.valueOf(((Long) ((Map) employeeTimesheetPendingApprovalsId).get("weeklyHrsSummaryId")));
+					String firstName = (String) ((Map) employeeTimesheetPendingApprovalsId).get("firstName");
 					String clientWorkingFor = (String) ((Map) employeeTimesheetPendingApprovalsId).get("clientWorkingFor");
 					String clientId = (Long) ((Map) employeeTimesheetPendingApprovalsId).get("clientId") + "";
+					String status = (String) ((Map) employeeTimesheetPendingApprovalsId).get("status");
+					String startWeekDate = (String) ((Map) employeeTimesheetPendingApprovalsId).get("startWeekDate");
+					String endWeekDate = (String) ((Map) employeeTimesheetPendingApprovalsId).get("endWeekDate");
+					Boolean hasOnlyMonthlyHours = (((Integer) ((Map) employeeTimesheetPendingApprovalsId).get("hasOnlyMonthlyHours")).intValue() != 0);
+					if (TimeSheetStatus.valueOf(status) == TimeSheetStatus.SAVEDASDRAFT) {
+						System.out.println("--> This timesheet is : " + status);
+						continue;
+					}
 			%>
 
 			<tr>
@@ -208,16 +207,25 @@ function cancel_callback(box){
 						name="employeeTimesheetPendingApprovalsId" property="lastName" /></td>
 				<td  class="tdDataForAlts"><bean:write name="employeeTimesheetPendingApprovalsId" property="clientWorkingFor" /></td>
 				<td  class="tdDataForAlts"><bean:write name="employeeTimesheetPendingApprovalsId" property="timeSheetConfiguredTo" /></td>
-				<td  class="tdDataForAlts"><bean:write name="employeeTimesheetPendingApprovalsId" property="submittedHrs" />&nbsp;-&nbsp;<bean:write name="employeeTimesheetPendingApprovalsId" property="totalRegularHrs" />/<bean:write
-						name="employeeTimesheetPendingApprovalsId" property="totalOvertimeHrs" />/<bean:write name="employeeTimesheetPendingApprovalsId" property="totalHolidayHrs" /> : <bean:write name="employeeTimesheetPendingApprovalsId" property="startWeekDate" />&nbsp;-&nbsp;<bean:write
-						name="employeeTimesheetPendingApprovalsId" property="endWeekDate" /></td>
+				<td  class="tdDataForAlts">
+				<% if(hasOnlyMonthlyHours == false) { %>
+				<bean:write name="employeeTimesheetPendingApprovalsId" property="submittedHrs" />&nbsp;-&nbsp;<bean:write name="employeeTimesheetPendingApprovalsId" property="totalRegularHrs" />/<bean:write
+						name="employeeTimesheetPendingApprovalsId" property="totalOvertimeHrs" />/<bean:write name="employeeTimesheetPendingApprovalsId" property="totalHolidayHrs" /> : 
+						<bean:write name="employeeTimesheetPendingApprovalsId" property="startWeekDate" />&nbsp;-&nbsp;
+						<bean:write name="employeeTimesheetPendingApprovalsId" property="endWeekDate" />
+				<%} else {%>
+				<bean:write name="employeeTimesheetPendingApprovalsId" property="submittedHrs" />&nbsp;-&nbsp;--/--/-- : 
+						<bean:write name="employeeTimesheetPendingApprovalsId" property="startWeekDate" />&nbsp;-&nbsp;
+						<bean:write name="employeeTimesheetPendingApprovalsId" property="endWeekDate" />
+				
+				<% } %>
+				</td>
 				<td  class="tdDataForAlts"><span id='statusSpan<%=weeklyHrsSummaryId%>'><bean:write name="employeeTimesheetPendingApprovalsId" property="status" /></span></td>
 				<td  class="tdDataForAlts">
 					<%
-						String id = (String) ((Map) employeeTimesheetPendingApprovalsId)
-									.get("supportingDocIds");
+						String id = (String) ((Map) employeeTimesheetPendingApprovalsId).get("supportingDocIds");
 							if (!id.equals("0")) {
-								String url = "downloadAFile.do?id="+weeklyHrsSummaryId+"&action=timeSheets";
+								String url = "downloadAFile.do?id=" + weeklyHrsSummaryId + "&action=timeSheets";
 					%> <a href=javascript:openNewWindow('<%=url%>')>Click</a> <%
  	} else {
  %> N/A<%
@@ -237,16 +245,24 @@ function cancel_callback(box){
 			<% if(userProfile.isAdmin()) {%>
 				<td  class="tdDataForAlts"><span id="invoice_<%= weeklyHrsSummaryId%>"><a href="javascript:loadInvoiceDetails(<%= weeklyHrsSummaryId%>, <%=clientId%>, <%=userId%>)">Load Invoice</a></span></td>
 			<%} %>
+			<td class="tdData">
 			
+			<% if(!hasOnlyMonthlyHours) {%>
+			<input type="button" value="See TimeSheet" name="lookInside" class="ButtonStyle" onclick="lookInside(this.value,'<%= userId%>','<%= month%>','<%= year%>','<%= submissionFor%>','<%= weeklyHrsSummaryId%>','<%= firstName%>','<%= clientWorkingFor%>', '<%= startWeekDate%>', '<%= endWeekDate%>')">
+			<%} else {%>
+			--
+			<%} %>
+			</td>
 			</tr>
 			<%
 				count++;
 			%>
 		</logic:iterate>
 		<tr>
-			<td  class="approvalsTdHeader" colspan="<%= (userProfile.isAdmin()?9:8)%>">
+			<td  class="approvalsTdHeader" colspan="<%= (userProfile.isAdmin()?10:9)%>">
 				<p align="right">
-					<input type="button" value="ApproveAll" id="approveAll"  class="ApproveRejectButtonStyle" onclick="approveOrRejectAll(this.value)"> <input type="button" value="RejectAll" id="rejectAll" 
+					<input type="button" value="Approve Selected" id="approveAll"  class="ApproveRejectButtonStyle" onclick="approveOrRejectAll(this.value)">
+					<input type="button" value="Reject Selected" id="rejectAll" 
 						class="ApproveRejectButtonStyle" onclick="approveOrRejectAll(this.value)">
 			</td>
 			<span id="approveOrRejectAllSpan"></span>
@@ -268,9 +284,18 @@ function cancel_callback(box){
 	%>
 </div>
 
-<form action="adminFunctImpl.do" method="post">
-	<input name="parameter" value="approveOrRejectUserHrs" type="hidden"> <input name="userId" value="" type="hidden"> <input name="status" value="" type="hidden"> <input name="weeklyHrsSummaryId" value="" type="hidden">
-
+<form action="adminFunctImpl.do" method="post" name="commonUseForm">
+	<input name="parameter" value="approveOrRejectUserHrs" type="hidden">
+	<input name="userId" value="" type="hidden"> 
+	<input name="status" value="" type="hidden">
+	<input name="submissionFor" value="" type="hidden"> 
+	<input name="month" value="" type="hidden">  
+	<input name="year" value="" type="hidden">
+	<input name="weeklyHrsSummaryId" value="" type="hidden">
+	<input name="clientName" value="" type="hidden">
+	<input name="startWeekdate" value="" type="hidden">
+	<input name="endWeekdate" value="" type="hidden">
+	<input name="forAdmin" value="YES" type="hidden">
 </form>
 <form action="adminFunctImpl.do?parameter=employeeTimesheetPendingApprovals" method="post" id="employeeTimesheetPendingApprovalsForm">
 </form>
@@ -291,6 +316,22 @@ if (document.getElementsByTagName) {
 		    rows[i].className = "odd";
 	    }
     }
+}
+
+
+function lookInside(x,userId,month,year,submissionFor,weeklyHrsSummaryId, name, client, startWeekdate, endWeekdate){
+
+	 var form = document.getElementsByName("commonUseForm")[0];
+	 form.parameter.value = "loadTimeSheetForAdmin";
+	 form.userId.value = userId;
+	 form.weeklyHrsSummaryId.value = weeklyHrsSummaryId;
+	 form.submissionFor.value = submissionFor;
+	 form.month.value = month;
+	 form.year.value = year;
+	 form.clientName.value = client;
+	 form.startWeekdate.value = startWeekdate;
+	 form.endWeekdate.value = endWeekdate;
+	 form.submit();
 }
 
 function loadInvoiceDetails(weeklyHrsSummaryId, clientId, userId){

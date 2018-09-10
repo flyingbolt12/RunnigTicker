@@ -100,8 +100,8 @@
 		year with any questions or situations that may arise – Support is free 
 		and part of the service.<br>
 		For Sales or more information or for a more customized product 
-		demonstration please email us at <a href="mailto:contact@allibilli.com">
-		contact@allibilli.com</a></td>
+		demonstration please email us at <a href="mailto:support@RunningTicker.com">
+		support@RunningTicker.com</a></td>
 	</tr>
 </table>
 </center>

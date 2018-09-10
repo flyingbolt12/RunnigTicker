@@ -34,14 +34,21 @@
 				</td>
 			</tr>
 			
+<!-- 			<tr> -->
+<!-- 				<td>User Name<font color="#FF0000">*</font></td> -->
+<!-- 				<td colspan="2"> -->
+<%-- 					<html:text property="login" styleClass="BusinessTextBox" size="20" tabindex="16" onblur="verifyUser(this.value)" styleId="userName"></html:text>  --%>
+<!-- 					<font color="#FF0000"><span id="usrAvailabilityCheckMsg"></span></font> -->
+<!-- 				</td>					 -->
+<!-- 			</tr> -->
 			<tr>
-				<td>User Name<font color="#FF0000">*</font></td>
-				<td colspan="2">
-					<html:text property="login" styleClass="BusinessTextBox" size="20" tabindex="16" onblur="verifyUser(this.value)" styleId="userName"></html:text> 
-					<font color="#FF0000"><span id="usrAvailabilityCheckMsg"></span></font>
-				</td>					
+				<td><span style="font-size: 10.0pt; font-family: Tahoma">Email-Id <br>(Same is used as UserName)<font color="#FF0000">*</font></span></td>
+				
+				<td colspan="2" align="left">
+					<html:text property="contactEmail" styleClass="BusinessTextBox" size="20" tabindex="1" onblur="verifyEmail(this.value)" styleId="empContactEmail"></html:text> <font color="#000000"><span id="userEmailAvailabilityCheckMsg"></span></font>
+				</td>
+				
 			</tr>
-			
 			<tr>
 				<td width="20%"><span style="font-size: 10.0pt; font-family: Tahoma">First Name<font color="#FF0000">*</font></span></td>
 				<td colspan="2"><html:messages id="err_name" property="firstName">
@@ -72,14 +79,7 @@
  	errMsg = "";
  %></td>
 			</tr>
-			<tr>
-				<td><span style="font-size: 10.0pt; font-family: Tahoma">Personal Email-Id<font color="#FF0000">*</font></span></td>
-				
-				<td colspan="2" align="left">
-					<html:text property="contactEmail" styleClass="BusinessTextBox" size="20" tabindex="5" onblur="verifyEmail(this.value)" styleId="empContactEmail"></html:text> <font color="#000000"><span id="userEmailAvailabilityCheckMsg"></span></font>
-				</td>
-				
-			</tr>
+			
 			<tr>
 				<td><span style="font-size: 10.0pt; font-family: Tahoma">Phone Number :<font color="#FF0000">*</font></span></td>
 				<td colspan="2"><html:messages id="err_name" property="phoneNumber">
@@ -102,137 +102,12 @@
  %></td>
 			</tr>
 			<tr>
-				<td>Personal<span style="font-size: 10.0pt"> Address</span>
-				</td>
-				<td colspan="2">&nbsp;</td>
-			</tr>
-			<tr>
-				<td rowspan="7">&nbsp;</td>
-				<td width="20%"><font face="Tahoma"><span style="font-size: 10.0pt">Address 1:<font color="#FF0000">*</font></span></font></td>
-				<td ><html:messages id="err_name" property="listAddress[1].address1">
-						<%
-							errMsg = err_name;
-						%>
-					</html:messages> <html:text property="listAddress[1].address1" styleClass="BusinessTextBox" size="20" tabindex="9"></html:text><%=errMsg%> <%
- 	errMsg = "";
- %></td>
-			</tr>
-			<tr>
-				<td ><span style="font-size: 10.0pt">Address 2:</span></td>
-				<td ><html:messages id="err_name" property="listAddress[1].address2">
-						<%
-							errMsg = err_name;
-						%>
-					</html:messages> <html:text property="listAddress[1].address2" styleClass="BusinessTextBox" size="20" tabindex="10"></html:text><%=errMsg%> <%
- 	errMsg = "";
- %></td>
-			</tr>
-			<tr>
-				<td ><span style="font-size: 10.0pt; font-family: Tahoma">City<font color="#FF0000">*</font></span></td>
-				<td ><html:messages id="err_name" property="listAddress[1].city">
-						<%
-							errMsg = err_name;
-						%>
-					</html:messages> <html:text property="listAddress[1].city" styleClass="BusinessTextBox" size="20" tabindex="11"></html:text><%=errMsg%> <%
- 	errMsg = "";
- %></td>
-			</tr>
-			<tr>
-				<td ><span style="font-size: 10.0pt;">State<font color="#FF0000">*</font></span></td>
-				<td ><html:messages id="err_name" property="listAddress[1].state">
-						<%
-							errMsg = err_name;
-						%>
-					</html:messages> <html:text property="listAddress[1].state" styleClass="BusinessTextBox" size="20" tabindex="12"></html:text><%=errMsg%> <%
- 	errMsg = "";
- %></td>
-			</tr>
-			<tr>
-				<td ><span style="font-size: 10.0pt; font-family: Tahoma">Country<font color="#FF0000">*</font></span></td>
-				<td ><html:messages id="err_name" property="listAddress[1].country">
-						<%
-							errMsg = err_name;
-						%>
-					</html:messages> 
-					<html:select property="listAddress[1].country" styleClass="BusinessTextBox" tabindex="13" >
 				
-				<%
-				
-				GenericXmlApplicationContext ctx = null;
-				try {
-					ctx = (GenericXmlApplicationContext) application.getAttribute("ctx");
-				} catch (Exception e) {
-					
-				}
-				
-				DoTransaction doTransaction = (DoTransaction) ctx.getBean("doTransaction");
-				List<String> countires = (List<String>)doTransaction.listCountries();
-				
-				for (String country : countires)
-				{
-				%>
-				<html:option value="<%= country%>"></html:option>
-				<%} %>
-				</html:select>
-				
-					
-					
-					<%=errMsg%> <%
- 	errMsg = "";
- %></td>
-			</tr>
-			<tr>
-				<td ><span style="font-size: 10.0pt;">Zip<font color="#FF0000">*</font></span></td>
-				<td ><html:messages id="err_name" property="listAddress[1].zip">
-						<%
-							errMsg = err_name;
-						%>
-					</html:messages> <html:text property="listAddress[1].zip" styleClass="BusinessTextBox" size="20" tabindex="14"></html:text><%=errMsg%> <%
- 	errMsg = "";
- %></td>
-			</tr>
-			<tr>
-				<td ><span style="font-size: 10.0pt; font-family: Tahoma">Land Mark</span></td>
-				<td ><html:messages id="err_name" property="listAddress[1].landMark">
-						<%
-							errMsg = err_name;
-						%>
-					</html:messages> <html:text property="listAddress[1].landMark" styleClass="BusinessTextBox" size="20" tabindex="15"></html:text> <%=errMsg%> <%
- 	errMsg = "";
- %></td>
-			</tr>
-			<!-- 
-			<tr>
-				<td>User Name<font color="#FF0000">*</font></td>
-				<td colspan="2">
-					<html:text property="login" styleClass="BusinessTextBox" size="20" tabindex="16" onblur="verifyUser(this.value)" styleId="userName"></html:text> 
-					<font color="#FF0000"><span id="usrAvailabilityCheckMsg"></span></font>
-				</td>					
+				<td colspan="3" align="center">Password will be generated and sent to the user automatically.</td>
 			</tr>
 			
 			
-			<tr>
-				<td><font face="Tahoma" size="2">Password<font color="#FF0000">*</font></font></td>
-				<td colspan="2"><html:messages id="err_name" property="password">
-						<%
-							errMsg = err_name;
-						%>
-					</html:messages> <html:password property="password" styleClass="BusinessTextBox" size="20" tabindex="17"></html:password> <%=errMsg%> <%
- 	errMsg = "";
- %><span id="pwdErr"></span></td>
-			</tr>
-			<tr>
-				<td>Confirm Password<font color="#FF0000">*</font></td>
-				<td colspan="2"><html:messages id="err_name" property="confirmPassword">
-						<%
-							errMsg = err_name;
-						%>
-					</html:messages> <html:password property="confirmPassword" styleClass="BusinessTextBox" size="20" tabindex="18"></html:password> <%=errMsg%> <%
- 	errMsg = "";
- %><span id="cnfrmPwdErr"></span></td>
-			</tr>
 			
-			 -->
 			<tr>
 				<td></td>
 				<td colspan="2"></td>
@@ -279,7 +154,7 @@ function sendData(btn) {
 
 <script>
  
-    function verifyUser(userName) {
+ /*   function verifyUser(userName) {
 	    var params = {
 		    ajaxParam : userName
 	    };
@@ -291,8 +166,7 @@ function sendData(btn) {
 	    };
 	    
 	    sendAjaxRequest(obj);
-    }
-
+    }*/
 
     function verifyEmail(email) {
 	    var params = {
@@ -300,34 +174,21 @@ function sendData(btn) {
 	    };
 	    var obj = {
 	    id : "userEmailAvailabilityCheckMsg",
-	    url : "employeeRegistration.do?parameter=checkUserEmailAvailability",
+	    url : "employeeRegistration.do?parameter=checkUserNameAndEmailAvailability",
 	    params : params,
 	    responseHandler : handleResponse
 	    };
 	    
 	    sendAjaxRequest(obj);
     }
-    var isUserValid = false;
-    var isEmployerValid = false;    
+ 
     function handleResponse(obj, response) {
 	    removeAjaxImg(obj.id);
 	    
 	    if (response.indexOf("disableSubmitRequired") == -1) 
 	    {
-		    if (obj.id == "userEmailAvailabilityCheckMsg") 
-			{
-			    isEmployerValid = true;
-		    } 
-			else 
-			{
-			    isUserValid = true;
-		    }
-		    if (isUserValid && isEmployerValid) 
-			{
 			    document.getElementById("cNext").disabled = false;
 			    document.getElementById("cNext").className = 'ButtonStyle';
-		    }		    
-		    
 	    }
 	    else 
 	    {
@@ -344,6 +205,7 @@ function sendData(btn) {
     	document.getElementById("cNext").className = 'ButtonStyle';
     }
 
-    dhtmlx.message({type:"error", expire:10000, text:"Info : User Rate Feature will not be available for Child Amdins" });
+    dhtmlx.message({type:"error", expire:20000, text:"Info : User Rate Feature will not be available for Child Amdins" });
+    dhtmlx.message({type:"error", expire:20000, text:"Info : Do Data Backup Feature will not be available for Child Amdins" });
     
 </script>

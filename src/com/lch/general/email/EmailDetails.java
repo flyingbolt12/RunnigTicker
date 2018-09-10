@@ -17,15 +17,23 @@ public class EmailDetails {
 	private List<String> to = new ArrayList<String>();
 	private List<String> cc = new ArrayList<String>();
 	private List<String> bcc = new ArrayList<String>();
-	private String from = "contact@allibilli.com";
+	private String from = "support@RunningTicker.com";
+	private String replyTo = "support@RunningTicker.com";
+
 	private StringBuffer emailContent = new StringBuffer();
-	private String subject = "ILCH";
+	private String subject = "RunningTicker ";
 	private File attachment = null;
 
 	public File getAttachment() {
 		return attachment;
 	}
+	public String getReplyTo() {
+		return replyTo;
+	}
 
+	public void setReplyTo(String replyTo) {
+		this.replyTo = replyTo;
+	}
 	public void setAttachment(File attachment) {
 		this.attachment = attachment;
 	}

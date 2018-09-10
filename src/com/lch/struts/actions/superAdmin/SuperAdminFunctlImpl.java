@@ -7,6 +7,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -38,6 +40,71 @@ public class SuperAdminFunctlImpl extends BaseAction {
 		OUTAGE
 	};
 
+	private StringBuffer getValidateBusinessEmail(HttpServletRequest request,
+			long businessId, VMInputBean bean) {
+
+		int min = 11;
+		int max = 35;
+		
+		String url = getApplicationURL(request);
+		log.info("Business Id --> {}", businessId);
+		UUID uuid = UUID.randomUUID();
+		String key = String.valueOf(businessId);
+		Random randomGenerator = new Random();
+		int randomInt = randomGenerator.nextInt(max - min + 1) + min;
+		StringBuffer sb = new StringBuffer(randomInt + String.valueOf(uuid)
+				+ "_" + String.valueOf((key)).length());
+		sb.insert(randomInt - 2, key);
+
+		url += "validateBusinessEmail.do?p=" + sb.toString();
+		bean.setUrl(url);
+		
+		String emailBody = getEmailTemplate(bean,
+				VMConstants.VM_ACTIVATE_REGISTRATION_NOTIFICATION);
+
+		return new StringBuffer(emailBody);
+	}
+	
+	public ActionForward regenerateValidationEmail(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		log.info("-regenerateValidationEmail-");
+
+		ActionForward forward = new ActionForward();
+		forward = mapping.findForward("generalJSP4AJAXMsg");
+
+		long userId = getLongAsRequestParameter("userId", request);
+		long businessId = getLongAsRequestParameter("businessId", request);
+		String usrEmail = getSpringCtxDoTransactionBean().getUserEmail(userId);
+		String role = getStrAsRequestParameter("role", request);
+		String status = getSpringCtxDoTransactionBean().getEmilVerificationStatus(userId);
+		
+		if (!status.equals("1")) {
+			List<String> to = new ArrayList<String>();
+
+			EmailDetails emailDetails = new EmailDetails();
+			VMInputBean bean = new VMInputBean();
+			
+			if(usrEmail!=null && usrEmail.length()>0 && EmailValidator.getInstance().isValid(usrEmail))
+			{
+			to.add(usrEmail);
+			emailDetails.setTo(to);
+			emailDetails.setSubject("Business Registration - Email Validation");
+			bean.setText("activate");
+			StringBuffer sb = getValidateBusinessEmail(request,businessId, bean);
+			emailDetails.setEmailContent(sb);
+			sendEmail(emailDetails);
+			
+			putAjaxStatusObjInRequest(request, "Notified");
+			}
+			else{
+				putAjaxStatusObjInRequest(request, "invalidEmail");
+			}
+		} else {
+			putAjaxStatusObjInRequest(request, "alreadyValidated");
+		}
+		return (forward);
+	}
+	
 	public ActionForward createDemoUsers(ActionMapping mapping,
 			ActionForm form, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
@@ -48,6 +115,18 @@ public class SuperAdminFunctlImpl extends BaseAction {
 		return mapping.findForward("superAdminFunctions");
 	}
 
+	public ActionForward createPerformaceTestUsers(ActionMapping mapping,
+			ActionForm form, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		ConfirmRegistrationAction action = new ConfirmRegistrationAction();
+		action.useExistingDemoEmployer(mapping, form, request, response,
+				getSpringCTX());
+		getSpringCtxDoTransactionBean().setAllPerformanceUsersToValid();
+		
+		putObjInRequest("demoUsres", request, "yes");
+		return mapping.findForward("superAdminFunctions");
+	}
+	
 	public ActionForward showOutagePage(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
@@ -89,6 +168,22 @@ public class SuperAdminFunctlImpl extends BaseAction {
 		return mapping.findForward("showDisableBusinessPage");
 	}
 
+	public ActionForward showListEmployersPage(ActionMapping mapping,
+			ActionForm form, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+
+		// List all business people from users and lch_business table and send
+		// them to the jsp to show
+
+		// Business and business admin user both should set to approvalstatus to
+		// 2.
+		log.info(" -- showListEmployersPage --");
+		List<Map<String, Object>> listAllBusiness = getSpringCtxDoTransactionBean()
+				.getAllBusinessList();
+		putObjInRequest("listAllBusiness", request, listAllBusiness);
+		return mapping.findForward("showListEmployersPage");
+	}
+	
 	public ActionForward sendInvitationEmail(ActionMapping mapping,
 			ActionForm form, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
@@ -235,7 +330,7 @@ public class SuperAdminFunctlImpl extends BaseAction {
 		SuperAdminBean superAdminBean = (SuperAdminBean) form;
 
 		StringBuffer infoBuff = new StringBuffer(
-				"ILCH is about to have an upgrade and will be down during ");
+				"RunningTicker  is about to have an upgrade and will be down during ");
 
 		DateFormat formatter = new SimpleDateFormat("MM-dd-yyyy");
 		Date date = (Date) formatter.parse(superAdminBean.getOutageDate());
@@ -262,6 +357,27 @@ public class SuperAdminFunctlImpl extends BaseAction {
 		doTransaction.insertSuperSettings(infoBuff.toString(),
 				type.OUTAGE.name());
 		return mapping.findForward("generalJsp");
+	}
+	
+	public ActionForward downloadDoBackUpData(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		ActionForward forward = new ActionForward();
+		log.info("-downloadDoBackUpData-");
+		
+		long busId = getLongAsRequestParameter("businessId", request);
+		downloadBusinessData(busId, response);
+	
+		return null;
+	}
+	public ActionForward showBusinessUsers(ActionMapping mapping,
+			ActionForm form, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+	
+		log.info(" -- showDoBackUpDataPage --");
+		List<Map<String, Object>> listAllBusiness = getSpringCtxDoTransactionBean()
+				.getAllBusinessList();
+		putObjInRequest("listAllBusiness", request, listAllBusiness);
+		return mapping.findForward("showBusinessUsersPage");
 	}
 
 }

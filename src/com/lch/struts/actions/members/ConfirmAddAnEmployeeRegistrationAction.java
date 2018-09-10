@@ -1,6 +1,10 @@
 package com.lch.struts.actions.members;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Random;
 import java.util.UUID;
 
@@ -8,21 +12,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.beanutils.BeanUtils;
-import org.apache.commons.validator.GenericValidator;
-import org.apache.struts.action.ActionError;
-import org.apache.struts.action.ActionErrors;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.apache.struts.action.ActionMessage;
-import org.apache.struts.action.ActionMessages;
-import org.apache.struts.validator.ValidatorForm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.lch.general.constants.VMConstants;
 import com.lch.general.dbBeans.Address;
-import com.lch.general.dbBeans.USER_ROLES;
 import com.lch.general.email.EmailDetails;
 import com.lch.general.generalBeans.VMInputBean;
 import com.lch.spring.BusinessComponents.DoTransaction;
@@ -43,7 +40,9 @@ public class ConfirmAddAnEmployeeRegistrationAction extends BaseAction {
 		DoTransaction doTransaction = getSpringCtxDoTransactionBean();
 		AdminRegistrationBean adminRegistrationBean = new AdminRegistrationBean();
 		AddAnEmployeeBean addAnEmployeeBean = (AddAnEmployeeBean) form;
+		
 		adminRegistrationBean.setBusinessId(getUserProfile(request).getBusinessId());
+		
 		try {
 			// Step 1: Inserting the Current Address
 			Address address = addAnEmployeeBean.getListAddress(0);
@@ -72,6 +71,9 @@ public class ConfirmAddAnEmployeeRegistrationAction extends BaseAction {
 				long clientAddressId = doTransaction.insertADDRESSINFO(businessAddress);
 				log.info("Client AddressId got :" + clientAddressId);
 				addAnEmployeeBean.setClientAddressId(clientAddressId);
+				addAnEmployeeBean.setClientName(getUserProfile(request).getEmployerName());
+				DateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
+				addAnEmployeeBean.setStartDate(formatter.format(Calendar.getInstance().getTime()));
 			} else {
 				long clientAddressId = doTransaction.insertADDRESSINFO(addAnEmployeeBean.getListAddress(2));
 				log.info("Client AddressId got :" + clientAddressId);
@@ -102,25 +104,7 @@ public class ConfirmAddAnEmployeeRegistrationAction extends BaseAction {
 			log.info("UserId :" + userId);
 			adminRegistrationBean.setUserId(userId);
 
-			// Step 7: Inserting the UserProfile which was uploaded.
-			/*
-			 * String docIds =
-			 * getSpringCtxDoTransactionBean().uploadSingleFileToDB
-			 * (adminRegistrationBean.getProfilePath(),1); DOCSFORSUPPORTING
-			 * docsforsupporting = new DOCSFORSUPPORTING();
-			 * docsforsupporting.setBusinessId
-			 * (adminRegistrationBean.getBusinessId());
-			 * docsforsupporting.setUserId(userId);
-			 * docsforsupporting.setDocIds(docIds);
-			 * docsforsupporting.setDocTypeId(1);
-			 * describeInstance(docsforsupporting); int supportingDocId =
-			 * getSpringCtxDoTransactionBean
-			 * ().insert_DOCS_FOR_SUPPORTING(docsforsupporting);
-			 * log.info("supportingDocId-->"+supportingDocId); int i =
-			 * getSpringCtxDoTransactionBean
-			 * ().update_USRPERSONALDATA_USR_PROFILE_ATTACHED_DOC_IDS(
-			 * adminRegistrationBean.getPersonalDetailsId(), supportingDocId);
-			 */
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			doTransaction.rollback();
@@ -133,42 +117,22 @@ public class ConfirmAddAnEmployeeRegistrationAction extends BaseAction {
 
 		EmailDetails emailDetails = new EmailDetails();
 		ArrayList<String> to = new ArrayList<String>();
-		String emailId = adminRegistrationBean.getContactEmail();
+		String emailId = adminRegistrationBean.getLogin();
 		if(emailId!=null && emailId.length()>0)
 		{
 			to.add(emailId);
 			emailDetails.setTo(to);
-			emailDetails.setSubject("ILCH - Validate your email - "+adminRegistrationBean.getFirstName());
+			emailDetails.setSubject("RunningTicker  - Validate your email - "+adminRegistrationBean.getFirstName());
 			emailDetails.setEmailContent(sb);
 			sendEmail(emailDetails);
 		}
 
-		
-		// notifyBusinessForMemberLoginApprovalPending(adminRegistrationBean);
-
-//		EmailDetails emailDetails = new EmailDetails();
-//		ArrayList<String> to = new ArrayList<String>();
-//		String emailId = adminRegistrationBean.getContactEmail();
-//		if (emailId != null && emailId.length() > 0) {
-//			to.add(emailId);
-//			emailDetails.setTo(to);
-//			emailDetails.setSubject("Registration Status of " + adminRegistrationBean.getFirstName());
-//			StringBuffer sb = getEmailContent(addAnEmployeeBean);
-//			emailDetails.setEmailContent(sb);
-//			sendEmail(emailDetails);
-//		}
 		request.setAttribute("generalAJAXMsg", "Employee Added Successfully. Employee must validate his/her email.");
 		forward = mapping.findForward("generalJsp");
 		return (forward);
 
 	}
 
-	private StringBuffer getEmailContent(AddAnEmployeeBean addAnEmployeeBean) {
-		StringBuffer sb = new StringBuffer();
-
-		sb.append("Thank you for registering in ILC. Your registration process is waiting for Approval from your employer. you can login, after you recieve an email confirmation of the registration approval.");
-		return sb;
-	}
 	private StringBuffer getValidateUserEmail(HttpServletRequest request,
 			AdminRegistrationBean adminRegistrationBean, VMInputBean bean) {
 

@@ -29,4 +29,8 @@ public class FrontController extends ActionServlet {
 		}
 		super.process(request, response);
 	}
+	
+	public FrontController() {
+		System.setProperty("logback.configurationFile", "resources/logback.xml");
+	}
 }

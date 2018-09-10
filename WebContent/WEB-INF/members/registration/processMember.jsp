@@ -8,7 +8,7 @@
 			A Confirmation Email was sent for your email 
 Email with a link.&nbsp; Please click on that link to validate and finish the registration. <%=request.getAttribute("message") %></span></font>
 			<p align="center">
-			<span style="font-size: 10.0pt; font-family: Tahoma;">Thank you for registering with ILC. <BR>We believe in business builds a relation with people, it is not just money.</span></p>
+			<span style="font-size: 10.0pt; font-family: Tahoma;">Thank you for registering with ILCH-CCS. <BR>We believe in business builds a relation with people, it is not just money.</span></p>
 			</td>
 		</tr>
 		

@@ -121,6 +121,9 @@ div.dhx_modal_cover {
 .dhtmlx-alert-error, .dhtmlx-confirm-error {
 	border: 1px solid #ff0000;
 }
+.dhtmlx-alert-info, .dhtmlx-confirm-error {
+	border: 1px solid #ff00ff;
+}
 
 /*Skin section*/
 .dhtmlx_button, .dhtmlx_popup_button{
@@ -174,7 +177,7 @@ div.dhx_modal_cover {
 	
 	padding:0px;
 	
-  	background-color:#FFF;
+  	background-color:#FF00FF;
 	border-radius:3px;
 	border:1px solid #ffffff;
 }

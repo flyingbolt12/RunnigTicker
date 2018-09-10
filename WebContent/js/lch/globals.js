@@ -59,7 +59,7 @@ function sepearteTextBoxes()
 	errorWith="";
 	 var input = document.forms[0].getElementsByTagName('input');
 	    var name;
-	    var value;
+	   // var value;
 	    var rIndex = 0;
 	    var oIndex = 0;
 	    var hIndex = 0;
@@ -128,7 +128,10 @@ function redirectOnClickCancel(){
 
 function openILCHWindow(url,title)
 {
-	window.open(url,title,"menubar=1,resizable=1,width=350,height=250");
+	var wdw = window.open("",title,"menubar=1,resizable=1,width=350,height=250");
+	wdw.document.write("<html><body>Please Wait...</body></html>");
+	wdw.document.close();
+	wdw.location = url;
 }
 
 function showAjaxLoader(idEle)
@@ -144,3 +147,61 @@ function resetField(){
 		document.getElementById("userName").value="";
 	return true;
 }
+
+
+function setPrivacyMode() {
+	//Privacy Mode : OFF
+	// style="background-color:#111"
+	
+	document.getElementById("privaceModeOnOff").innerHTML = 'Privacy Mode : ON';
+	document.getElementById("customBody").innerHTML = '<div align="center" id="privacyLoad"></div>';
+	var width = document.getElementById("customBody").offsetWidth- 20;//Math.max(960, innerWidth),
+    var height = document.getElementById("customBody").offsetHeight - 20;//Math.max(500, innerHeight);
+
+   
+    var x1 = width / 2,
+    y1 = height / 2,
+    x0 = x1,
+    y0 = y1,
+    i = 0,
+   //r = height / 2,
+    r = 200,
+    k = 4 * Math.PI;
+
+var canvas = d3.select("#privacyLoad").append("canvas")
+    .attr("width", width)
+    .attr("height", height)
+    .on("ontouchstart" in document ? "touchmove" : "mousemove", move);
+
+var context = canvas.node().getContext("2d");
+context.globalCompositeOperation = "lighter";
+context.lineWidth = 2;
+
+d3.timer(function() {
+  context.clearRect(0, 0, width, height);
+
+  var z = d3.hsl(++i % 360+1, 1, .5).rgb(),
+      c = "rgba(" + z.r + "," + z.g + "," + z.b + ",",
+      x = x0 += (x1 - x0) * .1,
+      y = y0 += (y1 - y0) * .1;
+
+  d3.select({}).transition()
+      .duration(2000)
+      .ease(Math.sqrt)
+      .tween("circle", function() {
+        return function(t) {
+          context.strokeStyle = c + (1 - t) + ")";
+          context.beginPath();
+          context.arc(x, y, r * t, 0, k);
+          context.stroke();
+        };
+      });
+});
+
+}
+function move() {
+	  var mouse = d3.mouse(this);
+	  x1 = mouse[0];
+	  y1 = mouse[1];
+	  d3.event.preventDefault();
+	}

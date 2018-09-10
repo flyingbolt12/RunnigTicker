@@ -9,7 +9,7 @@
 			<tr>
 				<td width="100%" style="color: #FFFFFF" align="right"><b><font color="#FFFFFF" size="2">
 
-				ILCH & CCS - User Action Required!</b></font></td>
+				RunningTicker  - User Action Required!</b></font></td>
 			</tr>
 		</table>
 		</td>
@@ -24,7 +24,7 @@
 				</b> 
 				<ul>
 					<li type="square">
-					Thank you for registering with ILCH &amp; CCS.
+					Thank you for registering with RunningTicker.
 					</li>
 					<li type="square">
 						Please click on the link provided to activate your account. <a href="${notificationBean.url}">CLICK HERE</a>

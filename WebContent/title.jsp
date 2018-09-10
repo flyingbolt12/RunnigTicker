@@ -6,7 +6,7 @@
 <%
 		com.lch.general.generalBeans.UserProfile userProfile = (com.lch.general.generalBeans.UserProfile) session.getAttribute("userProfile");
 		String userName = "Guest";
-		String logoPath = "images/ILC.jpg";
+		String logoPath = "images/RunningTickerLogo.png";
 		String businessId = request.getParameter("businessId");
 		// Avoid this execution for every page load
 		if (userProfile != null && userProfile.getBusinessId()>0 && !userProfile.isLogoUpdated()) {
@@ -32,7 +32,7 @@
 			}
 			catch(Exception e )
 			{
-				logoPath = "images/ILC.jpg";		
+				logoPath = "images/RunningTickerLogo.png";		
 			}
 	
 		} else if(userProfile != null){ logoPath = userProfile.getLogoPath();}
@@ -42,13 +42,39 @@
 
 <table border="0" cellspacing="1" width="100%">
 	<tr style="background-color: none;" valign="middle">
-		<td height="49" width="100%" >
-		<div style="float: left;height: 45; width: 100%; max-height: 45; max-width: 120 "><img border="0" id="appLogo" src="<%= logoPath%>" align="left" style="max-height: 45px;"></div><div id="links" style="float: right;" class="headerLinks"> <a href="mailto:support@RunningTicker.com" style="text-decoration: none" title="We will respond quickly">sales : support@RunningTicker.com</a></div>
+		<td height="49" width="100%">
+
+			<div style="float: left;">
+
+<table id="myTable">
+    <tr>
+        <td style="vertical-align: top;"><html:link
+						action="/genericForwardAction.do?forwardTo=generic/aboutUs.jsp"
+						styleClass="headerLinks">
+						<img border="0" id="appLogo" src="<%=logoPath%>" align="left"
+							style="max-height: 55px;">
+					</html:link></td>
+       
+    </tr>
+    <tr>
+        <td style="vertical-align: bottom;color: #000000" class="headerLinks"> An
+					internet labor claiming hours and communication systems application</td>
+    </tr>
+</table>
+</div>
+				
+
+			<div style="float: right; color: #000000" class="headerLinks">
+				<a href="mailto:support@RunningTicker.com" style="text-decoration: none; "  
+				title="We will respond quickly">Sales &amp; Support: Support@RunningTicker.com</a>
+			</div>
+
+
 		</td>
 	</tr>
 </table>
-<% if(!logoPath.endsWith("ILC.jpg")) {%>
+<% if(!logoPath.endsWith("RunningTickerLogo.png")) {%>
 <script type="text/javascript">
-document.getElementById("links").innerHTML="";
+document.getElementById("myTable").deleteRow(1);
 </script>
 <% }%>

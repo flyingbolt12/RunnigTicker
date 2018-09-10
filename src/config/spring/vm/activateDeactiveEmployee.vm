@@ -7,7 +7,7 @@
 		<td bgcolor="#224F90">
 		<table border="0" width="100%" cellpadding="15" cellspacing="0" style="font-family: Tahoma; font-size: 10pt; color: #FFFFFF">
 			<tr>
-				<td width="100%" style="color: #FFFFFF" align="right"><b>ILCH & CCS - Account Status Change Notification!</b></td>
+				<td width="100%" style="color: #FFFFFF" align="right"><b>RunningTicker  - Account Status Change Notification!</b></td>
 			</tr>
 		</table>
 		</td>
@@ -20,7 +20,7 @@
 				<b>Dear User,</b><BR><BR>
 				<div style="margin-left:5em">
 								
-					Your account status in ILCH & CCS application is now changed by your employer to ${notificationBean.text}.
+					Your account status in RunningTicker  application is now changed by your employer to ${notificationBean.text}.
 					
 					Note : Active means you can submit TimeSheets. "Not Active" means you can't, though you are allowed to login for certain period of time. 
 

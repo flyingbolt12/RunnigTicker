@@ -205,23 +205,6 @@
 			</tr>
 
 			<tr>
-				<td align="left"><span class="must">Contact Email<font color="#FF0000">*</font></span></td>
-				<td colspan="2" align="left"><html:messages id="err_name" property="contactEmail">
-						<%
-							errMsg = err_name;
-									isRreadOnly = false;
-						%>
-					</html:messages> <%
- 	if (isRreadOnly) {
- %> <html:text property="contactEmail" styleClass="BusinessTextBox" size="20" tabindex="11" readonly="true"></html:text> <%
- 	} else {
- %> <html:text property="contactEmail" styleClass="BusinessTextBox" size="20" tabindex="11"></html:text> <%=errMsg%> <%
- 	errMsg = "";
- 			isRreadOnly = true;
- 		}
- %></td>
-			</tr>
-			<tr>
 				<td align="left"><span class="must">Web Site URL</span></td>
 				<td colspan="2" align="left"><html:messages id="err_name" property="websiteURL">
 						<%
@@ -438,7 +421,7 @@
  %></td>
 			</tr>
 			<tr>
-				<td>User Name<font color="#FF0000">*</font></td>
+				<td>User Email Id (Same is used as UserName)<font color="#FF0000">*</font></td>
 				<td colspan="2"><html:messages id="err_name" property="login">
 						<%
 							errMsg = err_name;

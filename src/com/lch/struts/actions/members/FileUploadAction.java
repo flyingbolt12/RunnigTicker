@@ -18,6 +18,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.jdom.DocType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,7 +31,6 @@ import com.lch.struts.actions.BaseAction;
  * @author
  */
 
-@SuppressWarnings({ "unchecked","unused" })
 public class FileUploadAction extends BaseAction
 
 {
@@ -47,12 +47,23 @@ public class FileUploadAction extends BaseAction
 	    DoTransaction doTransaction = getSpringCtxDoTransactionBean();
 		try {
 			
-			String fileToUpload = getStrAsRequestParameter("fileToUpload", request);
+			//String fileToUpload = getStrAsRequestParameter("fileToUpload", request);
 			long weeklyHrsSummaryId = getLongAsRequestParameter("weeklyHrsSummaryId", request);
 			long userId = getLongAsRequestParameter("userId", request);
 			long businessId = getLongAsRequestParameter("businessId", request);
 			
-			File repository = new File("c:\\diffs");
+			String attachImmigrationDocs = getStrAsRequestParameter("attachImmigrationDocs", request);
+			String attachOtherDocs = getStrAsRequestParameter("attachOtherDocs", request);
+			String rPath = "/supportingDocs/";
+			DOCTypes docType = DOCTypes.TimeSheetSupportingDoc;
+			if(attachImmigrationDocs!=null && attachImmigrationDocs.equals("yes")) {
+				docType = DOCTypes.Immigration;
+			} else if(attachOtherDocs!=null && attachOtherDocs.equals("yes")) {
+				docType = DOCTypes.Other;
+			} else {
+				docType = DOCTypes.TimeSheetSupportingDoc;
+			}
+			//File repository = new File("c:\\diffs");
 			
 			FileItemFactory factory = new DiskFileItemFactory();
             ServletFileUpload upload = new ServletFileUpload(factory);
@@ -89,17 +100,17 @@ public class FileUploadAction extends BaseAction
 				 byte[] bytes = uploadItem.get();
 				 filename = files.get(0).getName();
 				 
-				 String rPath = "/supportingDocs/";
-				int fileSavedId =  doTransaction.handleSupportingFile(businessId,userId,DOCTypes.TimeSheetSupportingDoc.name(),bytes,aFilePath,rPath,String.valueOf(weeklyHrsSummaryId),filename);
 				
+				int fileSavedId =  doTransaction.handleSupportingFile(businessId,userId,docType.name(),bytes,aFilePath,rPath,String.valueOf(weeklyHrsSummaryId),filename);
+				if(docType == DOCTypes.TimeSheetSupportingDoc) {
 				String existingIds = doTransaction.getSupporting_DOCSIDS_WEEKLYHRS_SUMMARY(String.valueOf(weeklyHrsSummaryId));
 				
 				int i = getSpringCtxDoTransactionBean().update_DOCSIDS_WEEKLYHRS_SUMMARY(String.valueOf(weeklyHrsSummaryId), existingIds+","+fileSavedId);
 				
-				
 				if(i<=0)
 				{
-					log.error("Unable to update the details of Attached Documents. Immediate Attention required.");
+					log.error("Unable to update the details of Attached Documents. Attention required. Contact Support");
+				}
 				}
 				
             }
@@ -112,9 +123,9 @@ public class FileUploadAction extends BaseAction
 		return mapping.findForward("success");
 	}
 	
-	String insertFileToDB(List<DiskFileItem> items, int docTypeId) throws Exception
-	{
-		return getSpringCtxDoTransactionBean().uploadFiles2DB(items,docTypeId);
-	}
+//	String insertFileToDB(List<DiskFileItem> items, int docTypeId) throws Exception
+//	{
+//		return getSpringCtxDoTransactionBean().uploadFiles2DB(items,docTypeId);
+//	}
 
 }

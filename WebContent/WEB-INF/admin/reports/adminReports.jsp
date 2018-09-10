@@ -22,9 +22,11 @@
 </div>
 
 <script language="JavaScript">
- 
+ <!-- hide
  function openNewWindow(url) {
- popupWin = window.open(url, 'Reports', ', , , , , scrollbars, resizable, dependent, width=740, height=500, left=200, top=200')
+ popupWin = window.open(url,
+ 'Reports',
+ ', , , , , scrollbars, resizable, dependent, width=740, height=500, left=200, top=200')
  }
- 
+ // done hiding -->
  </script>

@@ -2,6 +2,7 @@ package com.lch.struts.actions.admin;
 
 import java.text.DateFormatSymbols;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -45,10 +46,10 @@ public class AdminReportsImpl extends ReportsBase {
 		String businessName = getUserProfile(request).getEmployerName();
 		String fileName = "Confidential_" + monthName + "_" + businessName + ".xlsx";
 
-		List<Map<String, Object>> listAllMyCategories = getSpringCtxDoTransactionBean().listMyCategories(getUserProfile(request));
+		List<Map<String, Object>> listAllMyCategories = getSpringCtxDoTransactionBean().listCategories(getUserProfile(request));
 
 		if (listAllMyCategories == null) {
-			listAllMyCategories = new ArrayList<>();
+			listAllMyCategories = new ArrayList<Map<String, Object>>();
 		}
 
 		int previousMonth = month;
@@ -157,11 +158,12 @@ public class AdminReportsImpl extends ReportsBase {
 			if (listAllMyEmployeeStartingWith.size() == 0) {
 				return getStatusPage(mapping, request);
 			}
-
-			processReports(listAllMyEmployeeStartingWith, response, jrxml);
+			Map<String, Object> parameters = new HashMap<String, Object>();
+			parameters.put("employerName", userProfile.getEmployerName());
+			processReports(listAllMyEmployeeStartingWith, response, jrxml, parameters);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return mapping.findForward("exception");
+			return forwardToExceptionPage(mapping, request, e);
 		}
 		return null;
 	}
@@ -178,10 +180,13 @@ public class AdminReportsImpl extends ReportsBase {
 		}
 
 		try {
-			processReports(listEmployeeHistory, response, jrxml);
+			Map<String, Object> parameters = new HashMap<String, Object>();
+			parameters.put("employeeName", getSpringCtxDoTransactionBean().getUserDisplayName(userId));
+			parameters.put("employerName", userProfile.getEmployerName());
+			processReports(listEmployeeHistory, response, jrxml,parameters);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return mapping.findForward("exception");
+			return forwardToExceptionPage(mapping, request, e);
 		}
 		return null;
 	}
@@ -212,10 +217,30 @@ public class AdminReportsImpl extends ReportsBase {
 		}
 
 		try {
-			processReports(listAllMyEmployees, response, jrxml);
+			
+			int i = 0;
+			while (i < listAllMyEmployees.size()) {
+				String recentHrs = "";
+				Map m = listAllMyEmployees.get(i);
+				if (m.containsKey("recentHrs")) {
+					Object objHours = m.get("recentHrs");
+					if(objHours!=null && objHours instanceof byte[])
+						recentHrs = new String((byte[])objHours);
+					else if(objHours!=null && objHours instanceof String)
+						recentHrs = objHours.toString();
+					log.info("Recent Hours {}", recentHrs);
+					if (!recentHrs.equalsIgnoreCase("null")) {
+						m.put("recentHrs", recentHrs);
+					}
+				}
+				i++;
+			}
+			Map<String, Object> parameters = new HashMap<String, Object>();
+			parameters.put("employerName", userProfile.getEmployerName());
+			processReports(listAllMyEmployees, response, jrxml, parameters);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return mapping.findForward("exception");
+			return forwardToExceptionPage(mapping, request, e);
 		}
 
 		return null;
@@ -235,12 +260,14 @@ public class AdminReportsImpl extends ReportsBase {
 		}
 
 		try {
-			processReports(listEmployeesubmittedHoursWeekly, response, jrxml);
+			Map<String, Object> parameters = new HashMap<String, Object>();
+			parameters.put("employerName", userProfile.getEmployerName());
+			processReports(listEmployeesubmittedHoursWeekly, response, jrxml, parameters);
 		}
 
 		catch (Exception e) {
 			e.printStackTrace();
-			return mapping.findForward("exception");
+			return forwardToExceptionPage(mapping, request, e);
 		}
 		return null;
 	}
@@ -260,10 +287,13 @@ public class AdminReportsImpl extends ReportsBase {
 		}
 
 		try {
-			processReports(listEmployeeDownloadMonthlyHrs, response, jrxml);
+			Map<String, Object> parameters = new HashMap<String, Object>();
+			parameters.put("employeeName", getSpringCtxDoTransactionBean().getUserDisplayName(userId));
+			parameters.put("employerName", userProfile.getEmployerName());
+			processReports(listEmployeeDownloadMonthlyHrs, response, jrxml, parameters);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return mapping.findForward("exception");
+			return forwardToExceptionPage(mapping, request, e);
 		}
 		return null;
 	}
@@ -280,12 +310,14 @@ public class AdminReportsImpl extends ReportsBase {
 			return getStatusPage(mapping, request);
 		}
 		try {
-			processReports(listEmployeesubmittedHoursMonthly, response, jrxml);
+			Map<String, Object> parameters = new HashMap<String, Object>();
+			parameters.put("employerName", userProfile.getEmployerName());
+			processReports(listEmployeesubmittedHoursMonthly, response, jrxml, parameters);
 		}
 
 		catch (Exception e) {
 			e.printStackTrace();
-			return mapping.findForward("exception");
+			return forwardToExceptionPage(mapping, request, e);
 		}
 
 		return null;

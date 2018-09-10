@@ -10,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
 import java.util.List;
+import java.util.Map;
 
 import javax.sql.DataSource;
 
@@ -47,6 +48,24 @@ public class LoginCheck {
 		isLogin(loginStatus, login);
 		return loginStatus;
 	}
+	private void loadAdminSettings(UserProfile loginStatus){
+		List<Map<String, Object>> settings = getDoTransaction().getAdminSettings(loginStatus.getBusinessId());
+		
+		for(Map<String, Object> map : settings)
+		{
+			String key = "name";
+			String value="value";
+			if(map.get(key).equals(AdminSettings.TIMSHEETCONFIGURATION.name())) {
+				log.info("Default Time Sheet Value set to {}", (String)map.get(value));
+				loginStatus.setDefaultTimeSheetValue((String)map.get(value));
+			}
+			
+			if(map.get(key).equals(AdminSettings.HIDE_NOTIFY_EMPLOYER_BUTTON.name())) {
+				log.info("Default Hide Skip Notify Employer Button {}", (String)map.get(value));
+				loginStatus.setHideSkipNotifyEmployerButton((Boolean.parseBoolean((String)map.get(value))));
+			}
+		}
+	}
 
 	private void isLogin(UserProfile loginStatus, Login login) {
 		LoginMappingQuery custQry = new LoginMappingQuery(getDoTransaction().getJdbcTemplate().getDataSource());
@@ -75,6 +94,7 @@ public class LoginCheck {
 				if (userProfile.isEmailValidated()) {
 					try {
 						BeanUtils.copyProperties(loginStatus, userProfile);
+						loadAdminSettings(loginStatus);
 						if (loginStatus.isAdmin() || loginStatus.isChildAdmin()) {
 							loginStatus.setEmployerEmail(loginStatus.getEmployeeEmail());
 						} else {
@@ -85,9 +105,7 @@ public class LoginCheck {
 							} else {
 								getDoTransaction().updateRequiredDetails(loginStatus);
 								employerEmail = getDoTransaction().getAdminEmail(loginStatus.getBusinessId());
-								String defaultTimeSheetValue = getDoTransaction().getAdminTimeSheetConfigValue(loginStatus.getBusinessId(), AdminSettings.TIMSHEETCONFIGURATION.name());
-								log.info("Default Time Sheet Value set to {}", defaultTimeSheetValue);
-								loginStatus.setDefaultTimeSheetValue(defaultTimeSheetValue);
+								//String defaultTimeSheetValue = getDoTransaction().getAdminTimeSheetConfigValue(loginStatus.getBusinessId(), AdminSettings.TIMSHEETCONFIGURATION.name());
 							}
 
 							loginStatus.setEmployerEmail(employerEmail);

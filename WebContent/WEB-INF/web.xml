@@ -8,17 +8,17 @@
 	</welcome-file-list>
 	<listener>
 		<listener-class>ch.qos.logback.classic.selector.servlet.ContextDetachingSCL</listener-class>
-	</listener>
+	</listener> 
 	<context-param>
 		<param-name>webAppRootKey</param-name>
 		<param-value>ILCH</param-value>
-	</context-param>
+	</context-param> 
 
 	<session-config>
 		<session-timeout>80</session-timeout>
 	</session-config>
 
-	<env-entry>
+ 	<env-entry>
 		<env-entry-name>logback/context-name</env-entry-name>
 		<env-entry-type>java.lang.String</env-entry-type>
 		<env-entry-value>ILCH</env-entry-value>
@@ -27,7 +27,7 @@
 		<description>URL for configuring logback context</description>
 		<env-entry-name>logback/configuration-resource</env-entry-name>
 		<env-entry-type>java.lang.String</env-entry-type>
-		<env-entry-value>resources/logback-ILCH.xml</env-entry-value>
+		<env-entry-value>resources/logback.xml</env-entry-value>
 	</env-entry>
 	
 	<filter>
@@ -42,6 +42,7 @@
 	    <filter-name>SessionFilter</filter-name>
 	    <filter-class>com.lch.filter.LogFilter</filter-class>
 	</filter>
+	
 	<filter-mapping>
 	    <filter-name>SessionFilter</filter-name>
 	    <url-pattern>*.do</url-pattern>
@@ -52,7 +53,7 @@
 		<servlet-class>com.lch.general.appConfig.AppConfigServlet</servlet-class>
 		<init-param>
 			<param-name>spring.profiles.active</param-name>
-			<param-value>OPENSHIFT</param-value>
+			<param-value>DEV</param-value>
 		</init-param>
 		<load-on-startup>0</load-on-startup>
 	</servlet>
@@ -70,12 +71,12 @@
     </init-param>
 		<load-on-startup>2</load-on-startup>
 	</servlet>
-	<servlet>
+	 <servlet>
 	  <servlet-name>ViewStatusMessages</servlet-name>
 	  <servlet-class>ch.qos.logback.classic.ViewStatusMessagesServlet</servlet-class>
-	</servlet>
+	</servlet> 
 	 
-	<servlet-mapping>
+<servlet-mapping>
 	  <servlet-name>ViewStatusMessages</servlet-name>
 	  <url-pattern>/logs</url-pattern>
 	</servlet-mapping>
@@ -84,4 +85,18 @@
 		<url-pattern>*.do</url-pattern>
 	</servlet-mapping>
 
+	<!-- elFinder File Browser -->
+	
+<servlet>
+    <servlet-name>elfinder</servlet-name>
+    <servlet-class>org.springframework.web.servlet.DispatcherServlet
+    </servlet-class>
+    <load-on-startup>0</load-on-startup>
+</servlet>
+
+<servlet-mapping>
+    <servlet-name>elfinder</servlet-name>
+    <url-pattern>/elfinder-servlet/*</url-pattern>
+</servlet-mapping>
+	
 </web-app>

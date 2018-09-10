@@ -50,7 +50,7 @@ public class InviteotherBusinessAction extends BaseAction{
 		for(int i =0; i<emails.length;++i)
 		l.add(emails[i]);
 		emailDetails.setTo(l);
-		emailDetails.setSubject(" You are invited by to use ILCH");
+		emailDetails.setSubject(" You are invited by to use RunningTicker ");
 		String sb = getEmailTemplate(vmbean, VMConstants.VM_INVITE_BUSINESS);
 		emailDetails.setEmailContent(new StringBuffer(sb));
 		sendEmail(emailDetails);

@@ -74,7 +74,7 @@ public class ExportToExcel {
 		// Categories Monthly Report
 		for (Map<String, Object> category : sheetsList) {
 
-			Map<String, EmployeeTimeSheetsBasedOnTypes> categorySpecificTimSheetsOfAUser = new HashMap<>();
+			Map<String, EmployeeTimeSheetsBasedOnTypes> categorySpecificTimSheetsOfAUser = new HashMap<String, EmployeeTimeSheetsBasedOnTypes>();
 			cs = new CustomSheet();
 			Long idcategories = Long.valueOf(category.get("idcategories").toString());
 			logger.info("Now tracing category id {} specific employees", idcategories);
@@ -92,7 +92,7 @@ public class ExportToExcel {
 			cs.setSheetName((String) category.get(("name"))+"-Monthly Report");
 			cs.setIndependentEmployeeMonthlyTimeSheets(categorySpecificTimSheetsOfAUser);
 			
-			if(categorySpecificTimSheetsOfAUser.size() > 0){
+			if(categorySpecificTimSheetsOfAUser.size() > 0) {
 				logger.info((String) category.get(("name"))+"-Monthly Report");
 				sheets.add(cs);
 			}
@@ -196,10 +196,11 @@ public class ExportToExcel {
 	private void fillData(Map<String, EmployeeTimeSheetsBasedOnTypes> rows, Sheet sheet) {
 		
 		Set<String> userIds = rows.keySet();
-		String name=null, cName=null;
+		
 		int index = 0;
 		
-		for(String userId : userIds){
+		for(String userId : userIds) {
+			String name=null, cName=null;
 			++index;
 			EmployeeTimeSheetsBasedOnTypes type = rows.get(userId);
 			
@@ -209,7 +210,7 @@ public class ExportToExcel {
 				name = details.get("name");
 				cName = details.get("cName");
 			}
-			
+			// logger.info("==> {} {}",  name, cName);
 			Row topRow = sheet.createRow(index);
 			String[] arr = {index+"", userId, name, cName, type.getTotalRHHours()+"", type.getTotalOTours()+"", type.getTotalHHHours()+""};
 			
@@ -226,7 +227,7 @@ public class ExportToExcel {
 
 			CategoriesAndEmployees bean = cit.next();
 			String[] arr = bean.getPropsAsArray();
-
+			// logger.info("===> {}", arr);
 			fillActualData(arr, topRow);
 
 			++index;
@@ -235,7 +236,7 @@ public class ExportToExcel {
 	private void fillActualData(String[] arr, Row topRow) {
 		for (int i = 0; i < arr.length; ++i) {
 			Cell cell = topRow.createCell(i);
-			 //logger.info("{}", arr[i]);
+			// logger.info("{}", arr[i]);
 			 if(arr[i]==null) arr[i] = "";
 			if (arr[i]!=null && arr[i].equals("FIRST") || arr[i].equals("SECOND")) {
 				arr[i] = "15 DAYS";

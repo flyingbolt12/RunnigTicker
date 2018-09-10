@@ -65,9 +65,21 @@
 
 		<tr>
 			<td height="18" width="48" align="right"><font face="Times New Roman">»</font></td>
-			<td height="18" align="left" nowrap><html:link action="/superAdminFunctImpl.do?parameter=showInvitationEmailPage" styleClass="HTMLLINK" title="Send Invitation Email">Send Invitation Email</html:link></td>
+			<td height="18" align="left" nowrap><html:link action="/superAdminFunctImpl.do?parameter=showInvitationEmailPage" styleClass="HTMLLINK" title="Send Invitation Email">&nbsp;Send Invitation Email</html:link></td>
 			<td height="18" width="48" align="right"><font face="Times New Roman">»</font></td>
 			<td height="18" width="235" align="left">&nbsp;<html:link action="/superAdminFunctImpl.do?parameter=triggerImmigrationJobs" styleClass="HTMLLINK" title="Remove Outage">Trigger Immigration Job</html:link></td>
+		</tr>
+		<tr>
+			<td height="18" width="48" align="right"><font face="Times New Roman">»</font></td>
+			<td height="18" align="left" nowrap><html:link action="/superAdminFunctImpl.do?parameter=showBusinessUsers" styleClass="HTMLLINK" title="Send Invitation Email">&nbsp;Do Download Business Data</html:link></td>
+			<td height="18" width="48" align="right"><font face="Times New Roman">»</font></td>
+			<td height="18" align="left" nowrap><html:link action="/superAdminFunctImpl.do?parameter=showListEmployersPage" styleClass="HTMLLINK" title="Regenerates validation emaill">&nbsp;Re Generate Validation Email</html:link></td>
+		</tr>
+		<tr>
+			<td height="18" width="48" align="right"><font face="Times New Roman">»</font></td>
+			<td height="18" align="left" nowrap><html:link action="/superAdminFunctImpl.do?parameter=createPerformaceTestUsers&memberCnt=90" styleClass="HTMLLINK" title="Send Invitation Email">&nbsp;Create PerformanceUsers</html:link></td>
+			<td height="18" width="48" align="right"><font face="Times New Roman"></font></td>
+			<td height="18" align="left" nowrap></td>
 		</tr>
 	</table>
 	<br>

@@ -70,6 +70,7 @@ public class BDayService extends BaseAction {
 		StringBuffer report = new StringBuffer("<tr><td colspan=\"3\">Following users notified with their Bday Wishes</td></tr>");
 		// Process individual user and create Report to send to admin
 		for (Integer l : set) {
+			try{
 			users = employees.get(l);
 			String from = (String)((Map<String, Object>)employers.get(l)).get("contactEmail");
 			String fromName = (String)((Map<String, Object>)employers.get(l)).get("firstName");
@@ -93,7 +94,7 @@ public class BDayService extends BaseAction {
 						VMConstants.VM_HAPPY_BDAY);
 
 				emailDetails.setCc(to);
-				emailDetails.setFrom(from);
+				emailDetails.setReplyTo(from);
 				emailDetails.setEmailContent(new StringBuffer(emailBody));
 				emailDetails.setSubject("Happy Birthday, "+firstName);
 				sendEmail(emailDetails);
@@ -108,13 +109,18 @@ public class BDayService extends BaseAction {
 					VMConstants.VM_BDAY_REPORT);
 		
 			emailDetails.setCc(to);
-			emailDetails.setFrom(from);
+			emailDetails.setReplyTo(from);
 			emailDetails.setEmailContent(new StringBuffer(emailBody));
 			emailDetails.setSubject("Report - Happy Birthday");
 			sendEmail(emailDetails);
 			doTransaction.updateBdayRemindersForUser(l);
+			}
+			catch (Exception e) {
+				logger.error("B'Day Job Not executed {}", e.getMessage());
+				e.printStackTrace();
+			}
 		}
-
+		
 	}
 
 	public void resetStudentBDayReminder() {

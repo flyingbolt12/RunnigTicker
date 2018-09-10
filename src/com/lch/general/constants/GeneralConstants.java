@@ -14,5 +14,7 @@ public class GeneralConstants
 	
 	public static final int NO_OF_WEEKDAYS = 7;
 	
+	// Email Subjects
 	
+	public static final String EMPLOYER_REGISTRATION_EMAIL_SUBJECT = "Business Registration - Email Validation";
 }

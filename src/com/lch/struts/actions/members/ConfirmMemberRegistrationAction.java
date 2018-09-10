@@ -136,7 +136,7 @@ public class ConfirmMemberRegistrationAction extends BaseAction {
 			{
 				to.add(emailId);
 				emailDetails.setTo(to);
-				emailDetails.setSubject("ILCH - Validate your email - "+adminRegistrationBean.getFirstName());
+				emailDetails.setSubject("RunningTicker  - Validate your email - "+adminRegistrationBean.getFirstName());
 				emailDetails.setEmailContent(sb);
 				sendEmail(emailDetails);
 			}
@@ -269,7 +269,8 @@ public class ConfirmMemberRegistrationAction extends BaseAction {
 				bean.setFirstName("User ");
 				bean.setLastName(userNumber + "");
 				++userNumber;
-				bean.setLogin(memberId);
+				//bean.setLogin(memberId);
+				bean.setLogin(bean.getContactEmail());
 				putObjInSession("form", request,bean);
 				bean.setTimeSheetConfiguredTo(memberType);
 				EmployeeRegistrationBean eBean = new EmployeeRegistrationBean();
@@ -290,12 +291,12 @@ public class ConfirmMemberRegistrationAction extends BaseAction {
 	
 	public ActionForward createPerformaceTestMembers(ActionMapping mapping,
 			ActionForm form, HttpServletRequest request,
-			HttpServletResponse response, GenericXmlApplicationContext ctx,int adminNo) throws Exception
+			HttpServletResponse response, GenericXmlApplicationContext ctx,long adminNo, long businessId) throws Exception
 	{
 		_ctx = ctx;
 		int memberCnt = getIntAsRequestParameter("memberCnt", request);
 		
-		long businessId =  (Long)getObjFrmRequest("businessId", request);
+		//long businessId =  (Long)getObjFrmRequest("businessId", request);
 		if (businessId == 0)
 		{
 		
@@ -313,22 +314,20 @@ public class ConfirmMemberRegistrationAction extends BaseAction {
 			
 			for (int i =1 ; i<=memberCnt;++i)
 			{
-			for (String id : testMembers.keySet())
-			{
+
 				bean.setContactEmail("member"+i+"@gmail.com");
 				bean.setFirstName("FirstName");
-				bean.setLogin(id+"_"+adminNo+"_"+i);
+				bean.setLogin("monthly_"+adminNo+"_"+i);
 				putObjInSession("form", request,bean);
 				
-				if(id.indexOf("monthly")!=-1)
 					bean.setTimeSheetConfiguredTo(TimeSheetTypes.MONTHLY.name());
-				if(id.indexOf("weekly")!=-1)
+				/*if(id.indexOf("weekly")!=-1)
 					bean.setTimeSheetConfiguredTo(TimeSheetTypes.WEEKLY.name());
 				if(id.indexOf("biweekly")!=-1)
 					bean.setTimeSheetConfiguredTo(TimeSheetTypes.BIWEEKLY.name());
 				if(id.indexOf("days15")!=-1)
 					bean.setTimeSheetConfiguredTo(TimeSheetTypes.DAYS15.name());
-				
+				*/
 				EmployeeRegistrationBean eBean = new EmployeeRegistrationBean();
 				BeanUtils.copyProperties(eBean, bean);
 				eBean.setListAddress(bean.getListAddress());
@@ -339,7 +338,7 @@ public class ConfirmMemberRegistrationAction extends BaseAction {
 				
 				confirmRegistration(mapping,eBean,request,response);
 				log.info("Now at ==> {}", bean.getLogin());
-			}
+			
 			}
 			
 		
@@ -373,7 +372,7 @@ public class ConfirmMemberRegistrationAction extends BaseAction {
 		DoTransaction doTransaction = getSpringCtxDoTransactionBean();
 		AdminRegistrationBean adminRegistrationBean = new AdminRegistrationBean();
 		EmployeeRegistrationBean employeeRegistrationBean = (EmployeeRegistrationBean) form;
-
+		employeeRegistrationBean.setContactEmail(employeeRegistrationBean.getLogin());
 		adminRegistrationBean.setBusinessId(getUserProfile(request).getBusinessId());
 		
 		if(validateUserBeforeRegistering(employeeRegistrationBean))
@@ -468,7 +467,7 @@ public class ConfirmMemberRegistrationAction extends BaseAction {
 		{
 			to.add(emailId);
 			emailDetails.setTo(to);
-			emailDetails.setSubject("ILCH - Validate your email - "+adminRegistrationBean.getFirstName());
+			emailDetails.setSubject("RunningTicker  - Validate your email - "+adminRegistrationBean.getFirstName());
 			emailDetails.setEmailContent(sb);
 			sendEmail(emailDetails);
 		}

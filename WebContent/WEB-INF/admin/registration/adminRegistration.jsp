@@ -79,18 +79,20 @@
 				<td colspan="2" align="left"><html:text property="phoneNumber" styleClass="BusinessTextBox" size="20" tabindex="1009"></html:text></td>
 			</tr>
 
-			<tr>
-				<td align="left"><span class="spanStyle">Business e-mail id<font color="#FF0000">*</font></span></td>
+			<!-- <tr>
+				<td align="left"><span class="spanStyle">Email Id (Same will be used as UserName) <font color="#FF0000">*</font></span></td>
 				<td colspan="2" align="left">
-				<html:text property="contactEmail" styleClass="BusinessTextBox" size="20" tabindex="1010" onblur="verifyEmail(this.value)" styleId="empContactEmail"></html:text> <font color="#000000"><span id="userEmailAvailabilityCheckMsg"></span></font></td>
+				<html:text property="contactEmail" styleClass="BusinessTextBox" size="20" tabindex="1010" onblur="verifyEmail(this.value)" styleId="empContactEmail"></html:text> <font color="#000000"><span id="userEmailAvailabilityCheckMsg"></span></font>
+				</td>
 			</tr>
+			 -->
 			<tr>
 				<td align="left"><span class="spanStyle">Web Site URL</span></td>
 				<td colspan="2" align="left"><html:text property="websiteURL" value="http://" styleClass="BusinessTextBox" size="20" tabindex="1011"></html:text></td>
 			</tr>
 			<tr>
 				<td colspan="3" class="regHeader">
-						<html:submit value="Create Business &amp; Move Next" property="create" styleClass="ButtonStyleDisabled" tabindex="1013" styleId="cNext" disabled="true"></html:submit>
+						<html:submit value="Create Business &amp; Move Next" property="create" styleClass="ButtonStyle" tabindex="1013" styleId="cNext" disabled="false"></html:submit>
 						<html:submit value="Cancel Business Creation" property="cancel" styleClass="ButtonStyle" tabindex="1014"></html:submit>
 				</td>
 			</tr>
@@ -113,6 +115,9 @@
     }
 	
     function verifyEmail(email) {
+    	
+    	verifyUser(email);
+    	
 	    var params = {
 		    ajaxParam : email
 	    };
@@ -124,7 +129,9 @@
 	    };
 	    
 	    sendAjaxRequest(obj);
+	    
     }
+    
     function handleResponse(obj, response) {
 	    removeAjaxImg(obj.id);
 	    

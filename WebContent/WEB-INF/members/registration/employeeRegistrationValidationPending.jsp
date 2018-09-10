@@ -87,29 +87,11 @@
  %></td>
 			</tr>
 			<tr>
-				<td height="24">Gender</td>
+				<td height="24">&nbsp;&nbsp;Gender</td>
 				<td height="24"><html:select property="gendar" styleClass="EmployeeTextBox" size="1" tabindex="7">
 						<html:option value="MALE"></html:option>
 						<html:option value="FEMALE"></html:option>
 					</html:select></td>
-			</tr>
-
-			<tr>
-				<td><span class="spanStyle">Email-Id<font color="#FF0000">*</font></span></td>
-				<td><html:messages id="err_name" property="contactEmail">
-						<%
-							errMsg = err_name;
-									isRreadOnly = false;
-						%>
-					</html:messages> <%
- 	if (isRreadOnly) {
- %> <html:text property="contactEmail" styleClass="EmployeeTextBox" size="20" tabindex="9" readonly="true"></html:text> <%
- 	} else {
- %> <html:text property="contactEmail" styleClass="EmployeeTextBox" size="20" tabindex="9"></html:text> <%=errMsg%> <%
- 	errMsg = "";
- 			isRreadOnly = true;
- 		}
- %></td>
 			</tr>
 
 			<tr>
@@ -621,7 +603,7 @@
 
 			</tr>
 			<tr>
-				<td>Password</td>
+				<td>&nbsp;&nbsp;Password</td>
 				<td><html:messages id="err_name" property="password">
 						<%
 							errMsg = err_name;

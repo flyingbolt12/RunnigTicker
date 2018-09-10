@@ -1,83 +1,0 @@
-10
-
-dir
-966
-svn+ssh://kancharla@svn.code.sf.net/p/ilch/code/ilch/src/com/lch/general
-svn+ssh://kancharla@svn.code.sf.net/p/ilch/code
-
-
-
-2014-04-14T15:52:36.645059Z
-966
-kancharla
-
-
-svn:special svn:externals svn:needs-lock
-
-
-
-
-
-
-
-
-
-
-
-b4848e97-b97e-4de8-b88a-c74e86e72d87
-
-Roles.java
-file
-
-
-
-
-2014-04-14T17:04:39.014000Z
-ca8cfa526ad61fde32c7f0e5f112cca8
-2014-01-30T21:46:41.286576Z
-848
-kancharla
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-135
-
-appConfig
-dir
-
-constants
-dir
-
-dbBeans
-dir
-
-email
-dir
-
-enums
-dir
-
-generalBeans
-dir
-
-genericUtils
-dir
-

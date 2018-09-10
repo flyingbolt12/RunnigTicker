@@ -23,11 +23,11 @@ function raiseRequest4NotDisplayUpdate(id, strURL, xAction, userIdArray) {
 		if (xmlHttpReq.readyState == 4) {
 			
 			for (i = 1; i <= userIdArray.length; ++i) {
-				if (xAction == 'Approve All' || xAction == 'ApproveAll') {
+				if (xAction == 'Approve All' || xAction == 'ApproveAll' || xAction == 'Approve Selected') {
 					updatepage(userIdArray[i], 'APPROVED');
 				}
 				
-				if (xAction == 'Reject All' || xAction == 'RejectAll') {
+				if (xAction == 'Reject All' || xAction == 'RejectAll' ||  xAction == 'Reject Selected') {
 					updatepage(userIdArray[i], 'REJECTED');
 				}
 			}

@@ -18,6 +18,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.support.GenericXmlApplicationContext;
 
+import com.lch.general.constants.GeneralConstants;
 import com.lch.general.constants.VMConstants;
 import com.lch.general.dbBeans.Address;
 import com.lch.general.email.EmailDetails;
@@ -156,6 +157,13 @@ public class ConfirmRegistrationAction extends BaseAction {
 		}
 			
 	}
+	public void useExistingDemoEmployer(ActionMapping mapping,
+			ActionForm form, HttpServletRequest request,
+			HttpServletResponse response, GenericXmlApplicationContext ctx) throws Exception
+	{
+		ConfirmMemberRegistrationAction action = new ConfirmMemberRegistrationAction();
+		action.createPerformaceTestMembers(mapping, form, request, response, ctx, getBusinessId(request), getBusinessId(request));
+	}
 	public void createDemoEmployer(ActionMapping mapping,
 			ActionForm form, HttpServletRequest request,
 			HttpServletResponse response, GenericXmlApplicationContext ctx) throws Exception
@@ -173,7 +181,8 @@ public class ConfirmRegistrationAction extends BaseAction {
 			adminRegistrationBean.setContactEmail("ilchemployer@gmail.com");//gopikrishna
 			adminRegistrationBean.setFatherName("EmployerFather");
 			adminRegistrationBean.setFirstName("Employer FirstName");
-			adminRegistrationBean.setLogin("employer");
+			adminRegistrationBean.setLogin(adminRegistrationBean.getContactEmail());
+			adminRegistrationBean.setWebsiteURL("www.allibilli.com");
 
 			Address address = adminRegistrationBean.getListAddress(0);
 			long businessAddressId = doTransaction.insertADDRESSINFO(address);
@@ -210,82 +219,7 @@ public class ConfirmRegistrationAction extends BaseAction {
 		}
 			
 	}
-//	public ActionForward createTestAdmins(ActionMapping mapping,
-//			ActionForm form, HttpServletRequest request,
-//			HttpServletResponse response) throws Exception
-//	{
-//		int adminCnt = getIntAsRequestParameter("adminCnt", request);
-//		int memberCnt = getIntAsRequestParameter("memberCnt", request);
-//		if(adminCnt <=0 || memberCnt <=0)
-//		{
-//			putObjInRequest("status", request, "Not a valid input");
-//			return mapping.findForward("status");
-//		}
-//			
-//		
-//		if(isTestAdminAvailable("x_1@gmail.com","admin_1"))
-//		{
-//			putObjInRequest("status", request, "Test Admin was alreday available");
-//			return mapping.findForward("status");
-//		}
-//		
-//			putObjInRequest("status", request, "Test Users creation triggered Successfully, you need to validate them accordingly");
-//			// CREATE ADMIN
-//			AdminRegistrationBean bean = getRegistrationBean();
-//			putObjInSession("form", request,bean);
-//
-//			putObjInRequest("isPerformanceTest", request,"YES");
-//
-//			StringBuilder builder = new StringBuilder();
-//			
-//			for (int i =1 ; i <=adminCnt ; ++i)
-//			{
-//				bean.setLogin("admin_"+i);
-//				bean.setContactEmail("x_"+i+"@gmail.com");
-//				builder.append(i).append(" : ").append(bean.getLogin()).append("<BR>");
-//				confirmRegistration(mapping,bean,request,response);
-//				ConfirmMemberRegistrationAction action = new ConfirmMemberRegistrationAction();
-//				action.createPerformaceTestMembers(mapping, form, request, response, getSpringCTX(),i);
-//			}			
-//			
-//			getSpringCtxDoTransactionBean().setAllUsersToValid();
-//			
-//		return mapping.findForward("status");
-//	}
 
-	
-//	public ActionForward createTestAdmin(ActionMapping mapping,
-//			ActionForm form, HttpServletRequest request,
-//			HttpServletResponse response) throws Exception
-//	{
-//		if(isTestAdminAvailable("ilchadm123@gmail.com","admin"))
-//		{
-//			putObjInRequest("status", request, "Test Admin was alreday available");
-//		
-//		}
-//		else
-//		{
-//			putObjInRequest("status", request, "Test Users creation triggered Successfully, you need to validate them accordingly");
-//			// CREATE ADMIN
-//			AdminRegistrationBean bean = getRegistrationBean();
-//			
-//			putObjInSession("form", request,bean);
-//			
-//			confirmRegistration(mapping,bean,request,response);
-//			
-//			ConfirmMemberRegistrationAction action = new ConfirmMemberRegistrationAction();
-//			action.createDemoMember(mapping, form, request, response, getSpringCTX(), TimeSheetTypes.DAYS15.name(), "demodays15");
-//			action.createDemoMember(mapping, form, request, response, getSpringCTX(), TimeSheetTypes.MONTHLY.name(), "demomonthly");
-//			action.createDemoMember(mapping, form, request, response, getSpringCTX(), TimeSheetTypes.WEEKLY.name(), "demoweekly");
-//			action.createDemoMember(mapping, form, request, response, getSpringCTX(), TimeSheetTypes.BIWEEKLY.name(), "demobiweekly");
-//			
-//			getSpringCtxDoTransactionBean().setAllUsersToValid();
-//			putStatusObjInRequest(request, "Business Id created for admin : "+getObjFrmRequest("businessId", request)+"<BR>"+"List of Users :"+getObjFrmRequest("userId", request));
-//		}
-//		return mapping.findForward("status");
-//	}
-	
-	
 	private boolean validateUserBeforeRegistering(AdminRegistrationBean adminRegistrationBean)
 	{
 		log.debug("Final Validating before registring an employer...");
@@ -312,7 +246,7 @@ public class ConfirmRegistrationAction extends BaseAction {
 		log.info("Finishing Business Registration Process");
 		AdminRegistrationBean adminRegistrationBean = (AdminRegistrationBean) form;
 
-
+		adminRegistrationBean.setContactEmail(adminRegistrationBean.getLogin());
 		if(adminRegistrationBean.getDob()==null)
 		{
 			DateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
@@ -414,7 +348,7 @@ public class ConfirmRegistrationAction extends BaseAction {
 		
 		to.add(adminRegistrationBean.getContactEmail());
 		emailDetails.setTo(to);
-		emailDetails.setSubject("Business Registration - Email Validation");
+		emailDetails.setSubject(GeneralConstants.EMPLOYER_REGISTRATION_EMAIL_SUBJECT);
 		bean.setText("activate");
 		sb = getValidateBusinessEmail(request,adminRegistrationBean, bean);
 		emailDetails.setEmailContent(sb);

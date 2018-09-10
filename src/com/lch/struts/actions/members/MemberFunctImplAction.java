@@ -145,10 +145,9 @@ public class MemberFunctImplAction extends BaseAction {
 		to.add(prof.getEmployerEmail());
 		EmailDetails emailDetails = new EmailDetails();
 
-		emailDetails.setFrom("contact@allibilli.com");
 		emailDetails.setTo(to);
 		//emailDetails.setCc(cc);
-		emailDetails.setSubject("ILCH - Need Action - Time Sheets");
+		emailDetails.setSubject("RunningTicker  - Need Action - Time Sheets");
 		emailDetails.setEmailContent(getEmailContent(prof));
 		sendEmail(emailDetails);
 	}
@@ -391,12 +390,15 @@ public class MemberFunctImplAction extends BaseAction {
 		} else if (timeSheetStatus == TimeSheetStatus.REJECTED) {
 			putObjInRequest("isTimsheetEdit", request, "TRUE");
 		}
+		putObjInRequest("timSheetStatus", request, timeSheetStatus);
+		log.info("timSheetStatus : {}", timeSheetStatus);
 	}
 
 	public ActionForward reload15DaysHrsSubmissionForMonthAndYear(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		log.info("reload15DaysHrsSubmissionForMonthAndYear - Strat working");
 		TimeSheetStatus timeSheetStatus = TimeSheetStatus.NOTSUBMITTED;
+		TimeSheetStatus timeSheetStatus2 = TimeSheetStatus.NOTSUBMITTED;
 		ActionForward forward = null;
 		int nAvailableRows = 0;
 		setTimeSheetReloadMethodInRequest(request);
@@ -409,10 +411,8 @@ public class MemberFunctImplAction extends BaseAction {
 			month = getIntAsRequestParameter("month", request);
 			year = getIntAsRequestParameter("year", request);
 		} catch (Exception e) {
-			putAjaxStatusObjInRequest(request, e.getMessage());
-			forward = mapping.findForward("exception");
 			log.error(e.getMessage(), e);
-			return forward;
+			return forwardToExceptionPage(mapping, request, e);
 		}
 
 		DateUtils du = new DateUtils(year, month);
@@ -436,7 +436,23 @@ public class MemberFunctImplAction extends BaseAction {
 
 			Map<String, Object> m = (Map<String, Object>) submitedTimeSheets.get(0);
 			String status = (String) m.get("status");
-			timeSheetStatus = TimeSheetStatus.valueOf(status);
+			SubmissionFor submissionType = SubmissionFor.valueOf((String) m.get("submissionFor"));
+			
+			SubmissionFor submissionType2 = SubmissionFor.SECOND;
+
+			if (submitedTimeSheets.size() >= 2) {
+				Map<String, Object> m2 = (Map<String, Object>) submitedTimeSheets.get(1);
+				timeSheetStatus2 = TimeSheetStatus.valueOf((String) m2.get("status"));
+				submissionType2 = SubmissionFor.valueOf((String) m2.get("submissionFor"));
+			}
+			
+			
+			if(submissionType == SubmissionFor.FIRST){
+				timeSheetStatus = TimeSheetStatus.valueOf(status);
+			} else if (submissionType2 == SubmissionFor.FIRST){
+				timeSheetStatus = timeSheetStatus2;
+			}
+			
 
 			saveTimeSheetSubmittedErrors(timeSheetStatus, request);
 		}
@@ -458,10 +474,8 @@ public class MemberFunctImplAction extends BaseAction {
 			month = getIntAsRequestParameter("month", request);
 			year = getIntAsRequestParameter("year", request);
 		} catch (Exception e) {
-			putAjaxStatusObjInRequest(request, e.getMessage());
-			forward = mapping.findForward("exception");
 			log.error(e.getMessage(), e);
-			return forward;
+			return forwardToExceptionPage(mapping, request, e);
 		}
 
 		DateUtils du = new DateUtils(year, month);
@@ -820,7 +834,7 @@ public class MemberFunctImplAction extends BaseAction {
 		to.add(profile.getEmployerEmail());
 		EmailDetails emailDetails = new EmailDetails();
 
-		emailDetails.setFrom(profile.getEmployeeEmail());
+		emailDetails.setReplyTo(profile.getEmployeeEmail());
 		emailDetails.setTo(to);
 		emailDetails
 				.setSubject("Buzz - Waiting for approval for a pending time sheet submitted");
@@ -909,7 +923,7 @@ public class MemberFunctImplAction extends BaseAction {
 			ArrayList<String> to = new ArrayList<String>();
 			to.add(getUserProfile(request).getEmployerEmail());
 			emailDetails.setTo(to);
-			emailDetails.setSubject(getUserProfile(request).getFirstName() + " Uploaded a new Profile into ILCH & CCS Application.");
+			emailDetails.setSubject(getUserProfile(request).getFirstName() + " Uploaded a new Profile into RunningTicker  Application.");
 			String sb = getEmailTemplate(bean, VMConstants.VM_RESUME_UPLOAD_NOTIFY);
 			emailDetails.setEmailContent(new StringBuffer(sb));
 			sendEmail(emailDetails);
@@ -1121,7 +1135,30 @@ public class MemberFunctImplAction extends BaseAction {
 		return forward;
 	}
 
+	public ActionForward attachImmigrationDocs(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	
+		ActionForward forward = new ActionForward();
+		forward = mapping.findForward("addSupportingDocs");
+		log.info("attachImmigrationDocs - Strat working");
+		UserProfile userProfile = getUserProfile(request);
+		setIdsIntoRequest(request);
+		putObjInRequest("attachImmigrationDocs", request, "yes");
+		return forward;
+	}
+	
+	public ActionForward attachOtherDocs(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		ActionForward forward = new ActionForward();
+		forward = mapping.findForward("addSupportingDocs");
+		log.info("attachOtherDocs - Strat working");
+		UserProfile userProfile = getUserProfile(request);
+		setIdsIntoRequest(request);
+		putObjInRequest("attachOtherDocs", request, "yes");
+		return forward;
+	}
+	
 }
+
 
 class FileDetails {
 	String filePath;

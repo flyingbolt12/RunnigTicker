@@ -1,3 +1,4 @@
+<%@page import="com.lch.general.generalBeans.UserProfile"%>
 <%@page import="java.util.Map"%>
 <%@page import="java.util.List"%>
 <%@ taglib uri="http://struts.apache.org/tags-tiles" prefix="tiles"%>
@@ -13,14 +14,17 @@
 <meta name="keywords" content="timesheet software time tracking web time sheet timekeeping timesheets timesheet software, online timesheets, web based timsheets, punch clock, timesheet software, small business timekeeping, employee timeclock, employee time card, time sheet attendance, employee time tracking" />
 <script src="js/browserVersionDector.js"></script>
 
+
 <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
-<script src="//code.jquery.com/jquery-1.9.1.js"></script>
+<script src="//code.jquery.com/jquery-1.10.2.js"></script>
 <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
 <script src="js/jquery.cookie.js"></script>
 <script type="text/javascript" src="js/jquery.timer.js"></script>
+<script type="text/javascript" src="js/foggy/jquery.foggy.min.js"></script>
 
 <link href="css/lch.css" rel="stylesheet" type="text/css" />
 <link href="js/tiptip/tipTip.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="js/jstree/dist/themes/default/style.min.css" />
 
 <script language="JavaScript" type="text/javascript" src="js/lch/globals.js"></script>
 <script language="JavaScript" type="text/javascript" src="js/lch/ajax.js"></script>
@@ -29,12 +33,18 @@
 <script language="JavaScript" type="text/javascript" src="js/tiptip/jquery.tipTip.minified.js"></script>
 <script language="JavaScript" type="text/javascript" src="js/dhtmlx/codebase/message.js"></script>
 
+<!-- BreadCrumb -->
+<script language="JavaScript" type="text/javascript" src="js/jBreadCrumb/js/jquery.easing.1.3.js"></script>
+<script language="JavaScript" type="text/javascript" src="js/jBreadCrumb/js/jquery.jBreadCrumb.1.1.js"></script>
+<link rel="stylesheet" href="js/jBreadCrumb/Styles/BreadCrumb.css" />
+
+
 <!-- Parralox for home animation-->
 <link rel="stylesheet" type="text/css" href="css/parralox/demo.css" />
 <link rel="stylesheet" type="text/css" href="css/parralox/style.css" />
-<script type="text/javascript" src="js/parralox/modernizr.custom.28468.js"></script>
 <script type="text/javascript" src="js/parralox/jquery.cslider.js"></script>
 <link href='http://fonts.googleapis.com/css?family=Economica:700,400italic' rel='stylesheet' type='text/css'>
+
 <noscript>
 	<link rel="stylesheet" type="text/css" href="css/parralox/nojs.css" />
 </noscript>
@@ -65,6 +75,21 @@
 	    maxWidth : "auto",
 	    edgeOffset : 10,
 	    defaultPosition : 'right'
+	    });
+    });
+    $(function() {
+	    $(".squareAdmin").tipTip({
+	    maxWidth : "auto",
+	    edgeOffset : 10,
+	    defaultPosition : 'right'
+	    });
+    });
+    
+    $(function() {
+	    $(".tiptip").tipTip({
+	    maxWidth : "auto",
+	    edgeOffset : 10,
+	    defaultPosition : 'left'
 	    });
     });
     
@@ -114,6 +139,18 @@
     	}, 1000);
     	textUpdateTimer.play();
     }
+    $( document ).ready(function() {
+    	document.addEventListener('keydown', doc_keyUp, false);
+    });
+    function doc_keyUp(e) {
+
+        // this would test for whichever key is 40 and the ctrl key at the same time
+        // CTRL_ALT
+        if (e.ctrlKey && e.keyCode == 18) {
+            // call your function to do the thing
+        	setPrivacyMode();
+        }
+    }
 </script>
 
 <script>
@@ -144,6 +181,7 @@
        adding a calendar a matter of 1 or 2 lines of code. -->
 <script type="text/javascript" src="jscalendar-1.0/calendar-setup.js"></script>
 
+
 <style>
 .TextBoxStyle {
 	font-family: Tahoma;
@@ -167,7 +205,19 @@
 	color: white;
 	background-color: red;
 }
+
+rect {
+  fill: none;
+  pointer-events: all;
+}
+
+circle {
+  fill: none;
+  stroke-width: 2.5px;
+}
 </style>
+<script src="http://d3js.org/d3.v3.min.js"></script>
+
 <body topmargin="0" leftmargin="0" rightmargin="0" bottommargin="0" link="#088080" vlink="#004080" alink="#008080" onload="resetField()">
 
 	<table border="0" height="100%" style="font-family: Tahoma; font-size: 10pt" align="center">
@@ -177,18 +227,20 @@
 		<tr>
 			<td height="30" class="tdLinks"><tiles:insert attribute="header" /></td>
 		</tr>
-
-
 		<tr>
 			<td height="30" class="tdNews"><tiles:insert attribute="news" /></td>
 		</tr>
-
-
+		<% UserProfile up = (com.lch.general.generalBeans.UserProfile) session
+				.getAttribute("userProfile"); if (up!=null && up.isAdmin()) {%>
+		<tr>
+			<td height="30" class="tdRadial"><tiles:insert attribute="breadCrumb" /></td>
+		</tr>
+	<%} %>
 		<tr>
 			<%
 				if (request.getAttribute("signedout") == null) {
 			%>
-			<td class="tdRadial"><tiles:insert attribute="body" /></td>
+			<td class="tdRadial" id="customBody"><tiles:insert attribute="body" /></td>
 			<%
 				} else {
 			%>

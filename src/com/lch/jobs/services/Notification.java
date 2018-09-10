@@ -74,7 +74,7 @@ public class Notification extends BaseAction {
 			emailDetails.setAttachment( f);
 		}
 		
-		emailDetails.setFrom(business.getEmployerEmail());
+		emailDetails.setReplyTo(business.getEmployerEmail());
 		sendEmail(emailDetails);
 
 		StringBuffer reportContent = EmailsReport.getReportReport(business.getEmployerEmail(), bcc);

@@ -8,9 +8,9 @@ import com.lch.general.generalBeans.CategoriesAndEmployees;
 public class EmployeeTimeSheetsBasedOnTypes {
 
 
-	private List<CategoriesAndEmployees> rh = new ArrayList<>();
-	private List<CategoriesAndEmployees> hh = new ArrayList<>();
-	private List<CategoriesAndEmployees> ot = new ArrayList<>();
+	private List<CategoriesAndEmployees> rh = new ArrayList<CategoriesAndEmployees>();
+	private List<CategoriesAndEmployees> hh = new ArrayList<CategoriesAndEmployees>();
+	private List<CategoriesAndEmployees> ot = new ArrayList<CategoriesAndEmployees>();
 
 	double totalRHHours = 0.0d;
 	double totalHHHours = 0.0d;

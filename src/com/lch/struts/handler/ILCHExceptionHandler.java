@@ -33,7 +33,7 @@ public class ILCHExceptionHandler extends ExceptionHandler {
 
 	private static ArrayList<String> devopers = new ArrayList<String>();
 	static {
-		devopers.add("contact@allibilli.com");
+		devopers.add("support@RunningTicker.com");
 		devopers.add("sridhar.thigulla@gmail.com");
 		}
 
@@ -52,9 +52,8 @@ public class ILCHExceptionHandler extends ExceptionHandler {
 		String stackTrace = stackTraceToString(ex);
 
 		EmailDetails emailDetails = new EmailDetails();
-		emailDetails.setSubject("ILCH - Need your action");
+		emailDetails.setSubject("RunningTicker - Need your action");
 		emailDetails.setCc(devopers);
-		emailDetails.setFrom("alertoalerts@gmail.com");
 		try {
 			emailDetails.setEmailContent(getEmailContent(request, stackTrace, customerdetails));
 		} catch (Exception e) {

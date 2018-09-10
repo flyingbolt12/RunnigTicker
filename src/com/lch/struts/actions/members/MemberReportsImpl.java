@@ -1,6 +1,8 @@
 package com.lch.struts.actions.members;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -35,14 +37,15 @@ public class MemberReportsImpl extends ReportsBase {
 			return getStatusPage(mapping, request);
 		}
 		try {
-			processReports(list, response, memberjrxmlPath);
+			Map<String, Object> parameters = new HashMap<String, Object>();
+			parameters.put("employerName", userProfile.getEmployerName());
+			processReports(list, response, memberjrxmlPath, parameters);
 		} catch (JRException e) {
-			e.printStackTrace();
-			forward = mapping.findForward("exception");
-			return forward;
+			log.error(e.getMessage(), e);
+			return forwardToExceptionPage(mapping, request, e);
 		} catch (Exception e) {
-			e.printStackTrace();
-			forward = mapping.findForward("exception");
+			log.error(e.getMessage(), e);
+			return forwardToExceptionPage(mapping, request, e);
 		}
 
 		return null;
@@ -63,14 +66,15 @@ public class MemberReportsImpl extends ReportsBase {
 			return getStatusPage(mapping, request);
 		}
 		try {
-			processReports(list, response, memberjrxmlPath);
+			Map<String, Object> parameters = new HashMap<String, Object>();
+			parameters.put("employerName", userProfile.getEmployerName());
+			processReports(list, response, memberjrxmlPath, parameters);
 		} catch (JRException e) {
-			e.printStackTrace();
-			forward = mapping.findForward("exception");
-			return forward;
+			log.error(e.getMessage(), e);
+			return forwardToExceptionPage(mapping, request, e);
 		} catch (Exception e) {
-			e.printStackTrace();
-			forward = mapping.findForward("exception");
+			log.error(e.getMessage(), e);
+			return forwardToExceptionPage(mapping, request, e);
 		}
 
 		return null;
@@ -86,19 +90,21 @@ public class MemberReportsImpl extends ReportsBase {
 		UserProfile userProfile = getUserProfile(request);
 		List<?> list = getSpringCtxDoTransactionBean().listEmployeeApprovedTimesheets(
 				userProfile);
+		
 		if(list.size() == 0)
 		{
 			return getStatusPage(mapping, request);
 		}
 		try {
-			processReports(list, response, memberjrxmlPath);
+			Map<String, Object> parameters = new HashMap<String, Object>();
+			parameters.put("employerName", userProfile.getEmployerName());
+			processReports(list, response, memberjrxmlPath, parameters);
 		} catch (JRException e) {
-			e.printStackTrace();
-			forward = mapping.findForward("exception");
-			return forward;
+			log.error(e.getMessage(), e);
+			return forwardToExceptionPage(mapping, request, e);
 		} catch (Exception e) {
-			e.printStackTrace();
-			forward = mapping.findForward("exception");
+			log.error(e.getMessage(), e);
+			return forwardToExceptionPage(mapping, request, e);
 		}
 
 		return null;

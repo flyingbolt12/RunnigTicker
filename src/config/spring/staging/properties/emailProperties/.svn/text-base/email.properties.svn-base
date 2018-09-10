@@ -1,9 +1,0 @@
-host=smtp.gmail.com
-port=587
-username=alertsoalerts
-password=gopikrishna
-mail.smtp.auth=true
-mail.smtp.starttls.enable=true
-mail.smtp.starttls.required=true
-mail.smtp.debug=true
-from=ILCH & CCS

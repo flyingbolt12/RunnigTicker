@@ -51,10 +51,10 @@
 					</html:select></td>
 			</tr>
 
-			<tr>
-				<td><span class="spanStyle">Email-Id<font color="#FF0000">*</font></span></td>
-				<td><html:text property="contactEmail" styleId="contactEmail" styleClass="EmployeeTextBox" size="20" tabindex="1024" onblur="verifyEmpEmail(this.value)"></html:text> <font color="#000000"><span id="usrEmailAvailabilityCheckMsg"></span></font></td>
-			</tr>
+<!-- 			<tr> -->
+<!-- 				<td><span class="spanStyle">Email-Id<font color="#FF0000">*</font></span></td> -->
+<%-- 				<td><html:text property="contactEmail" styleId="contactEmail" styleClass="EmployeeTextBox" size="20" tabindex="1024" onblur="verifyEmpEmail(this.value)"></html:text> <font color="#000000"><span id="usrEmailAvailabilityCheckMsg"></span></font></td> --%>
+<!-- 			</tr> -->
 
 			<tr>
 				<td><span class="spanStyle">Phone Number<font color="#FF0000">*</font></span></td>
@@ -208,7 +208,7 @@
 				<td height="4" colspan="3"></td>
 			</tr>
 			<tr>
-				<td colspan="3" class="regHeader"><html:submit value="Next Page" property="create" styleClass="ButtonStyleDisabled" tabindex="1042" title="Take you to the next page if not disabled" styleId="cNextEmp" disabled="true"></html:submit> <html:submit
+				<td colspan="3" class="regHeader"><html:submit value="Next Page" property="create" styleClass="ButtonStyle" tabindex="1042" title="Take you to the next page if not disabled" styleId="cNextEmp" disabled="false"></html:submit> <html:submit
 						value="Cancel" property="cancel" styleClass="ButtonStyle" tabindex="1042"></html:submit></td>
 			</tr>
 		</table>
@@ -243,33 +243,6 @@
     	document.getElementById("cNextEmp").className = 'ButtonStyle';
     }
 
-    function verifyEmpEmail(email) {
-	    var params = {
-		    ajaxParam : email
-	    };
-	    var obj = {
-	    id : "usrEmailAvailabilityCheckMsg",
-	    url : "employeeRegistration.do?parameter=checkUserEmailAvailability",
-	    params : params,
-	    responseHandler : handleEmpResponse
-	    };
-	    sendAjaxRequest(obj);
-    }
-    function handleEmpResponse(obj, response) {
-	    removeAjaxImg(obj.id);
-	    
-	    if (response.indexOf("disableSubmitRequired") == -1) {
-		    document.getElementById("cNextEmp").disabled = false;
-		    document.getElementById("cNextEmp").className = 'ButtonStyle';
-	    } else {
-		    document.getElementById("cNextEmp").disabled = true;
-		    document.getElementById("cNextEmp").className = 'ButtonStyleDisabled';
-	    }
-	    if (response != null)
-		    response = response.replace("disableSubmitRequired", "");
-	    placeAjaxMessage(obj.id, response);
-	    
-    }
  function personalAddressVisible(checkbox){
     	
     	var result_style = document.getElementById('result_tr').style;

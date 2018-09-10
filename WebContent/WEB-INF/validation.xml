@@ -123,9 +123,9 @@
 					<var-value>65</var-value>
 				</var>
 			</field>
-			<field property="contactEmail" depends="required, email">
-				<arg0 key="error.contactEmail" />
-			</field>
+<!-- 			<field property="contactEmail" depends="required, email"> -->
+<!-- 				<arg0 key="error.contactEmail" /> -->
+<!-- 			</field> -->
 			<field property="phoneNumber" depends="required, long">
 				<arg0 key="error.phoneNumber" />
 			</field>
@@ -324,7 +324,7 @@
 					<var-value>100</var-value>
 				</var>
 			</field>
-			<field property="login" depends="required">
+			<field property="login" depends="required,email">
 				<arg0 key="error.login" />
 			</field>
 			<field property="password" depends="required, minlength">
@@ -452,101 +452,6 @@
 				<arg0 key="error.personalEmailId" />
 			</field>
 
-<!-- 			<field property="countryCitizenship" depends="required"> -->
-<!-- 				<arg0 key="error.countryCitizenship" /> -->
-<!-- 			</field> -->
-<!-- 			<field property="countryCitizenship" depends="mask"> -->
-<!-- 				<msg name="mask" key="error.mask.countryCitizenship" /> -->
-<!-- 				<arg0 key="error.countryCitizenship" /> -->
-<!-- 				<var> -->
-<!-- 					<var-name>mask</var-name> -->
-<!-- 					<var-value>^[a-z A-Z]*$</var-value> -->
-<!-- 				</var> -->
-<!-- 			</field> -->
-			<field property="listAddress[1].address1" depends="required, maxlength">
-				<arg0 key="error.listAddress[1].address1" />
-				<arg1 key="${var:maxlength}" resource="false" />
-				<var>
-					<var-name>maxlength</var-name>
-					<var-value>165</var-value>
-				</var>
-			</field>
-
-
-			<field property="listAddress[1].address2" depends=" maxlength">
-				<arg0 key="error.listAddress[1].address2" />
-				<arg1 key="${var:maxlength}" resource="false" />
-				<var>
-					<var-name>maxlength</var-name>
-					<var-value>165</var-value>
-				</var>
-			</field>
-			<field property="listAddress[1].city" depends="required, maxlength">
-				<arg0 key="error.listAddress[1].city" />
-				<arg1 key="${var:maxlength}" resource="false" />
-				<var>
-					<var-name>maxlength</var-name>
-					<var-value>100</var-value>
-				</var>
-			</field>
-			<field property="listAddress[1].city" depends="mask">
-				<msg name="mask" key="error.mask.listAddress[1].city" />
-				<arg0 key="error.listAddress[1].city" />
-				<var>
-					<var-name>mask</var-name>
-					<var-value>^[a-z A-Z]*$</var-value>
-				</var>
-			</field>
-			<field property="listAddress[1].state" depends="required, maxlength">
-				<arg0 key="error.listAddress[1].state" />
-				<arg1 key="${var:maxlength}" resource="false" />
-				<var>
-					<var-name>maxlength</var-name>
-					<var-value>2</var-value>
-				</var>
-			</field>
-			<field property="listAddress[1].state" depends="mask">
-				<msg name="mask" key="error.mask.listAddress[1].state" />
-				<arg0 key="error.listAddress[1].state" />
-				<var>
-					<var-name>mask</var-name>
-					<var-value>^[A-Z]{2}$</var-value>
-				</var>
-			</field>
-			<field property="listAddress[1].country" depends="required, maxlength">
-				<arg0 key="error.listAddress[1].country" />
-				<arg1 key="${var:maxlength}" resource="false" />
-				<var>
-					<var-name>maxlength</var-name>
-					<var-value>44</var-value>
-				</var>
-			</field>
-
-			<field property="listAddress[1].country" depends="mask">
-				<msg name="mask" key="error.mask.listAddress[1].country" />
-				<arg0 key="error.listAddress[1].country" />
-				<var>
-					<var-name>mask</var-name>
-					<var-value>^[a-z A-Z]*$</var-value>
-				</var>
-			</field>
-			<field property="listAddress[1].zip" depends="required,long,minlength">
-				<arg0 key="error.listAddress[1].zip" />
-				<arg1 key="${var:minlength}" resource="false" />
-				<var>
-					<var-name>minlength</var-name>
-					<var-value>5</var-value>
-				</var>
-			</field>
-
-			<field property="listAddress[1].landMark" depends="mask">
-				<msg name="mask" key="error.mask.listAddress[1].landMark" />
-				<arg0 key="error.listAddress[1].landMark" />
-				<var>
-					<var-name>mask</var-name>
-					<var-value>^[a-z A-Z]*$</var-value>
-				</var>
-			</field>
 			<field property="firstName" depends="required,mask">
 				<msg name="mask" key="error.mask.firstName" />
 				<arg0 key="error.firstName" />
@@ -571,26 +476,7 @@
 					<var-value>^[a-z A-Z]*$</var-value>
 				</var>
 			</field>
-			<field property="login" depends="required">
-				<arg0 key="error.login" />
-			</field>
-			<!-- <field property="password" depends="required, minlength">
-				<arg0 key="error.password" />
-				<arg1 name="minlength" key="${var:minlength}" resource="false" />
-				<var>
-					<var-name>minlength</var-name>
-					<var-value>6</var-value>
-				</var>
-			</field>
-			<field property="confirmPassword" depends="required, minlength">
-				<arg0 key="error.confirmPassword" />
-				<arg1 name="minlength" key="${var:minlength}" resource="false" />
-				<var>
-					<var-name>minlength</var-name>
-					<var-value>6</var-value>
-				</var>
-			</field>
-			 -->
+
 			<field property="phoneNumber" depends="required,long">
 				<arg0 key="error.phoneNumber" />
 			</field>
@@ -826,9 +712,6 @@
 					<var-name>maxlength</var-name>
 					<var-value>65</var-value>
 				</var>
-			</field>
-			<field property="contactEmail" depends="required, email">
-				<arg0 key="error.emailId" />
 			</field>
 
 			<field property="fatherName" depends=" maxlength,mask">
@@ -1129,7 +1012,7 @@
 <!-- 					<var-value>^[a-z A-Z]*$</var-value> -->
 <!-- 				</var> -->
 <!-- 			</field> -->
-			<field property="login" depends="required">
+			<field property="login" depends="required, email">
 				<arg0 key="error.login" />
 			</field>
 
@@ -1176,9 +1059,9 @@
 					<var-value>65</var-value>
 				</var>
 			</field>
-			<field property="contactEmail" depends="required, email">
-				<arg0 key="error.emailId" />
-			</field>
+<!-- 			<field property="contactEmail" depends="required, email"> -->
+<!-- 				<arg0 key="error.emailId" /> -->
+<!-- 			</field> -->
 			<field property="phoneNumber" depends="required,long">
 				<arg0 key="error.phoneNumber" />
 			</field>
@@ -1476,7 +1359,7 @@
 <!-- 					<var-value>^[a-z A-Z]*$</var-value> -->
 <!-- 				</var> -->
 <!-- 			</field> -->
-			<field property="login" depends="required">
+			<field property="login" depends="required, email">
 				<arg0 key="error.login" />
 			</field>
 

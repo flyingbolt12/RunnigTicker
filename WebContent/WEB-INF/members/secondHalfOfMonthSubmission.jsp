@@ -1,3 +1,4 @@
+<%@page import="com.lch.general.enums.TimeSheetStatus"%>
 <%@page import="com.lch.general.genericUtils.Days15TimeSheetHours"%>
 <%@page import="com.lch.general.genericUtils.SubMissionType"%>
 <%@page import="java.text.DecimalFormat"%>
@@ -60,7 +61,9 @@ public void log(String s) {
 	int nYear =du.getYear();
 	int nMonth = du.getMonth();
 	
-
+	if (request.getParameter("forAdmin")!=null && request.getParameter("forAdmin").equals("YES")){
+		nUserId = new Long(request.getParameter("userId")).longValue();
+	}
 Days15TimeSheetHours hrs = doTransaction.getHalfOfMonthHrs(nUserId, nYear, nMonth, startWithWeekNo, 6, SubmissionFor.SECOND);
 
 double regularHrs[] = { 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00 };
@@ -163,16 +166,27 @@ function overLoadedReCalculate(weekType)
 	}	
 	document.forms[0].MONTHLY_TOTAL.value=parseFloat((eval(document.forms[0].REGULARWEEK_MONTHLY_TOTAL.value) + eval(document.forms[0].OVERTIMEWEEK_MONTHLY_TOTAL.value) + eval(document.forms[0].HOLIDAYWEEK_MONTHLY_TOTAL.value))).toFixed(2);
 }
+var previousTimeSheetMode;
+function saveAsDraftFun(){
+	previousTimeSheetMode = document.getElementById('timeSheetMode').value;
+	document.getElementById('timeSheetMode').value = "saveAsDraft";
+	doValidate();
+}
 function doValidate()
 { 
-	if(document.forms[0].MONTHLY_TOTAL.value == 0)
-		dhtmlx.confirm({ title: "Information", text:"Nothing chnaged to Submit"});
+	if(document.forms[0].MONTHLY_TOTAL.value == 0){
+		dhtmlx.confirm({ title: "Information", text:"Nothing changed to Submit"});
+		document.getElementById('timeSheetMode').value = previousTimeSheetMode;
+	}
 	else if(textValueValidate()){
 		document.forms[0].submitTimeSheet.disabled=true;
+		document.forms[0].saveAsDraft.disabled=true;
   		document.forms[0].submit();
 	}
-	else
+	else {
 		dhtmlx.confirm({ title: "Information", text:"You entered either more than 24hrs per day or more than 60 minutes per day along with your Hours. Please correct "+ errorWith});
+		document.getElementById('timeSheetMode').value = previousTimeSheetMode;
+	}
 }
 function cancelHrs()
 { 
@@ -195,12 +209,35 @@ function cancelHrs()
 <input type="hidden" name="parameter" value="">
 <input type="hidden" name="submissionFor" value="<%= SubmissionFor.SECOND%>">
 <%@include file="/WEB-INF/members/timSheetHint.jsp"  %>
+<% 
+boolean isRequestFromAdmin = (( request.getParameter("forAdmin")!=null && request.getParameter("forAdmin").equals("YES") )? true: false);
+		String timeSheetStatus = "";
+		TimeSheetStatus status = (TimeSheetStatus)request.getAttribute("timSheetStatus");
+		if(status == null) {timeSheetStatus = "NOT SUBMITTED";} else {timeSheetStatus = status.getRep();}%>
+		
+		<input type="hidden" name="currentTimeSheetStatus" value="<%= timeSheetStatus%>">
 <div align="center">
 <table border="0" cellspacing="1" width="878" height="447" style="font-family: Tahoma; font-size: 10pt" bgcolor="#E6E6EC">
+
+<%if(!isRequestFromAdmin){%>
+
+<tr><td colspan="12" align="center" valign="middle" bgcolor="#FFFFF">TimeSheet Status : <%= timeSheetStatus %> </td></tr>
+	<%} %>
+	
 	<tr>
+	<%
+		 
+		if(isRequestFromAdmin){
+		%>
+		<td colspan="6" align="left" bgcolor="#C0C0C0" title="Client Working for">Client Name : <%= request.getParameter("clientName") %></td>
+		<%} else { %>
 		<td colspan="6" align="left" bgcolor="#C0C0C0" title="Click here to change the Employer"><html:link action="/genericForwardAction.do?forwardTo=members/updateMyClientOptions" >Client Working For  <%=userProfile.getCurrentClientName()%></html:link></td>
-		<td colspan="6" align="right" bgcolor="#C0C0C0"> <html:link href="javascript:reload('first15DaysOfMonthDef')">Move to First Half of Month</html:link> &nbsp;&nbsp;&nbsp;
-		<html:select property="months" styleClass="TextBox" onchange="reload()">
+			<% } %>
+		<td colspan="6" align="right" bgcolor="#C0C0C0"> 
+		<% if(!isRequestFromAdmin){		%>
+		<html:link href="javascript:reload('first15DaysOfMonthDef')">Move to First Half of Month</html:link> &nbsp;&nbsp;&nbsp;
+		<%} %>		
+		<html:select property="months" styleClass="TextBox" onchange="reload()" disabled="<%=isRequestFromAdmin?true:false %>">
 		<%
 			String monthNames[] = du.getMonthNames();
 					for (int i = 0; i < monthNames.length - 1; ++i) {
@@ -212,7 +249,7 @@ function cancelHrs()
 		%>
 
 		</html:select>
-		<html:select property="years" styleClass="TextBox" onchange="reload()">
+		<html:select property="years" styleClass="TextBox" onchange="reload()" disabled="<%=isRequestFromAdmin?true:false %>">
 <%
 	int selectedYear = du.getYear();
 			int thisYear = Calendar.getInstance().get(Calendar.YEAR);
@@ -342,7 +379,7 @@ double value=0.00;
 								monthlyTotalHrs += value;
 								regularMonthlyTotalHrs += value;								
 	%>
-		<input type="text" name="REGULARWEEK_<%=i%>_<%=daysInWeek%>" size="5" value="<%= df.format(value)%>" class="TextBox" maxlength="5" onchange="reCalculate()"><%
+		<input type="text" name="REGULARWEEK_<%=i%>_<%=daysInWeek%>" size="5" value="<%= df.format(value)%>" class="<%= (daysInWeek==1 || daysInWeek==7)?"TextBoxWeekEnd":"TextBox" %>" maxlength="5" onchange="reCalculate()"><%
 			}
 						}
 		%></td>
@@ -392,7 +429,7 @@ double value=0.00;
 									monthlyTotalHrs += value;
 									holidayMonthlyTotalHrs += value;
 		%>
-		<input type="text" name="HOLIDAYWEEK_<%=i%>_<%=daysInWeek%>" size="5" value= <%=  df.format(value) %> class="TextBox" maxlength="5" onchange="reCalculate()"><%
+		<input type="text" name="HOLIDAYWEEK_<%=i%>_<%=daysInWeek%>" size="5" value= <%=  df.format(value) %> class="<%= (daysInWeek==1 || daysInWeek==7)?"TextBoxWeekEnd":"TextBox" %>" maxlength="5" onchange="reCalculate()"><%
 			}
 						}
 		%></td>
@@ -446,7 +483,7 @@ double value=0.00;
 									overtimeMonthlyTotalHrs += value;
 								
 		%>
-		<input type="text" name="OVERTIMEWEEK_<%=i%>_<%=daysInWeek%>" size="5" value=<%=  df.format(value) %> class="TextBox" maxlength="5" onchange="reCalculate()"><%
+		<input type="text" name="OVERTIMEWEEK_<%=i%>_<%=daysInWeek%>" size="5" value=<%=  df.format(value) %> class="<%= (daysInWeek==1 || daysInWeek==7)?"TextBoxWeekEnd":"TextBox" %>" maxlength="5" onchange="reCalculate()"><%
 			}
 						}
 		%></td>
@@ -510,18 +547,29 @@ double value=0.00;
 	<tr>
 		<td bgcolor="#C0C0C0" colspan="12">
 		<%
-			String submitType = "Submit";
-			String isTimeSheetEdit2 = (String)request.getAttribute("isTimsheetEdit");
+			String submitType = "Submit TimeSheet";
+			String isTimeSheetEdit = (String)request.getAttribute("isTimsheetEdit");
 			
-			if( (isTimeSheetEdit2 != null) && isTimeSheetEdit2.equalsIgnoreCase("TRUE"))
+			if( (isTimeSheetEdit != null) && isTimeSheetEdit.equalsIgnoreCase("TRUE"))
 			{
-				submitType = "Update";
-			}			
-		%>		
-		<input type="hidden" value="<%=submitType %>" name="timeSheetMode">
-		<p align="right">&nbsp;<input type="button" value=<%= submitType %> id="submitTimeSheet" onclick="doValidate()" class="ButtonStyle">
+				submitType = "Update TimeSheet";
+			}
+			if(!isRequestFromAdmin){
+		%>	
+		<input type="hidden" value="<%=submitType %>" name="timeSheetMode" id ="timeSheetMode">
+		<p align="right">&nbsp;
+		<span class="tiptip" title="TimeSheet will be saved but not submitted to your employer, You can edit any time before submitting.">
+		<input type="button" id="saveAsDraft" value="Save as Draft" onclick="saveAsDraftFun()" class="ButtonStyle" name="saveAsDraft">
+		</span>
+		<span class="tiptip" title="TimeSheet will be submitted to your employer, You can't edit this until rejected by your employer.">
+		<input type="button" value=<%= submitType %> id="submitTimeSheet" onclick="doValidate()" class="ButtonStyle">
+		</span>
 		<input type="reset" value="Reset" name="B2" class="ButtonStyle">
-		<input type="button" value="Cancel" name="B3" onclick="cancelHrs()" class="ButtonStyle"></td>
+		<input type="button" value="Cancel" name="B3" onclick="cancelHrs()" class="ButtonStyle">
+		<%} else { %>
+				<p align="right">&nbsp;<input type="button" value="<< Go Back" name="B3" onclick="window.history.back()" class="ButtonStyle">
+		<%} %>
+		</td>
 		</tr>
 </logic:messagesNotPresent>
 </table>

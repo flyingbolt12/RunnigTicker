@@ -63,7 +63,7 @@ public class EmailUtil implements Serializable {
 			Object cc = myMap.get(EmailConstants.CC);
 			String emailBody = (String) myMap.get(EmailConstants.EMAILBODY);
 			//String from = (String) myMap.get(EmailConstants.FROM);
-			String from = "contact@allibilli.com";
+			String from = "support@RunningTicker.com";
 			File attachment = (File) myMap.get(EmailConstants.ATTACHMENT);
 			emailBody += unsub;
 
@@ -127,7 +127,7 @@ public class EmailUtil implements Serializable {
 			if (propBean.getIsToSendEmail()) {
 
 				if (from != null && from.equals(EmailConstants.FROM_EMAIL)) {
-					from = "ILCH " + "<" + from + ">";
+					from = "RunningTicker " + "<" + from + ">";
 					helper.setFrom(from);
 					sendEmail(message);
 				} else if (from != null && from.length() > 0) {

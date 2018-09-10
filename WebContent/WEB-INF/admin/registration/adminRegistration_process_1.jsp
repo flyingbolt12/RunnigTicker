@@ -113,7 +113,7 @@
 		
 			
 			<tr>
-				<td>User Name<font color="#FF0000">*</font></td>
+				<td>User Email Id (Same is used as UserName)<font color="#FF0000">*</font></td>
 				<td colspan="2"><html:text property="login" styleClass="BusinessTextBox" size="20" tabindex="16" onblur="verifyUser(this.value)" styleId="userName"></html:text> <font color="#FF0000"><span id="usrAvailabilityCheckMsg"></span></font></td>
 			</tr>
 			<tr>
@@ -154,13 +154,29 @@
     if (userName.value != null && userName.length > 0)
 	    verifyUser(userName);
 
+	function verifyEmail(email) {
+    	
+	    var params = {
+		    ajaxParam : email
+	    };
+	    var obj = {
+	    id : "usrAvailabilityCheckMsg",
+	    url : "employeeRegistration.do?parameter=checkUserEmailAvailability",
+	    params : params,
+	    responseHandler : handleResponse1
+	    };
+	    
+	    sendAjaxRequest(obj);
+    }
+    
     function verifyUser(userName) {
+    	//verifyEmail(userName);
 	    var params = {
 		    ajaxParam : userName
 	    };
 	    var obj = {
 	    id : "usrAvailabilityCheckMsg",
-	    url : "employeeRegistration.do?parameter=checkUserNameAvailability",
+	    url : "employeeRegistration.do?parameter=checkUserNameAndEmailAvailability",
 	    params : params,
 	    responseHandler : handleResponse
 	    };
@@ -181,6 +197,7 @@
 	    if (response != null)
 		    response = response.replace("disableSubmitRequired", "");
 	    placeAjaxMessage(obj.id, response);
+		
     }
     if (!document.getElementById("cNext").disabled) {
     	document.getElementById("cNext").className = 'ButtonStyle';
