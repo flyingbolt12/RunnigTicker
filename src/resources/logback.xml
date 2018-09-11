@@ -13,7 +13,7 @@
     </discriminator>
     <sift>
       <appender name="FILE-${contextName}" class="ch.qos.logback.core.FileAppender">
-        <file>${CATALINA_HOME}/logs/ilch.log</file>
+        <file>/usr/local/tomcat/logs/ilch.log</file>
         <prudent>true</prudent>
         <encoder>
           <pattern>[%thread] %-5level [%date{MMM dd yyyy HH:mm:ss.SSS}] [%-5file : %-4line] %msg%n</pattern>
@@ -22,28 +22,25 @@
      </sift>
     </appender>
 	
-	<logger name="org.apache.commons" level="ERROR" />
-	<logger name="org.apache.struts.tiles" level="ERROR" />
-	<logger name="org.apache.http" level="ERROR" />
-	<logger name="org.apache.commons.digester.Digester" level="ERROR" />
-	<logger name="org.apache.commons.digester.Digester.sax" level="ERROR" />
-	<logger name="org.apache.velocity" level="ERROR" />
-	<logger name="org.apache.http" level="ERROR" />
-	<logger name="org.quartz" level="ERROR" />
-	<logger name="org.springframework.jdbc.core.StatementCreatorUtils" level="ERROR" />
-	<logger name="org.springframework" level="ERROR"></logger>
-	<logger name="org.springframework.web" level="ERROR"></logger>
-	<logger name="org.springframework.jdbc" level="ERROR" />
-	<logger name="org.springframework.jdbc.core" level="ERROR" />
-	<logger name="org.springframework.jdbc.core.JdbcTemplate" level="ERROR" />
-	<logger name="org.apache.tiles" level="ERROR" />
-	<logger name="org.apache.struts" level="ERROR" />
-	<logger name="net.sf.jasperreports" level="ERROR" />
-	<logger name="org.apache.struts.validator" level="ERROR" />
+	<logger name="org.apache.commons" level="INFO" />
+	<logger name="org.apache.struts.tiles" level="INFO" />
+	<logger name="org.apache.http" level="INFO" />
+	<logger name="org.apache.commons.digester.Digester" level="INFO" />
+	<logger name="org.apache.commons.digester.Digester.sax" level="INFO" />
+	<logger name="org.apache.velocity" level="INFO" />
+	<logger name="org.apache.http" level="INFO" />
+	<logger name="org.quartz" level="INFO" />
+	<logger name="org.springframework.jdbc.core.StatementCreatorUtils" level="INFO" />
+	<logger name="org.springframework" level="INFO"></logger>
+	<logger name="org.springframework.web" level="INFO"></logger>
+	<logger name="org.springframework.jdbc" level="INFO" />
+	<logger name="org.springframework.jdbc.core" level="INFO" />
+	<logger name="org.springframework.jdbc.core.JdbcTemplate" level="INFO" />
+	<logger name="org.apache.tiles" level="INFO" />
+	<logger name="org.apache.struts" level="INFO" />
+	<logger name="net.sf.jasperreports" level="INFO" />
+	<logger name="org.apache.struts.validator" level="INFO" />
 	
-	
-	
-
 	<root level="DEBUG">
 		<appender-ref ref="A1" />
 		<appender-ref ref="SIFT" />
