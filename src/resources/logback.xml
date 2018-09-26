@@ -41,9 +41,8 @@
 	<logger name="net.sf.jasperreports" level="INFO" />
 	<logger name="org.apache.struts.validator" level="INFO" />
 	
-	<root level="DEBUG">
+	<root level="INFO">
 		<appender-ref ref="A1" />
 		<appender-ref ref="SIFT" />
-		
 	</root>
 </configuration>

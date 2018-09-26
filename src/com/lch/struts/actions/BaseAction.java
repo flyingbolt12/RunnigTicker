@@ -427,10 +427,18 @@ public class BaseAction extends DispatchAction implements SQLQueries {
 			rPath = "/ROOT";
 		log.info("Application ROOT path {}", rPath);
 		String appName = rPath.substring(1, rPath.length());
-		log.info("Application Name {}", appName);
-		appPathOneUp = appPathOneUp.substring(0, appPathOneUp.indexOf(appName));
-		log.info("App Path Set to One folder Up {}", appPathOneUp);
-		return appPathOneUp;
+		log.info("Application Name {} - appPathOneUp: {}", appName, appPathOneUp);
+		if(appPathOneUp != null) {
+			appPathOneUp = appPathOneUp.substring(0, appPathOneUp.indexOf(appName));
+			log.info("App Path Set to One folder Up {}", appPathOneUp);
+			return appPathOneUp;
+		} else {
+			String path = getServlet().getServletContext().getRealPath(".");
+			log.info("App Path Set to One folder Up {}", path);
+			appPathOneUp = path;
+			return path;
+		}
+
 	}
 
 	public String getApplicationURL(HttpServletRequest request) {
