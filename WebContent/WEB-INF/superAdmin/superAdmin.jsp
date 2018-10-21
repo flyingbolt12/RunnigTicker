@@ -77,7 +77,7 @@
 		</tr>
 		<tr>
 			<td height="18" width="48" align="right"><font face="Times New Roman">»</font></td>
-			<td height="18" align="left" nowrap><html:link action="/superAdminFunctImpl.do?parameter=createPerformaceTestUsers&memberCnt=90" styleClass="HTMLLINK" title="Send Invitation Email">&nbsp;Create PerformanceUsers</html:link></td>
+			<td height="18" align="left" nowrap><html:link action="/superAdminFunctImpl.do?parameter=createPerformaceTestUsers&memberCnt=30" styleClass="HTMLLINK" title="Send Invitation Email">&nbsp;Create PerformanceUsers</html:link></td>
 			<td height="18" width="48" align="right"><font face="Times New Roman"></font></td>
 			<td height="18" align="left" nowrap></td>
 		</tr>
