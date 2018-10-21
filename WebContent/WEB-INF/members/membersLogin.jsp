@@ -81,7 +81,7 @@
 		    if (optionSeletced == 'employee') {
 			    chooseEmployee(thislink);
 		    } else {
-			    document.forms[0].userName.value = "employer";
+			    document.forms[0].userName.value = "ilchemployer@gmail.com";
 			    document.forms[0].password.value = "allibilli";
 			    document.forms[0].submit();
 		    }
@@ -110,13 +110,13 @@
 		    document.forms[0].password.value = "allibilli";
 		    
 		    if (optionSeletced == 'weekly') {
-			    document.forms[0].userName.value = "employeeWeekly";
+			    document.forms[0].userName.value = "ilchweekly@gmail.com";
 		    } else if (optionSeletced == 'biweekly') {
-			    document.forms[0].userName.value = "employeeBiWeekly";
+			    document.forms[0].userName.value = "ilchbiweekly@gmail.com";
 		    } else if (optionSeletced == 'monthly') {
-			    document.forms[0].userName.value = "employeeMonthly";
+			    document.forms[0].userName.value = "ilchmonthly@gmail.com";
 		    } else if (optionSeletced == 'days15') {
-			    document.forms[0].userName.value = "employeeDays15";
+			    document.forms[0].userName.value = "ilchdays15@gmail.com";
 		    } else {
 			    alert("You must choose an option, try it again");
 			    return false;

@@ -115,6 +115,9 @@
 	<definition name="addSupportingDocsDef" extends="templateDefinition">
 		<put name="body" value="/WEB-INF/members/addSupportingDocs.jsp" />
 	</definition>
+	<definition name="addUpdateSkillTagsDef" extends="templateDefinition">
+		<put name="body" value="/WEB-INF/members/addUpdateSkillTags.jsp" />
+	</definition>	
 	<definition name="generalForwardDef" extends="templateDefinition">
 		<put name="body" value="body.jsp" />
 	</definition>

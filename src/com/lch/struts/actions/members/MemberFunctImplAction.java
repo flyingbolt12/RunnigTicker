@@ -1156,6 +1156,16 @@ public class MemberFunctImplAction extends BaseAction {
 		putObjInRequest("attachOtherDocs", request, "yes");
 		return forward;
 	}
+	public ActionForward addUpdateSkillTags(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		ActionForward forward = new ActionForward();
+		forward = mapping.findForward("addUpdateSkillTags");
+		log.info("attachOtherDocs - Strat working");
+		UserProfile userProfile = getUserProfile(request);
+		setIdsIntoRequest(request);
+		putObjInRequest("attachOtherDocs", request, "yes");
+		return forward;
+	}
 	
 }
 

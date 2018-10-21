@@ -661,6 +661,9 @@
 			<forward name="addSupportingDocs" path="addSupportingDocsDef">
 			</forward>
 			
+			<forward name="addUpdateSkillTags" path="addUpdateSkillTagsDef">
+			</forward>
+			
 			<forward name="collectYearAndMonth" path="collectYearAndMonthDef">
 			</forward>
 
