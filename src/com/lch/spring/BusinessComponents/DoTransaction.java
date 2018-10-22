@@ -85,6 +85,7 @@ import com.lch.general.enums.TimeSheetTypes;
 import com.lch.general.generalBeans.CategoriesAndEmployees;
 import com.lch.general.generalBeans.EmployeeAssociation;
 import com.lch.general.generalBeans.ImmigrationDetailsBean;
+import com.lch.general.generalBeans.SkillTagsBean;
 import com.lch.general.generalBeans.UserProfile;
 import com.lch.general.genericUtils.BiWeeklyTimeSheetHours;
 import com.lch.general.genericUtils.DateUtils;
@@ -2606,6 +2607,53 @@ public class DoTransaction {
 		SqlParameterSource parametersSource = new BeanPropertySqlParameterSource(bean);
 		return getNamedParameterJdbcTemplate().update(SQLQueries.UPDATE_IMMIGRATION_DETAILS, parametersSource);
 	}
+	
+	// Skill Tags
+	public SkillTagsBean listSkillTags(long userId){
+		SkillTagsBean skillTags = new SkillTagsBean();
+		try{
+			skillTags = (SkillTagsBean)getJdbcTemplate().queryForObject(
+				SQLQueries.LIST_SKILLTAGS_USER, new Object[] { userId }, 
+				new BeanPropertyRowMapper<SkillTagsBean>(SkillTagsBean.class));
+		}catch(Exception e){
+			return null;
+		}
+		return skillTags;
+	}
+	
+	
+	public long saveOrUpdateSkillTags(SkillTagsBean bean) {
+		if (countSkillTagsUser(bean) > 0) {
+			return updateSkillTags(bean);
+		} else if (countSkillTagsUser(bean) == 0) {
+			return insertSkillTags(bean);
+		} else {
+			return -1;
+		}
+	}
+	
+	public int countSkillTagsUser(SkillTagsBean bean) {
+		int usrCount = 0;
+		usrCount = jdbcTemplate.queryForInt(SQLQueries.COUNT_IMMIGRATION_USER, bean.getUserId());
+		return usrCount;
+	}
+	private long insertSkillTags(SkillTagsBean bean) {
+		log.info("Start Doing Transaction - insertSkillTags");
+		long id = -1;
+		KeyHolder keyHolder = new GeneratedKeyHolder();
+		SqlParameterSource parametersSource = new BeanPropertySqlParameterSource(bean);
+		getNamedParameterJdbcTemplate().update(SQLQueries.INSERT_SKILLTAGS_DETAILS, parametersSource, keyHolder);
+		id = keyHolder.getKey().intValue();
+		return id;
+	}
+	
+	private long updateSkillTags(SkillTagsBean bean) {
+		log.info("Start Doing Transaction - saveOrUpdateImmigrationDetails");
+		SqlParameterSource parametersSource = new BeanPropertySqlParameterSource(bean);
+		return getNamedParameterJdbcTemplate().update(SQLQueries.UPDATE_SKILLTAGS_DETAILS, parametersSource);
+	}
+	
+	// END OF SKILL TAGS
 	public List<CategoriesAndEmployees> getCategorySpecificEmployees( int month, int previousMonth, int year, int previousYear, long businessId) {
 		Object[] obj = { month, previousMonth, year, previousYear,  new Long(businessId) };
 		String query = SQLQueries.LIST_ALL_CATEGORY_TIMESEETS_AND_EMPLOYEES;

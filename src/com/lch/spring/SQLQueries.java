@@ -282,6 +282,11 @@ public interface SQLQueries {
 	static final String UPDATE_IMMIGRATION_DETAILS = "update immigrationdetails i set i.visaType=:visaType,i.passportExpiryDate=:passportExpiryDate,i.visaIssuedDate=:visaIssuedDate,i.visaExpiryDate=:visaExpiryDate,i.passportIssueDate=:passportIssueDate,i.passportNumber=:passportNumber where i.userId=:userId";
 	static final String COUNT_IMMIGRATION_USER = "select count(1) from immigrationdetails where userId=?";
 	static final String LIST_IMMIGRATION_USER = "select * from immigrationdetails where userId=?";
+
+	static final String INSERT_SKILLTAGS_DETAILS = "INSERT INTO `skillTags` (`tags`,`userId`) VALUES (:tags,:userId)";
+	static final String UPDATE_SKILLTAGS_DETAILS = "update skillTags i set i.tags=:tags where i.userId=:userId";	
+	static final String LIST_SKILLTAGS_USER = "select * from skillTags where userId=?";
+	static final String COUNT_SKILLTAGS_USER = "select count(1) from skillTags where userId=?";
 	static final String LIST_MY_EMPLOYEE_EMAILS_HAVING_IMMIGRATION_DETAILS = "select  * from (users u, userpersonaldata up) left join immigrationdetails i on(u.iduser = i.userId) where u.businessId = ? and u.personalDetailsId = up.idUserData and u.role='MEMBER' and i.idimmigrationdetails is not null";
 	static final String LIST_MY_EMPLOYEE_EMAILS_NOT_HAVING_IMMIGRATION_DETAILS = "select  * from (users u, userpersonaldata up) left join immigrationdetails i on(u.iduser = i.userId) where u.businessId = ? and u.personalDetailsId = up.idUserData and u.role='MEMBER' and i.idimmigrationdetails is null";
 	

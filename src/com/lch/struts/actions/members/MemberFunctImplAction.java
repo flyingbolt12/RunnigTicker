@@ -33,6 +33,7 @@ import com.lch.general.enums.SubmissionFor;
 import com.lch.general.enums.TimeSheetStatus;
 import com.lch.general.enums.TimeSheetTypes;
 import com.lch.general.generalBeans.ImmigrationDetailsBean;
+import com.lch.general.generalBeans.SkillTagsBean;
 import com.lch.general.generalBeans.UserProfile;
 import com.lch.general.generalBeans.VMInputBean;
 import com.lch.general.genericUtils.DateUtils;
@@ -1135,6 +1136,7 @@ public class MemberFunctImplAction extends BaseAction {
 		return forward;
 	}
 
+
 	public ActionForward attachImmigrationDocs(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 	
 		ActionForward forward = new ActionForward();
@@ -1146,6 +1148,47 @@ public class MemberFunctImplAction extends BaseAction {
 		return forward;
 	}
 	
+	
+	public ActionForward showUpdateSkillsPage(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+		ActionForward forward = new ActionForward();
+		forward = mapping.findForward("showUpdateSkillsPage");
+		long userId = getUserProfile(request).getUserId();
+		// To handel teh request from Admin page
+		if(request.getParameter("isFromAdmin")!=null) {
+			userId = getLongAsRequestParameter("userId", request);
+		}
+		
+		SkillTagsBean skillTagsBean = getSpringCtxDoTransactionBean()
+				.listSkillTags(userId);
+		putObjInRequest("skillTags", request, skillTagsBean);
+		return (forward);
+	
+	}
+	
+	public ActionForward saveOrUpdateSkillTags(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+		ActionForward forward = new ActionForward();
+		forward = mapping.findForward("memberFunctions");
+		log.info("saveOrUpdateSkillTags - Strat working");
+		UserProfile userProfile = getUserProfile(request);
+
+		SkillTagsBean bean = new SkillTagsBean();
+		bean.setIdskilltags(getLongAsRequestParameter("idskilltags", request));
+		bean.setTags(getStrAsRequestParameter("tags", request));
+		bean.setUserId(getLongAsRequestParameter("userId", request));;
+		
+		if(bean.getUserId() <= 0l || bean.getTags() == null || bean.getTags().length() == 0) {
+			putStatusObjInRequest(request,"No Skills Supplied");
+			return  mapping.findForward("showUpdateSkillsPage");
+		}
+		getSpringCtxDoTransactionBean().saveOrUpdateSkillTags(bean);
+		
+		putObjInRequest("ImmigrationDetails", request, "yes");
+		return forward;
+	}
+
+	
 	public ActionForward attachOtherDocs(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
 		ActionForward forward = new ActionForward();
@@ -1156,10 +1199,10 @@ public class MemberFunctImplAction extends BaseAction {
 		putObjInRequest("attachOtherDocs", request, "yes");
 		return forward;
 	}
-	public ActionForward addUpdateSkillTags(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public ActionForward addUpdateSkills(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
 		ActionForward forward = new ActionForward();
-		forward = mapping.findForward("addUpdateSkillTags");
+		forward = mapping.findForward("addUpdateSkills");
 		log.info("attachOtherDocs - Strat working");
 		UserProfile userProfile = getUserProfile(request);
 		setIdsIntoRequest(request);

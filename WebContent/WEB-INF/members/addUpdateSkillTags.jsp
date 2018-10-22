@@ -1,140 +1,125 @@
-<%@ include file="jspSuper.jsp" %>
+<%@page import="com.lch.general.generalBeans.SkillTagsBean"%>
+<%@page import="java.util.Map"%>
+<%@page import="com.lch.general.generalBeans.UserProfile"%>
+<%@page import="java.util.List"%>
+<%@page import="java.util.LinkedHashMap"%>
+<%@page import="org.apache.commons.collections.map.ListOrderedMap"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@page import="com.lch.general.generalBeans.UserProfile"%><style>
-.EmployeeTextBox {
+<style>
+<!--
+
+
+#text {
+	width:600px;
+	overflow:hidden;
+	background-color:#FFF;
+	color:#222;
+	font-family:Courier, monospace;
+	font-weight:normal;
+	font-size:18px;
+	resize:none;
+	line-height:40px;
+	padding-left:100px;
+	padding-right:100px;
+	padding-top:45px;
+	padding-bottom:34px;
+	background-image:url(https://static.tumblr.com/maopbtg/E9Bmgtoht/lines.png), url(https://static.tumblr.com/maopbtg/nBUmgtogx/paper.png);
+	background-repeat:repeat-y, repeat;
+	-webkit-border-radius:12px;
+	border-radius:12px;
+	-webkit-box-shadow: 0px 2px 14px #000;
+	box-shadow: 0px 2px 14px #000;
+	border-top:1px solid #FFF;
+	border-bottom:1px solid #FFF;
+}
+
+.SpanStyle {
 	font-family: Tahoma;
 	font-size: 10pt;
-	color: #008080;
-	border: 1px solid #808080;
-	padding-left: 4px;
-	padding-right: 4px;
-	padding-top: 1px;
-	padding-bottom: 1px
 }
-
+-->
 </style>
-<script type="text/javascript">
-function submitForm(requestFor){
-		document.forms[0].Next.disabled=true;
-		document.forms[0].requestFor.value=requestFor;
-		document.forms[0].submit();
-}
-</script>
-<% System.out.println(request.getAttribute("isTimeSheetSubmitted")); %>
-<c:if test="${not empty isTimeSheetSubmitted}">
-	<script>
-		dhtmlx.message({type:"error", expire:6000, text:"TimeSheet Submitted" });
-	</script>
-</c:if>
-<c:if test="${not empty hasErrorSubmitTimeSheet}">
-	<script>
-		dhtmlx.message({type:"error", expire:6000, text:"Error Processing TimeSheet" });
-	</script>
-</c:if>
-<c:if test="${not empty saveAsDraft}">
-	<script>
-		dhtmlx.message({type:"error", expire:6000, text:"TimeSheet Saved as a DRAFT" });
-	</script>
-</c:if>
-Attach Proof documents : 
-<hr />
-<center>
-	
-	<p>You can attach multiple files. <br>Drag-and-drop is supported in FF, Chrome.</p> <br>
-	
-	<div id="file-uploader-demo1">		
-		<noscript>			
-			<p>Please enable JavaScript to use file uploader.</p>
-			<!-- or put a simple form for upload here -->
-		</noscript>         
-	</div>
 
-	<div class="qq-upload-extra-drop-area">Drop files here too</div>
-  
-</center>
-<br>
-<hr />
-<br>
-<div align="center">
+<c:if test="${not empty status}">
+	<script>
+		dhtmlx.message({type:"error", expire:6000, text:"${status}" });
+	</script>
+</c:if>
 <%
-com.lch.general.generalBeans.UserProfile up = (com.lch.general.generalBeans.UserProfile) session
-.getAttribute("userProfile"); 
-	String disabled = "none";
-					System.out.println(request.getAttribute("saveAsDraft"));
-	if((String)request.getAttribute("saveAsDraft")!=null && ((String)request.getAttribute("saveAsDraft")).equals("YES")){
-		disabled = "disabled";
+	long idskillTags=0;
+	String skills = "";
+	long  businessId = 0;
+	long userId = 0;
+
+	UserProfile userProfile = (UserProfile) session.getAttribute("userProfile");
+	businessId = userProfile.getBusinessId();
+	userId = userProfile.getUserId();
+
+	SkillTagsBean skillTags= (SkillTagsBean) request.getAttribute("skillTags");
+	
+	if (skillTags != null) {
+		idskillTags = skillTags.getIdskilltags();
+		skills = skillTags.getTags();
 	}
-	boolean attachImmigrationDocs = false;
-	if((String)request.getAttribute("attachImmigrationDocs")!=null && ((String)request.getAttribute("attachImmigrationDocs")).equals("yes")){
-		attachImmigrationDocs = true;
-	}
-	boolean attachOtherDocs = false;
-	if((String)request.getAttribute("attachOtherDocs")!=null && ((String)request.getAttribute("attachOtherDocs")).equals("yes")){
-		attachOtherDocs = true;
+	else{
+		skillTags = new SkillTagsBean();
 	}
 %>
-<form action="memberFunctImpl.do">
-	<input type="hidden" name="userId" value="<%=((Long) request.getAttribute("userId")).intValue()%>">
-	<input type="hidden" name="businessId" value="<%=((Long) request.getAttribute("businessId")).intValue()%>">
-	<input type="hidden" name="parameter" value="notifyEmployer">
-	<input type="hidden" name="requestFor" value="">
-	<% if(attachImmigrationDocs || attachOtherDocs) {%>
-		<input type="button" value=" Proceed Next " size="60" name="Next" class="ButtonStyle" onclick="submitForm('')" >
-	<%} else { %>
-	<% if(disabled.equals("disabled")) {%>
-		<input type="button" value=" Done! Go to DashBoard " size="60" name="Next" class="ButtonStyle" onclick="submitForm('Skip')">
-	<%} else { %>
-	<%if(!userProfile.isHideSkipNotifyEmployerButton())  {%>
-		<input type="button" value=" Notify My Employer " size="60" name="Next" class="ButtonStyle" onclick="submitForm('')" >
-		<input type="button" value=" Skip Notifying Employer " size="60" name="Next" class="ButtonStyle" onclick="submitForm('Skip')">
-	<% } else {%>
-		<input type="button" value=" Proceed Next " size="60" name="Next" class="ButtonStyle" onclick="submitForm('')" >
-	<% } %>
-	<% } 
-		} %>
-		<%! private String buildParams(HttpServletRequest request){
+<div align="center">
+
+<form action="memberFunctImpl.do" method="post">
+<input type="hidden" name="idskillTags" value="<%=idskillTags%>">
+<input type="hidden" name="userId" value="<%=userId%>">
+<input type="hidden" name="parameter" value="saveOrUpdateSkillTags">
+<table border="0" cellspacing="1" style="font-family: Tahoma; font-size: 10pt;" id="table1" width= "100%">
+
+	<tr>
+		<td   bgcolor="#808080" colspan="3">
+		<p align="center"><font size="2" color="#FFFFFF"><b>Add or Update Skills (Comma separated or line by line)</b></font>
+		</td>
+	</tr>
+	
+	<tr>		
+		<td>
+			<br>
+		</td>
+	</tr>
 		
-				StringBuilder params = new StringBuilder();
-				if(request.getAttribute("weeklyHrsSummaryId")!=null){
-					params.append("weeklyHrsSummaryId:").append(((Long) request.getAttribute("weeklyHrsSummaryId")).intValue()).append(",");
-				}
-				if(request.getAttribute("userId")!=null){
-					params.append("userId:").append(((Long) request.getAttribute("userId")).intValue()).append(",");
-				}
-				if(request.getAttribute("saveAsDraft")!=null){
-					params.append("saveAsDraft:").append(((Long) request.getAttribute("saveAsDraft")).intValue()).append(",");
-				}
-				if(request.getAttribute("businessId")!=null){
-					params.append("businessId:").append(((Long) request.getAttribute("businessId")).intValue()).append(",");
-				}
-				if(request.getAttribute("attachImmigrationDocs")!=null && ((String)request.getAttribute("attachImmigrationDocs")).equals("yes")){
-					params.append("attachImmigrationDocs:'").append(((String) request.getAttribute("attachImmigrationDocs"))).append("',");
-				}
-				if(request.getAttribute("attachOtherDocs")!=null && ((String)request.getAttribute("attachOtherDocs")).equals("yes")){
-					params.append("attachOtherDocs:'").append(((String) request.getAttribute("attachOtherDocs"))).append("',");
-				}
-				System.out.println(params.toString());
-				return params.toString();
-			
-			}	
-		%>
+	<tr>
 		
+		<td align="right">
+		
+		<textarea placeholder="Enter Skills" id="text" name="tags" 
+		value= "<%=skills%>" rows="4" style="overflow: scroll; word-wrap: break-word; resize: none; height: 100%;"></textarea>  
+		
+		<%-- <input type="textarea" name="passportNumber" value="<%=skills%>" size="20" tabindex="2" class="EmployeeTextBox" > --%>
+		
+		</td>
+	</tr>
+
+
+	<tr>		
+		<td>
+			<br>
+		</td>
+	</tr>
+	
+	<tr>
+		<td  bgcolor="#F4F4F4" colspan="2"></td>
+		<td   colspan="1" bgcolor="#F4F4F4">
+		<p>
+			<font size="1"> 
+				<input type="submit" value="Add or Update" name="update" class="ButtonStyle" tabindex="10">
+				<input type="submit" value="Cancel " onclick="redirectOnClickCancel()" name="cancel" class="ButtonStyle" tabindex="10">
+			</font>
+		</td>
+	</tr>
+</table>
 </form>
 </div>
-<hr />
-<script src="fileUpload/fileuploader.js" type="text/javascript"></script>
- <script>        
-        function createUploader(){            
-            var uploader = new qq.FileUploader({
-                element: document.getElementById('file-uploader-demo1'),
-                action: 'fileUpload.do',
-                params : {<%= buildParams(request)%>},
-                debug: false,
-                extraDropzones: [qq.getByClass(document, 'qq-upload-extra-drop-area')[0]]
-            });           
-        }
-        
-        // in your app create uploader as soon as the DOM is ready
-        // don't wait for the window to load  
-        window.onload = createUploader;     
-    </script>   
+<script type="text/javascript">
+$(document).ready(function(){
+	  $('#text').focus();
+	  $('#text').autosize();
+});
+</script>

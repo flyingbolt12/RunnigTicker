@@ -661,7 +661,7 @@
 			<forward name="addSupportingDocs" path="addSupportingDocsDef">
 			</forward>
 			
-			<forward name="addUpdateSkillTags" path="addUpdateSkillTagsDef">
+			<forward name="addUpdateSkills" path="addUpdateSkillsDef">
 			</forward>
 			
 			<forward name="collectYearAndMonth" path="collectYearAndMonthDef">
@@ -713,6 +713,7 @@
 			<forward name="resetPasswordOfAnAccount" path="resetPasswordOfAnAccountDef"/>
 			<forward name="showManageDocs" path="showManageDocsDef"/>
 			<forward name="showUpdateImmigrationDetailsPage" path="showUpdateImmigrationDetailsPageDef"/>
+			<forward name="showUpdateSkillsPage" path="addUpdateSkillsDef"/>
 			
 			
 		</action>
