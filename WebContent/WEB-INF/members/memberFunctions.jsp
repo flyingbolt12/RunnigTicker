@@ -61,7 +61,11 @@
 		dhtmlx.message({type:"error", expire:6000, text:"Immigration Details Operation is Success" });
 	</script>
 </c:if>
-
+<c:if test="${skillTags == 'yes'}">
+	<script>
+		dhtmlx.message({type:"error", expire:6000, text:"Skill Tags Operation is Success" });
+	</script>
+</c:if>
 	<div style="max-width:500px;margin-left:31%;">
 		    <html:link onclick="submitForm('editMemberProfileForUpdate')" href="#" styleClass="memberLinks"><div class = "square" title="You can edit your profile.">   
 <span class="spanStyle"><img src="images/time.png" ></span><span class="spanStyle">Edit my Profile</span>
@@ -111,7 +115,7 @@
 			<html:link styleClass="memberLinks" action="memberFunctImpl.do?parameter=attachOtherDocs"><div class = "square" title="Attach Files">
 				<span class="spanStyle"><img src="images/time.png" ></span><span  class="spanStyle">Attach Other Documents</span>
 			</div></html:link>
-			<html:link styleClass="memberLinks" action="memberFunctImpl.do?parameter=addUpdateSkills"><div class = "square" title="Add or Update Skills">
+			<html:link styleClass="memberLinks" action="memberFunctImpl.do?parameter=showUpdateSkillsPage"><div class = "square" title="Add or Update Skills">
 				<span class="spanStyle"><img src="images/time.png" ></span><span  class="spanStyle">Add or Update Skills</span>
 			</div></html:link>
 		</div>			

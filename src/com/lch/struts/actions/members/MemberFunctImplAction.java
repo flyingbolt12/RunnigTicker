@@ -1184,7 +1184,7 @@ public class MemberFunctImplAction extends BaseAction {
 		}
 		getSpringCtxDoTransactionBean().saveOrUpdateSkillTags(bean);
 		
-		putObjInRequest("ImmigrationDetails", request, "yes");
+		putObjInRequest("skillTags", request, "yes");
 		return forward;
 	}
 

@@ -2634,7 +2634,7 @@ public class DoTransaction {
 	
 	public int countSkillTagsUser(SkillTagsBean bean) {
 		int usrCount = 0;
-		usrCount = jdbcTemplate.queryForInt(SQLQueries.COUNT_IMMIGRATION_USER, bean.getUserId());
+		usrCount = jdbcTemplate.queryForInt(SQLQueries.COUNT_SKILLTAGS_USER, bean.getUserId());
 		return usrCount;
 	}
 	private long insertSkillTags(SkillTagsBean bean) {

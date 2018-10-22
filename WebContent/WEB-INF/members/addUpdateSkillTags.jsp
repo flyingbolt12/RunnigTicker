@@ -90,7 +90,7 @@
 		<td align="right">
 		
 		<textarea placeholder="Enter Skills" id="text" name="tags" 
-		value= "<%=skills%>" rows="4" style="overflow: scroll; word-wrap: break-word; resize: none; height: 100%;"></textarea>  
+		rows="4" style="overflow: scroll; word-wrap: break-word; resize: none; height: 100%;"><%=skills%></textarea>  
 		
 		<%-- <input type="textarea" name="passportNumber" value="<%=skills%>" size="20" tabindex="2" class="EmployeeTextBox" > --%>
 		
