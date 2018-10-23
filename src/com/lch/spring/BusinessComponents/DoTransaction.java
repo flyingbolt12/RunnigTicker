@@ -775,6 +775,24 @@ public class DoTransaction {
 		return l;
 	}
 	
+	public List<Map<String, Object>> listMylistEmployeeNamesHavingSkills(String queryFor, long buisnessId) {
+		try{
+			//String query = SQLQueries.QUICK_SEARCH_EMPLOYEE_NAMES;
+			
+			queryFor = "like '%"+queryFor+"%'";
+			String query  = "select lastName lName, firstName fName, users.iduser userId, iduserData from userpersonaldata u, users users, skillTags s "
+					+ " where users.businessId = "+buisnessId+" and users.personalDetailsId = u.iduserData and users.role = 'MEMBER' and users.personalDetailsId = s.userId";
+			log.info(query);
+			return (getJdbcTemplate().queryForList(query));
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		List<Map<String, Object>> l = new ArrayList<Map<String, Object>>();
+		
+		return l;
+	}
+	
 	public int approveUserByAdmin(long userId) {
 		int rcdUpdCnt = 0;
 		try {

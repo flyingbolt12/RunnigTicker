@@ -18,6 +18,13 @@ function browseUploads(userId, ajaxId)
 	document.getElementsByName("customForm")[0].submit();
 };
 
+function listSkills(userId, ajaxId)
+{
+	document.getElementsByName("customForm")[0].action="adminFunctImpl.do?parameter=listSkills&isFromSearch=true";
+	document.getElementsByName("customForm")[0].userId.value = userId;
+	document.getElementsByName("customForm")[0].submit();
+};
+
 
 function notifyBusinessId(userId, ajaxId)
 {

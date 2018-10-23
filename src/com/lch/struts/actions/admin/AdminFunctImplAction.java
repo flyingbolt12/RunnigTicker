@@ -101,6 +101,37 @@ public class AdminFunctImplAction extends BaseAction {
 		return forward;
 	}
 	
+	public ActionForward quickSkillsSearch(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		ActionForward forward = new ActionForward();
+		log.info("-quickSkillsSearch-");
+		forward = mapping.findForward("generalJSP4AJAXMsg");
+		String param = request.getParameter("term");
+		
+		List<Map<String, Object>> employees = getSpringCtxDoTransactionBean().listMylistEmployeeNamesHavingSkills(param,getUserProfile(request).getBusinessId());
+		
+		StringBuilder builder = null;
+		log.info("Input Query : {} -- Results : {}", param, employees.size());
+		if(employees.size() == 0){
+			builder = new StringBuilder();
+			builder.append("[{\"label\":\"").append("None found, Browse all Skills").append("\", \"value\" :\"").append("None Found").append("\"}]");
+		} else {
+			builder = new StringBuilder("[");
+			for(Map<String, Object> employee : employees){
+				builder.append("{\"label\":\"").append(employee.get("fName")).append(employee.get("lName")).append("\", \"value\" :\"").append(employee.get("userId")).append("\"}");
+				builder.append(",");
+			}
+			String result = builder.toString();
+			if(result.length() > 1)
+				result = result.substring(0, result.lastIndexOf(","));
+			builder = new StringBuilder(result).append("]");
+		}
+		
+		log.info(builder.toString());
+		putAjaxStatusObjInRequest(request, builder.toString());
+		return forward;
+	}
+	
 	public ActionForward quickSearch(ActionMapping mapping, ActionForm form, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		ActionForward forward = new ActionForward();

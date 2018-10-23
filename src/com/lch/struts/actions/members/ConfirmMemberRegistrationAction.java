@@ -16,6 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.support.GenericXmlApplicationContext;
 
+import com.lch.FakerTest;
 import com.lch.general.constants.VMConstants;
 import com.lch.general.dbBeans.Address;
 import com.lch.general.email.EmailDetails;
@@ -29,6 +30,8 @@ import com.lch.struts.formBeans.admin.AdminRegistrationBean;
 import com.lch.struts.formBeans.members.EmployeeRegistrationBean;
 
 public class ConfirmMemberRegistrationAction extends BaseAction {
+	
+
 	
 	private static Logger log = LoggerFactory
 	.getLogger(ConfirmMemberRegistrationAction.class);
@@ -171,6 +174,7 @@ public class ConfirmMemberRegistrationAction extends BaseAction {
 			ActionForm form, HttpServletRequest request,
 			HttpServletResponse response, GenericXmlApplicationContext ctx) throws Exception
 	{
+		FakerTest faker = new FakerTest();
 		_ctx = ctx;
 				long businessId =  (Long)getObjFrmRequest("businessId", request);
 		if (businessId == 0)
@@ -195,7 +199,8 @@ public class ConfirmMemberRegistrationAction extends BaseAction {
 			for (String id : testMembers.keySet())
 			{
 				bean.setContactEmail(testMembers.get(id));
-				bean.setFirstName("First Name");
+				bean.setFirstName(faker.randomIdentifier());
+				bean.setLastName(faker.randomIdentifier());
 				bean.setLogin(id);
 				putObjInSession("form", request,bean);
 				
@@ -211,7 +216,7 @@ public class ConfirmMemberRegistrationAction extends BaseAction {
 				EmployeeRegistrationBean eBean = new EmployeeRegistrationBean();
 				BeanUtils.copyProperties(eBean, bean);
 				eBean.setListAddress(bean.getListAddress());
-				eBean.setClientName("Adesa");
+				eBean.setClientName(faker.randomIdentifier());
 				eBean.setStartDate("12/12/2012");
 				
 				confirmRegistration(mapping,eBean,request,response);
@@ -228,6 +233,7 @@ public class ConfirmMemberRegistrationAction extends BaseAction {
 			ActionForm form, HttpServletRequest request,
 			HttpServletResponse response, GenericXmlApplicationContext ctx, String memberType, String memberId) throws Exception
 	{
+		FakerTest faker = new FakerTest();
 		_ctx = ctx;
 				long businessId =  (Long)getObjFrmRequest("businessId", request);
 		if (businessId == 0)
@@ -266,8 +272,8 @@ public class ConfirmMemberRegistrationAction extends BaseAction {
 			if(memberType.equals(TimeSheetTypes.DAYS15.name())){
 				bean.setContactEmail(testMembers.get("days15.member"));
 			}
-				bean.setFirstName("User ");
-				bean.setLastName(userNumber + "");
+				bean.setFirstName(faker.randomIdentifier());
+				bean.setLastName(faker.randomIdentifier());
 				++userNumber;
 				//bean.setLogin(memberId);
 				bean.setLogin(bean.getContactEmail());
@@ -293,6 +299,7 @@ public class ConfirmMemberRegistrationAction extends BaseAction {
 			ActionForm form, HttpServletRequest request,
 			HttpServletResponse response, GenericXmlApplicationContext ctx,long adminNo, long businessId) throws Exception
 	{
+		FakerTest faker = new FakerTest();
 		_ctx = ctx;
 		int memberCnt = getIntAsRequestParameter("memberCnt", request);
 		
@@ -316,7 +323,9 @@ public class ConfirmMemberRegistrationAction extends BaseAction {
 			{
 
 				bean.setContactEmail("member"+i+"@gmail.com");
-				bean.setFirstName("FirstName");
+				 
+				bean.setFirstName(faker.randomIdentifier());
+				bean.setLastName(faker.randomIdentifier());
 				bean.setLogin("monthly_"+adminNo+"_"+i);
 				putObjInSession("form", request,bean);
 				
