@@ -20,11 +20,17 @@ function browseUploads(userId, ajaxId)
 
 function listSkills(userId, ajaxId)
 {
-	document.getElementsByName("customForm")[0].action="adminFunctImpl.do?parameter=listSkills&isFromSearch=true";
+	document.getElementsByName("customForm")[0].action="adminFunctImpl.do?parameter=listSkills&isFromSearch=true&featureRequest=EMPLOYEE_SKILLS";
 	document.getElementsByName("customForm")[0].userId.value = userId;
 	document.getElementsByName("customForm")[0].submit();
 };
 
+function listSimilarSkills(userId, ajaxId)
+{
+	document.getElementsByName("customForm")[0].action="adminFunctImpl.do?parameter=listSimilarSkills&isFromSearch=true&featureRequest=EMPLOYEE_SKILLS";
+	document.getElementsByName("customForm")[0].userId.value = userId;
+	document.getElementsByName("customForm")[0].submit();
+};
 
 function notifyBusinessId(userId, ajaxId)
 {
@@ -70,6 +76,7 @@ function sendImmigrationUpdateRequest(userId, ajaxId)
 	    	    };
 	    	    sendAjaxRequest(obj);
 }
+
 function sendPasswordResetRequest(userId, ajaxId)
 {
 	dhtmlx.message({type:"error", expire:6000, text:"Wait, Processing..." });

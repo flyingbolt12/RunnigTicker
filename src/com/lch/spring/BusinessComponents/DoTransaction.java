@@ -517,7 +517,21 @@ public class DoTransaction {
 			}
 
 		}
-		// log.info(query);
+		log.info(query);
+		return (getJdbcTemplate().queryForList(query, obj));
+	}
+	public List<Map<String, Object>> getAllMyEmployeesSkillsList(long businessId, String orderBy, String order) {
+		Object[] obj = { new Long(businessId) };
+		String query = SQLQueries.LISTALLEMPLOYEESKILLS;
+		if (orderBy != null) {
+			if (orderBy.equalsIgnoreCase("clientName")) {
+				query += " order by cl." + orderBy + " " + order;
+			} else {
+				query += " order by up." + orderBy + " " + order;
+			}
+
+		}
+		log.info(query);
 		return (getJdbcTemplate().queryForList(query, obj));
 	}
 	
@@ -780,7 +794,7 @@ public class DoTransaction {
 			//String query = SQLQueries.QUICK_SEARCH_EMPLOYEE_NAMES;
 			
 			queryFor = "like '%"+queryFor+"%'";
-			String query  = "select lastName lName, firstName fName, users.iduser userId, iduserData from userpersonaldata u, users users, skillTags s "
+			String query  = "select lastName lName, firstName fName, users.iduser userId, iduserData, tags skills from userpersonaldata u, users users, skillTags s "
 					+ " where users.businessId = "+buisnessId+" and users.personalDetailsId = u.iduserData and users.role = 'MEMBER' and users.personalDetailsId = s.userId";
 			log.info(query);
 			return (getJdbcTemplate().queryForList(query));
@@ -2641,6 +2655,7 @@ public class DoTransaction {
 	
 	
 	public long saveOrUpdateSkillTags(SkillTagsBean bean) {
+		bean.setTags(bean.getTags().toLowerCase());
 		if (countSkillTagsUser(bean) > 0) {
 			return updateSkillTags(bean);
 		} else if (countSkillTagsUser(bean) == 0) {

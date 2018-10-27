@@ -108,16 +108,30 @@ public class AdminFunctImplAction extends BaseAction {
 		forward = mapping.findForward("generalJSP4AJAXMsg");
 		String param = request.getParameter("term");
 		
-		List<Map<String, Object>> employees = getSpringCtxDoTransactionBean().listMylistEmployeeNamesHavingSkills(param,getUserProfile(request).getBusinessId());
+		List<Map<String, Object>> employees;
+		
+		employees = (List<Map<String, Object>>)getObjFrmSession(AdminSearchFunction.EMPLOYEE_SKILLS.name(), request);
+		if(employees == null) {
+			employees = getSpringCtxDoTransactionBean().listMylistEmployeeNamesHavingSkills(param,getUserProfile(request).getBusinessId());
+			putObjInSession(AdminSearchFunction.EMPLOYEE_SKILLS.name(), request, employees);
+		}
+		
+		List<Map<String, Object>> filtered = new ArrayList<>();
+		
+		for(Map<String, Object> employee : employees){
+			if(((String)employee.get("skills")).contains(param)) {
+				filtered.add(employee);
+			}	
+		}
 		
 		StringBuilder builder = null;
 		log.info("Input Query : {} -- Results : {}", param, employees.size());
-		if(employees.size() == 0){
+		if(filtered.size() == 0){
 			builder = new StringBuilder();
 			builder.append("[{\"label\":\"").append("None found, Browse all Skills").append("\", \"value\" :\"").append("None Found").append("\"}]");
 		} else {
 			builder = new StringBuilder("[");
-			for(Map<String, Object> employee : employees){
+			for(Map<String, Object> employee : filtered){
 				builder.append("{\"label\":\"").append(employee.get("fName")).append(employee.get("lName")).append("\", \"value\" :\"").append(employee.get("userId")).append("\"}");
 				builder.append(",");
 			}
@@ -696,6 +710,57 @@ public class AdminFunctImplAction extends BaseAction {
 	{
 		removeObjFrmSession(AdminSearchFunction.featureRequest.name(), request);
 	}
+	public ActionForward listSimilarSkills(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		ActionForward forward = new ActionForward();
+		forward = mapping.findForward("listSimilarSkills");
+		UserProfile userProfile = getUserProfile(request);
+		long businessId = userProfile.getBusinessId();
+		String order = (getStrAsRequestParameter("order", request) == null) ? ("asc") : (getStrAsRequestParameter(
+				"order", request));
+		String orderBy = (String) getStrAsRequestParameter("orderby", request);
+		log.info(orderBy + " : " + order);
+		List<Map<String, Object>> listAllMyEmployees = getSpringCtxDoTransactionBean().getAllMyEmployeesSkillsList(businessId,
+				orderBy, order);
+		
+		int i = 0;
+		while (i < listAllMyEmployees.size()) {
+			String recentHrs = "";
+			Map m = listAllMyEmployees.get(i);
+			if (m.containsKey("recentHrs")) {
+				Object objHours = m.get("recentHrs");
+				if(objHours!=null && objHours instanceof byte[])
+					recentHrs = new String((byte[])objHours);
+				else if(objHours!=null && objHours instanceof String)
+					recentHrs = objHours.toString();
+				log.info("Recent Hours {}", recentHrs);
+				if (!recentHrs.equalsIgnoreCase("null")) {
+					m.put("recentHrs", recentHrs);
+				}
+			}
+			i++;
+		}
+		
+		resetSessionObjects(request);
+
+
+		String featureRequest = request.getParameter(AdminSearchFunction.featureRequest.name());
+		log.info("Feature Requested {}", featureRequest);
+		putObjInSession(AdminSearchFunction.featureRequest.name(), request, featureRequest);
+
+		
+		if (order != null && order.equalsIgnoreCase("desc")) {
+			log.info("Making ASC");
+			order = "asc";
+		} else {
+			log.info("Making DESC");
+			order = "desc";
+		}
+		putObjInRequest("listAllMyEmployees", request, listAllMyEmployees);
+		putObjInRequest("order", request, order);
+		return (forward);
+	}
+
 	public ActionForward listAllEmployees(ActionMapping mapping, ActionForm form, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		ActionForward forward = new ActionForward();
@@ -2087,6 +2152,31 @@ public class AdminFunctImplAction extends BaseAction {
 		VMInputBean bean = new VMInputBean();
 		emailDetails.setSubject("Request from your employer : " + getUserProfile(request).getEmployerName());
 		String sb = getEmailTemplate(bean, VMConstants.VM_REQUEST_TO_UPDATE_PROFILE);
+		emailDetails.setEmailContent(new StringBuffer(sb));
+		emailDetails.setTo(bcc);
+		emailDetails.setReplyTo(getUserProfile(request).getEmployerEmail());
+		sendEmail(emailDetails);
+		putAjaxStatusObjInRequest(request, "Notified");
+		return (forward);
+	}
+
+	public ActionForward requestAnEmployeeToAddSkills(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		log.info("-requestAnEmployeeToAddSkills-");
+		
+		ActionForward forward = new ActionForward();
+		forward = mapping.findForward("generalJSP4AJAXMsg");
+		
+		long usrId = getLongAsRequestParameter("ajaxParam", request);
+		String usrEmail = getSpringCtxDoTransactionBean().getUserEmail(usrId);
+		
+		List<String> bcc = new ArrayList<String>();
+		
+		EmailDetails emailDetails = new EmailDetails();
+		bcc.add(usrEmail);
+		VMInputBean bean = new VMInputBean();
+		emailDetails.setSubject("Request from your employer : " + getUserProfile(request).getEmployerName());
+		String sb = getEmailTemplate(bean, VMConstants.VM_REQUEST_TO_ADD_SKILLS);
 		emailDetails.setEmailContent(new StringBuffer(sb));
 		emailDetails.setTo(bcc);
 		emailDetails.setReplyTo(getUserProfile(request).getEmployerEmail());

@@ -58,6 +58,10 @@
 	<definition name="createAnotherAdminDef" extends="templateDefinition">
 		<put name="body" value="/WEB-INF/admin/registration/createAnotherAdmin.jsp" />
 	</definition>
+	
+	<definition name="listSimilarSkillsDef" extends="templateDefinition">
+		<put name="body" value="/WEB-INF/admin/listAllMyEmployees/listSimilarSkillsEmployees.jsp" />
+	</definition>
 	<definition name="listAllEmployeesDef" extends="templateDefinition">
 		<put name="body" value="/WEB-INF/admin/listAllMyEmployees/listAllEmployees.jsp" />
 	</definition>

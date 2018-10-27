@@ -324,6 +324,9 @@
 			<forward name="listAllEmployees" path="listAllEmployeesDef">
 			</forward>
 
+			<forward name="listSimilarSkills" path="listSimilarSkillsDef">
+			</forward>
+			
 			<forward name="radialListing" path="radialListingDef">
 			</forward>
 			
