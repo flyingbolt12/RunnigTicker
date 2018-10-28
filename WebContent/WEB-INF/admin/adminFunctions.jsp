@@ -235,8 +235,8 @@ text-align: left;
                  ['regenerateValidationEmail','Regenerate Registration Validation Email', 'redo.png'],
                  ['notifyBusinessId','Notify Company Id', 'busId.png'],
                  ['browseUploads','Browse Uploads', 'browse.png'],
-                 ['listSkills','Browse Complete Skills', 'browse.png'],
-                 ['listSimilarSkills','Browse Similar Profiles', 'browse.png']
+                 ['listSimilarSkills','Browse Similar Skills', 'browse.png'],
+                 ['listAllSkills','Browse All Skills', 'browse.png']
              ];
   
 

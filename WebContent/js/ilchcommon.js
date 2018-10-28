@@ -27,7 +27,14 @@ function listSkills(userId, ajaxId)
 
 function listSimilarSkills(userId, ajaxId)
 {
-	document.getElementsByName("customForm")[0].action="adminFunctImpl.do?parameter=listSimilarSkills&isFromSearch=true&featureRequest=EMPLOYEE_SKILLS";
+	document.getElementsByName("customForm")[0].action="adminFunctImpl.do?parameter=listSimilarSkills&isFromSearch=true&featureRequest=EMPLOYEE_SKILLS&isSimilar=true";
+	document.getElementsByName("customForm")[0].userId.value = userId;
+	document.getElementsByName("customForm")[0].submit();
+};
+
+function listAllSkills(userId, ajaxId)
+{
+	document.getElementsByName("customForm")[0].action="adminFunctImpl.do?parameter=listSimilarSkills&isFromSearch=true&featureRequest=EMPLOYEE_SKILLS&isSimilar=false";
 	document.getElementsByName("customForm")[0].userId.value = userId;
 	document.getElementsByName("customForm")[0].submit();
 };
