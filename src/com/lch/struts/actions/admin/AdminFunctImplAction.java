@@ -114,6 +114,7 @@ public class AdminFunctImplAction extends BaseAction {
 		if(employees == null) {
 			employees = getSpringCtxDoTransactionBean().listMylistEmployeeNamesHavingSkills(param,getUserProfile(request).getBusinessId());
 			putObjInSession(AdminSearchFunction.EMPLOYEE_SKILLS.name(), request, employees);
+			putObjInSession(AdminSearchFunction.SKILL_SEARCHED_FOR.name(), request, param);
 		}
 		
 		List<Map<String, Object>> filtered = new ArrayList<>();
@@ -716,6 +717,7 @@ public class AdminFunctImplAction extends BaseAction {
 		forward = mapping.findForward("listSimilarSkills");
 		UserProfile userProfile = getUserProfile(request);
 		long businessId = userProfile.getBusinessId();
+		Boolean isSimilar = Boolean.valueOf(getStrAsRequestParameter("isSimilar", request));
 		String order = (getStrAsRequestParameter("order", request) == null) ? ("asc") : (getStrAsRequestParameter(
 				"order", request));
 		String orderBy = (String) getStrAsRequestParameter("orderby", request);
@@ -756,7 +758,27 @@ public class AdminFunctImplAction extends BaseAction {
 			log.info("Making DESC");
 			order = "desc";
 		}
-		putObjInRequest("listAllMyEmployees", request, listAllMyEmployees);
+		
+		List<Map<String, Object>> filteredList = new ArrayList<>(); 
+		if(isSimilar) {
+			String skillSearchedFor = (String)getObjFrmSession(AdminSearchFunction.SKILL_SEARCHED_FOR.name(), request);
+			while (i < listAllMyEmployees.size()) {
+				
+				Map m = listAllMyEmployees.get(i);
+				if (m.containsKey("skills")) {
+					String skills = (String)m.get("skills");
+					
+					if(skills.contains(skillSearchedFor.toLowerCase())) {
+						filteredList.add(m);	
+					}
+				}
+				i++;
+			}
+		}
+		
+		
+		
+		putObjInRequest("listAllMyEmployees", request, filteredList);
 		putObjInRequest("order", request, order);
 		return (forward);
 	}

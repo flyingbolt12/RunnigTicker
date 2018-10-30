@@ -23,8 +23,10 @@
 <script type="text/javascript" src="js/foggy/jquery.foggy.min.js"></script>
 
 <link href="css/lch.css" rel="stylesheet" type="text/css" />
+<link href="css/adminFunctions.css" rel="stylesheet" type="text/css" />
 <link href="js/tiptip/tipTip.css" rel="stylesheet" type="text/css" />
 <link rel="stylesheet" href="js/jstree/dist/themes/default/style.min.css" />
+<link rel="stylesheet" href="styles.css">
 
 <script language="JavaScript" type="text/javascript" src="js/lch/globals.js"></script>
 <script language="JavaScript" type="text/javascript" src="js/lch/ajax.js"></script>
