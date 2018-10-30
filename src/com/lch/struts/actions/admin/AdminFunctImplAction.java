@@ -758,7 +758,7 @@ public class AdminFunctImplAction extends BaseAction {
 			log.info("Making DESC");
 			order = "desc";
 		}
-		
+		i = 0;
 		List<Map<String, Object>> filteredList = new ArrayList<>(); 
 		if(isSimilar) {
 			String skillSearchedFor = (String)getObjFrmSession(AdminSearchFunction.SKILL_SEARCHED_FOR.name(), request);
@@ -774,11 +774,11 @@ public class AdminFunctImplAction extends BaseAction {
 				}
 				i++;
 			}
+			putObjInRequest("listAllMyEmployees", request, filteredList);
+		} else {
+			putObjInRequest("listAllMyEmployees", request, listAllMyEmployees);
 		}
 		
-		
-		
-		putObjInRequest("listAllMyEmployees", request, filteredList);
 		putObjInRequest("order", request, order);
 		return (forward);
 	}
