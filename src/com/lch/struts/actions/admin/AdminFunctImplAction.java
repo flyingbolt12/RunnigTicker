@@ -765,10 +765,10 @@ public class AdminFunctImplAction extends BaseAction {
 			while (i < listAllMyEmployees.size()) {
 				
 				Map m = listAllMyEmployees.get(i);
-				if (m.containsKey("skills")) {
-					String skills = (String)m.get("skills");
-					
-					if(skills.contains(skillSearchedFor.toLowerCase())) {
+				if (m.containsKey("tags")) {
+					String skills = (String)m.get("tags");
+					log.info("--> {}", skills);
+					if(skills!=null && skills.toLowerCase().contains(skillSearchedFor.toLowerCase())) {
 						filteredList.add(m);	
 					}
 				}

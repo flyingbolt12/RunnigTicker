@@ -3,9 +3,12 @@ package cn.bluejoe.elfinder.impl;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.stereotype.Component;
+
 import cn.bluejoe.elfinder.service.FsService;
 import cn.bluejoe.elfinder.service.FsServiceFactory;
 
+@Component
 public class StaticFsServiceFactory implements FsServiceFactory
 {
 	FsService _fsService;
