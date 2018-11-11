@@ -255,7 +255,7 @@
 			</html:link>
 		<% } %>
 		
-			<html:link styleClass="memberLinks"	action="/adminFunctImpl.do?parameter=skills">
+			<html:link styleClass="memberLinks"	action="/adminFunctImpl.do?parameter=listSimilarSkills&isFromSearch=false&featureRequest=EMPLOYEE_SKILLS&isSimilar=false">
 				<div class="squareAdmin" title="Browse the attachments that user attached."><span class="spanStyle"><img style="max-width: 32; max-height: 32" src="images/browse.png" ></span><span class="spanStyle">Browse Skills</span></div>   		
 			</html:link>
 		

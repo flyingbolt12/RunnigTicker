@@ -40,9 +40,9 @@
 					</div>
 				</div>
 				<div class="da-slide">
-					<h2>A great online tool for any SMB</h2>
+					<h2>Great Tracking System</h2>
 					<p>
-						Designed to help any small or medium business, <BR> to fit your culture, values and ethics.
+						Job Tracking, Employee Tracking, <BR> Work Allocation Tracking etc.
 					</p>
 					<a href="#" class="da-link" onclick="confirmlink(this)">Check here, Try Demo !</a>
 					<div class="da-img">
