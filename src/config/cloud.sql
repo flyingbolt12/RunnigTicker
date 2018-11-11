@@ -224,6 +224,30 @@ CREATE TABLE `timercontents` (
   PRIMARY KEY (`contentId`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+DROP TABLE IF EXISTS `taskcontents`;
+CREATE TABLE `taskcontents` (
+  `taskId` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `businessId` int(11) DEFAULT NULL,
+  `taskContent` text,
+  `taskName` varchar(45) DEFAULT NULL,
+  `userId` int(10) unsigned DEFAULT NULL,
+  `dateCreated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `additionalDetails` varchar(450) DEFAULT NULL,
+  `attachmentId` varchar(45) DEFAULT NULL,
+  `taskDescription` varchar(450) DEFAULT NULL,
+  PRIMARY KEY (`taskId`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+DROP TABLE IF EXISTS `taskcontents`;
+CREATE TABLE `taskhistory` (
+  `taskId` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `businessId` int(11) DEFAULT NULL,
+  `userId` int(10) unsigned DEFAULT NULL,
+  `actionTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `actionDetails` varchar(450) DEFAULT NULL,
+  `attachmentId` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`taskId`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 
 DROP TABLE IF EXISTS `timesheetconfigurations`;
@@ -414,3 +438,4 @@ INSERT INTO `lch_business` VALUES (6,'SuperAdmin','395','http://www.runningticke
 INSERT INTO `users` VALUES (134,'superadmin','499b399bf02a9b428cfc8d347fa59a89',0,'Thu Jun 05 21:57:52 EDT 2014','Thu Jun 05 21:57:52 EDT 2014',6,'SUPERADMIN','134',1,0,'',1),(135,'employer','499b399bf02a9b428cfc8d347fa59a89',0,'Thu Jun 05 21:59:33 EDT 2014','Thu Jun 05 21:59:33 EDT 2014',7,'ADMIN','135',1,0,'BIWEEKLY',1),(136,'employeeBiWeekly','499b399bf02a9b428cfc8d347fa59a89',0,'Thu Jun 05 21:59:34 EDT 2014','Thu Jun 05 21:59:34 EDT 2014',7,'MEMBER','136',1,129,'BIWEEKLY',1),(137,'employeeWeekly','499b399bf02a9b428cfc8d347fa59a89',0,'Thu Jun 05 21:59:36 EDT 2014','Thu Jun 05 21:59:36 EDT 2014',7,'MEMBER','137',1,130,'WEEKLY',1),(138,'employeeMonthly','499b399bf02a9b428cfc8d347fa59a89',0,'Thu Jun 05 21:59:38 EDT 2014','Thu Jun 05 21:59:38 EDT 2014',7,'MEMBER','138',1,131,'MONTHLY',1),(139,'employeeDays15','499b399bf02a9b428cfc8d347fa59a89',0,'Thu Jun 05 21:59:40 EDT 2014','Thu Jun 05 21:59:40 EDT 2014',7,'MEMBER','139',1,132,'DAYS15',1),(140,'ravi@iconsoft.net','cd696cf04a8744a0adf59211a3221880',0,'Fri Jun 06 16:59:49 EDT 2014','Fri Jun 06 16:59:49 EDT 2014',8,'ADMIN','140',1,0,'MONTHLY',0),(141,'reachtsr@gmail.com','499b399bf02a9b428cfc8d347fa59a89',0,'Fri Jun 06 17:07:16 EDT 2014','Fri Jun 06 17:07:16 EDT 2014',9,'ADMIN','141',1,0,'MONTHLY',1);
 INSERT INTO `userpersonaldata` VALUES (134,'Gopi','Last Name','Middle Name','0','396','haigopi@gmail.com','1231231233','KVS Prasada Rao','USA','0','2014-06-05',NULL,'MALE',0,0),(135,'Employer FirstName','Last Name','Middle Name','0','398','ilchemployer@gmail.com','1231231233','EmployerFather','USA','0','2014-06-05',NULL,'MALE',0,0),(136,'User ','1','Middle Name','401','399','ilchbiweekly@gmail.com','1231231233','FATHER','USA','400','2014-06-05',NULL,'MALE',0,10),(137,'User ','2','Middle Name','404','402','ilchweekly@gmail.com','1231231233','FATHER','USA','403','2014-06-05',NULL,'MALE',0,10),(138,'User ','3','Middle Name','407','405','ilchmonthly@gmail.com','1231231233','FATHER','USA','406','2014-06-05',NULL,'MALE',0,10),(139,'User ','4','Middle Name','410','408','ilchdays15@gmail.com','1231231233','FATHER','USA','409','2014-06-05',NULL,'MALE',0,10),(140,'Ravi','Meruva','Kumar','0','412','ravi@iconsoft.net','8882054614',NULL,'','0','2014-06-06',NULL,NULL,0,0),(141,'Sri','Thig','','0','414','reachtsr@gmail.com','7036470216',NULL,'','0','2014-06-06',NULL,NULL,0,0);
 INSERT INTO `addressinfo` VALUES (395,'411 Buckingham Rd','Apt 212','Richardson','TX','USA','75081',''),(396,'411 Buckingham Rd','Apt 212','Richardson','TX','USA','75081',''),(397,'411 Buckingham Rd','Apt 212','Richardson','TX','USA','75081',''),(398,'411 Buckingham Rd','Apt 212','Richardson','TX','USA','75081',''),(399,'411 Buckingham Rd','Apt 212','Richardson','TX','USA','75081',''),(400,'411 Buckingham Rd','Apt 212','Richardson','TX','USA','75081',''),(401,'411 Buckingham Rd','Apt 212','Richardson','TX','USA','75081',''),(402,'411 Buckingham Rd','Apt 212','Richardson','TX','USA','75081',''),(403,'411 Buckingham Rd','Apt 212','Richardson','TX','USA','75081',''),(404,'411 Buckingham Rd','Apt 212','Richardson','TX','USA','75081',''),(405,'411 Buckingham Rd','Apt 212','Richardson','TX','USA','75081',''),(406,'411 Buckingham Rd','Apt 212','Richardson','TX','USA','75081',''),(407,'411 Buckingham Rd','Apt 212','Richardson','TX','USA','75081',''),(408,'411 Buckingham Rd','Apt 212','Richardson','TX','USA','75081',''),(409,'411 Buckingham Rd','Apt 212','Richardson','TX','USA','75081',''),(410,'411 Buckingham Rd','Apt 212','Richardson','TX','USA','75081',''),(411,'101 Cambridge Street Suite 360','','Burlington','MA','USA','01803','Massachusetts'),(412,'101 Cambridge Street Suite 360','','Burlington','MA','USA','01803','Massachusetts'),(413,'315 West Side Dr 304','','Gaithersburg','MD','USA','20878','MD'),(414,'315 West Side Dr 304','','Gaithersburg','MD','USA','20878','MD');
+

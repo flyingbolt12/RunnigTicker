@@ -319,7 +319,7 @@
 		</div>
   </div>
   <%if(isAdmin) {%>
-  <h3 class="accordinaStyle">Child Admins Area</h3>
+  <h3 class="accordinaStyle">Child Admins + Tracking System Area</h3>
    <div class="accContentBack">
     <div class="accordianContentStyle">
    			
@@ -330,7 +330,19 @@
 	   		<html:link styleClass="memberLinks"	action="/adminFunctImpl.do?parameter=manageMyAdmins">
 				<div class="squareAdmin" title="Helps in managing the Admins."><span class="spanStyle"><img style="max-width: 32; max-height: 32" src="images/time.png" ></span><span class="spanStyle">Manage My Admins</span></div>   		
 			</html:link>
+
+	   		<html:link styleClass="memberLinks"	action="/adminFunctImpl.do?parameter=createTask">
+				<div class="squareAdmin" title="Helps in managing the Admins."><span class="spanStyle"><img style="max-width: 32; max-height: 32" src="images/time.png" ></span><span class="spanStyle">Create Task</span></div>   		
+			</html:link>
 			
+	   		<html:link styleClass="memberLinks"	action="/adminFunctImpl.do?parameter=listTasks">
+				<div class="squareAdmin" title="Helps in managing the Admins."><span class="spanStyle"><img style="max-width: 32; max-height: 32" src="images/time.png" ></span><span class="spanStyle">List+Track Task</span></div>   		
+			</html:link>
+
+	   		<html:link styleClass="memberLinks"	action="/adminFunctImpl.do?parameter=deleteTask">
+				<div class="squareAdmin" title="Helps in managing the Admins."><span class="spanStyle"><img style="max-width: 32; max-height: 32" src="images/time.png" ></span><span class="spanStyle">Delete Task</span></div>   		
+			</html:link>
+						
 		</div>
   </div>
   <% } %>

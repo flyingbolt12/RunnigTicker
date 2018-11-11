@@ -42,7 +42,7 @@
 				<div class="da-slide">
 					<h2>Great Tracking System</h2>
 					<p>
-						Job Tracking, Employee Tracking, <BR> Work Allocation Tracking etc.
+						Job Tracking, Employee Tracking, <BR> Work Allocation Tracking + Many more...
 					</p>
 					<a href="#" class="da-link" onclick="confirmlink(this)">Check here, Try Demo !</a>
 					<div class="da-img">
