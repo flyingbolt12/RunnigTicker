@@ -331,15 +331,15 @@
 				<div class="squareAdmin" title="Helps in managing the Admins."><span class="spanStyle"><img style="max-width: 32; max-height: 32" src="images/time.png" ></span><span class="spanStyle">Manage My Admins</span></div>   		
 			</html:link>
 
-	   		<html:link styleClass="memberLinks"	action="/adminFunctImpl.do?parameter=createTask">
-				<div class="squareAdmin" title="Helps in managing the Admins."><span class="spanStyle"><img style="max-width: 32; max-height: 32" src="images/time.png" ></span><span class="spanStyle">Create Task</span></div>   		
+	   		<html:link styleClass="memberLinks"	action="/adminTask.do?parameter=showCreateTask">
+				<div class="squareAdmin" title="Helps in managing the Admins."><span class="spanStyle"><img style="max-width:  32; max-height: 32" src="images/time.png" ></span><span class="spanStyle">Create Task</span></div>   		
 			</html:link>
 			
-	   		<html:link styleClass="memberLinks"	action="/adminFunctImpl.do?parameter=listTasks">
+	   		<html:link styleClass="memberLinks"	action="/adminTask.do?parameter=listTasks">
 				<div class="squareAdmin" title="Helps in managing the Admins."><span class="spanStyle"><img style="max-width: 32; max-height: 32" src="images/time.png" ></span><span class="spanStyle">List+Track Task</span></div>   		
 			</html:link>
 
-	   		<html:link styleClass="memberLinks"	action="/adminFunctImpl.do?parameter=deleteTask">
+	   		<html:link styleClass="memberLinks"	action="/adminTask.do?parameter=deleteTask">
 				<div class="squareAdmin" title="Helps in managing the Admins."><span class="spanStyle"><img style="max-width: 32; max-height: 32" src="images/time.png" ></span><span class="spanStyle">Delete Task</span></div>   		
 			</html:link>
 						
@@ -408,6 +408,9 @@
 				<div class="squareAdmin" title="Sends an email with comapny unique id to the listed emails(not neccessarily the employees)."><span class="spanStyle"><img style="max-width: 32; max-height: 32" src="images/time.png" ></span><span class="spanStyle">Notify Company Id to Emails</span></div>
 			</html:link>
 			
+			<html:link styleId="sendlink" action="/adminFunctImpl.do?parameter=showEmailSettingsPage" styleClass="memberLinks">
+				<div class="squareAdmin" title="Email Settings"><span class="spanStyle"><img style="max-width: 32; max-height: 32" src="images/time.png" ></span><span class="spanStyle">Configure Emails</span></div>
+			</html:link>
 
 <%-- 			<html:link styleId="sendlink" href="#" styleClass="memberLinks" onclick="showMyAppURL()"> --%>
 <!-- 				<div class="squareAdmin" title="Sends an email with comapny unique id to the listed emails(not neccessarily the employees)."><span class="spanStyle"><img style="max-width: 32; max-height: 32" src="images/time.png" ></span><span class="spanStyle">MyLogo ApplicationURL</span></div> -->

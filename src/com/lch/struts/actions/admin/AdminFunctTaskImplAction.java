@@ -41,10 +41,10 @@ public class AdminFunctTaskImplAction extends BaseAction {
 
 	
 
-	public ActionForward showTimerContentCreationPage(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public ActionForward showCreateTask(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		ActionForward forward = new ActionForward();
-		forward = mapping.findForward("showCreateTimeContent");
+		forward = mapping.findForward("showCreateTask");
 
 		String isForTimerContentCreation = getStrAsRequestParameter("isForTimerContentCreation", request);
 		log.info("isForTimerContentCreation: " + isForTimerContentCreation);

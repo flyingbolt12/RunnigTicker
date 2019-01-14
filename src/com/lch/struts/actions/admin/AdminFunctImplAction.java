@@ -2262,6 +2262,11 @@ public class AdminFunctImplAction extends BaseAction {
 		log.info("-showNotifyEmailsPage...-");
 		return mapping.findForward("showNotifyEmailsPage");
 	}
+	public ActionForward showEmailSettingsPage(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		log.info("-showNotifyEmailsPage...-");
+		return mapping.findForward("showEmailSettingsPage");
+	}
 	
 	public ActionForward resetPasswordByAdmin(ActionMapping mapping, ActionForm form, HttpServletRequest request,
 			HttpServletResponse response) {

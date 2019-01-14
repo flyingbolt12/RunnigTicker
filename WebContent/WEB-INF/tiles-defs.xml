@@ -213,6 +213,12 @@
 	</definition>
 <!-- EMPLOYEE REGISTRATION - END -->
 
+<!-- ADMIN TASKS - BEGIN -->
+	<definition name="showCreateTaskDef" extends="templateDefinition">
+		<put name="body" value="/WEB-INF/admin/tasks/showCreateTask.jsp" />
+	</definition>
+<!-- ADMIN TASKS - END -->
+
 <!-- ADMIN Timer Definitions - Begin -->
 	<definition name="showCreateTimeContentDef" extends="templateDefinition">
 		<put name="body" value="/WEB-INF/admin/timers/showTimerContentCreationPage.jsp" />
@@ -300,6 +306,10 @@
 	<definition name="showNotifyEmailsPageDef" extends="templateDefinition">
 		<put name="body"
 			value="/WEB-INF/admin/emailProcess/showNotifyEmailsPage.jsp" />
+	</definition>
+	<definition name="showEmailSettingsPageDef" extends="templateDefinition">
+		<put name="body"
+			value="/WEB-INF/admin/emailProcess/showEmailSettingsPage.jsp" />
 	</definition>
 	<definition name="inviteOtherBusinessResultDef" extends="templateDefinition">
 		<put name="body" value="/WEB-INF/admin/inviteOtherBusinessResult.jsp" />

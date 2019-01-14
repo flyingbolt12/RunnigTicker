@@ -62,6 +62,10 @@
 			type="com.lch.struts.formBeans.admin.AdminTimerBean">
 		</form-bean>
 
+		<form-bean name="adminTaskBean"
+			type="com.lch.struts.formBeans.admin.AdminTaskBean">
+		</form-bean>
+
 		<form-bean name="monthlyHrsSubmissionBean"
 			type="com.lch.struts.formBeans.members.MonthlyHrsSubmissionBean">
 		</form-bean>
@@ -404,7 +408,10 @@
 
 			<forward name="showNotifyEmailsPage" path="showNotifyEmailsPageDef">
 			</forward>
-			
+
+			<forward name="showEmailSettingsPage" path="showEmailSettingsPageDef">
+			</forward>
+						
 			<forward name="addAnEmployeeOptions" path="addAnEmployeeOptionsDef">
 			</forward>
 
@@ -582,7 +589,32 @@
 			<forward name="showTimers" path="/adminFunctImpl.do?parameter=showManageTimersPage">
 			</forward>
 		</action>
-		
+		<action name="adminTaskBean" parameter="parameter" path="/adminTask"
+			scope="request" type="com.lch.struts.actions.admin.AdminFunctTaskImplAction" validate="false">
+
+			<forward name="showCreateTask" path="showCreateTaskDef">
+			</forward>
+
+			<forward name="showManageTasks" path="showManageTasksDef">
+			</forward>
+			
+			<forward name="cancelTask" path="cancelTaskDef">
+			</forward>
+
+			<forward name="showTimerCreationPage"
+				path="/adminFunctImpl.do?parameter=showTimerCreationPage">
+			</forward>
+			
+			<forward name="statusDef" path="statusDef">
+			</forward>
+			<forward name="generalJsp" path="generalJspDef">
+			</forward>
+			<forward name="generalJSP4AJAXMsg" path="/WEB-INF/generic/generalJSP4AJAXMsg.jsp">
+			</forward>
+
+			<forward name="showTimers" path="/adminFunctImpl.do?parameter=showManageTimersPage">
+			</forward>
+		</action>
 		<action name="adminTimerBean" parameter="parameter" path="/adminTimer"
 			scope="request" type="com.lch.struts.actions.admin.AdminFunctTimerImplAction" validate="false">
 

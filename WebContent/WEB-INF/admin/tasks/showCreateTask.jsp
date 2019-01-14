@@ -38,7 +38,7 @@
 		String errMsg = "";
 	%>
 	
-<html:form action="saveTask.do?parameter=createTask" enctype="multipart/form-data">
+<html:form action="adminTask.do?parameter=createTask" enctype="multipart/form-data">
 	<table border="0" cellspacing="1" width="100%" style="font-family: Tahoma; font-size: 10pt" height="102" align="center">
 		<tr>
 			<td bgcolor="#808080" colspan="2">
@@ -49,7 +49,7 @@
 		<tr>
 			<td bgcolor="#EEEEEE">Task Name</td>
 			<td height="18" bgcolor="#EEEEEE">
-				<html:text property="taskname" styleClass="BusinessTextBox" tabindex="1" size="53" styleId="contentName"
+				<html:text property="taskName" styleClass="BusinessTextBox" tabindex="1" size="53" styleId="contentName"
 					onblur="verifyText(this.value)"></html:text> <font color="#000000"><span id="emailNameAvailabilityCheckMsg"></span></font>
 			</td>
 		</tr>
@@ -76,11 +76,11 @@
 			
 				<html:messages id="err_name" property="taskContent"> <%	errMsg = err_name;  isRreadOnly = false; %>  </html:messages> 
 				
-				<%  if (isRreadOnly) { %>				
+				<%  if (isRreadOnly) { %>
 					<html:textarea property="taskContent" styleClass="BusinessTextBox" tabindex="3" cols="50" rows="2"></html:textarea>
 				<% } else { %> 
 					<html:textarea property="taskContent" styleClass="BusinessTextBox" tabindex="3" cols="50" rows="2"></html:textarea> <%=errMsg%> 
-				<%  errMsg = ""; isRreadOnly = true; }  %>				
+				<%  errMsg = ""; isRreadOnly = true; }  %>
 				
 				
 			</td>
