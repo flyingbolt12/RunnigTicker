@@ -58,12 +58,12 @@
 			<td bgcolor="#EEEEEE">Task Description</td>
 			<td height="18" bgcolor="#EEEEEE">
 				
-				<html:messages id="err_name" property="taskDesc"> <%	errMsg = err_name;  isRreadOnly = false; %>  </html:messages> 
+				<html:messages id="err_name" property="taskDescription"> <%	errMsg = err_name;  isRreadOnly = false; %>  </html:messages> 
 				
 				<%  if (isRreadOnly) { %>				
-					<html:text property="taskDesc" styleClass="BusinessTextBox" tabindex="2" size="53" /> 
+					<html:text property="taskDescription" styleClass="BusinessTextBox" tabindex="2" size="53" /> 
 				<% } else { %> 
-					<html:text property="taskDesc" styleClass="BusinessTextBox" tabindex="2" size="53">
+					<html:text property="taskDescription" styleClass="BusinessTextBox" tabindex="2" size="53">
 					</html:text> <%=errMsg%> 
 				<%  errMsg = ""; isRreadOnly = true; }  %>
 			</td>
