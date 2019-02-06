@@ -433,6 +433,36 @@ CREATE TABLE `skillTags` (
   PRIMARY KEY(`idskilltags`)
 ) ENGINE = InnoDB;
 
+-- ADMIN TASKS - START
+DROP TABLE IF EXISTS `admintaskstatus`;
+
+CREATE TABLE `admintaskstatus` (
+  `statusid` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `status` varchar(45) NOT NULL DEFAULT '',
+  PRIMARY KEY (`statusid`)
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=latin1;
+
+INSERT INTO `admintaskstatus` (`statusid`,`status`) VALUES
+ (1,'ACTIVE'),
+ (2,'COMPLETED'),
+ (3,'DELETED'),
+ (4,'IN_PROGRESS');
+
+DROP TABLE IF EXISTS `admintasks`;
+CREATE TABLE admintasks (
+	`taskId` int(10) unsigned NOT NULL AUTO_INCREMENT,
+	`taskName` varchar(45) NOT NULL,
+	`status` int(10) unsigned NOT NULL,
+	`taskContent` varchar(500) NOT NULL,
+	`taskDescription` varchar(500) NOT NULL,
+	`additionalDetails` varchar(500) NOT NULL,
+	`attachment` blob,
+	`attachmentName` varchar(45),
+	PRIMARY KEY (`taskId`),
+	FOREIGN KEY (`status`) REFERENCES admintaskstatus(`statusid`)
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=latin1;
+-- ADMIN TASKS - END
+
 
 INSERT INTO `lch_business` VALUES (6,'SuperAdmin','395','http://www.runningticker.com',-1,NULL,NULL,1),(7,'ALLIBILLI','397','www.allibilli.com',-1,NULL,NULL,1),(8,'ICONSOFT INC.','411','http://www.iconsoft.net',0,NULL,NULL,NULL),(9,'Test Employer','413','http://',0,NULL,NULL,NULL);
 INSERT INTO `users` VALUES (134,'superadmin','499b399bf02a9b428cfc8d347fa59a89',0,'Thu Jun 05 21:57:52 EDT 2014','Thu Jun 05 21:57:52 EDT 2014',6,'SUPERADMIN','134',1,0,'',1),(135,'employer','499b399bf02a9b428cfc8d347fa59a89',0,'Thu Jun 05 21:59:33 EDT 2014','Thu Jun 05 21:59:33 EDT 2014',7,'ADMIN','135',1,0,'BIWEEKLY',1),(136,'employeeBiWeekly','499b399bf02a9b428cfc8d347fa59a89',0,'Thu Jun 05 21:59:34 EDT 2014','Thu Jun 05 21:59:34 EDT 2014',7,'MEMBER','136',1,129,'BIWEEKLY',1),(137,'employeeWeekly','499b399bf02a9b428cfc8d347fa59a89',0,'Thu Jun 05 21:59:36 EDT 2014','Thu Jun 05 21:59:36 EDT 2014',7,'MEMBER','137',1,130,'WEEKLY',1),(138,'employeeMonthly','499b399bf02a9b428cfc8d347fa59a89',0,'Thu Jun 05 21:59:38 EDT 2014','Thu Jun 05 21:59:38 EDT 2014',7,'MEMBER','138',1,131,'MONTHLY',1),(139,'employeeDays15','499b399bf02a9b428cfc8d347fa59a89',0,'Thu Jun 05 21:59:40 EDT 2014','Thu Jun 05 21:59:40 EDT 2014',7,'MEMBER','139',1,132,'DAYS15',1),(140,'ravi@iconsoft.net','cd696cf04a8744a0adf59211a3221880',0,'Fri Jun 06 16:59:49 EDT 2014','Fri Jun 06 16:59:49 EDT 2014',8,'ADMIN','140',1,0,'MONTHLY',0),(141,'reachtsr@gmail.com','499b399bf02a9b428cfc8d347fa59a89',0,'Fri Jun 06 17:07:16 EDT 2014','Fri Jun 06 17:07:16 EDT 2014',9,'ADMIN','141',1,0,'MONTHLY',1);

@@ -306,4 +306,9 @@ public interface SQLQueries {
 	static final String LIST_ALL_CATEGORY_TIMESEETS_AND_EMPLOYEES="select s.status, w.submissionType, s.submissionFor, w.SUNDAY,w.MONDAY,w.TUESDAY,w.WEDNESDAY,w.THURSDAY,w.FRIDAY,w.SATURDAY, s.categoryId, u.iduser,	up.iduserdata, cl.clientName, w.weekStartDate, w.weekEndDate, s.totalRegularHrs, s.totalHrsSubmitted, s.totalOvertimeHrs, s.totalHolidayHrs, concat(up.firstName, ' ', up.lastName) as name from categories c, users u, userpersonaldata up, userclientslist cl, weeklyhrssummary s	right join weeklyhrs w on w.weeklyHrsSummaryId = s.weeklyHrsSummaryId where s.status<>'SAVEDASDRAFT' and c.idcategories = s.categoryId and u.idUser = w.idUser and u.personalDetailsId = up.iduserData and cl.clientId = s.clientId and w.month in (?,?) and w.year in (?,?) and w.idBusiness=?";
 	static final String LIST_ALL_CATEGORY_TIMESEETS_AND_EMPLOYEES_SPECIFIC_TO_USER= LIST_ALL_CATEGORY_TIMESEETS_AND_EMPLOYEES + " and u.idUser= ?";
 
+	// ADMIN TASKS - START
+	static final String CHECK_ADMIN_TASK_NAME_AVAILABLITY = "select count(1) from adminTasks t where t.taskName = ?";
+	static final String INSERT_ADMIN_TASK = "INSERT INTO `admintasks` (`taskName`, `status`,`taskDescription`,`taskContent`,`additionalDetails`,`attachment`, `attachmentName`) VALUES (:taskName,:status,:taskDescription,:taskContent,:additionalDetails,:attachment,:attachmentName)";
+	// ADMIN TASKS - END
+
 }

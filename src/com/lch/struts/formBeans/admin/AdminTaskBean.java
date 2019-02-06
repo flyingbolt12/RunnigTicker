@@ -2,7 +2,7 @@ package com.lch.struts.formBeans.admin;
 
 import org.apache.struts.upload.FormFile;
 
-import com.lch.general.enums.TimerStatus;
+import com.lch.general.enums.TaskStatus;
 import com.lch.struts.formBeans.CommonValidatorForm;
 
 @SuppressWarnings("serial")
@@ -10,11 +10,10 @@ public class AdminTaskBean extends CommonValidatorForm {
 
 	private long taskId;
 	private String taskName;
-	private String status = TimerStatus.ACTIVE.name();
+	private int status = TaskStatus.ACTIVE.getTaskId();
 	private String taskContent;
 	private String taskDescription;
 	private String additionalDetails;
-	private String attachmentId;
 	private FormFile attachment;
 	private String attachmentName;
 	private String action;
@@ -30,10 +29,10 @@ public class AdminTaskBean extends CommonValidatorForm {
 	public void setTaskName(String taskName) {
 		this.taskName = taskName;
 	}
-	public String getStatus() {
+	public int getStatus() {
 		return status;
 	}
-	public void setStatus(String status) {
+	public void setStatus(int status) {
 		this.status = status;
 	}
 	public String getTaskContent() {
@@ -54,12 +53,6 @@ public class AdminTaskBean extends CommonValidatorForm {
 	public void setAdditionalDetails(String additionalDetails) {
 		this.additionalDetails = additionalDetails;
 	}
-	public String getAttachmentId() {
-		return attachmentId;
-	}
-	public void setAttachmentId(String attachmentId) {
-		this.attachmentId = attachmentId;
-	}
 	public FormFile getAttachment() {
 		return attachment;
 	}
@@ -78,6 +71,4 @@ public class AdminTaskBean extends CommonValidatorForm {
 	public void setAction(String action) {
 		this.action = action;
 	}
-	
-	
 }

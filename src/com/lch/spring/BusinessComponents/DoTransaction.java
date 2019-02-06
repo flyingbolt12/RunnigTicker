@@ -101,6 +101,7 @@ import com.lch.spring.mapper.DownloadBusinessdataRowMapper;
 import com.lch.spring.mapper.EmployeeAssociationRowMapper;
 import com.lch.struts.formBeans.ContactBean;
 import com.lch.struts.formBeans.admin.AdminRegistrationBean;
+import com.lch.struts.formBeans.admin.AdminTaskBean;
 import com.lch.struts.formBeans.admin.AdminTimerBean;
 import com.lch.struts.formBeans.admin.CreateAnotherAdminBean;
 import com.lch.struts.formBeans.members.AddAnEmployeeBean;
@@ -2734,5 +2735,25 @@ public class DoTransaction {
 			}
 			
 		}
-	}	
+	}
+
+	/* admin task - start */
+
+	public int checkAdminTaskNameAvailablity(String taskName) {
+		int count = 0;
+		count = jdbcTemplate.queryForInt(SQLQueries.CHECK_ADMIN_TASK_NAME_AVAILABLITY, new Object[] { taskName });
+		return count;
+	}
+
+	public long insertAdminTask(AdminTaskBean taskBean) {
+		log.info("inserting admin task to table: {}", taskBean.getTaskName());
+		long id = -1;
+		KeyHolder keyHolder = new GeneratedKeyHolder();
+		SqlParameterSource parametersSource = new BeanPropertySqlParameterSource(taskBean);
+		getNamedParameterJdbcTemplate().update(SQLQueries.INSERT_ADMIN_TASK, parametersSource, keyHolder);
+		id = keyHolder.getKey().intValue();
+		return id;
+	}
+
+	/* admin task - start */
 }

@@ -30,6 +30,7 @@ import com.lch.general.enums.TimerStatus;
 import com.lch.general.generalBeans.UserProfile;
 import com.lch.jobs.CustomJob;
 import com.lch.struts.actions.BaseAction;
+import com.lch.struts.formBeans.admin.AdminTaskBean;
 import com.lch.struts.formBeans.admin.AdminTimerBean;
 
 /**
@@ -50,6 +51,22 @@ public class AdminFunctTaskImplAction extends BaseAction {
 		log.info("isForTimerContentCreation: " + isForTimerContentCreation);
 		putObjInSession("isForTimerContentCreation", request, isForTimerContentCreation);
 
+		return forward;
+	}
+
+	public ActionForward createTask(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+		AdminTaskBean taskBean = (AdminTaskBean) form;
+		log.info("Creating admin task: {}", taskBean.getTaskName());
+		long id = getSpringCtxDoTransactionBean().insertAdminTask(taskBean);
+		ActionForward forward = new ActionForward();
+		// TODO: more to do here
+		if (id != -1) {
+			log.info("Admin task created with id: {}", id);
+			forward = mapping.findForward("createTaskSuccess");
+		} else {
+			log.info("Admin task creation failed");
+			forward = mapping.findForward("showCreateTask");
+		}
 		return forward;
 	}
 
