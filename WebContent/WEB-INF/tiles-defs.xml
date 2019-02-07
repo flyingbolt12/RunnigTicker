@@ -217,6 +217,9 @@
 	<definition name="showCreateTaskDef" extends="templateDefinition">
 		<put name="body" value="/WEB-INF/admin/tasks/showCreateTask.jsp" />
 	</definition>
+	<definition name="listTasksDef" extends="templateDefinition">
+		<put name="body" value="/WEB-INF/admin/tasks/listTasks.jsp" />
+	</definition>
 <!-- ADMIN TASKS - END -->
 
 <!-- ADMIN Timer Definitions - Begin -->

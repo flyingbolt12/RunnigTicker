@@ -62,11 +62,28 @@ public class AdminFunctTaskImplAction extends BaseAction {
 		// TODO: more to do here
 		if (id != -1) {
 			log.info("Admin task created with id: {}", id);
-			forward = mapping.findForward("createTaskSuccess");
+			forward = mapping.findForward("listTasks");
 		} else {
 			log.info("Admin task creation failed");
 			forward = mapping.findForward("showCreateTask");
 		}
+		return forward;
+	}
+
+	public ActionForward listTasks(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+		ActionForward forward = new ActionForward();
+		forward = mapping.findForward("listTasks");
+
+		List<AdminTaskBean> tasks = null;
+		try {
+			tasks = getSpringCtxDoTransactionBean().getAllNonDeletedAdminTasks();
+			putObjInRequest("taskCount", request, tasks.size());
+			putObjInRequest("taskList", request, tasks);
+		} catch (Exception ex) {
+			log.error("Error while getting admin task list", ex);
+			putObjInRequest("errorMsg", request, "An error occured while getting the tasks. Please try again later.");
+		}
+
 		return forward;
 	}
 

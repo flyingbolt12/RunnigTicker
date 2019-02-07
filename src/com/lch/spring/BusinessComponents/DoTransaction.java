@@ -2737,7 +2737,7 @@ public class DoTransaction {
 		}
 	}
 
-	/* admin task - start */
+	/* ADMIN TASKS - BEGIN */
 
 	public int checkAdminTaskNameAvailablity(String taskName) {
 		int count = 0;
@@ -2755,5 +2755,12 @@ public class DoTransaction {
 		return id;
 	}
 
-	/* admin task - start */
+	public List<AdminTaskBean> getAllNonDeletedAdminTasks() {
+		log.info("getting all non-deleted admin tasks");
+		List<AdminTaskBean> tasks = getJdbcTemplate().query(SQLQueries.LIST_ALL_NON_DELETED_ADMIN_TASKS,
+				new BeanPropertyRowMapper<AdminTaskBean>(AdminTaskBean.class));
+		return tasks;
+	}
+
+	/* ADMIN TASKS - END */
 }

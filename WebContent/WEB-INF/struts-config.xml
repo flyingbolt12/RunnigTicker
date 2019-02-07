@@ -594,6 +594,8 @@
 
 			<forward name="showCreateTask" path="showCreateTaskDef">
 			</forward>
+			<forward name="listTasks" path="listTasksDef">
+			</forward>
 
 			<forward name="showManageTasks" path="showManageTasksDef">
 			</forward>
